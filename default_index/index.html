@@ -23,48 +23,25 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="machine translation 这个任务一般是作为language modeling的紧接一个话题。它的前身（2010年之前）是statistical machine translation，但自从Neural machine translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical machine">
-<meta property="og:type" content="article">
-<meta property="og:title" content="machine translation相关论文阅读">
-<meta property="og:url" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.html">
+<meta name="description" content="Be smart! Keep Learning">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YAN&#39;s Blog">
+<meta property="og:url" content="http://example.com/default_index/index.html">
 <meta property="og:site_name" content="YAN&#39;s Blog">
-<meta property="og:description" content="machine translation 这个任务一般是作为language modeling的紧接一个话题。它的前身（2010年之前）是statistical machine translation，但自从Neural machine translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical machine">
+<meta property="og:description" content="Be smart! Keep Learning">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313132157791-16786849189061.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134416540.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134658535.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221214151254068.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221212164533545.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221216102034819.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171420621.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171823584.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230302133247664.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133249379.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133424302.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133440152.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133608484.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230307162830473-16781777124571.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301134258180.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/transformer_encoder_block.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/encoder-decoder.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150541287.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150600806.png">
-<meta property="article:published_time" content="2023-03-13T03:18:59.000Z">
-<meta property="article:modified_time" content="2023-03-14T03:17:14.936Z">
 <meta property="article:author" content="YAN">
-<meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313132157791-16786849189061.png">
 
 
-<link rel="canonical" href="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+<link rel="canonical" href="http://example.com/default_index/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/","path":"2023/03/13/machine-translation相关论文阅读/","title":"machine translation相关论文阅读"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"default_index/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>machine translation相关论文阅读 | YAN's Blog</title>
+<title>YAN's Blog</title>
   
 
 
@@ -157,7 +134,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -170,11 +147,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#learning-phrase-representations-using-rnn-encoder-decoder-for-statistical-machine-translation-2014"><span class="nav-number">1.</span> <span class="nav-text">Learning
-Phrase Representations using RNN Encoder-Decoder for Statistical Machine
-Translation 2014</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#neural-machine-translation-by-jointly-learning-to-align-and-translate-2015"><span class="nav-number">2.</span> <span class="nav-text">Neural
-Machine Translation by Jointly Learning to Align and Translate 2015</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#attention-is-all-you-need-2017"><span class="nav-number">3.</span> <span class="nav-text">Attention is all you need
-2017</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder%E9%83%A8%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">encoder部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder%E9%83%A8%E5%88%86"><span class="nav-number">3.2.</span> <span class="nav-text">decoder部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.3.</span> <span class="nav-text">补充介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf.keras.layers.multiheadattention"><span class="nav-number">3.3.1.</span> <span class="nav-text">tf.keras.layers.MultiHeadAttention</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#attention-family"><span class="nav-number">4.</span> <span class="nav-text">Attention Family</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -232,17 +204,16 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
 </noscript>
 
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -255,9 +226,9 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
       <meta itemprop="name" content="YAN's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          machine translation相关论文阅读
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" class="post-title-link" itemprop="url">machine translation相关论文阅读</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -311,7 +282,7 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>machine translation 这个任务一般是作为language
+          <p>machine translation 这个任务一般是作为language
 modeling的紧接一个话题。它的前身（2010年之前）是statistical machine
 translation，但自从Neural machine
 translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical
@@ -613,6 +584,7 @@ performance in language modeling tasks, like in encoder-only <a target="_blank" 
 or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2019-01-31-lm/#openai-gpt">GPT</a>.</p>
 </blockquote>
 
+      
     </div>
 
     
@@ -620,35 +592,8 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
     
 
     <footer class="post-footer">
-          <div class="reward-container">
-  <div></div>
-  <button>
-    Donate
-  </button>
-  <div class="post-reward">
-      <div>
-        <img src="/images/wechat_pay.jpg" alt="YAN WeChat Pay">
-        <span>WeChat Pay</span>
-      </div>
-
-  </div>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/nlp/" rel="tag"># nlp</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/03/06/one-paper-a-week%E8%AE%A1%E5%88%92reading-notes/" rel="prev" title="one paper a week计划reading notes">
-                  <i class="fa fa-chevron-left"></i> one paper a week计划reading notes
-                </a>
-            </div>
-            <div class="post-nav-item">
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -656,7 +601,450 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
 
 
 
+    
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/06/one-paper-a-week%E8%AE%A1%E5%88%92reading-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/03/06/one-paper-a-week%E8%AE%A1%E5%88%92reading-notes/" class="post-title-link" itemprop="url">one paper a week计划reading notes</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-03-06 11:34:02" itemprop="dateCreated datePublished" datetime="2023-03-06T11:34:02+08:00">2023-03-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-03-13 09:40:48" itemprop="dateModified" datetime="2023-03-13T09:40:48+08:00">2023-03-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">论文笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>该博客为了记录自己一周一篇论文的计划而做的阅读笔记。任何事情开始时总是踌躇满志，有一群志同道合的小伙伴。我希望我是坚持到最后的那一个。</p>
+<h1 id="week1-a-survey-of-the-usages-of-deep-learning-for-natural-language-processing---2021">week1:
+A Survey of the Usages of Deep Learning for Natural Language Processing
+- 2021</h1>
+<p>第二章节介绍 nlp和ai的基本概念；第三章节介绍deep
+learning如何解决nlp问题；第四章节介绍了applications，具体有information
+retrival，information extraction，text classification，text
+generation，summarization，question answering，machine
+translation。第五章节是conclusion。</p>
+<h2 id="chapter3.-nlp-中core-areas">chapter3. Nlp 中core areas</h2>
+<p>一共四个core area： language
+modeling，morphology，parsing，semantics。</p>
+<blockquote>
+<p>Morphology is <strong>the study of the internal structure of
+words</strong> and forms a core part of linguistic study today. The term
+morphology is Greek and is a makeup of morph- meaning 'shape, form', and
+-ology which means 'the study of something'</p>
+</blockquote>
+<ul>
+<li>language modeling is the process of creating a model to predict
+workds or simply linguistic omponenets given previous words or
+components.</li>
+</ul>
+<p>关于language modeling的总结见 <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S088523081400093X">A
+survey on the application of recurrent neural networks to statistical
+language modeling</a>,关于 评估一个lanuage model的metric总结见 <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1312.3005.pdf">One Billion Word Benchmark
+for Measuring Progress in Statistical Language Modeling</a>.
+另外作者还介绍了两个benchmark数据集分别叫 Penn Treebank(PTB)和Billion
+Word Benchmark.</p>
+<ul>
+<li>Morphology is concerned with finding segments within single words,
+including roots and stems, prefixes, suffixes, and—in some
+languages—infixes. Affixes (prefixes, suffixes, or infixes) are used to
+overtly modify stems for gender, number, person, et cetera.</li>
+<li>Parsing examines how different words and phrases relate to each
+other within a sentence.</li>
+<li>Semantic processing involves understanding the meaning of words,
+phrases, sentences, or documents at some level</li>
+</ul>
+<h2 id="chapter4.深度学习在nlp中的applications">chapter4.深度学习在nlp中的applications</h2>
+<p>这篇文章一共介绍了7个nlp的应用，包括information retrieval,
+information extraction,text classification, text generation,
+summarization, question ansering, machine
+translation。基本上都是我们熟知的现在nlp领域比较火的几个小方向。</p>
+<h3 id="信息检索-information-retrieval">信息检索 information
+retrieval</h3>
+<p>信息检索这个任务最主要的一个问题时ranking documents with respect to
+the query string.</p>
+<p>作者将信息检索的solution分为两种，第一种是representation-focused
+approaches，对query和document分别建立一个representation，然后直接匹配两种representation。第二种是interaction-docused
+approaches,首先build local interactions，然后用深度学习的技术去learn how
+the two pieces of text match。</p>
+<p>SOA：Cedr: Contextualized embeddings for document ranking
+截至2019年。</p>
+<h3 id="信息抽取-information-extraction">信息抽取 information
+extraction</h3>
+<ol type="1">
+<li>name entity recognition</li>
+</ol>
+<p>paper： Contextual string embeddings for sequence labeling
+取得了SOA的结果。</p>
+<ol start="2" type="1">
+<li>event extraction</li>
+<li>relationship extraction</li>
+</ol>
+<blockquote>
+<p>These may be possessive, antonymous or synonymous relationships, or
+more natural, familial or geographic, relationships</p>
+</blockquote>
+<h3 id="文本分类-text-classification">文本分类 text classification</h3>
+<p>值得注意的是深度学习的深度网络在这一个长文本上的表现其实并不是特别必要</p>
+<blockquote>
+<p>Worsham and Kalita [198] found that for the task of classifying long
+full-length books by genre, gradient boosting trees are superior to
+neural networks, including both CNNs and LSTMs</p>
+</blockquote>
+<h3 id="文本生成-text-generation">文本生成 text generation</h3>
+<ol type="1">
+<li>poetry generation 文本生成领域最难的子问题</li>
+</ol>
+<p>到2019年底，GPT-2是表现最好的生成器</p>
+<ol start="2" type="1">
+<li>joke and pun generation</li>
+<li>story generation</li>
+<li>text generation with GANs</li>
+<li>text generation with VAEs</li>
+</ol>
+<p>这个子任务面临的挑战：1. lack of creativity and coherence 2. lack of
+appropriate metrics to measure the results(always using human
+evaluations)</p>
+<p>值得关注：image captioning</p>
+<h3 id="文本总结-summarization">文本总结 summarization</h3>
+<p>包含两种类型的总结： extractive和abastractive</p>
+<p>SOA: Pretraining-based natural language generation for text
+summarization 2019</p>
+<h3 id="问答question-answering">问答question answering</h3>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1810.04805">Bert</a>在这个任务上取得了SOA</p>
+<h3 id="机器翻译-machine-translation">机器翻译 Machine Translation</h3>
+<p>两篇值得关注的综述</p>
+<h1 id="week2-attention-is-all-you-need">week2: Attention is all you
+need</h1>
+<p>这篇文章早在几个月前看过，也做过记录，这边就不多做记录了。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/" class="post-title-link" itemprop="url">machine learning专项课程notes</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-23 10:23:30" itemprop="dateCreated datePublished" datetime="2023-02-23T10:23:30+08:00">2023-02-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-03-02 11:10:34" itemprop="dateModified" datetime="2023-03-02T11:10:34+08:00">2023-03-02</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本文章整理吴恩达老师在coursera上的machine
+learning专项课程的知识点，另外补充记录课堂上没有cover到的一些知识，参考西瓜书以及deep
+learning花书。</p>
+<h1 id="class-1-supervised-regression-and-classification">class 1
+supervised regression and classification</h1>
+<h2 id="picking-the-appropriate-learning-rate">picking the appropriate
+learning rate:</h2>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223103443797-16771196850861.png" alt="pick value">
+<figcaption aria-hidden="true">pick value</figcaption>
+</figure>
+<h2 id="logistic-function的loss-function">logistic function的loss
+function：</h2>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223112138369-16771225003742.png" alt="image-20230223112138369">
+<figcaption aria-hidden="true">image-20230223112138369</figcaption>
+</figure>
+<h2 id="bias和variance">bias和variance：</h2>
+<p>参考<a target="_blank" rel="noopener" href="https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229">博客</a></p>
+<p><strong>What is bias?</strong></p>
+<p>Bias is the difference between the average prediction of our model
+and the correct value which we are trying to predict. Model with high
+bias pays very little attention to the training data and oversimplifies
+the model. It always leads to high error on training and test data.</p>
+<p><strong>What is variance?</strong></p>
+<p>Variance is the variability of model prediction for a given data
+point or a value which tells us spread of our data. Model with high
+variance pays a lot of attention to training data and does not
+generalize on the data which it hasn’t seen before. As a result, such
+models perform very well on training data but has high error rates on
+test data.</p>
+<p>总结来说就说，一个模型的bias如果很大的话，说明该模型是underfit，并没有很好的拟合训练数据，也就是training
+error比较大；而variance比较大的话，说明该模型把更多的关注力放在训练数据上，但是在它没见过的数据集上表现很差，也就是train_error小，而dev_error大，泛化能力差。</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223115103788-16771242656113.png" alt="bias and variance">
+<figcaption aria-hidden="true">bias and variance</figcaption>
+</figure>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223134302857.png" alt="image-20230223134302857">
+<figcaption aria-hidden="true">image-20230223134302857</figcaption>
+</figure>
+<h1 id="class-2-advanced-learning-algorithms">class 2 advanced learning
+algorithms</h1>
+<h2 id="optimizer">optimizer</h2>
+<h3 id="gradient-descent-with-momentum">gradient descent with
+momentum</h3>
+<p>动量梯度下降法，运行速度要快于标准的梯度下降。基本的想法就是计算梯度的指数加权平均数，并利用该梯度来更新。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/gradient-descent-with-momentum-59420f626c8f">博客</a>中阐述这个问题的方式是：</p>
+<p>标准的GD只是考虑当下的learning
+rate和当下的gradient，并没有考虑前面batch的gradient。这就带来几个问题：</p>
+<ol type="1">
+<li>在固定learning
+rate下，J在一些点上变化缓慢，基本上是处于一个平原区，其实这时候我们希望它的步子要迈的大一点</li>
+<li>在一些J变化比较多的地方，我们其实希望步子要小一点</li>
+</ol>
+<p>那么Momemtum解决了什么问题呢？它可以在J下降不动的时候，让gradient比原来的标准值要大一点，也就是我们间接的把步子迈大了。具体需要用指数加权平均数来实现，因为指数加权平均数很好的考虑了要给予多大的权重给过去的gradient，当然给予最大权重是当前的gradient。</p>
+<p><img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/gd%20with%20momentum.png"></p>
+<p>以上这个公式就是gradient加了动量momentum的公式，具体的v(t-1)是上一步的weight，而delta(t)是用当前batch计算的梯度。beta是常数，通常取值为0.9</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227134323054-16774766052811.png" alt="image-20230227134323054">
+<figcaption aria-hidden="true">image-20230227134323054</figcaption>
+</figure>
+<h3 id="rmsprop">RMSprop</h3>
+<p>rmsprop也可以加速训练过程，而且会降低训练过程中J下降的抖动：</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227141934848-16774787770602.png" alt="image-20230227141934848">
+<figcaption aria-hidden="true">image-20230227141934848</figcaption>
+</figure>
+<h3 id="adam">Adam</h3>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227143504471-16774797058863.png" alt="image-20230227143504471">
+<figcaption aria-hidden="true">image-20230227143504471</figcaption>
+</figure>
+<p>可以发现Adam其实是结合了RMSprop和momentum，其中beta1缺省值是0.9，beta2的缺省值是0.999.</p>
+<p>更深入一点我们还有AdamW，是为了解决adam优化器训练出来的模型比SDG训练出来的模型泛化能力差，这个泛化能力差主要是由于L2正则化也就是weight
+decay并没有在Adam中很好的体现，详细可以参考AdamW的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.05101">paper：Fixing Weight Decay
+Regularization in Adam</a>和<a target="_blank" rel="noopener" href="https://towardsdatascience.com/why-adamw-matters-736223f31b5d">Why
+AdamW matters</a></p>
+<h2 id="metric">metric</h2>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155504810-16774845099534.png" alt="precision and recall">
+<figcaption aria-hidden="true">precision and recall</figcaption>
+</figure>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155742925.png" alt="image-20230227155742925">
+<figcaption aria-hidden="true">image-20230227155742925</figcaption>
+</figure>
+<p>如果我们根据sigmoid之后的概率值来进行分类，那么如果我们设定一个很大的概率值，比如说图上的0.7，也就表示说我们只在我们非常自信的时候才会预测一个人得了病，那么必然#total
+predicted
+positive会变小，所以precision会是一个较大的值；而如果我们采用一个比较小的概率值，比如0.3，也就表示说我们把更多的sample预测成了阳性，那么就代表，我们并不想错过任何一个病历。</p>
+<p>我们拥有另一个metric叫做F1
+score来衡量一个模型在precision和recall上的共同特征。</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227160513093-16774851219125.png" alt="F1 score">
+<figcaption aria-hidden="true">F1 score</figcaption>
+</figure>
+<h2 id="decision-tree">decision tree</h2>
+<p>information
+entropy即信息熵是度量样本集合纯度purity最常用的一种指标，决策树就是基于将每一次分类的集合往纯度越高的方向去提升，从而达到分类数据集的目的。</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228101129354-16775503015086.png" alt="信息熵的数学计算">
+<figcaption aria-hidden="true">信息熵的数学计算</figcaption>
+</figure>
+<p>信息熵越大，D的纯度越小，说明数据很混乱。</p>
+<p>我们可以用信息增益来进行决策树的划分属性选择，每一次都选择使得划分的信息增益最大。</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228102027466-16775508287787.png" alt="image-20230228102027466">
+<figcaption aria-hidden="true">image-20230228102027466</figcaption>
+</figure>
+<h3 id="decision-tree-ensembles">decision tree ensembles</h3>
+<p>解决问题： trees are highly sensitive to small changes of the
+data</p>
+<p>解决办法： combines several decision trees to produce better
+predictive performance than utilizing a single decision tree</p>
+<p>有两种技术可以用来实现ensemble decision trees: bagging和boosting</p>
+<ol type="1">
+<li>bagging(bootstrap aggregation)</li>
+</ol>
+<blockquote>
+<p><em><strong>Bagging*</strong> (Bootstrap Aggregation) is used when
+our goal is to reduce the variance of a decision tree. </em>Here idea is
+to create several subsets of data from training sample chosen randomly*
+*with replacement**. Now, each collection of subset data is used to
+train their decision trees. As a result, we end up with an ensemble of
+different models. Average of all the predictions from different trees
+are used which is more robust than a single decision tree.*</p>
+</blockquote>
+<p><em>Random Forest</em> is an extension over bagging. It takes one
+extra step where in addition to taking the random subset of data, it
+also takes the random selection of features rather than using all
+features to grow trees. When you have many random trees. It’s called
+Random Forest</p>
+<ol start="2" type="1">
+<li>Boosting</li>
+</ol>
+<blockquote>
+<p><strong>Boosting</strong> <em>is another ensemble technique to create
+a collection of predictors. In this technique, learners are learned
+sequentially with early learners fitting simple models to the data and
+then analyzing data for errors. In other words, we fit consecutive trees
+(random sample) and at every step, the goal is to solve for net error
+from the prior tree.</em></p>
+</blockquote>
+<p>参考资料： <a target="_blank" rel="noopener" href="https://towardsdatascience.com/decision-tree-ensembles-bagging-and-boosting-266a8ba60fd9">博客</a></p>
+<h2 id="conclusion">conclusion</h2>
+<p>when to use decision trees?</p>
+<figure>
+<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228131322629.png" alt="decision trees vs NN">
+<figcaption aria-hidden="true">decision trees vs NN</figcaption>
+</figure>
+<h1 id="class-3-unsupervised-learning-recommenders-reinforcement-learning">class
+3 unsupervised learning, recommenders, reinforcement learning</h1>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/default_index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/default_index/page/15/">15</a><a class="extend next" rel="next" href="/default_index/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 </div>
   </main>

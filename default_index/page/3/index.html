@@ -23,48 +23,25 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="machine translation 这个任务一般是作为language modeling的紧接一个话题。它的前身（2010年之前）是statistical machine translation，但自从Neural machine translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical machine">
-<meta property="og:type" content="article">
-<meta property="og:title" content="machine translation相关论文阅读">
-<meta property="og:url" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.html">
+<meta name="description" content="Be smart! Keep Learning">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YAN&#39;s Blog">
+<meta property="og:url" content="http://example.com/default_index/page/3/index.html">
 <meta property="og:site_name" content="YAN&#39;s Blog">
-<meta property="og:description" content="machine translation 这个任务一般是作为language modeling的紧接一个话题。它的前身（2010年之前）是statistical machine translation，但自从Neural machine translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical machine">
+<meta property="og:description" content="Be smart! Keep Learning">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313132157791-16786849189061.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134416540.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134658535.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221214151254068.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221212164533545.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221216102034819.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171420621.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171823584.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230302133247664.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133249379.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133424302.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133440152.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133608484.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230307162830473-16781777124571.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301134258180.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/transformer_encoder_block.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/encoder-decoder.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150541287.png">
-<meta property="og:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150600806.png">
-<meta property="article:published_time" content="2023-03-13T03:18:59.000Z">
-<meta property="article:modified_time" content="2023-03-14T03:17:14.936Z">
 <meta property="article:author" content="YAN">
-<meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313132157791-16786849189061.png">
 
 
-<link rel="canonical" href="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+<link rel="canonical" href="http://example.com/default_index/page/3/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/","path":"2023/03/13/machine-translation相关论文阅读/","title":"machine translation相关论文阅读"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"default_index/page/3/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>machine translation相关论文阅读 | YAN's Blog</title>
+<title>YAN's Blog</title>
   
 
 
@@ -157,7 +134,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -170,11 +147,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#learning-phrase-representations-using-rnn-encoder-decoder-for-statistical-machine-translation-2014"><span class="nav-number">1.</span> <span class="nav-text">Learning
-Phrase Representations using RNN Encoder-Decoder for Statistical Machine
-Translation 2014</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#neural-machine-translation-by-jointly-learning-to-align-and-translate-2015"><span class="nav-number">2.</span> <span class="nav-text">Neural
-Machine Translation by Jointly Learning to Align and Translate 2015</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#attention-is-all-you-need-2017"><span class="nav-number">3.</span> <span class="nav-text">Attention is all you need
-2017</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder%E9%83%A8%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">encoder部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder%E9%83%A8%E5%88%86"><span class="nav-number">3.2.</span> <span class="nav-text">decoder部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.3.</span> <span class="nav-text">补充介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf.keras.layers.multiheadattention"><span class="nav-number">3.3.1.</span> <span class="nav-text">tf.keras.layers.MultiHeadAttention</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#attention-family"><span class="nav-number">4.</span> <span class="nav-text">Attention Family</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -232,18 +204,17 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
 </noscript>
 
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -255,9 +226,9 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
       <meta itemprop="name" content="YAN's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          machine translation相关论文阅读
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/" class="post-title-link" itemprop="url">R-CNN vs SPP vs Fast R-CNN vs Faster R-CNN</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -267,14 +238,244 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2023-03-13 11:18:59" itemprop="dateCreated datePublished" datetime="2023-03-13T11:18:59+08:00">2023-03-13</time>
+      <time title="Created: 2022-11-02 14:25:33" itemprop="dateCreated datePublished" datetime="2022-11-02T14:25:33+08:00">2022-11-02</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-03-14 11:17:14" itemprop="dateModified" datetime="2023-03-14T11:17:14+08:00">2023-03-14</time>
+        <time title="Modified: 2023-02-08 11:36:00" itemprop="dateModified" datetime="2023-02-08T11:36:00+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近在object
+detection任务上读这几篇文章，见识到神仙打架。一开始我只是关注image
+segmentation的任务，其中instance
+segmentation任务中Mask-RCNN是其中比较火的一个model，所以就把跟这个模型相关的几个模型都找出来看了看。这里想记录下这几天看这几篇论文的心得体会，如果有写的不正确的地方，欢迎批评指正。</p>
+<p>其实去仔细看这几篇论文很有意思，梳理一下时间线就是：</p>
+<ol type="1">
+<li><p><strong>2014</strong>年Girshick提出了RCNN，用于解决accurate
+object detection 和 semantic
+segmentation。该模型有一个drawbacks是每次一张图片输入进来，需要产生~2000个region
+proposals，这些region的大小都是不一致的，但我们对图片进行分类的下游网络都是需要fixed
+size的图片，那怎么办呢？作者提出使用wraped方法，具体可以参考作者的论文。总之最终我们输入到SVM也就是分类器的region图片大小都是一致的。</p></li>
+<li><p>为了解决每次输入网络的图片大小怎么样才能变成fixed
+size的vector，<strong>2015</strong>年he kaiming提出了SPP（spatial
+pyramid pooling），跟前者RCNN不一样的地方在于：1) 将region
+proposal的方法用在了图片输入cnn网络得到的feature map上，2)从feature
+map选择出来的region
+proposal不还是不一样大小么？作者没有使用wrap的方法，而是提出了一个SPP
+layer,这个layer可以接受任何大小的图片，最终都会转化成一个fixed
+size的向量，这样就可以轻松输入进SVM或者Dense layer进行分类了。</p></li>
+<li><p>收到SPP的启发，Girshick在<strong>2015</strong>年提出了Fast-RCNN，将SPP
+layer重新替换成ROI Pooling，经过ROI pooling，输出的并不是SPP
+layer输出的金字塔式的向量了，而是只有一个。 <a target="_blank" rel="noopener" href="https://analyticsindiamag.com/r-cnn-vs-fast-r-cnn-vs-faster-r-cnn-a-comparative-guide/">参考博客</a></p></li>
+<li><p>经过前一轮的battle，虽然各自的模型都提出了自己的独特方法，但是无论是SPP
+Net还是Fast-RCNN都没有提出在选择ROI(region of
+interest)的方法。<strong>2016</strong>年He
+Kaiming再次强势入场，提出了产生region
+proposal的方法，它使用了一个单独的CNN网络来获取region
+proposal.得到了这些proposal之后再将他们传递给Roi Pooling
+layer，后面的过程和fast RCNN一致。 这篇Faster-RCNN的方法作者中有he
+kaiming和Girshick，这里致敬下sun jian，感谢为computer
+vision领域贡献的灵感和创造。</p></li>
+</ol>
+<h1 id="mask-rcnn">Mask-RCNN</h1>
+<p>Mask-RCNN是Region-based CNN系列中的一个算法，用于解决instance
+segmentation的问题，instance segmentation的难点在于我们不仅要做object
+detection，而且需要将object的准确轮廓给识别出来，同时做出分类这是什么object。在<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.06870">Mask-RCNN</a></p>
+<p>中，related
+work一章节对RCNN这一系列的模型做了准确概括，建议大家读原文：</p>
+<blockquote>
+<p>The Region-based CNN (R-CNN) approach [13] to bounding-box object
+detection is to attend to a manageable number of candidate object
+regions [42, 20] and evaluate convolutional networks [25, 24]
+independently on each RoI. R-CNN was extended [18, 12] to allow
+attending to RoIs on feature maps using RoIPool, leading to fast speed
+and better accuracy. Faster R-CNN [36] advanced this stream by learning
+the attention mechanism with a Region Proposal Network (RPN). Faster
+R-CNN is flexible and robust to many follow-up improvements (e.g., [38,
+27, 21]), and is the current leading framework in several
+benchmarks.</p>
+</blockquote>
+<p>在Mask-RCNN的文章中提出了一种新的ROIAlign
+Layer，主要是为了解决Faster-Rcnn的网络中ROI pooling
+layer的问题。在此补充下ROI pooling是怎么将不同size的ROI（region of
+interest）都变成fixed-size的feature map的：</p>
+<figure>
+<img src="/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/image-20221128165901678-16696259446601.png" alt="ROI Pooling Layer">
+<figcaption aria-hidden="true">ROI Pooling Layer</figcaption>
+</figure>
+<p>上图是将5*4大小的ROI变成了2✖2大小的feature
+map。这种方式带来的影响就是可能在提取的extracted
+features和ROI之间造成misalignments。但是这种misalignments并不会在faster-rcnn中对分类造成很大的影响，但如果要用这个ROI做segmentation的话就可能会造成巨大的影响，因此作者提出了一个ROIAlign
+Layer。</p>
+<blockquote>
+<p>如果有小伙伴想对照code看这篇paper，可以参考<a target="_blank" rel="noopener" href="https://github.com/matterport/Mask_RCNN/blob/3deaec5d902d16e1daf56b62d5971d428dc920bc/mrcnn/model.py#L486">tensorflow实现</a>。如果你对pytorch更熟悉可以参考paper中给出的官方github地址的实现。有一篇博客详细介绍了tensorlfow的实现，参见<a target="_blank" rel="noopener" href="https://blog.paperspace.com/mask-r-cnn-in-tensorflow-2-0/">blog</a></p>
+</blockquote>
+<p>在MaskRCNN中使用了faster-rcnn中提出的RPN来产生ROI，然后才使用上面提到的ROI
+Algin。RPN的具体细节参见fatser-rcnn原文和本博客的<a href="#RPN(Region%20Proposal%20Network)">第二章节</a></p>
+<h1 id="rpnregion-proposal-network">RPN(Region Proposal Network)</h1>
+<p>RPN
+是在faster-rcnn中提出来的网络，主要是为了解决在rcnn和fast-rcnn两个前置模型中产生ROI的耗时问题，之前产生ROI主要是依靠Selected
+Search。在读mask-rcnn的paper时发现这个网络的细节不甚了解，这里补充记录一下。感兴趣的朋友可以阅读<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1506.01497">paper</a>的第3.2节。</p>
+<p>RPN在output长方体的ROI的同时，也会给每一个ROI产生一个Objectness
+score。看原文的时候作者是以sliding
+window的方式来讲解的，一开始看的有点懵。但其实就是卷积层的计算过程的拆解，我们先按照作者的思路来看RPN做了什么。</p>
+<figure>
+<img src="/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/image-20221129160354668-16697090363711.png" alt="faster-Rcnn">
+<figcaption aria-hidden="true">faster-Rcnn</figcaption>
+</figure>
+<p>RPN的输入是经过一系列卷积层之后的feature
+map，在这个map上，我们在上面再做一些运算：</p>
+<figure>
+<img src="/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/image-20221129160504387-16697091055822.png" alt="RPN network">
+<figcaption aria-hidden="true">RPN network</figcaption>
+</figure>
+<p>针对一个window（n✖n），RPN做的就是将这个window映射到一个低维度的feature上，图上是256维的向量，然后我们再接两个dense
+layer，一个用于预测box，一个用于做分类。k的意思是在每一个sliding
+window上我们都维护了k个anchor，这个概念和yolo里一致。所以在每一个sliding-window上我们都可以得出来4k个box和2k个分类结果（是否有object的概率），这个anchor
+box是和sliding-window的中心点绑定的，所以如果RPN的输入是一个W×H的feature
+map，那么我们就会有W×H×k个anchors。</p>
+<p>那么我们知道RPN是怎么计算的了，然后在训练阶段还有一些tricks。作者对每一个anchor都赋予了一个class
+label，赋予positive的anchor为 1) anchor和 groud truth的box有最高的IOU 2)
+如果anchor与groud
+truth的box的IOU大于0.7。这两种anchor都会被赋予positive的标签，也就是代表它里面有object。对于哪些和任何groud
+truth
+box的IOU都小于0.3的anchor，赋予negtive的标签。在为RPN产生训练数据时，对于所有的anchors都有一个class
+label，也就是它里面是否包含object。对于box的训练数据的处理有一点不一样的地方。可以参考<a target="_blank" rel="noopener" href="https://github.com/matterport/Mask_RCNN/blob/3deaec5d902d16e1daf56b62d5971d428dc920bc/mrcnn/model.py#L486">tensorflow实现</a>，在<code>mrcnn/model.py</code>的<code>build_rpn_target</code>函数中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># RPN Match: 1 = positive anchor, -1 = negative anchor, 0 = neutral</span></span><br><span class="line">rpn_match = np.zeros([anchors.shape[<span class="number">0</span>]], dtype=np.int32)</span><br><span class="line"><span class="comment"># RPN bounding boxes: [max anchors per image, (dy, dx, log(dh), log(dw))]</span></span><br><span class="line">rpn_bbox = np.zeros((config.RPN_TRAIN_ANCHORS_PER_IMAGE, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<p>rpn_bbox的数量是提前设定好的，也就是不是对每一个anchor都会有一个box来对应，对于那些标记为positive的anchor
+box才会有bbox的target。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Generate RPN trainig targets</span></span><br><span class="line"><span class="comment"># target_rpn_match is 1 for positive anchors, -1 for negative anchors</span></span><br><span class="line"><span class="comment"># and 0 for neutral anchors.</span></span><br><span class="line">target_rpn_match, target_rpn_bbox = modellib.build_rpn_targets(</span><br><span class="line">    image.shape, model.anchors, gt_class_id, gt_bbox, model.config)</span><br><span class="line">log(<span class="string">&quot;target_rpn_match&quot;</span>, target_rpn_match)</span><br><span class="line">log(<span class="string">&quot;target_rpn_bbox&quot;</span>, target_rpn_bbox)</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">target_rpn_match         shape: (65472,)              min:   -1.00000  max:    1.00000</span><br><span class="line">target_rpn_bbox          shape: (256, 4)              min:   -5.19860  max:    2.59641</span><br></pre></td></tr></table></figure>
+<p>从上面可以看出，在全局变量设置中设置的是每一张图片最多有256个anchors，所以产生的rpn_bbox
+shape就是(256,4),而用于RPN训练的class
+label是全部的anchors的分类label。进一步的我们可以查看其中一张图片的anchors：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">positive_anchor_ix = np.where(target_rpn_match[:] == <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">negative_anchor_ix = np.where(target_rpn_match[:] == -<span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">neutral_anchor_ix = np.where(target_rpn_match[:] == <span class="number">0</span>)[<span class="number">0</span>]</span><br><span class="line">positive_anchors = model.anchors[positive_anchor_ix]</span><br><span class="line">negative_anchors = model.anchors[negative_anchor_ix]</span><br><span class="line">neutral_anchors = model.anchors[neutral_anchor_ix]</span><br><span class="line">log(<span class="string">&quot;positive_anchors&quot;</span>, positive_anchors)</span><br><span class="line">log(<span class="string">&quot;negative_anchors&quot;</span>, negative_anchors)</span><br><span class="line">log(<span class="string">&quot;neutral anchors&quot;</span>, neutral_anchors)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Apply refinement deltas to positive anchors</span></span><br><span class="line">refined_anchors = utils.apply_box_deltas(</span><br><span class="line">    positive_anchors,</span><br><span class="line">    target_rpn_bbox[:positive_anchors.shape[<span class="number">0</span>]] * model.config.RPN_BBOX_STD_DEV)</span><br><span class="line">log(<span class="string">&quot;refined_anchors&quot;</span>, refined_anchors, )</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">positive_anchors         shape: (14, 4)               min:    5.49033  max:  973.25483</span><br><span class="line">negative_anchors         shape: (242, 4)              min:  -22.62742  max: 1038.62742</span><br><span class="line">neutral anchors          shape: (65216, 4)            min: -362.03867  max: 1258.03867</span><br><span class="line">refined_anchors          shape: (14, 4)               min:    0.00000  max: 1023.99994</span><br></pre></td></tr></table></figure>
+<p>即便是有65472个anchors，但其实正负anchor所占比重很小，大多数是neutral的anchor。其中对于positive的anchor，我们拥有在他们的bbox上refine过的box。</p>
+<figure>
+<img src="/2022/11/02/R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/positive_refined_box.png" alt="positive anchor">
+<figcaption aria-hidden="true">positive anchor</figcaption>
+</figure>
+<p>上图中虚线画出来的是positive
+anchor，实线框出来的是在这些anchor上refine过的box。</p>
+<p>在训练阶段，计算loss时，对于regression loss，模型只会计算postive
+anchors的regression
+loss，也就是只计算那些被打上positive标签的anchor预测的box与groud-truth
+box的回归loss。如果一个anchor，它的class
+label在anatation阶段就是negtive的，模型并不会将它预测出来的box和ground-truth
+box进行比较，他们的loss不会被计算进总的Loss。</p>
+<p>关于如何训练的问题，在Faster-Rcnn的文章中给出了三种训练的算法，第一种也是文中采用的方法就是：1.
+alternating training :
+先把RPN单独训练，然后使用RPN产生的proposals去训练fast r-cnn.
+然后将fine-tune过的RPN作为初始参数，然后再去产生proposal，再去训练fast
+rcnn. 具体来说就是4步：</p>
+<ol type="1">
+<li>单独train RPN ： 用ImageNet pre-trained 参数做初始化，然后在region
+proposal这个task上fine tune</li>
+<li>利用第一步产生的proposal训练Fast-Rcnn，也就是<a href="R-CNN-vs-SPP-vs-Fast-R-CNN-vs-Faster-R-CNN/image-20221129160354668-16697090363711.png">架构图</a>中的最上面一部分，该网络也会使用ImageNet
+pre-trained
+参数做初始化。注意一直到这一步，两个网络都没有share任何卷积layers</li>
+<li>第三步我们使用detector的network去初始化RPN，同时fix住最下面的卷积层，也就是两个网络共享的那些卷积层。这一步骤单独fine-tune
+RPN的layers。</li>
+<li>最后一步，fine-tune Fast-RCNN的unique的layers。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/27/Attention-and-Transformer-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/27/Attention-and-Transformer-model/" class="post-title-link" itemprop="url">Attention and Transformer model</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-27 10:03:57" itemprop="dateCreated datePublished" datetime="2022-10-27T10:03:57+08:00">2022-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-03-13 11:27:57" itemprop="dateModified" datetime="2023-03-13T11:27:57+08:00">2023-03-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -293,7 +494,7 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>14k</span>
+      <span>15k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -311,138 +512,70 @@ Machine Translation by Jointly Learning to Align and Translate 2015</span></a></
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>machine translation 这个任务一般是作为language
-modeling的紧接一个话题。它的前身（2010年之前）是statistical machine
-translation，但自从Neural machine
-translation出来之后，用statistical的方式来做translation就少了很多。有兴趣的可以了解下statistical
-machine translation的<a target="_blank" rel="noopener" href="https://www.cs.upc.edu/~ageno/anlp/classeMT.pdf">具体细节</a>.
-本博客主要记录NMT的主要论文和研究。NMT的架构主要是encoder-decoder架构，它其实是一个很典型的seq-to-seq的模型,
-关于它的定义：</p>
-<blockquote>
-<p>Neural Machine Translation (NMT) is a way to do Machine Translation
-with a single end-to-end neural network</p>
-</blockquote>
-<p>它的一般架构是这样的:</p>
+          <p>斯坦福cs231n最新的课程中包含了attention的模型讲解，但是很可惜我们现在只能看到17年的老课程，在youtube上可以找到，课程主页是<a target="_blank" rel="noopener" href="http://cs231n.stanford.edu/schedule.html">cs231n</a>。可以在课程主页中下载对应的slides和查看推荐的blog，都是学习attention机制的好教材。另外我在学习cs231n课程过程中，也参考了吴恩达对于sequence
+model的讲解，它课程中也涉及到了attention机制，课后作业也包含了简单的attention机制的实现，可以作为辅助理解来看。这篇博客权当自己学习attention以及由此创造的attention系列模型比如transformer的记录。cs231n推荐的<a target="_blank" rel="noopener" href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">博客</a>内容也是很通俗易懂，英文不好的同学有中文翻译可以参考。</p>
+<h1 id="general-attention-model">general attention model</h1>
+<p>RNN有多种类型的网络：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313132157791-16786849189061.png" alt="Seq2Seq">
-<figcaption aria-hidden="true">Seq2Seq</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027100649410.png" alt="image-20221027100649410">
+<figcaption aria-hidden="true">image-20221027100649410</figcaption>
 </figure>
-<p>NMT所有的模型都基于一个统一的数学公式：</p>
+<p>对于"many to
+many"类型的网络，有可能输入的长度不等于输出的长度，在机器翻译的任务中很常见。这种网络也叫Sequence
+to
+Sequence，首先该网络会经由encoder对输入进行编码，然后再有decoder进行sequence的生成。但是这种网络在长句子中表现很差，如果输入句子的长度很长，encoder网络就很难记忆住所有信息，从而在decoder中翻译出准确的词语。由此，需要用到attention
+model。从计算角度来说就是encoder每次都会产生一个固定长度的vector，这对于长句子来说fixed
+length的向量很难记住很早之前的信息：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134416540.png" alt="数学公式">
-<figcaption aria-hidden="true">数学公式</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027104026997.png" alt="image-20221027104026997">
+<figcaption aria-hidden="true">image-20221027104026997</figcaption>
 </figure>
-<p>注意这里和statistical machine translation的公式是不一样的：</p>
+<p>那为了解决一个fixed
+length的vector很难记忆前序信息的缺陷，所以诞生了attention
+机制！具体的就是在decoder阶段的每一个时间步利用都产生不同的context，这个context产生的过程就是attention计算的过程。主要思想是在产生y之前做一个attention的权重计算，这个权重指的是在计算某个时间步的y值时，我们应该对输入句子的每一个词给予多少关注，给予的关注多，权重就大。所以这里我们会基于initial
+decoder state（previous hidden state of the (post-attention)
+LSTM）和encoder网络的输出值计算权重，计算过程采用dense
+layer.这些权重值的和是1。</p>
+<p>对于很长输入的句子，encoder不再是输出一个固定的context。如下：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313134658535.png" alt="statistical machine translation">
-<figcaption aria-hidden="true">statistical machine
-translation</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027103845891.png" alt="image-20221027103845891">
+<figcaption aria-hidden="true">image-20221027103845891</figcaption>
 </figure>
-<p>用统计翻译模型做的时候是分别解决translation model以及language
-model的问题，涉及很多特征工程的问题，很复杂。</p>
-<p>在machine
-translation领域，encoder-decoder架构的模型经历了好几次演变，最终才转化成加入了attention机制，模型架构的整理可以参考<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1912.02047">Neural Machine Translation: A
-Review and
-Survey</a>。文章的第五章介绍了将encoder编码为固定长度的向量的用法。其中有两种使用这个<code>C</code>的用法，1.
-作为decoder的初始化state 2.
-作为decoder每一个时间步的固定输入和input一起去计算hidden state：</p>
+<p>context的详细计算如下：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221214151254068.png" alt="Encoder-decoder architectures with fixed-length sentence encodings">
-<figcaption aria-hidden="true">Encoder-decoder architectures with
-fixed-length sentence encodings</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027101307861.png" alt="吴恩达课程attention">
+<figcaption aria-hidden="true">吴恩达课程attention</figcaption>
 </figure>
-<p>这些文章从<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.3215">Sequence to
-Sequence Learning with Neural Networks</a>，再到<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1406.1078">Learning Phrase Representations
-using RNN Encoder-Decoder for Statistical Machine Translation</a>.
-然后就过度到attention时代了，所以作者在这篇review中只花了很少的第五章节就结束了。第六章就开始讲attentional
-encoder-decoder networks。</p>
-<blockquote>
-<p>The concept of attention is no longer just a technique to improve
-sentence lengths in NMT. Since its introduction by Bahdanau et al.
-(2015) it has become a vital part of various NMT architectures,
-culminating in the Transformer architecture</p>
-</blockquote>
-<p>这句话是6.1的精髓，attention的概念不再是我们上文所说的那些用于初始化呀，还是用作duplicate
-context。Bahdanau 2015年的这篇文章，也就是引入multi-head
-attention的这篇文章彻底打破了这个convention。因为我们可以看到transformer的架构中都没有RNN的身影，有的只是attention
-weights的计算。</p>
-<h1 id="learning-phrase-representations-using-rnn-encoder-decoder-for-statistical-machine-translation-2014">Learning
-Phrase Representations using RNN Encoder-Decoder for Statistical Machine
-Translation 2014</h1>
-<p>这是在机器翻译领域encoder-decoder架构，在attention
-机制提出之前表现最好的RNN模型。其实模型挺简单的，encoder负责将input
-sequence编码成了一个固定的向量Context，然后基于这个向量，decoder每一个时间步产生一个单词。在decoder的每一个时间步进行的运算是：</p>
-<p><img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221212164533545.png" alt="image-20221212164533545"> <code>y_t</code>是由s_t得到的。</p>
-<p>同样的，这篇文章可以结合<a target="_blank" rel="noopener" href="https://github.com/bentrevett/pytorch-seq2seq/blob/master/1%20-%20Sequence%20to%20Sequence%20Learning%20with%20Neural%20Networks.ipynb">代码</a>来看，轻易理解。该代码是用pytorch实现的。这个pytorch的实现是从<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.3215">Sequence to Sequence Learning
-with Neural Networks</a>开始讲解的，Learning Phrase Representations
-using RNN Encoder-Decoder for Statistical Machine
-Translation这篇文章进步在</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20221216102034819.png" alt="image-20221216102034819">
-<figcaption aria-hidden="true">image-20221216102034819</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027101324129.png" alt="吴恩达课程attention">
+<figcaption aria-hidden="true">吴恩达课程attention</figcaption>
 </figure>
-<p>可以看到该篇文章介绍的模型优势在于预测y的时候加入了context以及<span class="math inline">\(y_{t-1}\)</span>,而不是仅仅依赖于<span class="math inline">\(s_t\)</span></p>
-<p>以上的文章都是将input
-sentence编码成一个fixed-length的vector，从下面这篇2015年Bahdanau的文章开始，attention就开始用于NMT。为了解决fixed-length
-vector的问题，这样我们就不必要将input
-sentence的所有信息都编码到一个固定长度的向量里。</p>
-<h1 id="neural-machine-translation-by-jointly-learning-to-align-and-translate-2015">Neural
-Machine Translation by Jointly Learning to Align and Translate 2015</h1>
-<p>从这篇文章开始，attention的机制开始使用在翻译中。</p>
-<p>在Introduction章节，最重要的一句话：</p>
-<blockquote>
-<p>The most important distinguishing feature of this approach from the
-basic encoder–decoder is that it does not attempt to encode a whole
-input sentence into a single fixed-length vector. Instead, it encodes
-the input sentence into a sequence of vectors and chooses a subset of
-these vectors adaptively while decoding the translation</p>
-</blockquote>
-<p>意即跟以往那种encoder-decoder的网络来做translation的model不同，虽然提出的模型也属于encoder-decoder架构，但不是将input
-sentence编码成一个固定长度的向量，而是将input
-sentence编码成一系列的向量并自适应的从中选择一个小子集的向量用来做decode。</p>
-<p>截至文章发表，现有做机器翻译的模型中，表现最好的模型是RNN，内units用lstm。可以称之为RNN
-Encoder-Decoder。</p>
-<p>还有一个发现是，这些encoder和decoder block，里面基本上是stacked
-rnns结构，也就是堆了好几层rnn。这个发现可以追溯到<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1703.03906.pdf">paper</a>.
-该作者发现在NMT任务上，high-performing rnns are usually multi-layer,
-不仅如此，对于encoder rnn，2到4层是最好的，对于decoder
-rnn，4层是最好的。通常情况下，2层堆叠的RNN比一层RNN要lot better;
-为了解决long dependency的问题，用lstm
-cell是必要的，但这也不够，需要使用一些其他的技术，比如skip-connection，dense-connections。</p>
-<hr>
-<p>这里值得一提的是，虽然Bahdanau
-2015年出的这篇文章很火。但是后来通过学习cs224n和观察tensorflow的文档：<a target="_blank" rel="noopener" href="https://www.tensorflow.org/text/tutorials/nmt_with_attention">Neural
-machine translation with attention</a>,发现<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1508.04025v5">luong
-2015</a>的这篇文章中的架构使用的更多，它的计算公式和Bahdanau介绍的有一点点不一样，再luong的文章中我们也可以看到它自己说的和Bahdanau不一样的地方：</p>
+<p>上面两张图是吴恩达在深度学习专项课程中的讲解细节，在cs231n的图中可以看出来它将dense
+layer的输出单独列出来了，也就是下图中alignment
+scores（<code>e</code>），在e的基础上再计算attention
+weights（<code>a</code>），所有的attention weights总和为1 <img src="/2022/10/27/Attention-and-Transformer-model/image-20221206141252321.png" alt="cs231n_attention"></p>
+<p>但是总体来说两个的讲解方式是一致的，cs231n这门课为什么把其中的<code>e</code>单独拎出来也是有它的用意，主要为了后面讲解self-attention。这里我琢磨了好一会儿才明白。还有一点值得提一下，吴恩达的图里那个与hidden
+state 一同输入进dense
+layer的repeateVector不要搞混淆，其实这里每次在decoder的一个时间步计算context时用到的s都不一样，比如在上面的里，计算<code>c1</code>用的是encoder的最后一个hidden
+state，而计算<code>C2</code>的时候我们需要用decoder的第一个时间步的hidden
+state来计算：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171420621.png" alt="image-20230313171420621">
-<figcaption aria-hidden="true">image-20230313171420621</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206142430931-16703078727111.png" alt="decoder第二个时间步">
+<figcaption aria-hidden="true">decoder第二个时间步</figcaption>
 </figure>
-<blockquote>
-<p>Comparison to (Bahdanau et al., 2015) – While our global attention
-approach is similar in spirit to the model proposed by Bahdanau et al.
-(2015), there are several key differences which reflect how we have both
-simplified and generalized from the original model. First, we simply use
-hidden states at the top LSTM layers in both the encoder and decoder as
-illustrated in Figure 2. Bahdanau et al. (2015), on the other hand, use
-the concatenation of the forward and backward source hidden states in
-the bi-directional encoder and target hidden states in their
-non-stacking unidirectional decoder. Second, our computation path is
-simpler; we go from ht → at → ct → ̃ ht then make a prediction as
-detailed in Eq. (5), Eq. (6), and Figure 2. On the other hand, at any
-time t, Bahdanau et al. (2015) build from the previous hidden state ht−1
-→ at → ct → ht, which, in turn, goes through a deep-output and a maxout
-layer before making predictions.7 Lastly, Bahdanau et al. (2015) only
-experimented with one alignment function, the concat product; whereas we
-show later that the other alternatives are better.</p>
-</blockquote>
-<p>所以关于用attention来做machine
-translation的模型，我们只需要记住下面的计算过程就行，因为它也不是现在流行的machine
-translation的方法（毕竟2015年的时候transformer还没出来）：</p>
+<p>这种attention计算机制如果用到image
+caption上面如何做呢？获取图片的特征我们使用CNN来抓取，得到的feature
+map用来当作rnn中的hidden state计算：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230313171823584.png" alt="attention in equations">
-<figcaption aria-hidden="true">attention in equations</figcaption>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206145117196-16703094790462.png" alt="image caption">
+<figcaption aria-hidden="true">image caption</figcaption>
 </figure>
+<p>理解以上的原理很重要，再把上面这个图改写一下，将h变成decoder的query：</p>
+<figure>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206145317028-16703095989033.png" alt="query">
+<figcaption aria-hidden="true">query</figcaption>
+</figure>
+<p>以上都是简单的attention机制，随后的transformer模型真正的将attention机制推广开来，见transformer的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">paper</a></p>
 <h1 id="attention-is-all-you-need-2017">Attention is all you need
 2017</h1>
 <p>在transformer的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">paper</a>中，作者首先介绍本文：主流的sequence
@@ -482,7 +615,7 @@ embedding来解决这个问题。这个positional embedding和input
 embedding拥有相同的shape，所以两者可以直接相加。transformer这篇文章提供了两种encoding方式：</p>
 <p>1） sunusoidal positional encoding</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230302133247664.png" alt="image-20230302133247664">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230302133247664.png" alt="image-20230302133247664">
 <figcaption aria-hidden="true">image-20230302133247664</figcaption>
 </figure>
 <p>其中，pos=1,...,L(L是input句子的长度)，i是某一个PE中的一个维度，取值范围是1到dmodel。python实现为：</p>
@@ -490,17 +623,17 @@ embedding拥有相同的shape，所以两者可以直接相加。transformer这�
 <p>2） learned positional encoding</p>
 <p>整体上看，这篇文章提出的transformer模型在做translation的任务时，架构是这样的：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133249379.png" alt="image-20230301133249379">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133249379.png" alt="image-20230301133249379">
 <figcaption aria-hidden="true">image-20230301133249379</figcaption>
 </figure>
 <p>其中encoders部分包含了6个encoders的block，decoders部分也包含了6个decoders的block，将encoders的每一个block拆开来看，有两个sub
 layer：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133424302.png" alt="image-20230301133424302">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133424302.png" alt="image-20230301133424302">
 <figcaption aria-hidden="true">image-20230301133424302</figcaption>
 </figure>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133440152.png" alt="image-20230301133440152">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133440152.png" alt="image-20230301133440152">
 <figcaption aria-hidden="true">image-20230301133440152</figcaption>
 </figure>
 <p>其中decoder部分的block比encoder部分的block多了一个sub
@@ -510,18 +643,18 @@ layer是一个masked multi-head
 attention，为了防止未来的信息泄露给当下（prevent positions from
 attending to the future）.</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301133608484.png" alt="image-20230301133608484">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133608484.png" alt="image-20230301133608484">
 <figcaption aria-hidden="true">image-20230301133608484</figcaption>
 </figure>
 <p>在transformer模型中，作者还使用了residual
 connection，所以在encoder的每一个block中，数据的flow是:</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230307162830473-16781777124571.png" alt="transformer架构">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230307162830473-16781777124571.png" alt="transformer架构">
 <figcaption aria-hidden="true">transformer架构</figcaption>
 </figure>
 <p>其中self-attention中涉及的运算details是：</p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230301134258180.png" alt="image-20230301134258180">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301134258180.png" alt="image-20230301134258180">
 <figcaption aria-hidden="true">image-20230301134258180</figcaption>
 </figure>
 <p>可以发现其中涉及的运算都是矩阵的点乘，并没有RNN中那种时间步的概念，所以所有运算都是可以parallelizable，这就能使得模型的推理和训练更加的efficient。并且！Transformers也可以抓住distant的依赖，而不是像rnn那样对于长依赖并不是很擅长，因为它前面的信息如果像传递到很后面的单词推理上，需要经历很多时间步的计算，而transformer在推理每一个单词的时候都可以access到input句子中的每一个单词（毕竟我们的Z中包含了每一个单词跟其他单词的关系)。</p>
@@ -538,10 +671,10 @@ transformer</a>介绍的详细细节，基于tensorflow框架实现的<a target=
 <h2 id="encoder部分">encoder部分</h2>
 <p>encoder的每一个block由两个sub-layer组成，中间穿插resnet
 connection。</p>
-<p><img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/transformer_encoder_block.png"></p>
+<p><img src="/2022/10/27/Attention-and-Transformer-model/transformer_encoder_block.png"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multihead_attention</span>(<span class="params">self, query, memory=<span class="literal">None</span>, mask=<span class="literal">None</span>, scope=<span class="string">&#x27;attn&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            query (tf.tensor): of shape (batch, q_size, d_model)</span></span><br><span class="line"><span class="string">            memory (tf.tensor): of shape (batch, m_size, d_model)</span></span><br><span class="line"><span class="string">            mask (tf.tensor): shape (batch, q_size, k_size)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:h</span></span><br><span class="line"><span class="string">            a tensor of shape (bs, q_size, d_model)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> memory <span class="keyword">is</span> <span class="literal">None</span>: <span class="comment"># 如果memory是None，那么就是一个典型的self-attention layer</span></span><br><span class="line">            memory = query</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># Linear project to d_model dimension: [batch, q_size/k_size, d_model]</span></span><br><span class="line">            Q = tf.layers.dense(query, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            K = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            V = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Split the matrix to multiple heads and then concatenate to have a larger</span></span><br><span class="line">            <span class="comment"># batch size: [h*batch, q_size/k_size, d_model/num_heads]</span></span><br><span class="line">            Q_split = tf.concat(tf.split(Q, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            K_split = tf.concat(tf.split(K, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            V_split = tf.concat(tf.split(V, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            mask_split = tf.tile(mask, [self.h, <span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Apply scaled dot product attention</span></span><br><span class="line">            out = self.scaled_dot_product_attention(Q_split, K_split, V_split, mask=mask_split)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Merge the multi-head back to the original shape</span></span><br><span class="line">            out = tf.concat(tf.split(out, self.h, axis=<span class="number">0</span>), axis=<span class="number">2</span>)  <span class="comment"># [bs, q_size, d_model]</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># The final linear layer and dropout.</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_model)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dropout(out, rate=self.drop_rate, training=self._is_training)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">feed_forwad</span>(<span class="params">self, inp, scope=<span class="string">&#x27;ff&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Position-wise fully connected feed-forward network, applied to each position</span></span><br><span class="line"><span class="string">        separately and identically. It can be implemented as (linear + ReLU + linear) or</span></span><br><span class="line"><span class="string">        (conv1d + ReLU + conv1d).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            inp (tf.tensor): shape [batch, length, d_model]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        out = inp</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_ff, activation=tf.nn.relu)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dropout(out, rate=self.drop_rate, training=self._is_training)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_model, activation=None)</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># by default, use_bias=True</span></span><br><span class="line">            out = tf.layers.conv1d(out, filters=self.d_ff, kernel_size=<span class="number">1</span>, activation=tf.nn.relu)</span><br><span class="line">            out = tf.layers.conv1d(out, filters=self.d_model, kernel_size=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out  </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encoder_layer</span>(<span class="params">self, inp, input_mask, scope</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            inp: tf.tensor of shape (batch, seq_len, embed_size)</span></span><br><span class="line"><span class="string">            input_mask: tf.tensor of shape (batch, seq_len, seq_len)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        out = inp</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># One multi-head attention + one feed-forword</span></span><br><span class="line">            out = self.layer_norm(out + self.multihead_attention(out, mask=input_mask))</span><br><span class="line">            out = self.layer_norm(out + self.feed_forwad(out))</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 <h2 id="decoder部分">decoder部分</h2>
-<p><img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/encoder-decoder.png"></p>
+<p><img src="/2022/10/27/Attention-and-Transformer-model/encoder-decoder.png"></p>
 <p>在decoder部分，我们可以看到每一个decoder
 block的输入有两个：<em>整个encoder部分的输出</em>以及<em>上一个decoder
 block的输出（第一个decoder
@@ -588,19 +721,49 @@ sequence全部当作输入输入到decoder中的第一个block中，会有未来
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CausalSelfAttention</span>(<span class="params">BaseAttention</span>):</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">    attn_output = self.mha(</span><br><span class="line">        query=x,</span><br><span class="line">        value=x,</span><br><span class="line">        key=x,</span><br><span class="line">        use_causal_mask = <span class="literal">True</span>) <span class="comment"># The causal mask ensures that each location only has access to the locations that come before it</span></span><br><span class="line">    x = self.add([x, attn_output])</span><br><span class="line">    x = self.layernorm(x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
 <p>这样就可以保证先前的sequence并不依赖于之后的elements。这里我本来有一个疑问是，这样一来这个causal
 layer并不能实现bi-rnn的能力？但后来一想并不是，因为双向的RNN的后向是指后面的词语先输入，其实就是从后往前输入，这样就可以知道一个sequence当前词语依赖于后面的词语的权重。</p>
-<h2 id="补充介绍">补充介绍</h2>
+<h2 id="why-transformer">why transformer?</h2>
+<p>这里想补充一个东西，在从encoder-decoder过渡到transformer的时候，我一直的疑问是为什么要用transformer呢？为什么Effective
+Approaches to Attention-based Neural Machine
+Translation这篇paper介绍的方法就渐渐不被人所用了呢？一开始我去看了下transformer的原文，发现paper介绍的非常简单，所以就去找了下博客，找到一篇解释为什么transformer比LSTM快的<a target="_blank" rel="noopener" href="https://voidful.medium.com/why-transformer-faster-then-lstm-on-generation-c3f30977d747">博客</a></p>
+<p>文章说在传统的也就是paper：Neural Machine Translation by Jointly
+Learning to Align and
+Translate中介绍的用LSTM的encoder-decoder架构来做机器翻译的问题，一个问题在于：在RNN模型中，我们在计算当前时间步时，需要使用到前一个时间步的hidden_state，这就造成一个问题是无法并行训练，你必须要等到前面的东西都输完了你才能计算当前时间步的结果。transformer就可以解决这个问题，它完全摒弃了RNN的结构，基本上是一个FCNN。首先我们都知道输入到模型中来的是一个序列，序列中的每一个单词我们都转化为了词向量。如果是传统的RNN模型，这时候就要一个vector一个vector的往RNN里输入了，但transformer不是，它是将这个embedding变幻成了三个向量空间，也就是我们后面看到的Q,K,V.</p>
+<p>后面又去谷歌了一番，找到一个<a target="_blank" rel="noopener" href="https://ai.stackexchange.com/questions/20075/why-does-the-transformer-do-better-than-rnn-and-lstm-in-long-range-context-depen">stack</a>上的问题，也有人有这个疑问，被采取的回答总结起来就是：</p>
+<ol type="1">
+<li>transformer避免了recursion，从而可以方便并行运算（减少了训练时间），这个说法其实跟上面博客一个意思</li>
+<li>同时transformer在长句子的dependency上提高了performance</li>
+</ol>
+<blockquote>
+<ul>
+<li><strong>Non sequential</strong>: sentences are processed as a whole
+rather than word by word.</li>
+<li><strong>Self Attention</strong>: this is the newly introduced 'unit'
+used to compute similarity scores between words in a sentence.</li>
+<li><strong>Positional embeddings</strong>: another innovation
+introduced to replace recurrence. The idea is to use fixed or learned
+weights which encode information related to a specific position of a
+token in a sentence.</li>
+</ul>
+</blockquote>
+<p>transformer并没有long
+dependency的问题，为什么？我们知道transformer的做法是将整个sequence作为一个整体输入到模型。也就是它在预测当前时间步的word时并不依赖于上一个时间步的状态，模型看到的是整个序列，也许有人会质疑双向RNN不是也可以解决这个问题吗，但是这个作者说双向RNN仍然不能彻底解决长句子的依赖问题。</p>
+<p>其实在机器翻译领域，为了解决长句子的依赖问题，CNN曾经也被广泛用于解决这个问题，不仅如此，CNN还有共享参数的优点，也就是可以在GPU上并行计算。如何用CNN处理句子可以参考<a href="Convolutional%20Neural%20Networks%20for%20Sentence%20Classification">paper</a>,CNN解决依赖问题是用不同宽度的kernel去学习依赖，比如width=2就学习两个词之间的依赖关系，width=3就学习三个词之间的依赖，但长句子的依赖很可能会有很多组合，所以就需要使用到很多不同宽度的kernel，这是不现实的。虽然现在CNN不怎么用来解决S2S的问题，但我觉得它是RNN结构的模型过度到transformer的一个中间桥梁，同时也可以帮助我们理解attention
+is all your need这篇文章。感兴趣的可以读一下[Convolutional Sequence to
+Sequence Learning 2017](</p>
+<h2 id="tensorflow-api实现补充介绍">tensorflow API实现补充介绍</h2>
 <h3 id="tf.keras.layers.multiheadattention">tf.keras.layers.MultiHeadAttention</h3>
 <p><a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/MultiHeadAttention">doc</a></p>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150541287.png" alt="image-20230309150541287">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230309150541287.png" alt="image-20230309150541287">
 <figcaption aria-hidden="true">image-20230309150541287</figcaption>
 </figure>
 <figure>
-<img src="/2023/03/13/machine-translation%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20230309150600806.png" alt="image-20230309150600806">
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20230309150600806.png" alt="image-20230309150600806">
 <figcaption aria-hidden="true">image-20230309150600806</figcaption>
 </figure>
 <p>注意，return的结果包含两个，其中attention_output的shape的第二维是和target
 sequence的长度是一致的，并且E是和query的最后一维是一致的。</p>
+<p>https://dl.acm.org/doi/10.5555/3305381.3305510)</p>
 <h1 id="attention-family">Attention Family</h1>
 <p>这个章节整理于<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2020-04-07-the-transformer-family/">blog</a>，这个作者之前写了一篇介绍attention的文章，后面在2023年一月的时候又更新了两篇博客，详细介绍了从2020年以来出现的新的Transformer
 models。权当自己学习记录一些我还需要补充的知识。</p>
@@ -612,7 +775,39 @@ models. Later simplified Transformer was shown to achieve great
 performance in language modeling tasks, like in encoder-only <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2019-01-31-lm/#bert">BERT</a>
 or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2019-01-31-lm/#openai-gpt">GPT</a>.</p>
 </blockquote>
+<h1 id="reference">Reference</h1>
+<p>在读transformer论文的时候，有几个概念key，query，value三个概念一下子就抛出来了。在讲transformer的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=OyFJWRnt_AY">lecture
+video</a>里,我看到有不少评论反应讲者没有将这三个概念讲清楚。我一开始在看cs231n的lecture
+ppt时也有点疑惑，老师刚说完general attention layer转到讲self-attention
+layer，就直接从h变成了q，确实有点云里雾里。</p>
+<figure>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206170135727-16703172985855.png" alt="image-20221206170135727">
+<figcaption aria-hidden="true">image-20221206170135727</figcaption>
+</figure>
+<figure>
+<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206170101403.png" alt="image-20221206170101403">
+<figcaption aria-hidden="true">image-20221206170101403</figcaption>
+</figure>
+<p>可以从上面的ppt中看出，原来是仅仅有q这个变量的，这是从一开始的h演变来的，而我们可以看到为了“add
+more expressivity to the layer”，所以我们在1.输入x输入到FC得到alignment
+score之前又加了一个不同的FC 2. 对输入x用attention weights进行weight
+sum的过程也加了一个完全不同的FC layer。而我们可以看到这里加的这两个FC
+layer是为了增加模型的表现力。这两个FC
+layer的输出也就是成了我们所说的key和value。后面的过程就清晰了，首先利用query和key计算attention
+weights，然后用attention weights和value进行计算得到context。</p>
+<blockquote>
+<p>An attention layer does a fuzzy lookup like this, but it's not just
+looking for the best key. It combines the <code>values</code> based on
+how well the <code>query</code> matches each <code>key</code>.</p>
+<p>How does that work? In an attention layer the <code>query</code>,
+<code>key</code>, and <code>value</code> are each vectors. Instead of
+doing a hash lookup the attention layer combines the <code>query</code>
+and <code>key</code> vectors to determine how well they match, the
+"attention score". The layer returns the average across all the
+<code>values</code>, weighted by the "attention scores</p>
+</blockquote>
 
+      
     </div>
 
     
@@ -620,35 +815,8 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
     
 
     <footer class="post-footer">
-          <div class="reward-container">
-  <div></div>
-  <button>
-    Donate
-  </button>
-  <div class="post-reward">
-      <div>
-        <img src="/images/wechat_pay.jpg" alt="YAN WeChat Pay">
-        <span>WeChat Pay</span>
-      </div>
-
-  </div>
-</div>
-
-          <div class="post-tags">
-              <a href="/tags/nlp/" rel="tag"># nlp</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/03/06/one-paper-a-week%E8%AE%A1%E5%88%92reading-notes/" rel="prev" title="one paper a week计划reading notes">
-                  <i class="fa fa-chevron-left"></i> one paper a week计划reading notes
-                </a>
-            </div>
-            <div class="post-nav-item">
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -656,7 +824,116 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
 
 
 
+    
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/12/cv2%E4%B8%ADbitwise-and/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/12/cv2%E4%B8%ADbitwise-and/" class="post-title-link" itemprop="url">cv2中bitwise_and()</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-12 11:16:16" itemprop="dateCreated datePublished" datetime="2022-10-12T11:16:16+08:00">2022-10-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:35:35" itemprop="dateModified" datetime="2023-02-08T11:35:35+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>490</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>参考文档：</p>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d0/d86/tutorial_py_image_arithmetics.html">opencv
+tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ga60b4d04b251ba5eb1392c34425497e14">opencv
+官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/44333605/what-does-bitwise-and-operator-exactly-do-in-opencv">stackoverflow
+question</a></li>
+</ol>
+<p>没有多少文档能讲清楚具体是如何计算的。在stackoverflow中的这个问题，第一个高赞答案也只是选取了最普通的一种情况，也就是当image的pixel的值全部是0或者1的时候，and的运算。但是cv2中的bitwise_and()还有一个很重要的参数mask并没有讲清楚，并且当image的像素值有除了0或者1以外的其他值，这时候该如何运算？</p>
+<p>官方文档中说mask是决定了哪些位置要进行运算，当mask中某个元素不为0时，我们对相应位置的像素做“与”运算，如果scr1和scr2(bitwise_and的两个参数)的值不是0或者1，会将十进制的值转化为2进制，然后对二进制再进行运算，运算完了之后又会转化为十进制(<a target="_blank" rel="noopener" href="https://dsp.stackexchange.com/questions/58276/opencv-how-does-bitwise-not-work">参考</a>)
+当mask相应位置的值=0时，任何操作都不会做，不仅如此，结果的图片相应位置的像素值会变成0，也就是黑色（这一点官方文档没说）.</p>
+<p>所以经过bitwise_and之后的图片会看到mask中像素值为0的地方全部是黑色。这就相应的把mask中不为0的地方强调突出了。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/default_index/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/default_index/">1</a><a class="page-number" href="/default_index/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/default_index/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/default_index/page/15/">15</a><a class="extend next" rel="next" href="/default_index/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 </div>
   </main>
