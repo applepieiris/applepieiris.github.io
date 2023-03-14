@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=consolas:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="在上Coursera上关于Tensorflow的高级用法课程时，老师简略介绍了custom layer和custom model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub classing来搭建模型，写的非常好，这里贴上链接 我们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TF2中的custom layer&amp;model&amp;training">
+<meta property="og:url" content="http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/index.html">
+<meta property="og:site_name" content="YAN&#39;s Blog">
+<meta property="og:description" content="在上Coursera上关于Tensorflow的高级用法课程时，老师简略介绍了custom layer和custom model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub classing来搭建模型，写的非常好，这里贴上链接 我们">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-13T08:07:54.000Z">
+<meta property="article:modified_time" content="2023-02-15T06:29:35.154Z">
+<meta property="article:author" content="YAN">
+<meta property="article:tag" content="tensorflow">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/","path":"2023/02/13/TF2中的custom-layer-model-training/","title":"TF2中的custom layer&model&training"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TF2中的custom layer&model&training | YAN's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">YAN's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tf.function"><span class="nav-number">1.</span> <span class="nav-text">tf.function</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YAN"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">YAN</p>
+  <div class="site-description" itemprop="description">Be smart! Keep Learning</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/applepieiris" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TF2中的custom layer&model&training
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-13 16:07:54" itemprop="dateCreated datePublished" datetime="2023-02-13T16:07:54+08:00">2023-02-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-15 14:29:35" itemprop="dateModified" datetime="2023-02-15T14:29:35+08:00">2023-02-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在上Coursera上关于<a target="_blank" rel="noopener" href="https://www.coursera.org/specializations/tensorflow-advanced-techniques">Tensorflow的高级用法课程</a>时，老师简略介绍了custom
+layer和custom
+model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub
+classing来搭建模型，写的非常好，这里贴上<a target="_blank" rel="noopener" href="https://towardsdatascience.com/model-sub-classing-and-custom-training-loop-from-scratch-in-tensorflow-2-cc1d4f10fb4e">链接</a></p>
+<p>我们知道在tensorflow中有三种搭建模型的方式： 1) sequential API
+也就是想创建一个Sequential实例，然后通过add的方式把一个layer加到模型中去，如：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line">seq_model = tf.keras.Sequential()</span><br><span class="line">seq_model.add(tf.keras.Input(shape=imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.MaxPooling2D(<span class="number">3</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line">seq_model.add(tf.keras.layers.Dropout(<span class="number">0.3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">seq_model.add(tf.keras.layers.GlobalMaxPooling2D())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">seq_model.add(tf.keras.layers.Dense(output_dim))</span><br></pre></td></tr></table></figure>
+sequential的方式在researcher中用的不多，随着模型变得越来越复杂，可以看到tensorflow的application模块实现的官方模型代码中，已经见不到这种形式了。
+2) Functional API 正如其名，就是用函数调用的方式来搭建模型：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line"><span class="built_in">input</span> = tf.keras.Input(shape=(imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>)(<span class="built_in">input</span>)</span><br><span class="line">x = tf.keras.layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line">x = tf.keras.layers.Dropout(<span class="number">0.3</span>)(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">gap = tf.keras.layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">output = tf.keras.layers.Dense(output_dim)(gap)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bind all</span></span><br><span class="line">func_model = tf.keras.Model(<span class="built_in">input</span>, output)</span><br></pre></td></tr></table></figure>
+注意：这种方式最终要使用<code>tf.keras.Model()</code>来将inputs和outputs接起来。</p>
+<ol start="3" type="1">
+<li>Model sub-classing API 第三种方式是现在用的最多的方式。
+之前我没理解layer和model两种调用方式的区别，我觉得就是一系列运算，我们把输入输进来，return
+output结果的一个过程。但如果一个类它是Layer的子类，它比model的子类多了一个功能，它有state属性，也就是我们熟悉的weights。比如Dense
+layer，我们知道它做了线性运算+激活函数，其中的weights就是我们assign给每一个feature的权重，但其实我们并不只是想要这一类别的运算，比如下面的：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleQuadratic</span>(<span class="params">Layer</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, units=<span class="number">32</span>, activation=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Initializes the class and sets up the internal variables&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        <span class="built_in">super</span>(SimpleQuadratic, self).__init__()</span><br><span class="line">        self.units = units</span><br><span class="line">        self.activation = tf.keras.activations.get(activation)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span>(<span class="params">self, input_shape</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Create the state of the layer (weights)&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># a and b should be initialized with random normal, c (or the bias) with zeros.</span></span><br><span class="line">        <span class="comment"># remember to set these as trainable.</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        a_init = tf.random_normal_initializer()</span><br><span class="line">        b_init = tf.random_normal_initializer()</span><br><span class="line">        c_init = tf.zeros_initializer()</span><br><span class="line">        </span><br><span class="line">        self.a = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = a_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.b = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = b_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.c = tf.Variable(name = <span class="string">&quot;bias&quot;</span>, initial_value = c_init(shape= (self.units,), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, inputs</span>):</span> </span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Defines the computation from inputs to outputs&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        result = tf.matmul(tf.math.square(inputs), self.a) + tf.matmul(inputs, self.b) + self.c</span><br><span class="line">        <span class="keyword">return</span> self.activation(result)</span><br></pre></td></tr></table></figure>
+上面的代码将inputs平方之后和a做乘积，之后再加上inputs和b的乘积，最终返回的是和。这样的运算是tf.keras.layer中没有的。这个时候我们自己customize
+layer就很方便。还有一个很方便的地方在于很多模型其实是按模块来的，模块内部的layer很类似。这个时候我们就可以把这些模型内的layer包起来变成一个layer的子类（Module），再定义完这些module之后我们使用Model把这些module再包起来，这就是我们最终的model。这时候我们就可以看到Model和Layer子类的区别了，虽然两者都可以实现输入进来之后实现一系列运算返回运算结果，但后者可以实现更灵活的运算，而前者往往是在把每一个模块定义好之后最终定义我们训练模型的类。
+&gt; In general, we use the Layer class to define the inner computation
+blocks and will use the Model class to define the outer model,
+practically the object that we will train. ---粘贴自博客</li>
+</ol>
+<p>我们以sub-classing的方式定义的model是没有办法调用summary来看模型架构的，作者也给出了解决方案：<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow/issues/31647#issuecomment-692586409">github
+comments</a></p>
+<p>方法就是在Model的子类中添加build_graph方法： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_graph</span>(<span class="params">self, raw_shape</span>):</span></span><br><span class="line">        x = tf.keras.layers.Input(shape=raw_shape)</span><br><span class="line">        <span class="keyword">return</span> Model(inputs=[x], outputs=self.call(x))</span><br></pre></td></tr></table></figure>
+这样我们就可以正常调用summary() <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cm.build_graph(raw_input).summary()</span><br><span class="line"><span class="comment"># 不仅如此还能使用tf.keras.utils.plot_model来生成png</span></span><br><span class="line">tf.keras.utils.plot_model(</span><br><span class="line">    model.build_graph(raw_input),                      <span class="comment"># here is the trick (for now)</span></span><br><span class="line">    to_file=<span class="string">&#x27;model.png&#x27;</span>, dpi=<span class="number">96</span>,              <span class="comment"># saving  </span></span><br><span class="line">    show_shapes=<span class="literal">True</span>, show_layer_names=<span class="literal">True</span>,  <span class="comment"># show shapes and layer name</span></span><br><span class="line">    expand_nested=<span class="literal">False</span>                       <span class="comment"># will show nested block</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>作者同样推荐了一篇博客讲tensorflow中保存模型的各种方式：<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/172D4jishSgE3N7AO6U2OKAA_0wNnrMOq#scrollTo=vnTvqAgfspGJ">博客地址</a>.非常推荐阅读</p>
+<p>总结一下就是：</p>
+<ol type="1">
+<li>对于Functional
+API创建的模型，最好的保存模型和导入模型的方式是：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.save(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br><span class="line"><span class="keyword">del</span> model</span><br><span class="line">model = keras.models.load_model(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>以上方式会将模型的架构，weights以及训练过程中的设定（也就是model.compile()）的内容全部保存。</p>
+<ol start="2" type="1">
+<li>对于sub class创建的模型，推荐的方式是用save_weights</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.save_weights(<span class="string">&#x27;path_to_my_weights&#x27;</span>, save_format=<span class="string">&#x27;tf&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>如果想要加载weights，必须要知道原来用sub
+class建立模型的code。不仅如此，还需要用原来的code先build起模型，让模型知道输入tensor的shape以及dtype，如果没有build这一步程序将会报错。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new_model = MiniInception()</span><br><span class="line">new_model.build((<span class="literal">None</span>, x_train.shape[<span class="number">1</span>:])) <span class="comment"># or .build((x_train.shape))</span></span><br><span class="line">new_model.load_weights(<span class="string">&#x27;net.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="tf.function">tf.function</h1>
+<p>在我们定义custum training
+过程中时我们经常会用到这个装饰器@tf.function</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span>(<span class="params">step, x, y</span>):</span></span><br><span class="line">   <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">   input: x, y &lt;- typically batches </span></span><br><span class="line"><span class="string">   input: step &lt;- batch step</span></span><br><span class="line"><span class="string">   return: loss value</span></span><br><span class="line"><span class="string">   &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># start the scope of gradient </span></span><br><span class="line">   <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">      logits = model(x, training=<span class="literal">True</span>) <span class="comment"># forward pass</span></span><br><span class="line">      train_loss_value = loss_fn(y, logits) <span class="comment"># compute loss </span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute gradient </span></span><br><span class="line">   grads = tape.gradient(train_loss_value, model.trainable_weights)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update weights</span></span><br><span class="line">   optimizer.apply_gradients(<span class="built_in">zip</span>(grads, model.trainable_weights))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update metrics</span></span><br><span class="line">   train_acc_metric.update_state(y, logits)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># write training loss and accuracy to the tensorboard</span></span><br><span class="line">   <span class="keyword">with</span> train_writer.as_default():</span><br><span class="line">        tf.summary.scalar(<span class="string">&#x27;loss&#x27;</span>, train_loss_value, step=step)</span><br><span class="line">        tf.summary.scalar(</span><br><span class="line">            <span class="string">&#x27;accuracy&#x27;</span>, train_acc_metric.result(), step=step</span><br><span class="line">        ) </span><br><span class="line">   <span class="keyword">return</span> train_loss_value</span><br></pre></td></tr></table></figure>
+<p>先看如果一个函数不加这个装饰器会如何：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 3</span><br></pre></td></tr></table></figure>
+<p>加上装饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>可以看到第二种加了装饰器的方式，即便是循环了5遍，我们仍然只有一行打印了2.</p>
+<p>如果我们在上面的代码中print之前加上一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line">    <span class="comment"># add tf.print</span></span><br><span class="line">    tf.<span class="built_in">print</span>(<span class="string">&quot;Executed with&quot;</span>, x)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>程序的输出就变成了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>可以看到<code>tf.print</code>就可以正常按<code>loop</code>运行。注意一点:
+被<code>tf.function</code>装饰的函数只能包含<code>operations</code>而不能定义<code>variable</code>比如<code>tf.Variable()</code></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat_pay.jpg" alt="YAN WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/" rel="prev" title="image classification models总结">
+                  <i class="fa fa-chevron-left"></i> image classification models总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/" rel="next" title="machine learning专项课程notes">
+                  machine learning专项课程notes <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YAN</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Symbols count total: </span>
+    <span title="Symbols count total">184k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">2:47</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
