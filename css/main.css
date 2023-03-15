@@ -184,7 +184,7 @@ body {
   background: var(--body-bg-color);
   color: var(--text-color);
   font-family: "Microsoft YaHei", Verdana, sans-serif;
-  font-size: 1em;
+  font-size: 0.5em;
   line-height: 2;
   min-height: 100%;
   position: relative;
@@ -2832,7 +2832,7 @@ mjx-container[display='true'] + br {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #a752ff;
+  background: #b571ed;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
