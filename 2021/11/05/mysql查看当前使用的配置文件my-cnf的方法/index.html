@@ -31,7 +31,7 @@
 <meta property="og:description" content="mysql 查看当前使用的配置文件my.cnf的方法 my.cnf是mysql启动时加载的配置文件，一般会放在mysql的安装目录中，用户也可以放在其他目录加载。 安装mysql后，系统中会有多个my.cnf文件，有些是用于测试的。 使用locate my.cnf命令可以列出所有的my.cnf文件 123456789101112131415命令locate my.cnf输出&#x2F;usr&#x2F;lo">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-11-05T01:45:08.000Z">
-<meta property="article:modified_time" content="2023-02-08T03:29:29.735Z">
+<meta property="article:modified_time" content="2023-03-16T06:00:35.343Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="其他技术">
 <meta name="twitter:card" content="summary">
@@ -253,7 +253,7 @@ nonaggregated column...解决方案</span></a><ol class="nav-child"><li class="n
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:29" itemprop="dateModified" datetime="2023-02-08T11:29:29+08:00">2023-02-08</time>
+        <time title="Modified: 2023-03-16 14:00:35" itemprop="dateModified" datetime="2023-03-16T14:00:35+08:00">2023-03-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -305,7 +305,7 @@ nonaggregated column...解决方案</span></a><ol class="nav-child"><li class="n
 <h3 id="查看mysql默认读取my.cnf的目录">查看mysql默认读取my.cnf的目录</h3>
 <p>如果没有设置使用指定目录的my.cnf，mysql启动时会读取安装目录根目录及默认目录下的my.cnf文件。</p>
 <p>查看mysql启动时读取配置文件的默认目录。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">mysql --help|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">                      order of preference, my.cnf, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">mysql --help|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">     order of preference, my.cnf, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
 <p>/etc/my.cnf, /etc/mysql/my.cnf, /usr/local/etc/my.cnf, ~/.my.cnf
 这些就是mysql默认会搜寻my.cnf的目录，顺序排前的优先。</p>
 <h3 id="启动时没有使用配置文件">启动时没有使用配置文件</h3>
@@ -393,14 +393,14 @@ nonaggregated column...解决方案</h1>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">185k</span>
+    <span title="Symbols count total">190k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:48</span>
+    <span title="Reading time total">2:53</span>
   </span>
 </div>
 

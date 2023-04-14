@@ -31,7 +31,7 @@
 <meta property="og:description" content="在上Coursera上关于Tensorflow的高级用法课程时，老师简略介绍了custom layer和custom model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub classing来搭建模型，写的非常好，这里贴上链接 我们">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-13T08:07:54.000Z">
-<meta property="article:modified_time" content="2023-02-15T06:29:35.154Z">
+<meta property="article:modified_time" content="2023-03-22T01:38:49.616Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="tensorflow">
 <meta name="twitter:card" content="summary">
@@ -250,7 +250,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-15 14:29:35" itemprop="dateModified" datetime="2023-02-15T14:29:35+08:00">2023-02-15</time>
+        <time title="Modified: 2023-03-22 09:38:49" itemprop="dateModified" datetime="2023-03-22T09:38:49+08:00">2023-03-22</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>6.4k</span>
+      <span>7.8k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>6 mins.</span>
+      <span>7 mins.</span>
     </span>
 </div>
 
@@ -310,6 +310,15 @@ layer就很方便。还有一个很方便的地方在于很多模型其实是按
 blocks and will use the Model class to define the outer model,
 practically the object that we will train. ---粘贴自博客</li>
 </ol>
+<blockquote>
+<p>You can treat any model as if it were a layer by invoking it on an
+<code>Input</code> or on the output of another layer. By calling a model
+you aren't just reusing the architecture of the model, you're also
+reusing its weights</p>
+</blockquote>
+<p>同样值得注意的是，model的子类也可以像layer那样使用functional
+API来调用，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">encoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;original_img&quot;</span>)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(encoder_input)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">encoder_output = layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line">encoder = keras.Model(encoder_input, encoder_output, name=<span class="string">&quot;encoder&quot;</span>)</span><br><span class="line">encoder.summary()</span><br><span class="line"></span><br><span class="line">decoder_input = keras.Input(shape=(<span class="number">16</span>,), name=<span class="string">&quot;encoded_img&quot;</span>)</span><br><span class="line">x = layers.Reshape((<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>))(decoder_input)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.UpSampling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">decoder_output = layers.Conv2DTranspose(<span class="number">1</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line"></span><br><span class="line">decoder = keras.Model(decoder_input, decoder_output, name=<span class="string">&quot;decoder&quot;</span>)</span><br><span class="line">decoder.summary()</span><br><span class="line"></span><br><span class="line">autoencoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;img&quot;</span>)</span><br><span class="line">encoded_img = encoder(autoencoder_input)</span><br><span class="line">decoded_img = decoder(encoded_img)</span><br><span class="line">autoencoder = keras.Model(autoencoder_input, decoded_img, name=<span class="string">&quot;autoencoder&quot;</span>)</span><br><span class="line">autoencoder.summary()</span><br></pre></td></tr></table></figure>
 <p>我们以sub-classing的方式定义的model是没有办法调用summary来看模型架构的，作者也给出了解决方案：<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow/issues/31647#issuecomment-692586409">github
 comments</a></p>
 <p>方法就是在Model的子类中添加build_graph方法： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_graph</span>(<span class="params">self, raw_shape</span>):</span></span><br><span class="line">        x = tf.keras.layers.Input(shape=raw_shape)</span><br><span class="line">        <span class="keyword">return</span> Model(inputs=[x], outputs=self.call(x))</span><br></pre></td></tr></table></figure>
@@ -418,14 +427,14 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">185k</span>
+    <span title="Symbols count total">190k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:48</span>
+    <span title="Reading time total">2:53</span>
   </span>
 </div>
 
