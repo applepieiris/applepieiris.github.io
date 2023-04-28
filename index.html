@@ -161,13 +161,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -214,6 +214,137 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/21/decoding-strategy-in-NG-tasks/" class="post-title-link" itemprop="url">decoding strategy in NG tasks</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-04-21 10:34:48 / Modified: 14:47:14" itemprop="dateCreated datePublished" datetime="2023-04-21T10:34:48+08:00">2023-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/nlp/" itemprop="url" rel="index"><span itemprop="name">nlp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在Neural Language
+Generation的任务中，如何在每一个时间步产生一个token称为decoding
+method.最常见的decoding方法就是用softmax激活函数计算概率分布之后，将概率最大的那个token列为当前的预测值（most
+likely string）。这种argmax的方式在machine
+translation等non-open-ended的任务中表现还可以，但是如果是在纯粹的开放性的任务中，比如写一首诗歌。这种方式会造成重复性的输出，并且输出的句子有时候连续性也比较差。</p>
+<p>这时候很多研究工作就对decoding strategic展开了研究，比如beam
+search，基本原理很简单，就是从取概率排名前k个token作为当前预测值。但是这还是会有一个问题，就是当我们概率分布均衡的时候，这个方法可以，但如果概率分布不均衡，也就是softmax计算出来的概率值只有几个token的概率比较大，其他概率都非常小，比如零点几，那这个时候其实我们不太需要考虑k个单词，只需要考虑概率比较大的那些tokens就够了。</p>
+<h2 id="top-pnucleus-sampling">Top-p（Nucleus Sampling）</h2>
+<p>所以这时候就有人提出了Top-p(nucleus) sampling的方法<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a></p>
+<p>具体做法就是维护一个动态的k值，这个k值随着softmax的输出概率分布决定，</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134555223.png" alt="image-20230421134555223">
+<figcaption aria-hidden="true">image-20230421134555223</figcaption>
+</figure>
+<p>作者的思路就是当概率分布比较flat的时候，我们应该把sample的池子定的大一点。但是当概率分布比较陡峭，也就是上图中的第三种情况时，我们就需要把这个sample的池子变得小一点。具体是如何操作的呢？</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134938176.png" alt="image-20230421134938176">
+<figcaption aria-hidden="true">image-20230421134938176</figcaption>
+</figure>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134952769.png" alt="image-20230421134952769">
+<figcaption aria-hidden="true">image-20230421134952769</figcaption>
+</figure>
+<p>看公式可能会比较复杂，具体做法就是提前预设一个阈值p，然后对于某个时间步的概率分布P，我们寻找一个最小的top-p的一个token池子，这个池子里所有的token的概率值加起来要大于p，注意这里是找一个smallest
+set，也就是我们在找这个token池子时，从概率最高的token往下捋，一直到概率和大于p。找到这个池子之后，我们将原来经过softmax函数计算之后的概率分布按照上图中（3）的公式重新计算得出一个新的概率分布。最终我们得到的概率分布不属于我们之前找的token池子里的token的概率全部置为0，至于在这个token池子里的token的概率值会除以这个池子里所有token概率值的<strong>和</strong>。然后我们从这个分布中去sample我们的预测token。</p>
+<h2 id="sampling-with-temperature">Sampling with Temperature</h2>
+<p>Temperature这个概念在GPT中也有，不同的温度值，你会得到不同的结果。温度值越低，它会对自己的输出结果更自信，而温度值越高，它会降低模型的确信值，也就会返回更多的结果给你。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">Blog</a>对上面提到的<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a>文章进行了解答，但我发现有一点和paper中不一样的是：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144452222.png" alt="image-20230421144452222">
+<figcaption aria-hidden="true">image-20230421144452222</figcaption>
+</figure>
+<p>temperature值t并不是取值是<code>[0,1)</code>，stanford224n的课件以及博客里对t的取值是可以大于1的：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144619190.png" alt="image-20230421144619190">
+<figcaption aria-hidden="true">image-20230421144619190</figcaption>
+</figure>
+<p>在博客中我们可以看到作者对于t值大于1和小于1画出的图的区别：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144711636.png" alt="image-20230421144711636">
+<figcaption aria-hidden="true">image-20230421144711636</figcaption>
+</figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/instruction-following-language-models/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -237,10 +368,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-14 10:37:53 / Modified: 12:28:38" itemprop="dateCreated datePublished" datetime="2023-04-14T10:37:53+08:00">2023-04-14</time>
+      <time title="Created: 2023-04-14 10:37:53" itemprop="dateCreated datePublished" datetime="2023-04-14T10:37:53+08:00">2023-04-14</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-04-25 16:29:47" itemprop="dateModified" datetime="2023-04-25T16:29:47+08:00">2023-04-25</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -258,14 +395,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>150</span>
+      <span>8.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>7 mins.</span>
     </span>
 </div>
 
@@ -276,9 +413,87 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2212.10560">Self-instruct: Aligning
+          <p>nlp领域很多新出现的名词或者火热的研究方向，没有一个统一的标准。我在接触这些新的概念的时候往往会很糊涂，需要找大量的文献来看，然后捋清楚模型或者技术路线的发展脉络。instructed
+LM，它是需要对pre-trained
+LLM进行finetune的，在这之前也有一种技术叫做prompt
+engineering，它是一种给大模型指令输入的手段，通过调整给大模型的输入，从而使得大模型能够返回更好的输出，解决我们的问题。也有更好的解释引用自<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">blog</a></p>
+<blockquote>
+<p><strong>Prompt Engineering</strong>, also known as <strong>In-Context
+Prompting</strong>, refers to methods for how to communicate with LLM to
+steer its behavior for desired outcomes <em>without</em> updating the
+model weights. It is an empirical science and the effect of prompt
+engineering methods can vary a lot among models, thus requiring heavy
+experimentation and heuristics</p>
+</blockquote>
+<p>prompt engineering得益于LLM拥有zero-shot learning和few-shot
+learning的两种prompt 模型的方法的发展。它更多的来源于经验。</p>
+<p>prompt engineering领域也出现了非常多的文章，就正如<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">blog</a>里的观点一样，我同样觉得有一些文章只需要很少的文字就能讲明白它提出的方法是什么，但还是花了很多的篇幅，一个通用的benchmark才是我们需要的，现在有的只是一些零零碎碎的方法论。prompt
+engineering不是我的关注重点，它受制于很多因素的影响，比如如果你使用的是GPT-3模型来开展你的任务或者搭建你的application，你可能会因为输入过多的文字而超出limit，而且GPT可是按照字符数收费的，所以可能会比较贵。</p>
+<p>那么除了使用prompt
+engineering的方式来让LLM输出能让我们满意的结果，另外一种方式是fine-tune整个LLM，直接让它在特定的数据集上调整参数（整体调整或者局部调整，比如Lora，prefix-tuning）或者使用增强学习训练一个打分模型，这也属于fine-tune的一个大分支</p>
+<p>2013年的综述文章<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of
+Large Language Models</a> 在第五章介绍了详细的adaptation tuning of
+LLMs的方法，也就是我一个pretrain好的LLM，如何让它在不同的任务上得到更好的泛化能力，这时候就要tuning
+LLM。其中有两种方法，一个是instruction Tuning，第二个是alignment
+tuning。后者就是利用增强学习让模型从人类的反馈中去改进自己生成的文本，InstructGPT采用了这种方法。第一种会稍微复杂一点，但原理很简单，就是创造一系列的instruction和问答对，让LLM在这些新instruction上重新finetune，loss为sequence-to-sequence的loss。</p>
+<h1 id="instruction-tuning">instruction tuning</h1>
+<p>想要做到instruction tuning有两个前提条件：1. 你有一个pretrained的模型
+2.
+有很多instructions。首先第一个条件可以看看市面上有哪些模型是已经开源了，参考<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of Large Language
+Models</a>3.1的整理，2023年斯坦福的羊驼模型是基于meta的LLaMA，所以目前github上出现了很多用LLaMA为LLM，在上面做instruction
+tuning工作的。</p>
+<figure>
+<img src="/2023/04/14/instruction-following-language-models/image-20230418093127008.png" alt="LLMs">
+<figcaption aria-hidden="true">LLMs</figcaption>
+</figure>
+<p>那第一个问题解决了，起码我们有开源的LLM可以load到本地来使用，感谢facebook的开源。第二个问题如何产生很多的instructions，斯坦福的<a target="_blank" rel="noopener" href="https://crfm.stanford.edu/2023/03/13/alpaca.html">羊驼模型Alpaca</a>采用的是下面文章介绍的方法，省时省力，花费上不超过600美金。当然也有其他的一些产生instruction的方法，详细可以参考<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of Large Language
+Models</a>
+，其中作者介绍了一系列可以从现有数据集生成instruction的方法，这些方法应该也是低成本快速产生instruction的方法。</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2212.10560">Self-instruct: Aligning
 Language Model with Self Generated Instructions</a>
-这篇文章介绍了一种self</p>
+这篇文章介绍了一种self generated
+instructions的方法，简单说就是让LLM自己生成人类的问题的答案，然后将这些instructions
+重新来fine-tune我们的LLM。这样做的一个前提条件是：1. Large
+“instruction-tuned” language models (finetuned to respond to
+instructions) have demonstrated a remarkable ability to generalize
+zero-shot to new tasks. 2. 产生instruction
+data非常的耗时，原来都是采用Human written的方式。具体步骤是：</p>
+<figure>
+<img src="/2023/04/14/instruction-following-language-models/image-20230414131301078.png" alt="self-instruct whole picture">
+<figcaption aria-hidden="true">self-instruct whole picture</figcaption>
+</figure>
+<p>作者首先使用175个手工写的instructions作为seed
+set，利用这175个instructions用LLM再次生成更多的instructions，将这些instructions再次输入到LLM中我们就得到了很多input-output
+pair。这些input-output pair将会用来做instruction tuning.
+作者使用的LLM是GPT-3. 最终得到了52k个instructions，以及82k个input-output
+pair。</p>
+<h2 id="instruction-generation">Instruction generation</h2>
+<p>用bootstrap的方式，以人工产生的instruction为基础，用GPT来自己生成更多的"new
+and novel"instruction。</p>
+<hr>
+<p>自Alpaca之后，国内的一些团队也仿照斯坦福的这种模型，做了一些自己的LLM，例如https://github.com/LC1332/Chinese-alpaca-lora，instruction来自用GPT翻译的斯坦福产生的52k的instruction的数据，它基于的模型<a target="_blank" rel="noopener" href="https://github.com/tloen/alpaca-lora">aplaca-lora</a>,lora的全称是Low-rank
+adaptation，作者说自己"reproducing the <a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">Stanford Alpaca</a>
+results using <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2106.09685.pdf">low-rank
+adaptation (LoRA)</a>."，并且训练好的instructed
+model提供的文本质量可以和text-davinci-003(GPT-3)媲美。不太了解这个LoRA，有兴趣的可以读原文：https://arxiv.org/pdf/2106.09685.pdf。</p>
+<p>看了Alpaca的blog，我发现斯坦福在evaluation阶段是将alpaca的结果和gpt3来进行比较的，由此也引发了我的思考，就是我们如何去衡量一个LLM的performance。刚上文的review的第七章很好的解答了我的疑惑，包括一系列的基本评测任务以及高级的评测任务。当然作者在7.3也给出了一些公开的全面的benchmarks，而且是用的比较多的，其中有MMLU，BIG-bench，HELM，这些benchmark内都包含了很多个任务，可以综合评测一个LLM的performance。</p>
+<h1 id="stanford-alpaca">stanford alpaca</h1>
+<p>这是2023年斯坦福开源的一款基于meta的LLaMA的大语言模型,名字叫<a target="_blank" rel="noopener" href="https://crfm.stanford.edu/2023/03/13/alpaca.html">羊驼</a>，只有7个billion的参数。属于instruction
+tuning的一个标杆。里面用了两个比较新的技术，第一个是上文提到的self-instruct，就是让GPT或者市面上的LLM在我们人工产生的种子instruction上去产生一系列更多的instruction，包括配套每一个instruction的input和output。斯坦福将这部分用GPT-3.5(text-davinci-003)产生的instruction数据慷慨开源，见<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>。不仅如此斯坦福还给出了产生这些instructions的代码，可谓是非常nice了，方便大家上手学习。</p>
+<p>我比较关注用这些instructions数据如何finetune大模型LLaMA的过程，这里权当自己复现以及阅读斯坦福代码时候的记录。首先我本来是想在meta的LLaMA的7B开源模型上做实验，但发现想获取meta的weights需要提前申请，详细可参考huggingface的transformer页面。</p>
+<p>斯坦福的代码仓库可以在<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>找到。</p>
+<h2 id="训练数据处理部分">训练数据处理部分</h2>
+<p>首先我们看到GPT3.5产生的instruction数据是这样的：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;Give three tips for staying healthy.&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;1.Eat a balanced diet and make sure to include plenty of fruits and vegetables. \n2. Exercise regularly to keep your body active and strong. \n3. Get enough sleep and maintain a consistent sleep schedule.&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;What are the three primary colors?&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;The three primary colors are red, blue, and yellow.&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;Describe the structure of an atom.&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;An atom is made up of a nucleus, which contains protons and neutrons, surrounded by electrons that travel in orbits around the nucleus. The protons and neutrons have a positive charge, while the electrons have a negative charge, resulting in an overall neutral atom. The number of each particle determines the atomic number and the type of atom.&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;How can we reduce air pollution?&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;There are a number of ways to reduce air pollution, such as shifting to renewable energy sources, encouraging the use of public transportation, prohibiting the burning of fossil fuels, implementing policies to reduce emissions from industrial sources, and implementing vehicle emissions standards. Additionally, individuals can do their part to reduce air pollution by reducing car use, avoiding burning materials such as wood, and changing to energy efficient appliances.&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;Describe a time when you had to make a difficult decision.&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;I had to make a difficult decision when I was working as a project manager at a construction company. I was in charge of a project that needed to be completed by a certain date in order to meet the client\u2019s expectations. However, due to unexpected delays, we were not able to meet the deadline and so I had to make a difficult decision. I decided to extend the deadline, but I had to stretch the team\u2019s resources even further and increase the budget. Although it was a risky decision, I ultimately decided to go ahead with it to ensure that the project was completed on time and that the client\u2019s expectations were met. The project was eventually successfully completed and this was seen as a testament to my leadership and decision-making abilities.&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;instruction&quot;</span>: <span class="string">&quot;Identify the odd one out.&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;input&quot;</span>: <span class="string">&quot;Twitter, Instagram, Telegram&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;output&quot;</span>: <span class="string">&quot;Telegram&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>可以看到它有一些数据是拥有input的有一些是没有的。作者在处理这两种数据类型时分别用了一种模板来生成喂给LLM的数据。</p>
+<p>在<code>train.py</code>中，<code>make_supervised_data_module</code>方法用于生成训练数据。其中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sources = [</span><br><span class="line">            prompt_input.format_map(example) <span class="keyword">if</span> example.get(<span class="string">&quot;input&quot;</span>, <span class="string">&quot;&quot;</span>) != <span class="string">&quot;&quot;</span> <span class="keyword">else</span> prompt_no_input.format_map(example)</span><br><span class="line">            <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure>
+<p>用预先定义好的模板对instruction和input,output进行了拼接。最值得注意的是<code>preprocess</code>函数,它接受的两个参数是sources和targets，前者是拼接完的instruction+input，后者是LLM应该返回的output。到这里我们得到的还都是string，没有被tokenize的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    sources: <span class="type">Sequence</span>[<span class="built_in">str</span>],</span></span></span><br><span class="line"><span class="params"><span class="function">    targets: <span class="type">Sequence</span>[<span class="built_in">str</span>],</span></span></span><br><span class="line"><span class="params"><span class="function">    tokenizer: transformers.PreTrainedTokenizer,</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) -&gt; <span class="type">Dict</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Preprocess the data by tokenizing.&quot;&quot;&quot;</span></span><br><span class="line">    examples = [s + t <span class="keyword">for</span> s, t <span class="keyword">in</span> <span class="built_in">zip</span>(sources, targets)]</span><br><span class="line">    examples_tokenized, sources_tokenized = [_tokenize_fn(strings, tokenizer) <span class="keyword">for</span> strings <span class="keyword">in</span> (examples, sources)]</span><br><span class="line">    input_ids = examples_tokenized[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">    labels = copy.deepcopy(input_ids)</span><br><span class="line">    <span class="keyword">for</span> label, source_len <span class="keyword">in</span> <span class="built_in">zip</span>(labels, sources_tokenized[<span class="string">&quot;input_ids_lens&quot;</span>]):</span><br><span class="line">        label[:source_len] = IGNORE_INDEX</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=input_ids, labels=labels)</span><br></pre></td></tr></table></figure>
+<p><code>preprocess</code>对这两个sequence分别做了处理，最终我们得到的其实是像这样的tensor：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">tensor([    2, 45943,    16,    41, 15741,    14,  7448,    10,  3685,     4,</span><br><span class="line">        21062,    10,  1263,    14, 16574, 25830,     5,  2069,     4, 50118,</span><br><span class="line">        50118, 48134, 41241,    35, 50118, 31033,   130,  4965,    13,  4959,</span><br><span class="line">         2245,     4, 50118, 50118, 48134, 19121,    35,   134,     4, 43800,</span><br><span class="line">           10,  9320,  5626,     8,   146,   686,     7,   680,  2710,     9,</span><br><span class="line">        12849,     8,  8942,     4,  1437, 50118,   176,     4, 30450,  4595,</span><br><span class="line">            7,   489,   110,   809,  2171,     8,   670,     4,  1437, 50118,</span><br><span class="line">          246,     4,  2315,   615,  3581,     8,  3014,    10,  4292,  3581,</span><br><span class="line">         3078,     4,     2]) # input_ids[0]</span><br><span class="line"></span><br><span class="line">tensor([ -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,   134,     4, 43800,</span><br><span class="line">           10,  9320,  5626,     8,   146,   686,     7,   680,  2710,     9,</span><br><span class="line">        12849,     8,  8942,     4,  1437, 50118,   176,     4, 30450,  4595,</span><br><span class="line">            7,   489,   110,   809,  2171,     8,   670,     4,  1437, 50118,</span><br><span class="line">          246,     4,  2315,   615,  3581,     8,  3014,    10,  4292,  3581,</span><br><span class="line">         3078,     4,     2]) # labels[0]</span><br></pre></td></tr></table></figure>
+<p>可以看到input_ids是instruction+input+output，而labels跟它一样长，只不过只保留output部分token的有效值，其余的值都是无效值。</p>
 <h1 id="reference">reference</h1>
 <ol type="1">
 <li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2212.10560">Self-instruct: Aligning
@@ -717,253 +932,8 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/" class="post-title-link" itemprop="url">machine learning专项课程notes</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-23 10:23:30" itemprop="dateCreated datePublished" datetime="2023-02-23T10:23:30+08:00">2023-02-23</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-03-02 11:10:34" itemprop="dateModified" datetime="2023-03-02T11:10:34+08:00">2023-03-02</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.6k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本文章整理吴恩达老师在coursera上的machine
-learning专项课程的知识点，另外补充记录课堂上没有cover到的一些知识，参考西瓜书以及deep
-learning花书。</p>
-<h1 id="class-1-supervised-regression-and-classification">class 1
-supervised regression and classification</h1>
-<h2 id="picking-the-appropriate-learning-rate">picking the appropriate
-learning rate:</h2>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223103443797-16771196850861.png" alt="pick value">
-<figcaption aria-hidden="true">pick value</figcaption>
-</figure>
-<h2 id="logistic-function的loss-function">logistic function的loss
-function：</h2>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223112138369-16771225003742.png" alt="image-20230223112138369">
-<figcaption aria-hidden="true">image-20230223112138369</figcaption>
-</figure>
-<h2 id="bias和variance">bias和variance：</h2>
-<p>参考<a target="_blank" rel="noopener" href="https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229">博客</a></p>
-<p><strong>What is bias?</strong></p>
-<p>Bias is the difference between the average prediction of our model
-and the correct value which we are trying to predict. Model with high
-bias pays very little attention to the training data and oversimplifies
-the model. It always leads to high error on training and test data.</p>
-<p><strong>What is variance?</strong></p>
-<p>Variance is the variability of model prediction for a given data
-point or a value which tells us spread of our data. Model with high
-variance pays a lot of attention to training data and does not
-generalize on the data which it hasn’t seen before. As a result, such
-models perform very well on training data but has high error rates on
-test data.</p>
-<p>总结来说就说，一个模型的bias如果很大的话，说明该模型是underfit，并没有很好的拟合训练数据，也就是training
-error比较大；而variance比较大的话，说明该模型把更多的关注力放在训练数据上，但是在它没见过的数据集上表现很差，也就是train_error小，而dev_error大，泛化能力差。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223115103788-16771242656113.png" alt="bias and variance">
-<figcaption aria-hidden="true">bias and variance</figcaption>
-</figure>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223134302857.png" alt="image-20230223134302857">
-<figcaption aria-hidden="true">image-20230223134302857</figcaption>
-</figure>
-<h1 id="class-2-advanced-learning-algorithms">class 2 advanced learning
-algorithms</h1>
-<h2 id="optimizer">optimizer</h2>
-<h3 id="gradient-descent-with-momentum">gradient descent with
-momentum</h3>
-<p>动量梯度下降法，运行速度要快于标准的梯度下降。基本的想法就是计算梯度的指数加权平均数，并利用该梯度来更新。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/gradient-descent-with-momentum-59420f626c8f">博客</a>中阐述这个问题的方式是：</p>
-<p>标准的GD只是考虑当下的learning
-rate和当下的gradient，并没有考虑前面batch的gradient。这就带来几个问题：</p>
-<ol type="1">
-<li>在固定learning
-rate下，J在一些点上变化缓慢，基本上是处于一个平原区，其实这时候我们希望它的步子要迈的大一点</li>
-<li>在一些J变化比较多的地方，我们其实希望步子要小一点</li>
-</ol>
-<p>那么Momemtum解决了什么问题呢？它可以在J下降不动的时候，让gradient比原来的标准值要大一点，也就是我们间接的把步子迈大了。具体需要用指数加权平均数来实现，因为指数加权平均数很好的考虑了要给予多大的权重给过去的gradient，当然给予最大权重是当前的gradient。</p>
-<p><img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/gd%20with%20momentum.png"></p>
-<p>以上这个公式就是gradient加了动量momentum的公式，具体的v(t-1)是上一步的weight，而delta(t)是用当前batch计算的梯度。beta是常数，通常取值为0.9</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227134323054-16774766052811.png" alt="image-20230227134323054">
-<figcaption aria-hidden="true">image-20230227134323054</figcaption>
-</figure>
-<h3 id="rmsprop">RMSprop</h3>
-<p>rmsprop也可以加速训练过程，而且会降低训练过程中J下降的抖动：</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227141934848-16774787770602.png" alt="image-20230227141934848">
-<figcaption aria-hidden="true">image-20230227141934848</figcaption>
-</figure>
-<h3 id="adam">Adam</h3>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227143504471-16774797058863.png" alt="image-20230227143504471">
-<figcaption aria-hidden="true">image-20230227143504471</figcaption>
-</figure>
-<p>可以发现Adam其实是结合了RMSprop和momentum，其中beta1缺省值是0.9，beta2的缺省值是0.999.</p>
-<p>更深入一点我们还有AdamW，是为了解决adam优化器训练出来的模型比SDG训练出来的模型泛化能力差，这个泛化能力差主要是由于L2正则化也就是weight
-decay并没有在Adam中很好的体现，详细可以参考AdamW的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.05101">paper：Fixing Weight Decay
-Regularization in Adam</a>和<a target="_blank" rel="noopener" href="https://towardsdatascience.com/why-adamw-matters-736223f31b5d">Why
-AdamW matters</a></p>
-<h2 id="metric">metric</h2>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155504810-16774845099534.png" alt="precision and recall">
-<figcaption aria-hidden="true">precision and recall</figcaption>
-</figure>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155742925.png" alt="image-20230227155742925">
-<figcaption aria-hidden="true">image-20230227155742925</figcaption>
-</figure>
-<p>如果我们根据sigmoid之后的概率值来进行分类，那么如果我们设定一个很大的概率值，比如说图上的0.7，也就表示说我们只在我们非常自信的时候才会预测一个人得了病，那么必然#total
-predicted
-positive会变小，所以precision会是一个较大的值；而如果我们采用一个比较小的概率值，比如0.3，也就表示说我们把更多的sample预测成了阳性，那么就代表，我们并不想错过任何一个病历。</p>
-<p>我们拥有另一个metric叫做F1
-score来衡量一个模型在precision和recall上的共同特征。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227160513093-16774851219125.png" alt="F1 score">
-<figcaption aria-hidden="true">F1 score</figcaption>
-</figure>
-<h2 id="decision-tree">decision tree</h2>
-<p>information
-entropy即信息熵是度量样本集合纯度purity最常用的一种指标，决策树就是基于将每一次分类的集合往纯度越高的方向去提升，从而达到分类数据集的目的。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228101129354-16775503015086.png" alt="信息熵的数学计算">
-<figcaption aria-hidden="true">信息熵的数学计算</figcaption>
-</figure>
-<p>信息熵越大，D的纯度越小，说明数据很混乱。</p>
-<p>我们可以用信息增益来进行决策树的划分属性选择，每一次都选择使得划分的信息增益最大。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228102027466-16775508287787.png" alt="image-20230228102027466">
-<figcaption aria-hidden="true">image-20230228102027466</figcaption>
-</figure>
-<h3 id="decision-tree-ensembles">decision tree ensembles</h3>
-<p>解决问题： trees are highly sensitive to small changes of the
-data</p>
-<p>解决办法： combines several decision trees to produce better
-predictive performance than utilizing a single decision tree</p>
-<p>有两种技术可以用来实现ensemble decision trees: bagging和boosting</p>
-<ol type="1">
-<li>bagging(bootstrap aggregation)</li>
-</ol>
-<blockquote>
-<p><em><strong>Bagging*</strong> (Bootstrap Aggregation) is used when
-our goal is to reduce the variance of a decision tree. </em>Here idea is
-to create several subsets of data from training sample chosen randomly*
-*with replacement**. Now, each collection of subset data is used to
-train their decision trees. As a result, we end up with an ensemble of
-different models. Average of all the predictions from different trees
-are used which is more robust than a single decision tree.*</p>
-</blockquote>
-<p><em>Random Forest</em> is an extension over bagging. It takes one
-extra step where in addition to taking the random subset of data, it
-also takes the random selection of features rather than using all
-features to grow trees. When you have many random trees. It’s called
-Random Forest</p>
-<ol start="2" type="1">
-<li>Boosting</li>
-</ol>
-<blockquote>
-<p><strong>Boosting</strong> <em>is another ensemble technique to create
-a collection of predictors. In this technique, learners are learned
-sequentially with early learners fitting simple models to the data and
-then analyzing data for errors. In other words, we fit consecutive trees
-(random sample) and at every step, the goal is to solve for net error
-from the prior tree.</em></p>
-</blockquote>
-<p>参考资料： <a target="_blank" rel="noopener" href="https://towardsdatascience.com/decision-tree-ensembles-bagging-and-boosting-266a8ba60fd9">博客</a></p>
-<h2 id="conclusion">conclusion</h2>
-<p>when to use decision trees?</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228131322629.png" alt="decision trees vs NN">
-<figcaption aria-hidden="true">decision trees vs NN</figcaption>
-</figure>
-<h1 id="class-3-unsupervised-learning-recommenders-reinforcement-learning">class
-3 unsupervised learning, recommenders, reinforcement learning</h1>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -987,14 +957,14 @@ from the prior tree.</em></p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">190k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:53</span>
+    <span title="Reading time total">2:59</span>
   </span>
 </div>
 

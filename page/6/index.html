@@ -161,13 +161,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -205,6 +205,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">图像的读取方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-21 15:09:14" itemprop="dateCreated datePublished" datetime="2022-06-21T15:09:14+08:00">2022-06-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:36:10" itemprop="dateModified" datetime="2023-02-08T11:36:10+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>866</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="pil">PIL</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&quot;1.jpg&quot;</span>)</span><br><span class="line">img.load()</span><br><span class="line"></span><br><span class="line">array = np.asarrary(img)</span><br><span class="line"></span><br><span class="line">img.show() <span class="comment"># view the picture</span></span><br><span class="line"></span><br><span class="line">img.save(<span class="string">&quot;./new_img.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>PIL.Image包有很多其他的功能，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从array生成图片convert it to a Pillow image</span></span><br><span class="line">Image.fromarray(data,<span class="string">&#x27;RGB&#x27;</span>) <span class="comment"># 如果mode=&#x27;L&#x27;,那么只有一个通道</span></span><br></pre></td></tr></table></figure>
+<h1 id="cv2">cv2</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">&quot;./1.jpg&quot;</span>) <span class="comment"># 返回的img的channel顺序是BGR</span></span><br><span class="line"></span><br><span class="line">grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment"># 转化为灰度图的模式</span></span><br><span class="line">rgb_img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB) <span class="comment"># 转化为RGB的模式</span></span><br></pre></td></tr></table></figure>
+<p><code>cv2</code>一个有用的method是resize</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img = cv2.resize(raw_img,(width,height))</span><br></pre></td></tr></table></figure>
+<h1 id="tensorflow">tensorflow</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">img = tf.keras.preprocessing.image.load_img(<span class="string">&quot;./i.jpg&quot;</span>,target_size=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>)) <span class="comment"># Loads an image into PIL format</span></span><br><span class="line">img = tf.keras.preprocessing.image.img_to_array(img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从array转化成PIL image 实例</span></span><br><span class="line">img = tf.keras.preprocessing.image.array_to_img(array) <span class="comment"># array是3D numpy array</span></span><br><span class="line"></span><br><span class="line">tf.keras.utils.save_img(path,array)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1238,116 +1342,8 @@ Embeddings</h1>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/14/Fiftyone-%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/14/Fiftyone-%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Fiftyone 使用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-04-14 16:25:40" itemprop="dateCreated datePublished" datetime="2022-04-14T16:25:40+08:00">2022-04-14</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:35:47" itemprop="dateModified" datetime="2023-02-08T11:35:47+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.3k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近在做一个视频处理的task，视频是由帧组成的，如果想抽取视频内的信息，一部分是语音信息，一部分是图像信息。对于图像信息，常规流程是将frames全部抽取出来，然后用ocr的技术抽取图像中的文本。ocr的技术已经相当成熟，而且抽取准确，可以使用百度开源的paddleocr本地化部署，有训练好的模型调用接口就可直接使用。但是有一个很大的问题是，如果视频很长，比如40分钟左右的视频，如果将所有帧全部抽取出来就会很多，有的甚至会达到1万张图片，不仅存储难，而且让ocr模型多处理了很多相同的图片。这时候我就想找找有没有从frames中抽取unique
-frame的算法或者工具。其实这里的unique的概念有点难定义，对于运动类的视频，比如一场球赛，其中运动着的人动了，那下一帧和上一帧在同一像素位置的值就不一样了，但是对于ppt类的教育类视频，转到下一页ppt了，那就是算一次很大的变动，上一页的ppt的内容和下一页ppt的内容都需要保存下来，才不会损失视频中的信息。</p>
-<p>为此去找了一些文章来看，其中一篇是Methods and Challenges in Shot
-Boundary Detection: A Review，里面提到一个概念是Shot Boundry
-Detection。它将视频的结构定义为如下的图：</p>
-<figure>
-<img src="/2022/04/14/Fiftyone-%E4%BD%BF%E7%94%A8/image-20220414163646670.png" alt="image-20220414163646670">
-<figcaption aria-hidden="true">image-20220414163646670</figcaption>
-</figure>
-<p>在搜索的过程中发现了fifityone这个开源project。就先尝试下用这个做一下frames的抽取：</p>
-<h1 id="loading-videos">loading videos</h1>
-<p>该库有自己定义dataset的方式，和tensorflow一样. load
-视频有三种方式：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fiftyone <span class="keyword">as</span> fo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a dataset from a list of videos</span></span><br><span class="line">dataset = fo.Dataset.from_videos(</span><br><span class="line">    [<span class="string">&quot;/path/to/video1.mp4&quot;</span>, <span class="string">&quot;/path/to/video2.mp4&quot;</span>, ...]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a dataset from a directory of videos</span></span><br><span class="line">dataset = fo.Dataset.from_videos_dir(<span class="string">&quot;/path/to/videos&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a dataset from a glob pattern of videos</span></span><br><span class="line">dataset = fo.Dataset.from_videos_patt(<span class="string">&quot;/path/to/videos/*.mp4&quot;</span>)</span><br><span class="line"></span><br><span class="line">name = <span class="string">&quot;my-dataset&quot;</span></span><br><span class="line">dataset_dir = <span class="string">&quot;/path/to/videos-dir&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the dataset</span></span><br><span class="line">dataset = fo.Dataset.from_dir(</span><br><span class="line">    dataset_dir=dataset_dir,</span><br><span class="line">    dataset_type=fo.types.VideoDirectory,</span><br><span class="line">    name=name,</span><br><span class="line">)</span><br><span class="line">session = fo.launch_app(dataset)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1371,14 +1367,14 @@ Detection。它将视频的结构定义为如下的图：</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">190k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:53</span>
+    <span title="Reading time total">2:59</span>
   </span>
 </div>
 

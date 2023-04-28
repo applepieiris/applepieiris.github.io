@@ -161,13 +161,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -205,6 +205,147 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/04/tensorflow%E4%B8%ADlstm-GRU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/01/04/tensorflow%E4%B8%ADlstm-GRU/" class="post-title-link" itemprop="url">tensorflow中lstm,GRU</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-04 10:19:57" itemprop="dateCreated datePublished" datetime="2023-01-04T10:19:57+08:00">2023-01-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-03-13 09:59:22" itemprop="dateModified" datetime="2023-03-13T09:59:22+08:00">2023-03-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/tensorflow/" itemprop="url" rel="index"><span itemprop="name">tensorflow</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="gru">GRU</h1>
+<figure>
+<img src="/2023/01/04/tensorflow%E4%B8%ADlstm-GRU/LSTM3-var-GRU.png" alt="GRU">
+<figcaption aria-hidden="true">GRU</figcaption>
+</figure>
+<p>其实单看输出，GRU的输出是和简单的RNN一样的，都只有一个hidden_state。所以在tensorflow中它的输出其实和RNN
+layer一样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">inputs = tf.random.normal([<span class="number">32</span>, <span class="number">10</span>, <span class="number">8</span>])</span><br><span class="line">gru = tf.keras.layers.GRU(<span class="number">4</span>)</span><br><span class="line">output = gru(inputs)</span><br><span class="line"><span class="built_in">print</span>(output.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>其中有两个可以传递给GRU的参数，一个是return_state，一个是return_sequence。两个值都是bool类型。如果单独传递return_sequence=True，那么输出将只有一个值，也就是每一个时间步的序列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gru = tf.keras.layers.GRU(<span class="number">4</span>, return_sequences=<span class="literal">True</span>)</span><br><span class="line">output = gru(inputs)</span><br><span class="line"><span class="built_in">print</span>(output.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">10</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>如果单独传递return_state=True，那么输出将会是两个值，可以仔细看官方文档中的说明是<code>Boolean. Whether to return the last state in addition to the output. Default:</code>False.`也就是output和最后的hidden_state会一起输出，并且output会等于final_state：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gru = tf.keras.layers.GRU(<span class="number">4</span>, return_state=<span class="literal">True</span>)</span><br><span class="line">output, final_state = gru(inputs)</span><br><span class="line"><span class="built_in">print</span>(output.shape)</span><br><span class="line"><span class="built_in">print</span>(final_state.shape) <span class="comment"># output=final_state</span></span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>如果单独传递return_sequences=True，LSTM将只返回整个序列！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lstm = tf.keras.layers.LSTM(<span class="number">4</span>,return_sequences=<span class="literal">True</span>)</span><br><span class="line">inputs = tf.random.normal([<span class="number">32</span>, <span class="number">10</span>, <span class="number">8</span>])</span><br><span class="line">whole_seq_output = lstm(inputs)</span><br><span class="line"><span class="built_in">print</span>(whole_seq_output.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">10</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>那如果两个值都设置成<code>True</code>呢？这将返回两个输出，第一个输出是整个序列，第二个输出是最终的state。注意这里并没有<code>output</code>了，因为<code>output</code>其实是<code>sequence</code>中最后一个序列<code>sequence[:,-1,:]</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gru = tf.keras.layers.GRU(<span class="number">4</span>, return_sequences=<span class="literal">True</span>, return_state=<span class="literal">True</span>)</span><br><span class="line">whole_sequence_output, final_state = gru(inputs)</span><br><span class="line"><span class="built_in">print</span>(whole_sequence_output.shape)</span><br><span class="line"><span class="built_in">print</span>(final_state.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">10</span>, <span class="number">4</span>)</span><br><span class="line">(<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="lstm">LSTM</h1>
+<p>轮到LSTM，因为架构上跟GRU有点区别，所以在返回结果上就多了一个carry_state.</p>
+<figure>
+<img src="/2023/01/04/tensorflow%E4%B8%ADlstm-GRU/LSTM3-var-peepholes.png" alt="LSTM">
+<figcaption aria-hidden="true">LSTM</figcaption>
+</figure>
+<p>想要了解LSTM的具体计算，参考<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">博客</a></p>
+<p>在tensorflow中一样有return_state和return_sequences：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">inputs = tf.random.normal([<span class="number">32</span>, <span class="number">10</span>, <span class="number">8</span>])</span><br><span class="line">lstm = tf.keras.layers.LSTM(<span class="number">4</span>)</span><br><span class="line">output = lstm(inputs)</span><br><span class="line"><span class="built_in">print</span>(output.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>如果单独传递return_state，这里和GRU不一样的地方在于lstm有两个state，一个是memory_state一个是carry_state</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lstm = tf.keras.layers.LSTM(<span class="number">4</span>,return_state=<span class="literal">True</span>)</span><br><span class="line">output, final_memory_state, final_carry_state = lstm(inputs)</span><br><span class="line"><span class="built_in">print</span>(output.shape)</span><br><span class="line"><span class="built_in">print</span>(final_memory_state.shape) <span class="comment"># final_memory_state=output</span></span><br><span class="line"><span class="built_in">print</span>(final_carry_state.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>如果同时设置True</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lstm = tf.keras.layers.LSTM(<span class="number">4</span>,return_sequences=<span class="literal">True</span>,return_state=<span class="literal">True</span>)</span><br><span class="line">whole_seq_output, final_memory_state, final_carry_state = lstm(inputs)</span><br><span class="line"><span class="built_in">print</span>(whole_seq_output.shape)</span><br><span class="line"><span class="built_in">print</span>(final_memory_state.shape) <span class="comment"># final_memory_state=whole_seq_output[:,-1,:]</span></span><br><span class="line"><span class="built_in">print</span>(final_carry_state.shape)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">10</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt; (<span class="number">32</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="gru-vs-lstm">GRU vs LSTM</h1>
+<p>至于我们在训练模型的时候选择哪一个cell作为RNN的cell，cs224n课程给出的答案是：</p>
+<blockquote>
+<p>Researchers have proposed many gated RNN variants, but LSTM and GRU
+are the most widely-used.</p>
+<p>Rule of thumb: LSTM is a good default choice (especially if your data
+has particularly long dependencies, or you have lots of training data);
+Switch to GRUs for speed and fewer parameters.</p>
+</blockquote>
+<p>LSTM doesn’t guarantee that there is no vanishing/exploding gradient,
+but it does provide an easier way for the model to learn long-distance
+dependencies.</p>
+<p>在2023年的今天，lstm也不再是研究者青睐的对象，最火的模型变成了Transformer：</p>
+<figure>
+<img src="/2023/01/04/tensorflow%E4%B8%ADlstm-GRU/image-20230313095438649.png" alt="image-20230313095438649">
+<figcaption aria-hidden="true">image-20230313095438649</figcaption>
+</figure>
+<p>这里也贴出2022年的最新WMT的<a target="_blank" rel="noopener" href="https://www.statmt.org/wmt22/pdf/2022.wmt-1.1.pdf">结果</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1043,115 +1184,8 @@ and <code>key</code> vectors to determine how well they match, the
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/12/cv2%E4%B8%ADbitwise-and/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/12/cv2%E4%B8%ADbitwise-and/" class="post-title-link" itemprop="url">cv2中bitwise_and()</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-10-12 11:16:16" itemprop="dateCreated datePublished" datetime="2022-10-12T11:16:16+08:00">2022-10-12</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:35:35" itemprop="dateModified" datetime="2023-02-08T11:35:35+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>490</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>参考文档：</p>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d0/d86/tutorial_py_image_arithmetics.html">opencv
-tutorial</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ga60b4d04b251ba5eb1392c34425497e14">opencv
-官方文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/44333605/what-does-bitwise-and-operator-exactly-do-in-opencv">stackoverflow
-question</a></li>
-</ol>
-<p>没有多少文档能讲清楚具体是如何计算的。在stackoverflow中的这个问题，第一个高赞答案也只是选取了最普通的一种情况，也就是当image的pixel的值全部是0或者1的时候，and的运算。但是cv2中的bitwise_and()还有一个很重要的参数mask并没有讲清楚，并且当image的像素值有除了0或者1以外的其他值，这时候该如何运算？</p>
-<p>官方文档中说mask是决定了哪些位置要进行运算，当mask中某个元素不为0时，我们对相应位置的像素做“与”运算，如果scr1和scr2(bitwise_and的两个参数)的值不是0或者1，会将十进制的值转化为2进制，然后对二进制再进行运算，运算完了之后又会转化为十进制(<a target="_blank" rel="noopener" href="https://dsp.stackexchange.com/questions/58276/opencv-how-does-bitwise-not-work">参考</a>)
-当mask相应位置的值=0时，任何操作都不会做，不仅如此，结果的图片相应位置的像素值会变成0，也就是黑色（这一点官方文档没说）.</p>
-<p>所以经过bitwise_and之后的图片会看到mask中像素值为0的地方全部是黑色。这就相应的把mask中不为0的地方强调突出了。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1175,14 +1209,14 @@ question</a></li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">190k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:53</span>
+    <span title="Reading time total">2:59</span>
   </span>
 </div>
 

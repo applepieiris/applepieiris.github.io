@@ -161,13 +161,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -205,301 +205,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/" class="post-title-link" itemprop="url">李沐-斯坦福21秋季：实用机器学习（学习笔记）Part I: Basic ML Modeling</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-16 09:13:46" itemprop="dateCreated datePublished" datetime="2021-11-16T09:13:46+08:00">2021-11-16</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:32:56" itemprop="dateModified" datetime="2023-02-08T11:32:56+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%8E%E6%B2%90-%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">李沐-实用机器学习(学习笔记)</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.6k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="数据部分-data-part">数据部分 Data Part</h1>
-<h2 id="数据获取-data-acquisition">数据获取 Data Acquisition</h2>
-<p>比较popular的数据集：</p>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211112163641407.png"></p>
-<p>更多的数据集list见 : <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research" class="uri">https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research</a></p>
-<p>哪里找到数据集:</p>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211112163931292.png"></p>
-<p>数据的生成：（在数据不够的情况下的技术）</p>
-<ul>
-<li>GAN 无监督生成数据</li>
-<li>数据增强 Data Augmentations</li>
-</ul>
-<p>例子：Back Translation 语义相同，句子不一样的句子</p>
-<h2 id="探索性数据分析-exploratory-data-analysis">探索性数据分析
-Exploratory data analysis</h2>
-<p><code>data = pd.read_csv('house_sales.zip')</code>pandas可以支持读取压缩文件，text文本文件建议存储成zip，处理起来更迅速。</p>
-<p><code>seaborn</code>库能画比matplotlib更多的图形。</p>
-<p>自留作业：将数据下载下来看一遍，过一遍代码（To do）</p>
-<h2 id="数据清理-data-cleaning">数据清理 Data Cleaning</h2>
-<p>data very noisy ---&gt; data cleaning</p>
-<p>数据清洗工具Trifacta Wrangler<a target="_blank" rel="noopener" href="https://www.trifacta.com/" class="uri">https://www.trifacta.com/</a></p>
-<h2 id="数据变换-data-transformation">数据变换 Data Transformation</h2>
-<h3 id="对数值化column的normalization的方式">对数值化column的Normalization的方式:</h3>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211115153221386.png"></p>
-<p>Z-score: 最常见，使得均值为0，方差为1。</p>
-<h3 id="图片-picture">图片 Picture</h3>
-<ol type="1">
-<li>reduce image size减小图片尺寸，ML good at low-resolution images</li>
-<li>对于jpeg格式的文件，如果存储为中等质量的图，会导致精度下降1%。最好在下采样时采用高质量存储</li>
-<li>Image whitening</li>
-</ol>
-<h3 id="视频-video">视频 Video</h3>
-<ol type="1">
-<li>often use short video clips(&lt;10s)</li>
-</ol>
-<h3 id="文本text">文本text</h3>
-<ol type="1">
-<li>stemming and lemmatization 词根化和语法化: a word ---&gt; a common
-base form</li>
-<li>Tokenization 词源化：text ---&gt; a list of tokens</li>
-</ol>
-<p>词源可以是一个词，亦可以是一个character，或者是一个subwords</p>
-<h3 id="summary">Summary</h3>
-<p>Transform data into formats preferred by ML algorithms</p>
-<ul>
-<li><p>Tabular: normalize real value features</p></li>
-<li><p>Images: cropping, downsampling, whitening</p></li>
-<li><p>Videos: clipping, sampling frames</p></li>
-<li><p>Text: stemming, lemmatization, tokenization</p></li>
-</ul>
-<p>Need to balance storage, quality, and loading speed</p>
-<h2 id="特征工程-feature-engineering">特征工程 Feature Engineering</h2>
-<h3 id="tabular-data-features">tabular data features</h3>
-<ul>
-<li>Int/float: directly use or or bin to unique int values</li>
-<li>种类数据：one-hot encoding</li>
-</ul>
-<p>对于很多类的情况，将常见的类别保留，其他的类都归类为"Unkown"</p>
-<ul>
-<li>Date-time：转化为list</li>
-</ul>
-<p><code>[year, month, day, day_of_year, week_of_year, day_of_week]</code></p>
-<ul>
-<li>Feature combination: 用于组合比较相关的特征</li>
-</ul>
-<h3 id="文本text-features">文本text features</h3>
-<ul>
-<li>用token features表示text
-<ol type="1">
-<li>Bag-of-words(BoW) model</li>
-</ol>
-词典 --&gt; one-hot 没有语义信息了</li>
-</ul>
-<p>​ 2. Word Embeddings(e.g. Word2Vec)</p>
-<ul>
-<li>pre-trained language models(e.g. BERT,GPT-3)</li>
-</ul>
-<h3 id="图片视频-features">图片、视频 features</h3>
-<ul>
-<li>pre-trained model</li>
-</ul>
-<ol type="1">
-<li>ResNet: trained with ImageNet (image classification)</li>
-<li>I3D: trained with Kinetics (action classification)</li>
-</ol>
-<h3 id="总结">总结</h3>
-<p>对于文本，图片和视频，一般采取DL的方式抽取特征，但对于Tabular的数据，暂时还没有特别好的深度学习模型来抽取，一般靠手动。</p>
-<h2 id="data-part部分总结">Data part部分总结</h2>
-<ul>
-<li>label的质量 vs data的量之间要trade-off</li>
-<li>大数据的管理：存储，处理，版本控制，安全</li>
-<li>数据质量</li>
-</ul>
-<ol type="1">
-<li>多样性</li>
-<li>unbiased</li>
-<li>fairness</li>
-</ol>
-<h1 id="ml-model-part">ML model part</h1>
-<p>监督学习的种类：</p>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211116094045676.png"></p>
-<h2 id="决策树-decision-tree">决策树 Decision Tree</h2>
-<p>pros:</p>
-<ol type="1">
-<li>可以解释</li>
-<li>可以处理数值型数据，也可以处理分类型数据（classification&amp;regression）</li>
-</ol>
-<p>cons:</p>
-<ol type="1">
-<li>non-robust(可以用ensemble集成 learning)</li>
-<li>Complex tree</li>
-<li>难以部署和并发执行</li>
-</ol>
-<p>特点：</p>
-<ul>
-<li>树模型是在工业界用的比较多的 Simple，fine-tune，often gives
-satisfied results</li>
-<li>可以通过ensemble trees去reduce bias&amp;variance
-<ul>
-<li>RF: trees trained in parallel with randomness</li>
-<li>GBDT: train in sequential on residuals</li>
-</ul></li>
-</ul>
-<h3 id="提升tree-model的方法">提升Tree Model的方法：</h3>
-<p>Random Forest：</p>
-<ol type="1">
-<li>每一棵树都是单独训练的</li>
-<li>对于分类任务，采取majority
-voting；对于回归任务，对所有树的结果取平均</li>
-<li>随机性来自于哪里？</li>
-</ol>
-<ul>
-<li>随机采样训练样本来训练树：Bagging with
-replacement，一个样本在一次训练中可以出现多次</li>
-<li>随机采样feature中的subset来训练</li>
-</ul>
-<p>Gradient Boosting Decision Tree:</p>
-<ol type="1">
-<li>和RF不一样的是，GBDT是顺序地train多个树</li>
-<li>在第<code>t</code>个时间步，前<code>t-1</code>个训练好的树的sum<code>Ft()</code></li>
-</ol>
-<p>训练一个新的树<code>f(t)</code>on
-<code>&#123;(xi,yi-Ft(xi))&#125; i from 1...t-1</code></p>
-<h2 id="线性模型-linear-model">线性模型 linear model</h2>
-<h3 id="线性模型做回归">线性模型做回归</h3>
-<ul>
-<li>回归问题的output是一个实数值，所以objective通常为MSE（均方误差）</li>
-</ul>
-<h3 id="线性模型做分类多分类">线性模型做分类（多分类）</h3>
-<ul>
-<li>output用向量表示，y用one-hot</li>
-<li>minimize loss MSE（注意：这里是向量的MSE）</li>
-<li>predict label为向量的元素中最大值的那个类别</li>
-</ul>
-<p>以上方式有一个cons:将不重要的分类的值的loss也算进去了，MSE计算的是向量的每一个元素的差，所以可以用Softmax
-Regression来解决：</p>
-<p>将上述输出的向量<code>o</code>输入到Softmax操作子中，输出仍然是一个向量，但是向量中的元素的和是为1的，而且每一个元素的范围都在(0,1)之间。这里虽然做了非线性的变化，但是还是一个线性模型。</p>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211116111024159.png"></p>
-<p>在求loss的阶段，比较两个概率型的向量用cross-entropy loss来做:</p>
-<p><img src="/2021/11/16/%E6%9D%8E%E6%B2%90-%E6%96%AF%E5%9D%A6%E7%A6%8F21%E7%A7%8B%E5%AD%A3%EF%BC%9A%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%89Part-I-Basic-ML-Modeling/image-20211116111220963.png"></p>
-<p>以上方式将模型转移到更加关注正确类的性能上来，而不是放在别的类上。</p>
-<ul>
-<li>线性模型通常使用MSE作为loss function</li>
-<li>Softmax Regression用于多分类的问题
-<ul>
-<li>将输出的向量用softmax处理为概率型向量，并使用cross-entropy当做loss
-function</li>
-<li>cross-entropy用于求两个向量间的loss</li>
-</ul></li>
-</ul>
-<h2 id="neural-network神经网络">Neural Network神经网络</h2>
-<p>课程在这里介绍了三种模型：MLP（感知机），CNN和RNN。总体来说介绍的比较简单，如果想深入了解模型细节，建议移步吴恩达老师的深度学习课程，吴恩达的课程中这三种模型都花了一课时的时间来讲，特别是CNN部分讲的特别的好，结合吴恩达老师的作业学起来很受益。</p>
-<h3 id="cnn">CNN</h3>
-<p>在图片中寻找object的两个宗旨:</p>
-<ol type="1">
-<li>translation invariance
-模型对于图片上不同位置的object的输出是类似的</li>
-</ol>
-<p>在卷积中的体现就是：每一次卷积核Kernel对某个位置计算完之后，会平移至下一个区域继续用该权重值进行计算。</p>
-<ol type="1">
-<li>locality 图片中相邻像素点的pixel相似</li>
-</ol>
-<p>在卷积中的体现就是只会计算图片中局部位置的加权和，如3*3大小的地方。</p>
-<h4 id="pooling-layer-汇聚层meanmax-pooling">Pooling Layer
-汇聚层：（mean/max pooling）</h4>
-<p>why pooling？卷积计算的output值对于位置相当敏感。</p>
-<h4 id="cnn的作用">cnn的作用</h4>
-<p>用于抽取空间信息，task只要满足以上说的两种特征，就可以使用CNN来做。</p>
-<ul>
-<li>卷积层之后要有Activation</li>
-<li>using Pooling layer 去reduce location sensitivity</li>
-</ul>
-<p>现在常用的CNN有: AlexNet, VGG, Inceptions, ResNet, MobileNet</p>
-<h2 id="model-selection">Model Selection</h2>
-<p>Tabular数据：Trees，线性模型，MLP（多个全连接层堆起来，中间加入non-linear
-activations）</p>
-<p>Text数据：RNNs（全连接层中接入过去的信息）</p>
-<p>Images/audio/video: CNNs</p>
-<p>对于Text和Images/audio/video，前者是需要处理时序性特征（1维），后者是空间性特征（2维），对于这两个任务，<code>Transformers</code>都可以解决。</p>
-<p>​</p>
-<p>​</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -628,7 +333,7 @@ activations）</p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/05/Bot-Composer%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/05/mysql%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf%E7%9A%84%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -641,7 +346,7 @@ activations）</p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/05/Bot-Composer%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Bot Composer使用</a>
+          <a href="/2021/11/05/mysql%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">mysql查看当前使用的配置文件my.cnf的方法</a>
         </h2>
 
         <div class="post-meta-container">
@@ -652,14 +357,14 @@ activations）</p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-11-05 10:03:06" itemprop="dateCreated datePublished" datetime="2021-11-05T10:03:06+08:00">2021-11-05</time>
+      <time title="Created: 2021-11-05 09:45:08" itemprop="dateCreated datePublished" datetime="2021-11-05T09:45:08+08:00">2021-11-05</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:28:38" itemprop="dateModified" datetime="2023-02-08T11:28:38+08:00">2023-02-08</time>
+        <time title="Modified: 2023-03-16 14:00:35" itemprop="dateModified" datetime="2023-03-16T14:00:35+08:00">2023-03-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -678,14 +383,14 @@ activations）</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.1k</span>
+      <span>2.7k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -696,47 +401,154 @@ activations）</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Bot Framework Composer是Microsoft Framework中的一部分,属于Azure Bot
-Service。开发者在开发Chat Bot时有几种开发的选择：Bot Framework
-Composer，Bot Framework SDK，Power Vitual
-Agents。本文主要介绍第一个Composer，它是一个建立Chat Bot的开源IDE，以Bot
-Framework
-SDK为基础，图形界面的开发方式对开发者比较友好，而且可以配合使用各种插件。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/composer/">官方文档</a>
-英文，无中文。文档读起来很简单</p>
-<h1 id="安装">安装</h1>
-<p>环境需求：<code>Node.js</code>和<code>C#</code></p>
-<p>直接去官网<a target="_blank" rel="noopener" href="https://aka.ms/bf-composer-download-win" class="uri">https://aka.ms/bf-composer-download-win</a>下载exe可执行文件后安装。</p>
-<h1 id="quick-start">Quick Start</h1>
-<p>官方文档给出了建立一个简单天气询问的chatbot，可以跟着做一遍，很详细的教程，做完基本会对Composer有一个基本的印象。</p>
-<h1 id="task">task</h1>
-<p>我们是想做一个简单的chat bot能够实现调用weixin ai
-chatbot的闲聊功能，也就是：</p>
-<p>用户在ChatBot中发出一个Question，ChatBot将该Question发回weixin
-api，然后weixin会返回一个Answer，然后ChatBot将该Answer返回给用户，这样就完成了一轮对话。之后ChatBot循环这个过程。</p>
-<h2 id="weixin-chatbot-api的使用">weixin chatbot api的使用</h2>
-<p>到微信的智能对话平台创建一个机器人，会得到机器人的access
-token。详细教程参见<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/aispeech/platform/get-start.html" class="uri">https://developers.weixin.qq.com/doc/aispeech/platform/get-start.html</a></p>
-<h2 id="搭建bot过程中的问题">搭建Bot过程中的问题</h2>
-<h3 id="cannot-post-activity.-unauthorized.">1. Cannot post activity.
-Unauthorized.</h3>
-<p>这个问题遇到过多次，每次都是突然就好了。这里整理几个在网上搜集的可能的问题：先说一下我自己测试的环境是local环境，也就是不需要设置App
-ID和App password，因为我暂时还没有部署到线上。</p>
-<h4 id="stackoverflow-问题地址">stackoverflow <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/58463852/cannot-post-activity-unauthorized-when-testing-from-bot-emulator">问题地址</a></h4>
-<ol type="1">
-<li><p>在emulator中测试bot的时候，输入 <strong>Microsoft App ID</strong>
-and <strong>Microsoft App Password</strong></p>
-<p>这个方式只对你在Azure上注册了bot才有用，在本地测试bot的时候是不会拥有这两个变量的。</p></li>
-<li><p>如果你是用composer设计的bot，可以去到该bot的文件夹下，找到settings文件夹下的appsettings.json（botname.json），设置以上两个字段为空:</p></li>
-<li><figure>
-<img src="/2021/11/05/Bot-Composer%E4%BD%BF%E7%94%A8/kQznR.png" alt="kQznR">
-<figcaption aria-hidden="true">kQznR</figcaption>
-</figure></li>
-</ol>
-<p>以上两种方式对我都没用。</p>
-<h4 id="将composer以管理员方式运行">将Composer以管理员方式运行</h4>
-<p>找到Composer的可执行文件，让Composer在管理员权限下运行。</p>
-<p>It works!</p>
+          <h1 id="mysql-查看当前使用的配置文件my.cnf的方法">mysql
+查看当前使用的配置文件my.cnf的方法</h1>
+<p>my.cnf是mysql启动时加载的配置文件，一般会放在mysql的安装目录中，用户也可以放在其他目录加载。</p>
+<p>安装mysql后，系统中会有多个my.cnf文件，有些是用于测试的。</p>
+<p>使用locate my.cnf命令可以列出所有的my.cnf文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">locate my.cnf</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/include/default_my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/federated/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_big/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_binlog/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_rpl/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_team/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl/extension/bhs/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl_ndb/my.cnf</span><br></pre></td></tr></table></figure>
+<p>当我们需要修改配置文件时，需要找到mysql启动时是加载了哪个my.cnf文件。</p>
+<h3 id="查看是否使用了指定目录的my.cnf">查看是否使用了指定目录的my.cnf</h3>
+<p>启动mysql后，我们查看mysql的进程，看看是否有设置使用指定目录的my.cnf文件，如果有则表示mysql启动时是加载了这个配置文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">ps aux|grep mysql|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">fdipzone         25174   0.0  0.0  3087244    600   ??  S     4:12下午   0:01.14 /usr/local/Cellar/mysql/5.6.24/bin/mysqld --defaults-file=/usr/local/Cellar/mysql/5.6.24/my.cnf --basedir=/usr/local/Cellar/mysql/5.6.24 --datadir=/usr/local/var/mysql --plugin-dir=/usr/local/Cellar/mysql/5.6.24/lib/plugin --bind-address=127.0.0.1 --log-error=/usr/local/var/mysql/TerrydeMacBook-Air.local.err --pid-file=/usr/local/var/mysql/TerrydeMacBook-Air.local.pid</span><br><span class="line">fdipzone         25064   0.0  0.0  2452824      4   ??  S     4:12下午   0:00.03 /bin/sh /usr/local/opt/mysql/bin/mysqld_safe --defaults-file=/usr/local/Cellar/mysql/5.6.24/my.cnf --bind-address=127.0.0.1 --datadir=/usr/local/var/mysql</span><br></pre></td></tr></table></figure>
+<p>可以看到/usr/local/Cellar/mysql/5.6.24/my.cnf就是mysql启动加载的配置文件。</p>
+<p>如果上面的命令没有输出，表示没有设置使用指定目录的my.cnf。</p>
+<h3 id="查看mysql默认读取my.cnf的目录">查看mysql默认读取my.cnf的目录</h3>
+<p>如果没有设置使用指定目录的my.cnf，mysql启动时会读取安装目录根目录及默认目录下的my.cnf文件。</p>
+<p>查看mysql启动时读取配置文件的默认目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">mysql --help|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">     order of preference, my.cnf, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
+<p>/etc/my.cnf, /etc/mysql/my.cnf, /usr/local/etc/my.cnf, ~/.my.cnf
+这些就是mysql默认会搜寻my.cnf的目录，顺序排前的优先。</p>
+<h3 id="启动时没有使用配置文件">启动时没有使用配置文件</h3>
+<p>如果没有设置使用指定目录my.cnf文件及默认读取目录没有my.cnf文件，表示mysql启动时并没有加载配置文件，而是使用默认配置。</p>
+<p>需要修改配置，可以在mysql默认读取的目录中，创建一个my.cnf文件(例如:/etc/my.cnf)，把需要修改的配置内容写入，重启mysql后即可生效。</p>
+<h1 id="mysql使用group-by查询报错select-list-is-not-in-group-by-clause-and-contains-nonaggregated-column...解决方案">mysql使用group
+by查询报错SELECT list is not in GROUP BY clause and contains
+nonaggregated column...解决方案</h1>
+<p><strong>MySQL5.7.5后only_full_group_by成为sql_mode的默认选项之一，这可能导致一些sql语句失效。</strong>
+比如在使用<strong>group by</strong>进行分组查询报错</p>
+<h3 id="查看自己的sql_mode配置">查看自己的sql_mode配置</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在sql命令行中输入select @@sql_mode;这时我们能够看到自己的sql_mode配置,其中如果有ONLY_FULL_GROUP_BY,那它就是group by查询报错的罪魁祸首了</span><br></pre></td></tr></table></figure>
+<h3 id="解决办法">解决办法</h3>
+<p>命令行打开mysql.cnf,默认路径为/etc/mysql/conf.d/mysql.cnf,如果找不到可以使用whereis进行查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode = STRICT_TRANS_TABLES, NO_ZERO_IN_DATE, NO_ZERO_DATE, ERROR_FOR_DIVISION_BY_ZERO,      NO_AUTO_CREATE_USER, NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure>
+<p>保存退出重启mysql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld restart #对于linux是mysql</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/05/Anaconda%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/11/05/Anaconda%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Anaconda使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-05 09:22:16" itemprop="dateCreated datePublished" datetime="2021-11-05T09:22:16+08:00">2021-11-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:23:12" itemprop="dateModified" datetime="2023-02-08T11:23:12+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Anaconda 安装包可以到 <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" class="uri">https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/</a>
+下载。</p>
+<p>TUNA 还提供了 Anaconda
+仓库与第三方源（conda-forge、msys2、pytorch等，查看完整列表）的镜像，各系统都可以通过修改用户目录下的
+.condarc 文件。Windows 用户无法直接创建名为 .condarc 的文件，可先执行
+conda config --set show_channel_urls yes 生成该文件之后再修改。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">channel_alias: https://mirrors.tuna.tsinghua.edu.cn/anaconda</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<p>一般表示 conda
+应用程序的配置文件，在用户的家目录（windows：C:\users\username\，linux：/home/username/）。但对于.condarc配置文件，是一种可选的（optional）运行期配置文件，其默认情况下是不存在的，但当用户第一次运行
+conda config命令时，将会在用户的家目录创建该文件。</p>
+<h3 id="换国内源">换国内源</h3>
+<ul>
+<li>查看现在的源地址：<code>conda config --show-sources</code></li>
+<li>设置搜索时显示通道地址
+<code>conda config --set show_channel_urls yes</code></li>
+<li>添加镜像源
+<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</code></li>
+</ul>
+<h1 id="虚拟环境">虚拟环境</h1>
+<p>常用命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">conda list 查看安装了那些包</span><br><span class="line"></span><br><span class="line">conda env list或者conda info -e 查看当前存在哪些虚拟环境</span><br><span class="line"></span><br><span class="line">conda update conda 更新当前conda</span><br><span class="line"></span><br><span class="line">conda create -n env_name python=3.6 创建虚拟环境</span><br><span class="line"></span><br><span class="line">activate env_name 激活某虚拟环境</span><br><span class="line"></span><br><span class="line">python --version 检查当前python版本</span><br><span class="line"></span><br><span class="line">conda install -n env_name [package] 安装某个包至某一个虚拟环境下</span><br><span class="line"></span><br><span class="line">deactivate 关闭当前虚拟环境</span><br><span class="line"></span><br><span class="line">conda remove -n env_name --all 删除某虚拟环境</span><br><span class="line"></span><br><span class="line">conda remove package_name 删除某个包</span><br><span class="line">pip unistall package_name</span><br><span class="line"></span><br><span class="line">conda env export &gt; requirements.yaml 将当前环境下安装的包保存为yaml文件</span><br><span class="line">conda env update -f=/path/requirements.yaml</span><br><span class="line"></span><br><span class="line">(如果不要conda，用pip的时候导出的是txt文件)</span><br><span class="line">pip freeze &gt; requirements.txt</span><br><span class="line">pip install -r /path/requirements.txt</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -756,7 +568,7 @@ and <strong>Microsoft App Password</strong></p>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span>
   </nav>
 
 </div>
@@ -780,14 +592,14 @@ and <strong>Microsoft App Password</strong></p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">190k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:53</span>
+    <span title="Reading time total">2:59</span>
   </span>
 </div>
 

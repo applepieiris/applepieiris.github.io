@@ -23,32 +23,35 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="综述 review A Survey on Machine Learning Techniques for Auto Labeling of Video, Audio, and Text Data (2021) https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2109.03784 section2介绍对于video类型数据的优化标签提取的技术，section5介绍数据标签化的tools A">
+<meta name="description" content="在Neural Language Generation的任务中，如何在每一个时间步产生一个token称为decoding method.最常见的decoding方法就是用softmax激活函数计算概率分布之后，将概率最大的那个token列为当前的预测值（most likely string）。这种argmax的方式在machine translation等non-open-ended的任务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Video-AutoTagging视频标签自动提取 文献">
-<meta property="og:url" content="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/index.html">
+<meta property="og:title" content="decoding strategy in NG tasks">
+<meta property="og:url" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/index.html">
 <meta property="og:site_name" content="YAN&#39;s Blog">
-<meta property="og:description" content="综述 review A Survey on Machine Learning Techniques for Auto Labeling of Video, Audio, and Text Data (2021) https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2109.03784 section2介绍对于video类型数据的优化标签提取的技术，section5介绍数据标签化的tools A">
+<meta property="og:description" content="在Neural Language Generation的任务中，如何在每一个时间步产生一个token称为decoding method.最常见的decoding方法就是用softmax激活函数计算概率分布之后，将概率最大的那个token列为当前的预测值（most likely string）。这种argmax的方式在machine translation等non-open-ended的任务">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129140929765.png">
-<meta property="og:image" content="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129141439430.png">
-<meta property="og:image" content="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129154801583.png">
-<meta property="article:published_time" content="2021-11-25T02:42:24.000Z">
-<meta property="article:modified_time" content="2023-01-31T03:31:28.432Z">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134555223.png">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134938176.png">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134952769.png">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144452222.png">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144619190.png">
+<meta property="og:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144711636.png">
+<meta property="article:published_time" content="2023-04-21T02:34:48.000Z">
+<meta property="article:modified_time" content="2023-04-21T06:47:14.444Z">
 <meta property="article:author" content="YAN">
-<meta property="article:tag" content="AI">
+<meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129140929765.png">
+<meta name="twitter:image" content="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134555223.png">
 
 
-<link rel="canonical" href="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/">
+<link rel="canonical" href="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/","path":"2021/11/25/Video-AutoTagging视频标签自动提取-文献/","title":"Video-AutoTagging视频标签自动提取 文献"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/","path":"2023/04/21/decoding-strategy-in-NG-tasks/","title":"decoding strategy in NG tasks"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Video-AutoTagging视频标签自动提取 文献 | YAN's Blog</title>
+<title>decoding strategy in NG tasks | YAN's Blog</title>
   
 
 
@@ -154,11 +157,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%BC%E8%BF%B0-review"><span class="nav-number">1.</span> <span class="nav-text">综述 review</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-survey-on-machine-learning-techniques-for-auto-labeling-of-video-audio-and-text-data-2021"><span class="nav-number">1.1.</span> <span class="nav-text">A
-Survey on Machine Learning Techniques for Auto Labeling of Video, Audio,
-and Text Data (2021)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-comprehensive-study-of-deep-video-action-recognition-2020"><span class="nav-number">1.2.</span> <span class="nav-text">A
-Comprehensive Study of Deep Video Action Recognition (2020)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deep-learning-for-video-classification-and-captioning"><span class="nav-number">1.3.</span> <span class="nav-text">Deep
-learning for Video classification and Captioning</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#top-pnucleus-sampling"><span class="nav-number">1.</span> <span class="nav-text">Top-p（Nucleus Sampling）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sampling-with-temperature"><span class="nav-number">2.</span> <span class="nav-text">Sampling with Temperature</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -173,13 +172,13 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -227,7 +226,7 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -240,7 +239,7 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Video-AutoTagging视频标签自动提取 文献
+          decoding strategy in NG tasks
         </h1>
 
         <div class="post-meta-container">
@@ -250,23 +249,17 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2021-11-25 10:42:24" itemprop="dateCreated datePublished" datetime="2021-11-25T10:42:24+08:00">2021-11-25</time>
+      <time title="Created: 2023-04-21 10:34:48 / Modified: 14:47:14" itemprop="dateCreated datePublished" datetime="2023-04-21T10:34:48+08:00">2023-04-21</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-01-31 11:31:28" itemprop="dateModified" datetime="2023-01-31T11:31:28+08:00">2023-01-31</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+          <a href="/categories/nlp/" itemprop="url" rel="index"><span itemprop="name">nlp</span></a>
         </span>
     </span>
 
@@ -277,7 +270,7 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>848</span>
+      <span>1.5k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -295,36 +288,49 @@ learning for Video classification and Captioning</span></a></li></ol></li></ol><
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="综述-review">综述 review</h1>
-<h2 id="a-survey-on-machine-learning-techniques-for-auto-labeling-of-video-audio-and-text-data-2021">A
-Survey on Machine Learning Techniques for Auto Labeling of Video, Audio,
-and Text Data (2021)</h2>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2109.03784" class="uri">https://arxiv.org/abs/2109.03784</a></p>
-<p>section2介绍对于video类型数据的优化标签提取的技术，section5介绍数据标签化的tools</p>
-<h2 id="a-comprehensive-study-of-deep-video-action-recognition-2020">A
-Comprehensive Study of Deep Video Action Recognition (2020)</h2>
-<p>这是李沐团队2020年的新作，主要介绍视频中动作recognition的工作。对于视频分类没有过多介绍。但是文章提到了一篇文章<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1609.06782.pdf">Deep learning for Video
-classification and Captioning</a>,</p>
+        <p>在Neural Language
+Generation的任务中，如何在每一个时间步产生一个token称为decoding
+method.最常见的decoding方法就是用softmax激活函数计算概率分布之后，将概率最大的那个token列为当前的预测值（most
+likely string）。这种argmax的方式在machine
+translation等non-open-ended的任务中表现还可以，但是如果是在纯粹的开放性的任务中，比如写一首诗歌。这种方式会造成重复性的输出，并且输出的句子有时候连续性也比较差。</p>
+<p>这时候很多研究工作就对decoding strategic展开了研究，比如beam
+search，基本原理很简单，就是从取概率排名前k个token作为当前预测值。但是这还是会有一个问题，就是当我们概率分布均衡的时候，这个方法可以，但如果概率分布不均衡，也就是softmax计算出来的概率值只有几个token的概率比较大，其他概率都非常小，比如零点几，那这个时候其实我们不太需要考虑k个单词，只需要考虑概率比较大的那些tokens就够了。</p>
+<h2 id="top-pnucleus-sampling">Top-p（Nucleus Sampling）</h2>
+<p>所以这时候就有人提出了Top-p(nucleus) sampling的方法<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a></p>
+<p>具体做法就是维护一个动态的k值，这个k值随着softmax的输出概率分布决定，</p>
 <figure>
-<img src="/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129140929765.png" alt="image-20211129140929765">
-<figcaption aria-hidden="true">image-20211129140929765</figcaption>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134555223.png" alt="image-20230421134555223">
+<figcaption aria-hidden="true">image-20230421134555223</figcaption>
 </figure>
-<p>提到的这篇文章更符合我的task要求，有需要的小伙伴可以去读一下。好了回到李沐团队的这篇综述，我觉得质量很高，结构逻辑比一般综述要清晰很多，不装逼，而且实操性很强，给出了在同一个数据集上的各个算法的比较结果，代码也<a href="1Model%20zoo%20in%20both%20PyTorch%20and%20MXNet:%20https://cv.gluon.%20ai/model_zoo/action_recognition.html">公开了</a>。</p>
-<p>第二章首先介绍在视频动作识别领域比较常见的数据集： <img src="/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129141439430.png" alt="image-20211129141439430"></p>
-<p>介绍完数据集之后开始介绍模型部分（Section
-3），其中3.5章很有意思，介绍了一些近10年在视频动作识别task上比较popular的技术。第4章介绍做的实验和evaluation。</p>
-<h2 id="deep-learning-for-video-classification-and-captioning">Deep
-learning for Video classification and Captioning</h2>
-<p>整体来说，这篇综述水平一般，仅仅做了总结，大家从里面找到自己有用的东西就好，比如综述之类的，参考意义不大。我的重点在数据集的介绍上，所以这里仅记录这部分。</p>
-<p>在数据集上，作者介绍了：</p>
+<p>作者的思路就是当概率分布比较flat的时候，我们应该把sample的池子定的大一点。但是当概率分布比较陡峭，也就是上图中的第三种情况时，我们就需要把这个sample的池子变得小一点。具体是如何操作的呢？</p>
 <figure>
-<img src="/2021/11/25/Video-AutoTagging%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E8%87%AA%E5%8A%A8%E6%8F%90%E5%8F%96-%E6%96%87%E7%8C%AE/image-20211129154801583.png" alt="image-20211129154801583">
-<figcaption aria-hidden="true">image-20211129154801583</figcaption>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134938176.png" alt="image-20230421134938176">
+<figcaption aria-hidden="true">image-20230421134938176</figcaption>
 </figure>
-<p>其中，不是纯粹动作识别分类task的数据集有：</p>
-<p><strong>Kodak Consumer Videos dataset</strong>
-，<strong>MCG-WEBVdataset</strong>，<strong>Columbia Consumer Videos
-(CCV) dataset</strong></p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134952769.png" alt="image-20230421134952769">
+<figcaption aria-hidden="true">image-20230421134952769</figcaption>
+</figure>
+<p>看公式可能会比较复杂，具体做法就是提前预设一个阈值p，然后对于某个时间步的概率分布P，我们寻找一个最小的top-p的一个token池子，这个池子里所有的token的概率值加起来要大于p，注意这里是找一个smallest
+set，也就是我们在找这个token池子时，从概率最高的token往下捋，一直到概率和大于p。找到这个池子之后，我们将原来经过softmax函数计算之后的概率分布按照上图中（3）的公式重新计算得出一个新的概率分布。最终我们得到的概率分布不属于我们之前找的token池子里的token的概率全部置为0，至于在这个token池子里的token的概率值会除以这个池子里所有token概率值的<strong>和</strong>。然后我们从这个分布中去sample我们的预测token。</p>
+<h2 id="sampling-with-temperature">Sampling with Temperature</h2>
+<p>Temperature这个概念在GPT中也有，不同的温度值，你会得到不同的结果。温度值越低，它会对自己的输出结果更自信，而温度值越高，它会降低模型的确信值，也就会返回更多的结果给你。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">Blog</a>对上面提到的<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a>文章进行了解答，但我发现有一点和paper中不一样的是：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144452222.png" alt="image-20230421144452222">
+<figcaption aria-hidden="true">image-20230421144452222</figcaption>
+</figure>
+<p>temperature值t并不是取值是<code>[0,1)</code>，stanford224n的课件以及博客里对t的取值是可以大于1的：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144619190.png" alt="image-20230421144619190">
+<figcaption aria-hidden="true">image-20230421144619190</figcaption>
+</figure>
+<p>在博客中我们可以看到作者对于t值大于1和小于1画出的图的区别：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144711636.png" alt="image-20230421144711636">
+<figcaption aria-hidden="true">image-20230421144711636</figcaption>
+</figure>
 
     </div>
 
@@ -348,21 +354,18 @@ learning for Video classification and Captioning</h2>
 </div>
 
           <div class="post-tags">
-              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/nlp/" rel="tag"># nlp</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/" rel="prev" title="Part 2:Model Validation模型验证">
-                  <i class="fa fa-chevron-left"></i> Part 2:Model Validation模型验证
+                <a href="/2023/04/14/instruction-following-language-models/" rel="prev" title="instruction-following language models">
+                  <i class="fa fa-chevron-left"></i> instruction-following language models
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/" rel="next" title="使用PaddleVideo实现在attention_lstm模型上训练youtube-8m数据">
-                  使用PaddleVideo实现在attention_lstm模型上训练youtube-8m数据 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -395,14 +398,14 @@ learning for Video classification and Captioning</h2>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">190k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:53</span>
+    <span title="Reading time total">2:59</span>
   </span>
 </div>
 
