@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,7 +214,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -227,7 +227,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/" class="post-title-link" itemprop="url">machine learning专项课程notes</a>
+          <a href="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/" class="post-title-link" itemprop="url">训练一个information retrival</a>
         </h2>
 
         <div class="post-meta-container">
@@ -237,23 +237,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2023-02-23 10:23:30" itemprop="dateCreated datePublished" datetime="2023-02-23T10:23:30+08:00">2023-02-23</time>
+      <time title="Created: 2023-06-30 10:54:28 / Modified: 13:36:10" itemprop="dateCreated datePublished" datetime="2023-06-30T10:54:28+08:00">2023-06-30</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-03-02 11:10:34" itemprop="dateModified" datetime="2023-03-02T11:10:34+08:00">2023-03-02</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+          <a href="/categories/nlp/" itemprop="url" rel="index"><span itemprop="name">nlp</span></a>
         </span>
     </span>
 
@@ -264,7 +258,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.6k</span>
+      <span>3.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -282,157 +276,43 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>本文章整理吴恩达老师在coursera上的machine
-learning专项课程的知识点，另外补充记录课堂上没有cover到的一些知识，参考西瓜书以及deep
-learning花书。</p>
-<h1 id="class-1-supervised-regression-and-classification">class 1
-supervised regression and classification</h1>
-<h2 id="picking-the-appropriate-learning-rate">picking the appropriate
-learning rate:</h2>
+          <p>近期中文大语言模型出现了好多产品，独领风骚的chatglm-6B确实表现很不错，所以大家就纷纷下场想做一个自己领域的大语言模型，最近看到一篇<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2305.15062">Lawyer LLaMA Technical
+Report</a>，作者基于llama模型做了一个法律的语言模型。我觉得这篇文章值得想在垂直领域做语言模型的研究者参考，特别是它所采取的路径：</p>
 <figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223103443797-16771196850861.png" alt="pick value">
-<figcaption aria-hidden="true">pick value</figcaption>
+<img src="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/image-20230630105909352.png" alt="training process of lawyer LLaMA">
+<figcaption aria-hidden="true">training process of lawyer
+LLaMA</figcaption>
 </figure>
-<h2 id="logistic-function的loss-function">logistic function的loss
-function：</h2>
+<p>也有<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/XYJMDND4Od41WECqlxt3Fw">博客</a>粗略介绍了这篇文章。</p>
+<p>我重点关注的是这个工作里的信息抽取：</p>
 <figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223112138369-16771225003742.png" alt="image-20230223112138369">
-<figcaption aria-hidden="true">image-20230223112138369</figcaption>
+<img src="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/image-20230630110134378.png" alt="image-20230630110134378">
+<figcaption aria-hidden="true">image-20230630110134378</figcaption>
 </figure>
-<h2 id="bias和variance">bias和variance：</h2>
-<p>参考<a target="_blank" rel="noopener" href="https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229">博客</a></p>
-<p><strong>What is bias?</strong></p>
-<p>Bias is the difference between the average prediction of our model
-and the correct value which we are trying to predict. Model with high
-bias pays very little attention to the training data and oversimplifies
-the model. It always leads to high error on training and test data.</p>
-<p><strong>What is variance?</strong></p>
-<p>Variance is the variability of model prediction for a given data
-point or a value which tells us spread of our data. Model with high
-variance pays a lot of attention to training data and does not
-generalize on the data which it hasn’t seen before. As a result, such
-models perform very well on training data but has high error rates on
-test data.</p>
-<p>总结来说就说，一个模型的bias如果很大的话，说明该模型是underfit，并没有很好的拟合训练数据，也就是training
-error比较大；而variance比较大的话，说明该模型把更多的关注力放在训练数据上，但是在它没见过的数据集上表现很差，也就是train_error小，而dev_error大，泛化能力差。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223115103788-16771242656113.png" alt="bias and variance">
-<figcaption aria-hidden="true">bias and variance</figcaption>
-</figure>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230223134302857.png" alt="image-20230223134302857">
-<figcaption aria-hidden="true">image-20230223134302857</figcaption>
-</figure>
-<h1 id="class-2-advanced-learning-algorithms">class 2 advanced learning
-algorithms</h1>
-<h2 id="optimizer">optimizer</h2>
-<h3 id="gradient-descent-with-momentum">gradient descent with
-momentum</h3>
-<p>动量梯度下降法，运行速度要快于标准的梯度下降。基本的想法就是计算梯度的指数加权平均数，并利用该梯度来更新。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/gradient-descent-with-momentum-59420f626c8f">博客</a>中阐述这个问题的方式是：</p>
-<p>标准的GD只是考虑当下的learning
-rate和当下的gradient，并没有考虑前面batch的gradient。这就带来几个问题：</p>
-<ol type="1">
-<li>在固定learning
-rate下，J在一些点上变化缓慢，基本上是处于一个平原区，其实这时候我们希望它的步子要迈的大一点</li>
-<li>在一些J变化比较多的地方，我们其实希望步子要小一点</li>
-</ol>
-<p>那么Momemtum解决了什么问题呢？它可以在J下降不动的时候，让gradient比原来的标准值要大一点，也就是我们间接的把步子迈大了。具体需要用指数加权平均数来实现，因为指数加权平均数很好的考虑了要给予多大的权重给过去的gradient，当然给予最大权重是当前的gradient。</p>
-<p><img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/gd%20with%20momentum.png"></p>
-<p>以上这个公式就是gradient加了动量momentum的公式，具体的v(t-1)是上一步的weight，而delta(t)是用当前batch计算的梯度。beta是常数，通常取值为0.9</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227134323054-16774766052811.png" alt="image-20230227134323054">
-<figcaption aria-hidden="true">image-20230227134323054</figcaption>
-</figure>
-<h3 id="rmsprop">RMSprop</h3>
-<p>rmsprop也可以加速训练过程，而且会降低训练过程中J下降的抖动：</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227141934848-16774787770602.png" alt="image-20230227141934848">
-<figcaption aria-hidden="true">image-20230227141934848</figcaption>
-</figure>
-<h3 id="adam">Adam</h3>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227143504471-16774797058863.png" alt="image-20230227143504471">
-<figcaption aria-hidden="true">image-20230227143504471</figcaption>
-</figure>
-<p>可以发现Adam其实是结合了RMSprop和momentum，其中beta1缺省值是0.9，beta2的缺省值是0.999.</p>
-<p>更深入一点我们还有AdamW，是为了解决adam优化器训练出来的模型比SDG训练出来的模型泛化能力差，这个泛化能力差主要是由于L2正则化也就是weight
-decay并没有在Adam中很好的体现，详细可以参考AdamW的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.05101">paper：Fixing Weight Decay
-Regularization in Adam</a>和<a target="_blank" rel="noopener" href="https://towardsdatascience.com/why-adamw-matters-736223f31b5d">Why
-AdamW matters</a></p>
-<h2 id="metric">metric</h2>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155504810-16774845099534.png" alt="precision and recall">
-<figcaption aria-hidden="true">precision and recall</figcaption>
-</figure>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227155742925.png" alt="image-20230227155742925">
-<figcaption aria-hidden="true">image-20230227155742925</figcaption>
-</figure>
-<p>如果我们根据sigmoid之后的概率值来进行分类，那么如果我们设定一个很大的概率值，比如说图上的0.7，也就表示说我们只在我们非常自信的时候才会预测一个人得了病，那么必然#total
-predicted
-positive会变小，所以precision会是一个较大的值；而如果我们采用一个比较小的概率值，比如0.3，也就表示说我们把更多的sample预测成了阳性，那么就代表，我们并不想错过任何一个病历。</p>
-<p>我们拥有另一个metric叫做F1
-score来衡量一个模型在precision和recall上的共同特征。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230227160513093-16774851219125.png" alt="F1 score">
-<figcaption aria-hidden="true">F1 score</figcaption>
-</figure>
-<h2 id="decision-tree">decision tree</h2>
-<p>information
-entropy即信息熵是度量样本集合纯度purity最常用的一种指标，决策树就是基于将每一次分类的集合往纯度越高的方向去提升，从而达到分类数据集的目的。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228101129354-16775503015086.png" alt="信息熵的数学计算">
-<figcaption aria-hidden="true">信息熵的数学计算</figcaption>
-</figure>
-<p>信息熵越大，D的纯度越小，说明数据很混乱。</p>
-<p>我们可以用信息增益来进行决策树的划分属性选择，每一次都选择使得划分的信息增益最大。</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228102027466-16775508287787.png" alt="image-20230228102027466">
-<figcaption aria-hidden="true">image-20230228102027466</figcaption>
-</figure>
-<h3 id="decision-tree-ensembles">decision tree ensembles</h3>
-<p>解决问题： trees are highly sensitive to small changes of the
-data</p>
-<p>解决办法： combines several decision trees to produce better
-predictive performance than utilizing a single decision tree</p>
-<p>有两种技术可以用来实现ensemble decision trees: bagging和boosting</p>
-<ol type="1">
-<li>bagging(bootstrap aggregation)</li>
-</ol>
-<blockquote>
-<p><em><strong>Bagging*</strong> (Bootstrap Aggregation) is used when
-our goal is to reduce the variance of a decision tree. </em>Here idea is
-to create several subsets of data from training sample chosen randomly*
-*with replacement**. Now, each collection of subset data is used to
-train their decision trees. As a result, we end up with an ensemble of
-different models. Average of all the predictions from different trees
-are used which is more robust than a single decision tree.*</p>
-</blockquote>
-<p><em>Random Forest</em> is an extension over bagging. It takes one
-extra step where in addition to taking the random subset of data, it
-also takes the random selection of features rather than using all
-features to grow trees. When you have many random trees. It’s called
-Random Forest</p>
-<ol start="2" type="1">
-<li>Boosting</li>
-</ol>
-<blockquote>
-<p><strong>Boosting</strong> <em>is another ensemble technique to create
-a collection of predictors. In this technique, learners are learned
-sequentially with early learners fitting simple models to the data and
-then analyzing data for errors. In other words, we fit consecutive trees
-(random sample) and at every step, the goal is to solve for net error
-from the prior tree.</em></p>
-</blockquote>
-<p>参考资料： <a target="_blank" rel="noopener" href="https://towardsdatascience.com/decision-tree-ensembles-bagging-and-boosting-266a8ba60fd9">博客</a></p>
-<h2 id="conclusion">conclusion</h2>
-<p>when to use decision trees?</p>
-<figure>
-<img src="/2023/02/23/machine-learning%E4%B8%93%E9%A1%B9%E8%AF%BE%E7%A8%8Bnotes/image-20230228131322629.png" alt="decision trees vs NN">
-<figcaption aria-hidden="true">decision trees vs NN</figcaption>
-</figure>
-<h1 id="class-3-unsupervised-learning-recommenders-reinforcement-learning">class
-3 unsupervised learning, recommenders, reinforcement learning</h1>
+<p>思路大概就是和斯坦福的dsp一个思路，用户问一个问题，第一种方式就是直接把这个问题抛给llm，让它去回答，第二种就是在把问题抛给llm之前先过一道retrival模型，这个模型会抽取一些和回答这个问题相关的一些context，将这些context加入prompt中，然后再抛给llm。这有一个专门的名词，在Demonstrate-Search-Predict:
+Composing retrieval and language models for knowledge-intensive NLP
+中有所介绍：
+<em>retrieve-then-read</em>。有兴趣的可以再看一下斯坦福在做这部分工作时出的<a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/dsp/blob/main/intro.ipynb">notebook</a>介绍，看完你就知道为啥要retrieve一些context加入到prompt中去。</p>
+<p>可惜的是laywer
+llama这篇文章并没有详细的介绍它的retrieve咋做的，文章中也是一笔带过，数据规模包括组织形式一概没说。我主要是参考斯坦福的dsp这框架中retrieve的实现，它是基于ColBERTv2做的抽取模块，但其实colbert预训练的模型是在微软的msmarco数据集上训练的，也就是没有中文，那必然对中文的适配度应该就不太行，所以我就想找找有咩有好心的博主写过自己用colbert在自己组织的语料库上训练的过程，发现没有，所以这就是我写这篇文章的动机啦，希望能给后面想用自己组建的数据集训练一个colbert做信息抽取的童鞋一点参考。</p>
+<p>以下的内容参考<a target="_blank" rel="noopener" href="https://github.com/stanford-futuredata/ColBERT">colbert
+github</a></p>
+<h1 id="数据组织">数据组织</h1>
+<h1 id="模型使用">模型使用</h1>
+<h2 id="用官方训练好的checkpoints">用官方训练好的checkpoints</h2>
+<p>参考https://github.com/stanford-futuredata/ColBERT/blob/main/docs/intro.ipynb</p>
+<p>里面的输就LoTTE的url已经失效了，包括checkpoints的下载地址。可以到hugging
+face的仓库找</p>
+<ul>
+<li>colbertv2.0 checkpoints :
+https://huggingface.co/colbert-ir/colbertv2.0/tree/main</li>
+<li>lotte 数据集地址：
+https://huggingface.co/datasets/colbertv2/lotte/tree/main</li>
+</ul>
+<p>注意上面这个lotte的数据集的组织方式和colbert官方github仓库里的介绍不一样，这一点上colbert2这个代码仓库的维护做的蛮糟糕的，比羊驼可差远了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.insert(<span class="number">0</span>, <span class="string">&#x27;../&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面这些包是colbert写好的类，可以导入预训练的checkpoints和你自己的querys，documents</span></span><br><span class="line"><span class="keyword">from</span> colbert.infra <span class="keyword">import</span> Run, RunConfig, ColBERTConfig</span><br><span class="line"><span class="keyword">from</span> colbert.data <span class="keyword">import</span> Queries, Collection</span><br><span class="line"><span class="keyword">from</span> colbert <span class="keyword">import</span> Indexer, Searcher</span><br><span class="line"></span><br><span class="line">dataroot = <span class="string">&#x27;downloads/lotte&#x27;</span> <span class="comment"># 假设你已经把lotte放到downloads文件夹下</span></span><br><span class="line">dataset = <span class="string">&#x27;lifestyle&#x27;</span></span><br><span class="line">datasplit = <span class="string">&#x27;dev&#x27;</span></span><br><span class="line"></span><br><span class="line">queries = os.path.join(dataroot, dataset, datasplit, <span class="string">&#x27;questions.search.tsv&#x27;</span>) <span class="comment"># questions.search.txv没找到</span></span><br><span class="line">collection = os.path.join(dataroot, dataset, datasplit, <span class="string">&#x27;collection.tsv&#x27;</span>) <span class="comment"># collections.tsv也没找到</span></span><br><span class="line"></span><br><span class="line">queries = Queries(path=queries)</span><br><span class="line">collection = Collection(path=collection)</span><br><span class="line"></span><br><span class="line"><span class="string">f&#x27;Loaded <span class="subst">&#123;<span class="built_in">len</span>(queries)&#125;</span> queries and <span class="subst">&#123;<span class="built_in">len</span>(collection):,&#125;</span> passages&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># indexing 主要用于对所有的document进行index</span></span><br><span class="line">nbits = <span class="number">2</span>   <span class="comment"># encode each dimension with 2 bits</span></span><br><span class="line">doc_maxlen = <span class="number">300</span>   <span class="comment"># truncate passages at 300 tokens</span></span><br><span class="line"></span><br><span class="line">checkpoint = <span class="string">&#x27;downloads/colbertv2.0&#x27;</span></span><br><span class="line">index_name = <span class="string">f&#x27;<span class="subst">&#123;dataset&#125;</span>.<span class="subst">&#123;datasplit&#125;</span>.<span class="subst">&#123;nbits&#125;</span>bits&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Run().context(RunConfig(nranks=<span class="number">4</span>, experiment=<span class="string">&#x27;notebook&#x27;</span>)):  <span class="comment"># nranks specifies the number of GPUs to use.</span></span><br><span class="line">    config = ColBERTConfig(doc_maxlen=doc_maxlen, nbits=nbits)</span><br><span class="line"></span><br><span class="line">    indexer = Indexer(checkpoint=checkpoint, config=config)</span><br><span class="line">    indexer.index(name=index_name, collection=collection, overwrite=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># search </span></span><br><span class="line"><span class="keyword">with</span> Run().context(RunConfig(experiment=<span class="string">&#x27;notebook&#x27;</span>)):</span><br><span class="line">    searcher = Searcher(index=index_name)</span><br><span class="line">query = queries[<span class="number">37</span>]   <span class="comment"># or supply your own query</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;#&gt; <span class="subst">&#123;query&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Find the top-3 passages for this query</span></span><br><span class="line">results = searcher.search(query, k=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print out the top-k retrieved passages</span></span><br><span class="line"><span class="keyword">for</span> passage_id, passage_rank, passage_score <span class="keyword">in</span> <span class="built_in">zip</span>(*results):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\t [<span class="subst">&#123;passage_rank&#125;</span>] \t\t <span class="subst">&#123;passage_score:<span class="number">.1</span>f&#125;</span> \t\t <span class="subst">&#123;searcher.collection[passage_id]&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>ok
+偶然看到官方仓库昨天更新了intro的notebook，我看到里面下载数据集的仓库变化了，然后导入包的时候也写得更清晰了，加了条件：https://github.com/stanford-futuredata/ColBERT/blob/main/docs/intro2new.ipynb</p>
 
       
     </div>
@@ -459,7 +339,7 @@ from the prior tree.</em></p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -472,7 +352,7 @@ from the prior tree.</em></p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/" class="post-title-link" itemprop="url">TF2中的custom layer&model&training</a>
+          <a href="/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">浅析stanford alpaca羊驼代码</a>
         </h2>
 
         <div class="post-meta-container">
@@ -483,14 +363,14 @@ from the prior tree.</em></p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2023-02-13 16:07:54" itemprop="dateCreated datePublished" datetime="2023-02-13T16:07:54+08:00">2023-02-13</time>
+      <time title="Created: 2023-06-20 15:30:20" itemprop="dateCreated datePublished" datetime="2023-06-20T15:30:20+08:00">2023-06-20</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-03-22 09:38:49" itemprop="dateModified" datetime="2023-03-22T09:38:49+08:00">2023-03-22</time>
+        <time title="Modified: 2023-06-28 16:55:50" itemprop="dateModified" datetime="2023-06-28T16:55:50+08:00">2023-06-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -498,7 +378,7 @@ from the prior tree.</em></p>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+          <a href="/categories/nlp/" itemprop="url" rel="index"><span itemprop="name">nlp</span></a>
         </span>
     </span>
 
@@ -509,7 +389,7 @@ from the prior tree.</em></p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.8k</span>
+      <span>7.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -527,76 +407,58 @@ from the prior tree.</em></p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>在上Coursera上关于<a target="_blank" rel="noopener" href="https://www.coursera.org/specializations/tensorflow-advanced-techniques">Tensorflow的高级用法课程</a>时，老师简略介绍了custom
-layer和custom
-model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub
-classing来搭建模型，写的非常好，这里贴上<a target="_blank" rel="noopener" href="https://towardsdatascience.com/model-sub-classing-and-custom-training-loop-from-scratch-in-tensorflow-2-cc1d4f10fb4e">链接</a></p>
-<p>我们知道在tensorflow中有三种搭建模型的方式： 1) sequential API
-也就是想创建一个Sequential实例，然后通过add的方式把一个layer加到模型中去，如：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line">seq_model = tf.keras.Sequential()</span><br><span class="line">seq_model.add(tf.keras.Input(shape=imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.MaxPooling2D(<span class="number">3</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line">seq_model.add(tf.keras.layers.Dropout(<span class="number">0.3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">seq_model.add(tf.keras.layers.GlobalMaxPooling2D())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">seq_model.add(tf.keras.layers.Dense(output_dim))</span><br></pre></td></tr></table></figure>
-sequential的方式在researcher中用的不多，随着模型变得越来越复杂，可以看到tensorflow的application模块实现的官方模型代码中，已经见不到这种形式了。
-2) Functional API 正如其名，就是用函数调用的方式来搭建模型：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line"><span class="built_in">input</span> = tf.keras.Input(shape=(imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>)(<span class="built_in">input</span>)</span><br><span class="line">x = tf.keras.layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line">x = tf.keras.layers.Dropout(<span class="number">0.3</span>)(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">gap = tf.keras.layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">output = tf.keras.layers.Dense(output_dim)(gap)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bind all</span></span><br><span class="line">func_model = tf.keras.Model(<span class="built_in">input</span>, output)</span><br></pre></td></tr></table></figure>
-注意：这种方式最终要使用<code>tf.keras.Model()</code>来将inputs和outputs接起来。</p>
-<ol start="3" type="1">
-<li>Model sub-classing API 第三种方式是现在用的最多的方式。
-之前我没理解layer和model两种调用方式的区别，我觉得就是一系列运算，我们把输入输进来，return
-output结果的一个过程。但如果一个类它是Layer的子类，它比model的子类多了一个功能，它有state属性，也就是我们熟悉的weights。比如Dense
-layer，我们知道它做了线性运算+激活函数，其中的weights就是我们assign给每一个feature的权重，但其实我们并不只是想要这一类别的运算，比如下面的：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleQuadratic</span>(<span class="params">Layer</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, units=<span class="number">32</span>, activation=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Initializes the class and sets up the internal variables&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        <span class="built_in">super</span>(SimpleQuadratic, self).__init__()</span><br><span class="line">        self.units = units</span><br><span class="line">        self.activation = tf.keras.activations.get(activation)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span>(<span class="params">self, input_shape</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Create the state of the layer (weights)&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># a and b should be initialized with random normal, c (or the bias) with zeros.</span></span><br><span class="line">        <span class="comment"># remember to set these as trainable.</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        a_init = tf.random_normal_initializer()</span><br><span class="line">        b_init = tf.random_normal_initializer()</span><br><span class="line">        c_init = tf.zeros_initializer()</span><br><span class="line">        </span><br><span class="line">        self.a = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = a_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.b = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = b_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.c = tf.Variable(name = <span class="string">&quot;bias&quot;</span>, initial_value = c_init(shape= (self.units,), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, inputs</span>):</span> </span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Defines the computation from inputs to outputs&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        result = tf.matmul(tf.math.square(inputs), self.a) + tf.matmul(inputs, self.b) + self.c</span><br><span class="line">        <span class="keyword">return</span> self.activation(result)</span><br></pre></td></tr></table></figure>
-上面的代码将inputs平方之后和a做乘积，之后再加上inputs和b的乘积，最终返回的是和。这样的运算是tf.keras.layer中没有的。这个时候我们自己customize
-layer就很方便。还有一个很方便的地方在于很多模型其实是按模块来的，模块内部的layer很类似。这个时候我们就可以把这些模型内的layer包起来变成一个layer的子类（Module），再定义完这些module之后我们使用Model把这些module再包起来，这就是我们最终的model。这时候我们就可以看到Model和Layer子类的区别了，虽然两者都可以实现输入进来之后实现一系列运算返回运算结果，但后者可以实现更灵活的运算，而前者往往是在把每一个模块定义好之后最终定义我们训练模型的类。
-&gt; In general, we use the Layer class to define the inner computation
-blocks and will use the Model class to define the outer model,
-practically the object that we will train. ---粘贴自博客</li>
-</ol>
+          <p>斯坦福的羊驼alpaca开启了大家微调大语言模型的先河，现在很多国内的工作都是基于斯坦福的羊驼模型的范式来微调chatglm-6B,alpaca的<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>.</p>
+<p>之前我一个很厉害的师兄说过，要想写代码写的厉害或者有所提高，最重要的就是要多读别人优秀的代码，多思考别人为什么这么写，如果让自己写的话是不是可以做到如此高效。这就是我想写这篇博客的原因，我是最近几个月才接触的huggingface的transformer库，发现很多API虽然设计的很简单，但里面功能丰富，不可能一下子就掌握住，所以我的办法是多看别人是如何写的，我的主要参考repo就是alpaca和chatglm-6B官方repo给出的那些finetune
+LLM的代码。</p>
+<p>回到羊驼alpca这份代码，不得不说斯坦福的这份代码写的真的很优秀，值得一句一句去debug。</p>
+<h1 id="数据准备部分">数据准备部分</h1>
+<p>代码在<code>generate_instruction.py</code>内。</p>
+<p>这部分代码主要功能是实现由seed_tasks.jsonl作为模板，让GPT3.5来根据两个seed生成一些instruction和input，output。思想基于self-instruct的理念，在我另外一篇博客instrcution
+tuning中有所详细介绍。</p>
+<p>这里的启动函数是<code>def generate_instruction_following_data()</code>,
+首先会将seed_tasks读取进来，然后从中随机选取num_prompt_instructions个数据，默认是三个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions)</span><br></pre></td></tr></table></figure>
+<p>注意这里羊驼采用了向chatgpt传输batch请求的方式，也就是一次性向chatgpt传输多个prompt，程序里默认是5个prompt一起传输给gpt，然后每一个prompt长什么样子呢？</p>
+<p>举一个简单的例子, 下面这是一个seed_task</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;: &quot;seed_task_1&quot;, &quot;name&quot;: &quot;antonym_relation&quot;, &quot;instruction&quot;: &quot;What is the relation between the given pairs?&quot;, &quot;instances&quot;: [&#123;&quot;input&quot;: &quot;Night : Day :: Right : Left&quot;, &quot;output&quot;: &quot;The relation between the given pairs is that they are opposites.&quot;&#125;], &quot;is_classification&quot;: false&#125;</span><br></pre></td></tr></table></figure>
+<p>作者将三个seed_task拼接在一起，然后前面加上事先定义好的prompt：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_prompt</span>(<span class="params">prompt_instructions</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Encode multiple prompt instructions into a single string.&quot;&quot;&quot;</span></span><br><span class="line">    prompt = <span class="built_in">open</span>(<span class="string">&quot;./prompt.txt&quot;</span>).read() + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx, task_dict <span class="keyword">in</span> <span class="built_in">enumerate</span>(prompt_instructions):</span><br><span class="line">        (instruction, <span class="built_in">input</span>, output) = task_dict[<span class="string">&quot;instruction&quot;</span>], task_dict[<span class="string">&quot;input&quot;</span>], task_dict[<span class="string">&quot;output&quot;</span>]</span><br><span class="line">        instruction = re.sub(<span class="string">r&quot;\s+&quot;</span>, <span class="string">&quot; &quot;</span>, instruction).strip().rstrip(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">        <span class="built_in">input</span> = <span class="string">&quot;&lt;noinput&gt;&quot;</span> <span class="keyword">if</span> <span class="built_in">input</span>.lower() == <span class="string">&quot;&quot;</span> <span class="keyword">else</span> <span class="built_in">input</span></span><br><span class="line">        prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Instruction: <span class="subst">&#123;instruction&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Input:\n<span class="subst">&#123;<span class="built_in">input</span>&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Output:\n<span class="subst">&#123;output&#125;</span>\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">2</span>&#125;</span>. Instruction:&quot;</span></span><br><span class="line">    <span class="keyword">return</span> prompt</span><br></pre></td></tr></table></figure>
+<p>事先定义好的prompt长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">You are asked to come up with a set of 20 diverse task instructions. These task instructions will be given to a GPT model and we will evaluate the GPT model for completing the instructions.</span><br><span class="line"></span><br><span class="line">Here are the requirements:</span><br><span class="line">1. Try not to repeat the verb for each instruction to maximize diversity.</span><br><span class="line">2. The language used for the instruction also should be diverse. For example, you should combine questions with imperative instrucitons.</span><br><span class="line">3. The type of instructions should be diverse. The list should include diverse types of tasks like open-ended generation, classification, editing, etc.</span><br><span class="line">4. A GPT language model should be able to complete the instruction. For example, do not ask the assistant to create any visual or audio output. For another example, do not ask the assistant to wake you up at 5pm or set a reminder because it cannot perform any action.</span><br><span class="line">5. The instructions should be in English.</span><br><span class="line">6. The instructions should be 1 to 2 sentences long. Either an imperative sentence or a question is permitted.</span><br><span class="line">7. You should generate an appropriate input to the instruction. The input field should contain a specific example provided for the instruction. It should involve realistic data and should not contain simple placeholders. The input should provide substantial content to make the instruction challenging but should ideally not exceed 100 words.</span><br><span class="line">8. Not all instructions require input. For example, when a instruction asks about some general information, &quot;what is the highest peak in the world&quot;, it is not necssary to provide a specific context. In this case, we simply put &quot;&lt;noinput&gt;&quot; in the input field.</span><br><span class="line">9. The output should be an appropriate response to the instruction and the input. Make sure the output is less than 100 words.</span><br><span class="line"></span><br><span class="line">List of 20 tasks:</span><br></pre></td></tr></table></figure>
+<p>理解起来就是作者在list of 20 tasks后面跟上了三个seed
+tasks，也就是给gpt打个样，让它知道按这个模式去生成。这里有个地方值得参考的：</p>
 <blockquote>
-<p>You can treat any model as if it were a layer by invoking it on an
-<code>Input</code> or on the output of another layer. By calling a model
-you aren't just reusing the architecture of the model, you're also
-reusing its weights</p>
+<p>用模板的时候给每一个example配上分隔符，这里作者采用了###,
+不仅如此，作者还采用了序号的方式，这些都是为了方便后面对gpt返回的text进行处理</p>
 </blockquote>
-<p>同样值得注意的是，model的子类也可以像layer那样使用functional
-API来调用，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">encoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;original_img&quot;</span>)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(encoder_input)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">encoder_output = layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line">encoder = keras.Model(encoder_input, encoder_output, name=<span class="string">&quot;encoder&quot;</span>)</span><br><span class="line">encoder.summary()</span><br><span class="line"></span><br><span class="line">decoder_input = keras.Input(shape=(<span class="number">16</span>,), name=<span class="string">&quot;encoded_img&quot;</span>)</span><br><span class="line">x = layers.Reshape((<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>))(decoder_input)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.UpSampling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">decoder_output = layers.Conv2DTranspose(<span class="number">1</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line"></span><br><span class="line">decoder = keras.Model(decoder_input, decoder_output, name=<span class="string">&quot;decoder&quot;</span>)</span><br><span class="line">decoder.summary()</span><br><span class="line"></span><br><span class="line">autoencoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;img&quot;</span>)</span><br><span class="line">encoded_img = encoder(autoencoder_input)</span><br><span class="line">decoded_img = decoder(encoded_img)</span><br><span class="line">autoencoder = keras.Model(autoencoder_input, decoded_img, name=<span class="string">&quot;autoencoder&quot;</span>)</span><br><span class="line">autoencoder.summary()</span><br></pre></td></tr></table></figure>
-<p>我们以sub-classing的方式定义的model是没有办法调用summary来看模型架构的，作者也给出了解决方案：<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow/issues/31647#issuecomment-692586409">github
-comments</a></p>
-<p>方法就是在Model的子类中添加build_graph方法： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_graph</span>(<span class="params">self, raw_shape</span>):</span></span><br><span class="line">        x = tf.keras.layers.Input(shape=raw_shape)</span><br><span class="line">        <span class="keyword">return</span> Model(inputs=[x], outputs=self.call(x))</span><br></pre></td></tr></table></figure>
-这样我们就可以正常调用summary() <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cm.build_graph(raw_input).summary()</span><br><span class="line"><span class="comment"># 不仅如此还能使用tf.keras.utils.plot_model来生成png</span></span><br><span class="line">tf.keras.utils.plot_model(</span><br><span class="line">    model.build_graph(raw_input),                      <span class="comment"># here is the trick (for now)</span></span><br><span class="line">    to_file=<span class="string">&#x27;model.png&#x27;</span>, dpi=<span class="number">96</span>,              <span class="comment"># saving  </span></span><br><span class="line">    show_shapes=<span class="literal">True</span>, show_layer_names=<span class="literal">True</span>,  <span class="comment"># show shapes and layer name</span></span><br><span class="line">    expand_nested=<span class="literal">False</span>                       <span class="comment"># will show nested block</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>作者同样推荐了一篇博客讲tensorflow中保存模型的各种方式：<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/172D4jishSgE3N7AO6U2OKAA_0wNnrMOq#scrollTo=vnTvqAgfspGJ">博客地址</a>.非常推荐阅读</p>
-<p>总结一下就是：</p>
-<ol type="1">
-<li>对于Functional
-API创建的模型，最好的保存模型和导入模型的方式是：</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.save(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br><span class="line"><span class="keyword">del</span> model</span><br><span class="line">model = keras.models.load_model(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>以上方式会将模型的架构，weights以及训练过程中的设定（也就是model.compile()）的内容全部保存。</p>
-<ol start="2" type="1">
-<li>对于sub class创建的模型，推荐的方式是用save_weights</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.save_weights(<span class="string">&#x27;path_to_my_weights&#x27;</span>, save_format=<span class="string">&#x27;tf&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>如果想要加载weights，必须要知道原来用sub
-class建立模型的code。不仅如此，还需要用原来的code先build起模型，让模型知道输入tensor的shape以及dtype，如果没有build这一步程序将会报错。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new_model = MiniInception()</span><br><span class="line">new_model.build((<span class="literal">None</span>, x_train.shape[<span class="number">1</span>:])) <span class="comment"># or .build((x_train.shape))</span></span><br><span class="line">new_model.load_weights(<span class="string">&#x27;net.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="tf.function">tf.function</h1>
-<p>在我们定义custum training
-过程中时我们经常会用到这个装饰器@tf.function</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span>(<span class="params">step, x, y</span>):</span></span><br><span class="line">   <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">   input: x, y &lt;- typically batches </span></span><br><span class="line"><span class="string">   input: step &lt;- batch step</span></span><br><span class="line"><span class="string">   return: loss value</span></span><br><span class="line"><span class="string">   &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># start the scope of gradient </span></span><br><span class="line">   <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">      logits = model(x, training=<span class="literal">True</span>) <span class="comment"># forward pass</span></span><br><span class="line">      train_loss_value = loss_fn(y, logits) <span class="comment"># compute loss </span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute gradient </span></span><br><span class="line">   grads = tape.gradient(train_loss_value, model.trainable_weights)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update weights</span></span><br><span class="line">   optimizer.apply_gradients(<span class="built_in">zip</span>(grads, model.trainable_weights))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update metrics</span></span><br><span class="line">   train_acc_metric.update_state(y, logits)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># write training loss and accuracy to the tensorboard</span></span><br><span class="line">   <span class="keyword">with</span> train_writer.as_default():</span><br><span class="line">        tf.summary.scalar(<span class="string">&#x27;loss&#x27;</span>, train_loss_value, step=step)</span><br><span class="line">        tf.summary.scalar(</span><br><span class="line">            <span class="string">&#x27;accuracy&#x27;</span>, train_acc_metric.result(), step=step</span><br><span class="line">        ) </span><br><span class="line">   <span class="keyword">return</span> train_loss_value</span><br></pre></td></tr></table></figure>
-<p>先看如果一个函数不加这个装饰器会如何：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 3</span><br></pre></td></tr></table></figure>
-<p>加上装饰器：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>可以看到第二种加了装饰器的方式，即便是循环了5遍，我们仍然只有一行打印了2.</p>
-<p>如果我们在上面的代码中print之前加上一行：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line">    <span class="comment"># add tf.print</span></span><br><span class="line">    tf.<span class="built_in">print</span>(<span class="string">&quot;Executed with&quot;</span>, x)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>程序的输出就变成了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>可以看到<code>tf.print</code>就可以正常按<code>loop</code>运行。注意一点:
-被<code>tf.function</code>装饰的函数只能包含<code>operations</code>而不能定义<code>variable</code>比如<code>tf.Variable()</code></p>
+<p>这里还有一个值得学习的地方在utils.py内，我们在使用openai的api获取回复时，有时候会遇到prompt过长的问题，羊驼catch了这个报错，将prompt的长度变为原来的80%，然后再向gpt发送请求，正是由于这份耐心，这个代码的耦合性就没那么高，所以易用性非常强，非常值得野生程序员学习。</p>
+<hr>
+<p>gpt返回的文本羊驼模型还做了similarity的计算，将相似度超过一定阈值的instrcution剔除掉。这部分代码可以直接复用。</p>
+<h1 id="train中的数据处理">train中的数据处理</h1>
+<p>羊驼模型采用了一个函数生成transformers库所需要的参数：
+<code>make_supervised_data_module</code>，该函数返回一个dict，其中字典的key就是我们初始化Trainer类所需要的train_dataset,eval_dataset和data_collator。这个函数里首先是构建数据集的类<code>SupervisedDataset</code>，继承自Dataset.
+注意pytorch里规定如果你想要创建一个自建的Dataset，这个继承自Dataset的子类必须重写<code>__len__</code>和<code>__getitem__</code>两个方法，羊驼这里写的是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SupervisedDataset</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Dataset for supervised fine-tuning.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path: <span class="built_in">str</span>, tokenizer: transformers.PreTrainedTokenizer</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(SupervisedDataset, self).__init__()</span><br><span class="line">        logging.warning(<span class="string">&quot;Loading data...&quot;</span>)</span><br><span class="line">        list_data_dict = utils.jload(data_path)</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Formatting inputs...&quot;</span>)</span><br><span class="line">        prompt_input, prompt_no_input = PROMPT_DICT[<span class="string">&quot;prompt_input&quot;</span>], PROMPT_DICT[<span class="string">&quot;prompt_no_input&quot;</span>]</span><br><span class="line">        sources = [</span><br><span class="line">            prompt_input.format_map(example) <span class="keyword">if</span> example.get(<span class="string">&quot;input&quot;</span>, <span class="string">&quot;&quot;</span>) != <span class="string">&quot;&quot;</span> <span class="keyword">else</span> prompt_no_input.format_map(example)</span><br><span class="line">            <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict</span><br><span class="line">        ]</span><br><span class="line">        targets = [<span class="string">f&quot;<span class="subst">&#123;example[<span class="string">&#x27;output&#x27;</span>]&#125;</span><span class="subst">&#123;tokenizer.eos_token&#125;</span>&quot;</span> <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict]</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Tokenizing inputs... This may take some time...&quot;</span>)</span><br><span class="line">        data_dict = preprocess(sources, targets, tokenizer)</span><br><span class="line"></span><br><span class="line">        self.input_ids = data_dict[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">        self.labels = data_dict[<span class="string">&quot;labels&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.input_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, i</span>) -&gt; <span class="type">Dict</span>[<span class="built_in">str</span>, torch.Tensor]:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=self.input_ids[i], labels=self.labels[i]) <span class="comment"># 这里key必须是input_ids和labels,这是由于是llama模型的规定。</span></span><br></pre></td></tr></table></figure>
+<p>羊驼模型用的DataCollator是自定义的，首先解释下datacollator是什么东西，transformers的官方文档的解释是：</p>
+<blockquote>
+<p>Data collators are objects that will form a batch by using a list of
+dataset elements as input. These elements are of the same type as the
+elements of <code>train_dataset</code> or <code>eval_dataset</code>.</p>
+</blockquote>
+<p>也就是你把所有的文本用tokenizer转化成input_ids和labels之后，要把他们组织成batch的形式，不仅如此，collator还能做一些数据处理的工作。它的输入就是我们之前的数据集，注意我们数据集的组织形式每一个数据sample它是一个字典，字典有两个key。所以羊驼这里首先将其拆分,
+一句话解决，非常善于利用[ for
+句式]，让我写的话应该是写成非常冗余的两个for循环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input_ids, labels = <span class="built_in">tuple</span>([instance[key] <span class="keyword">for</span> instance <span class="keyword">in</span> instances] <span class="keyword">for</span> key <span class="keyword">in</span> (<span class="string">&quot;input_ids&quot;</span>, <span class="string">&quot;labels&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p>后面就是很简单的train了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainer.train()</span><br><span class="line">trainer.save_state()</span><br><span class="line">trainer.save_model(output_dir=training_args.output_dir)</span><br></pre></td></tr></table></figure>
+<p>我当时看到这里的时候有点奇怪，因为我之前的习惯还是tensorflow那一套，基本上你把数据处理完之后还要prefetech，batch等，但是这里感觉transformer全部做了集成，可以仔细看羊驼模型的训练启动命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">torchrun --nproc_per_node=4 --master_port=&lt;your_random_port&gt; train.py \</span><br><span class="line">    --model_name_or_path <span class="string">&quot;facebook/opt-6.7b&quot;</span> \</span><br><span class="line">    --data_path ./alpaca_data.json \</span><br><span class="line">    --bf16 True \</span><br><span class="line">    --output_dir &lt;your_output_dir&gt; \</span><br><span class="line">    --num_train_epochs 3 \</span><br><span class="line">    --per_device_train_batch_size 4 \</span><br><span class="line">    --per_device_eval_batch_size 4 \</span><br><span class="line">    --gradient_accumulation_steps 8 \</span><br><span class="line">    --evaluation_strategy <span class="string">&quot;no&quot;</span> \</span><br><span class="line">    --save_strategy <span class="string">&quot;steps&quot;</span> \</span><br><span class="line">    --save_steps 2000 \</span><br><span class="line">    --save_total_limit 1 \</span><br><span class="line">    --learning_rate 2e-5 \</span><br><span class="line">    --weight_decay 0. \</span><br><span class="line">    --warmup_ratio 0.03 \</span><br><span class="line">    --lr_scheduler_type <span class="string">&quot;cosine&quot;</span> \</span><br><span class="line">    --logging_steps 1 \</span><br><span class="line">    --fsdp <span class="string">&quot;full_shard auto_wrap&quot;</span> \</span><br><span class="line">    --fsdp_transformer_layer_cls_to_wrap <span class="string">&#x27;OPTDecoderLayer&#x27;</span> \</span><br><span class="line">    --tf32 True</span><br></pre></td></tr></table></figure>
+<p>其中的per_device_train_batch_size就指定了一个device上弄几个数据，也就是batch_size是多少，另外loss计算这些都是pretrained模型定好的，所以不用管，包括optimizer，所以我们在训练的时候只需要指定训练过程中用到的参数，比如保存步数，学习率，训练多少个epoch等。这是finetune大语言模型和之前做深度学习模型不一样的地方，技术往往更新的太快，都快看不懂大家写的代码了，怎么咔咔一两句就开始训练了，所以函数集成太厉害也不是只有好处。</p>
+<h1 id="推荐阅读">推荐阅读</h1>
+<ul>
+<li>https://mp.weixin.qq.com/s/ehEM04xmeJyqB4z7rmLKBQ
+讲解self-instruct方法</li>
+</ul>
 
       
     </div>
@@ -623,7 +485,7 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/08/%E5%A6%82%E4%BD%95%E5%AF%B9%E5%BC%80%E6%BA%90%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%EF%BC%9F%E9%9C%80%E8%A6%81%E5%A4%9A%E5%B0%91%E6%95%B0%E6%8D%AE%EF%BC%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -636,7 +498,7 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">image classification models总结</a>
+          <a href="/2023/06/08/%E5%A6%82%E4%BD%95%E5%AF%B9%E5%BC%80%E6%BA%90%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%EF%BC%9F%E9%9C%80%E8%A6%81%E5%A4%9A%E5%B0%91%E6%95%B0%E6%8D%AE%EF%BC%9F/" class="post-title-link" itemprop="url">如何对开源大语言模型微调？需要多少数据？</a>
         </h2>
 
         <div class="post-meta-container">
@@ -647,14 +509,14 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2023-02-06 13:39:21" itemprop="dateCreated datePublished" datetime="2023-02-06T13:39:21+08:00">2023-02-06</time>
+      <time title="Created: 2023-06-08 11:35:26" itemprop="dateCreated datePublished" datetime="2023-06-08T11:35:26+08:00">2023-06-08</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-28 17:09:47" itemprop="dateModified" datetime="2023-02-28T17:09:47+08:00">2023-02-28</time>
+        <time title="Modified: 2023-06-13 11:35:28" itemprop="dateModified" datetime="2023-06-13T11:35:28+08:00">2023-06-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -662,7 +524,7 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+          <a href="/categories/nlp/" itemprop="url" rel="index"><span itemprop="name">nlp</span></a>
         </span>
     </span>
 
@@ -673,14 +535,14 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.4k</span>
+      <span>3.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -691,153 +553,78 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>本博客旨在记录自己在了解<code>image classification</code>这个术语<code>computer vision</code>的一个子任务中常见的模型。耳熟能详的就是<code>ResNet</code>,<code>VGG</code>,<code>Inception</code>,<code>MobileNet</code>,
-<code>Efficientnet</code>。每一个模型之间有什么区别，他们自身又有哪些变种，比如<code>VGG</code>，它拥有<code>VGG16,VGG19</code>等，<code>ResNet</code>又有很多，单是查看<code>Tensorflow</code>的官方文档就会发现在<code>tf.keras.applications</code>模块下，就有很多模型架构可选（也都有预训练参数）。整理这个博客的目的在于让自己对这些模型之间的差别有所了解，这样在不同的任务中才会知道使用什么样的模型架构来handle自己的数据。</p>
-<p>在整理这篇博客的过程中，我也去搜了有没有<code>image classification</code>这个单任务上的<code>review</code>文章，文章都挺多的，筛选之后推荐这篇<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of Image
-Classification Algorithms Based on Convolutional Neural
-Networks</a>.这篇文章主要是介绍基于CNN的一些模型，共有三个章节。重点是第二章节梳理了<code>CNN-based</code>的一些模型，包括本文想要<code>cover</code>的<code>VGG</code>，<code>inception</code>，<code>resnet</code>，<code>mobilenet</code>。重点关注图像分类算法的小伙伴可以通读一下这篇文章。</p>
+          <p>随着各大语言模型的开源，很多研究在没有计算资源的情况下，唯一可想的办法就是在各大开源模型上利用垂直领域的数据集来finetune开源大模型，充分利用pretrained模型的能力，而又能让它解决特定的任务。
+斯坦福的羊驼alpaca模型的发布掀起了instruction
+tuning的一阵狂潮，国内很多工作也在模仿Stanford这个工作方法做自己领域的大模型，其实在接触这些工作的时候我一直有一个疑问，就是什么时候我们该finetune？手里有多少数据的时候你可以finetune。</p>
+<p>如果我们要开展微调，数据以及如何组织数据形式和微调的方式是两个主要问题。</p>
+<h1 id="微调的方式">微调的方式</h1>
+<p>现有的LLM规模太大，因此完全微调模型已并非易事。因此无论学界还是业界都需要一种高效的方法在下游任务数据上训练，这就为参数高效微调（Parameter-efficient
+fine-tuning，PEFT）带来了研究空间。PEFT的目的是只训练一小部分参数（可以是大模型自身的，也可以是额外引入的）就能提升模型在下游任务的效果。</p>
+<p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.15647">Scaling Down to Scale Up: A
+Guide to Parameter-Efficient Fine-Tuning</a>
+一文总结了现有peft的主要方法，并做了分类：</p>
 <figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207094857739-16757345394748.png" alt="Review of Image Classification Algorithms Based on Convolutional Neural Networks第二章节目录">
-<figcaption aria-hidden="true">Review of Image Classification Algorithms
-Based on Convolutional Neural Networks第二章节目录</figcaption>
+<img src="/2023/06/08/%E5%A6%82%E4%BD%95%E5%AF%B9%E5%BC%80%E6%BA%90%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%EF%BC%9F%E9%9C%80%E8%A6%81%E5%A4%9A%E5%B0%91%E6%95%B0%E6%8D%AE%EF%BC%9F/image-20230608131344681.png" alt="PEFT methods分类">
+<figcaption aria-hidden="true">PEFT methods分类</figcaption>
 </figure>
-<h1 id="vgg">VGG</h1>
-<p>首次提出在2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">paper</a></p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/vgg16.png" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>上图中包含13个卷积层和3个全连接层，是<code>VGG16</code>的结构。而<code>VGG19</code>包含了16个卷积层和3个全连接层：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1dNYBNBDP7ZvckfOSYzHxIw.jpeg" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p><code>VGG</code>系列就是<code>VGG16</code>和<code>VGG19</code>，两者的区别在于19用了更多的卷积层。<code>Tensorflow</code>也提供了这两个模型的黑盒子实现供大家使用。</p>
-<h1 id="resnet">ResNet</h1>
-<p>首次提出在2016年的<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf">paper</a>，其中最重要的就是网络中的<code>residual block</code>:</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1_nmPcwwnsHE-AC69ASkj9w.jpeg" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>在作者的原文中我们可以发现，文章中提出的Resnet是34层，也就是ResNet34。在具体实现的时候，作者在每一个卷积操作之后（激活函数之前）加上了batch
-Normalization。在<code>Module: tf.keras.applications.resnet</code><a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet">Tensorflow
-applications
-resnet</a>中现在只有ResNet101，152，50三个版本，其中ResNet50和ResNet34的区别在于：前者使用三个卷积一个block，后者是2个卷积一个block.
-ResNet50表现更优异。ResNet101和ResNet152在一个block内使用了更多的卷积layer。</p>
-<p>以上所说的都是resnet v1，后来同一个作者又发表了<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.05027.pdf">Identity Mappings in Deep
-Residual Networks</a>,提出了ResNet
-v2。同样我们在tensorflow中也可以看到模块<code>Module: tf.keras.applications.resnet_v2</code>，同样的也有50，101，152三个版本的model。</p>
-<p>v1和v2的区别在于：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206150618805-16756671800395.png" alt="ResNet v1 and ResNet v2">
-<figcaption aria-hidden="true">ResNet v1 and ResNet v2</figcaption>
-</figure>
-<p>以上只是概念上的解释，看代码会更合适一点，其中<code>Deep Residual Learning for Image Recognition</code>文章中也给出了34，50，101，152等几个模型在实现中注意的细节：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206153053177-16756686549546.png" alt="image-20230206153053177">
-<figcaption aria-hidden="true">image-20230206153053177</figcaption>
-</figure>
-<p>ResNet34 V1中，一个resnet
-block是由两个卷积layer组成的，同时它和V2的一个区别就在于X进来后就先进行卷积运算，也就是上图中的weight</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow <span class="keyword">import</span> keras</span><br><span class="line"><span class="keyword">from</span> keras.activations <span class="keyword">import</span> relu</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> layers <span class="keyword">as</span> Layers</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResBlock</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, channels, stride=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResBlock, self).__init__(name=<span class="string">&#x27;ResBlock&#x27;</span>)</span><br><span class="line">        self.flag = (stride != <span class="number">1</span>)</span><br><span class="line">        self.conv1 = Conv2D(channels, <span class="number">3</span>, stride, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn1 = BatchNormalization()</span><br><span class="line">        self.conv2 = Conv2D(channels, <span class="number">3</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn2 = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            self.bn3 = BatchNormalization()</span><br><span class="line">            self.conv3 = Conv2D(channels, <span class="number">1</span>, stride)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x1 = self.conv1(x)</span><br><span class="line">        x1 = self.bn1(x1)</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        x1 = self.conv2(x1)</span><br><span class="line">        x1 = self.bn2(x1)</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            x = self.conv3(x)</span><br><span class="line">            x = self.bn3(x)</span><br><span class="line">        x1 = Layers.add([x, x1])</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        <span class="keyword">return</span> x1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResNet34</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResNet34, self).__init__(name=<span class="string">&#x27;ResNet34&#x27;</span>)</span><br><span class="line">        self.conv1 = Conv2D(<span class="number">64</span>, <span class="number">7</span>, <span class="number">2</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        self.mp1 = MaxPooling2D(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        self.conv2_1 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_2 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_3 = ResBlock(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">        self.conv3_1 = ResBlock(<span class="number">128</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv3_2 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_3 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_4 = ResBlock(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">        self.conv4_1 = ResBlock(<span class="number">256</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv4_2 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_3 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_4 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_5 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_6 = ResBlock(<span class="number">256</span>)</span><br><span class="line"></span><br><span class="line">        self.conv5_1 = ResBlock(<span class="number">512</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv5_2 = ResBlock(<span class="number">512</span>)</span><br><span class="line">        self.conv5_3 = ResBlock(<span class="number">512</span>)</span><br><span class="line"></span><br><span class="line">        self.pool = GlobalAveragePooling2D()</span><br><span class="line">        self.fc1 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp1 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc2 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp2 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc3 = Dense(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.bn(x)</span><br><span class="line">        x = self.relu(x)</span><br><span class="line">        x = self.mp1(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv2_1(x)</span><br><span class="line">        x = self.conv2_2(x)</span><br><span class="line">        x = self.conv2_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv3_1(x)</span><br><span class="line">        x = self.conv3_2(x)</span><br><span class="line">        x = self.conv3_3(x)</span><br><span class="line">        x = self.conv3_4(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv4_1(x)</span><br><span class="line">        x = self.conv4_2(x)</span><br><span class="line">        x = self.conv4_3(x)</span><br><span class="line">        x = self.conv4_4(x)</span><br><span class="line">        x = self.conv4_5(x)</span><br><span class="line">        x = self.conv4_6(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv5_1(x)</span><br><span class="line">        x = self.conv5_2(x)</span><br><span class="line">        x = self.conv5_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.pool(x)</span><br><span class="line">        x = self.fc1(x)</span><br><span class="line">        x = self.dp1(x)</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        x = self.dp2(x)</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">model = ResNet34()</span><br><span class="line">model.build(input_shape=(<span class="number">1</span>, <span class="number">480</span>, <span class="number">480</span>, <span class="number">3</span>))</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
-<h1 id="inception">Inception</h1>
-<p>已经有不少博客在科普Inception系列模型的区别<a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-simple-guide-to-the-versions-of-the-inception-network-7fc52b863202">A
-Simple Guide to the Versions of the Inception Network</a></p>
-<p>首先提出该模型的是2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.4842v1.pdf">Going deeper with
-convolutions</a> Inception
-V1（GoogleNet）,然后又分别有了好几个变体：<code>Inception V2，Inception V3，Inception V4</code>，<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1602.07261">Inception-ResNet-v2</a>。和<code>ResNet</code>一样，<code>Inception</code>网络中一个重要的<code>module</code>是<code>Inception Module</code>：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206161239990-16756711610527.png" alt="Inception Module">
-<figcaption aria-hidden="true">Inception Module</figcaption>
-</figure>
-<p>其中这些Network中被广泛使用的是<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.00567v3.pdf">Inception_v3</a>和<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1602.07261.pdf">Inception-ResNet-v2</a>.</p>
-<h1 id="mobilenet">MobileNet</h1>
+<p>可以看到lora也就是我们现在经常用到的微调手段被分配到了reparametrization-based里面。并且在additive这个分类里，又分了两个子类：adapter-like和soft
+prompts。对于每一个分类的解释可以看paper或者参考这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/619583361">知乎博客</a></p>
+<p>我这里只做简单的对比：</p>
+<ul>
+<li>prefix tuning，prompt
+tuning根本就是为了解决人工为每一个任务构造prompt太过于随机性，而且构造的模板有时候是离散化的；另外一个痛点就是如果对模型在下游任务上进行全参数调整，每一个任务得保存一份参数副本，对存储和训练都是考验。所以这一类方法就是让模型通过学习来自动寻找最合适的prompt，称之为soft
+prompt.LLM那一部分的参数不做调整，只调整添加的这一部分参数。之后清华大学提出的ptuning和ptuning
+v2版本，可以简单的将P-Tuning认为是针对Prompt Tuning的改进，P-Tuning
+v2认为是针对Prefix Tuning的改进。</li>
+<li>lora这一类方法（AdaLoRA，Qlora）基于的理论是：将LLM在下游任务进行微调时发现改变的参数都是哪些低秩矩阵，所以这些方法重构了一种低秩矩阵运算，这些矩阵里面的参数就可以代表下游任务的知识，这样将LLM的预训练参数和这部分参数进行合并之后就可以适配下游任务了。</li>
+</ul>
+<h1 id="微调实践applications">微调实践Applications</h1>
+<p>这一章节主要介绍一些值得关注的微调实践工作，可以给我们在实际工作中提供一些微调的思路，比如看看别人数据集是如何组织的，有多少的数据量，针对什么任务有了performance的提高，还有做evaluation是咋做的。</p>
+<h1 id="stanford-alpaca">Stanford Alpaca</h1>
+<p>这是开创instruction
+tuning工作的鼻祖，而且斯坦福的代码写的很优秀，特别是用GPT3生成instruction-input-output那一部分，把代码通读一遍可以加深self-instruct方法的理解。而且斯坦福的这个数据集只有52k条，但是有意思的是它在组织这52k条数据的时候是需要充分保持task的多样性的，毕竟我们知道instruction
+tuning当时在 Finetuned Language Models Are Zero-Shot Learners
+文中被提出的时候，其实是为了提高模型在unseen
+task上的zero-shot能力，它有一个重要的前提是finetune的task要多样，这个非常重要！</p>
 <blockquote>
-<p>The idea behind MobileNet is to use depthwise separable convolutions
-to build loghter deep neural networks. In regular convolutional layer,
-the convolution kernel or filter is applied to all of the channels of
-the input image, by doing weighted sum of the input pixels with the
-filter and then slides to the next input pixels across the
-images.MobileNet uses this regular convolution only in the first layer.
-The next layers are the depthwise separable convolutions which are the
-combination of the depthwise and pointwise convolution. The depthwise
-convolution does the convolution on each channel separately. If the
-image has three channels, therefore, the output image also has three
-channels. This depthwise convolution is used to filter the input
-channels. The next step is the pointwise convolution, which is similar
-to the regular convolution but with a 1x1 filter. The purpose of
-pointwise convolution is to merge the output channels of the depthwise
-convolution to create new features. By doing so, the computational work
-needed to be done is less than the regular convolutional networks.</p>
-<p>引用自<a target="_blank" rel="noopener" href="https://medium.com/@fransiska26/the-differences-between-inception-resnet-and-mobilenet-e97736a709b0">the-differences-between-inception-resnet-and-mobilenet</a></p>
+<p>现在有一些国内的工作就是直接弄了一些数据就开始finetune，然后叫自己是instruction
+tuning，我觉得不太合理。</p>
 </blockquote>
-<p><code>MobileNet</code>使用了两种卷积形式，<code>depthwise</code>和<code>pointwise</code>，后者就是我们常见的卷积操作，只是使用的是1✖1的卷积核，input
-image有多少个<code>channel</code>，<code>filter</code>就会延展为几个<code>channel</code>，比如输入进来的<code>channel</code>数是3，那么一个<code>3*3</code>大小的filter就会extend成3✖3✖3的一个立方体，然后这27个数分别禹输入image对应的区域做乘积之后相加取和。但是<code>depthwise</code>卷积是对每一个<code>channel</code>分别做卷积，如果输入图片有三个<code>channel</code>，那么输出的也会是三个<code>channel</code>。如图：</p>
+<p>最近出了一个工作： LIMA: Less Is More for
+Alignment，在LLaMa-65B基础上用1000条instruction数据训练的模型，在43%的情况下，LIMA可以超过或者和GPT4平齐，这真的很厉害了，毕竟只用了1000条数据，而且作者也用斯坦福的方法复刻了52k微调llama-65B的大羊驼，发现还是LIMA优秀一点，作者猜测是因为数据集质量，这1000条数据是精心策划的。</p>
+<h1 id="chatglm-6b-p-tuning">Chatglm-6B p-tuning</h1>
+<p>基于chatglm-6B的微调项目超级多，chatglm有天然的中文优势，所以国内好多语言模型都是基于清华的这个语言模型做的工作。chatglm-6B给出的官方github
+repo中包含了p-tuning v2的<a target="_blank" rel="noopener" href="https://github.com/THUDM/P-tuning-v2">代码</a>, p tuning
+v2的原理就是将应该人工写的那一部分prompt用参数来学习，LLM预训练好的那一部分参数固定住，只更新添加的这部分参数。参考chatglm-6B自己给出的再ADGEN（广告生成的数据集）上finetuneg
+chatglm6B的代码：
+https://github.com/THUDM/ChatGLM-6B/tree/main/ptuning，
+这部分代码的数据组织部分蛮有意思的，数据集长这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;content&quot;</span>: <span class="string">&quot;类型#上衣*版型#宽松*版型#显瘦*图案#线条*衣样式#衬衫*衣袖型#泡泡袖*衣款式#抽绳&quot;</span>,</span><br><span class="line">    <span class="string">&quot;summary&quot;</span>: <span class="string">&quot;这件衬衫的款式非常的宽松，利落的线条可以很好的隐藏身材上的小缺点，穿在身上有着很好的显瘦效果。领口装饰了一个可爱的抽绳，漂亮的绳结展现出了十足的个性，配合时尚的泡泡袖型，尽显女性甜美可爱的气息。&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也就是不像alpaca数据集有instruction了，只是一个映射关系，而且在main.py训练代码里也没有见到处理数据sample时要给每一个数据前加instruction，唯一加的就是在content前加了一个“问：”，在summary前加了一个“答：”。</p>
+<h2 id="gorilla">Gorilla</h2>
+<p>这是一个微调LLaMa-7B让LLM实现用语言方式让LLM返回API调用代码的工作。</p>
+<p>参考：</p>
+<ul>
+<li>https://gorilla.cs.berkeley.edu/</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ShishirPatil/gorilla">Gorilla Github
+Repo</a></li>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2305.15334">Gorilla: Large Language
+Model Connected with Massive APIs</a></li>
+</ul>
 <figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207132331415.png" alt="depthwise convolution">
-<figcaption aria-hidden="true">depthwise convolution</figcaption>
+<img src="/2023/06/08/%E5%A6%82%E4%BD%95%E5%AF%B9%E5%BC%80%E6%BA%90%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%EF%BC%9F%E9%9C%80%E8%A6%81%E5%A4%9A%E5%B0%91%E6%95%B0%E6%8D%AE%EF%BC%9F/image-20230608133459274.png" alt="image-20230608133459274">
+<figcaption aria-hidden="true">image-20230608133459274</figcaption>
 </figure>
-<p><code>tensorflow</code>中有<code>DepthwiseConv2D</code>这个<a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/DepthwiseConv2D">layer</a>,它对于<code>depthwise convolution</code>的解释是：</p>
-<blockquote>
-<p>Depthwise convolution is a type of convolution in which each input
-channel is convolved with a different kernel (called a depthwise
-kernel). You can understand depthwise convolution as the first step in a
-depthwise separable convolution.</p>
-</blockquote>
-<p><code>MobileNetV2</code>主要引进了<code>Inverted residuals</code>和<code>linear bottlenecks</code>去解决在<code>depthwise</code>卷积操作中卷积核的参数往往是0的问题</p>
-<h1 id="other-topics">other topics</h1>
-<p>在阅读<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of
-Image Classification Algorithms Based on Convolutional Neural
-Networks</a>的最后一章节时，作者不仅介绍了现在research和industry领域用的比较多的image
-classification的模型，也给出了各个模型在image-net数据集上的accuracy。在总结章，作者还提出了一些结论性的发现，我觉得蛮收益的，将文章的观点整理在这里。</p>
-<ol type="1">
-<li>2012年到2017年主要提供了日后用于分类的basic
-CNN模型架构，这期间的模型架构有2012的alexnet，2014年的vgg，2014年的inception，2015年的resnet，2017年提出了attention加cnn的架构</li>
-<li>attention加入到cnn之后形成了新的模型，也因此提高了模型的performance。现在很多模型会将SE
-block嵌入到模型架构中去，我查了下这个SE
-block是SEnet中的一个block，squeeze and excitation block。<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>是在2017年提出的，这个知识点待补充</li>
-<li>超参数的选择对于CNN网络的performance影响很大，很多的工作在着力于减少超参数的个数以及replace
-them with other composite coefficients。</li>
-<li>手动设计一个performance很好的网络往往需要很多effort，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Neural_architecture_search">NAS
-search</a> （neural architecture search）可以让这个过程变得更简单</li>
-<li>想要提升模型的performance，不仅仅需要将关注力放在模型架构的设计上，data
-augmentation,transfer learning,training
-strategies也可以帮助我们提高模型的准确度。在transfer learning上，paper：
-Large Scale Learning of General Visual Representations for Transfer
-总结了一些在不同的task上如何利用transfer
-learning取得很好的performance的办法。</li>
-</ol>
-<hr>
-<p>CNN model 还面临的挑战：</p>
-<ol type="1">
-<li>lightweight
-models比如mobileNet系列的轻量级模型往往需要牺牲accuracy来提高efficiency。未来在embedded系统上，CNN的运行效率值得去explore</li>
-<li>cnn模型在semi-supervised和unsupervised上的发挥不如NLP领域。</li>
-</ol>
-<hr>
-<p>future directions:</p>
-<ol type="1">
-<li>重视vision transformer.
-如何将卷积和transformer有效结合起来是当前的一个热点。目前的SOTA
-network是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.04803">CoAtNet</a>，在image
-net数据集上的accuracy是90.88，确实是目前在image
-net数据集上performance最高的模型架构。值得读一下，mark！</li>
-<li>有一些关于CNN的传统技术可能会成为阻碍CNN发展的重要因素，诸如：activation
-function的选择，dropout，batch normalization。</li>
-</ol>
-<h1 id="senet-2017">SENet 2017</h1>
-<p>原文 <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>，是由自动驾驶公司Momenta在2017年公布的一种全新的图像识别结构，它通过对特征通道间的相关性进行建模，把重要的特征进行强化来提升准确率。这个结构是2017
-ILSVR竞赛的冠军，top5的错误率达到了2.251%，比2016年的第一名还要低25%，可谓提升巨大。</p>
-<h1 id="coatnet">CoAtNet</h1>
-<h1 id="reference">Reference</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/architecture-comparison-of-alexnet-vggnet-resnet-inception-densenet-beb8b116866d">Architecture
-comparison of AlexNet, VGGNet, ResNet, Inception, DenseNet</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/analytics-vidhya/vggnet-architecture-explained-e5c7318aa5b6">VGGNet
-Architecture Explained</a></li>
-<li><a target="_blank" rel="noopener" href="https://viso.ai/deep-learning/resnet-residual-neural-network/">resnet-residual-neural-network
-Resnet系列网络架构的区别</a></li>
-</ol>
+<p>产生数据集的方式跟alpaca如出一辙，利用了self-instruct方式，让GPT-4来产生instruction-API的训练数据。而且它分了两种模式来训练，一种是有retriever的模式，在instruction中添加了数据库里关于这个API的帮助信息，一种就是instruction-API的格式。因为repo里并没有开源这部分的训练数据，所以我们也只能看论文来猜测数据是长这样的，等作者公布了数据可以再补充这部分数据到底长什么样子。</p>
+<p>我们在使用这个model进行推理时，输入给他的就是一串我呢本，告诉它你想获得一个怎么样的API，比如“I
+would like to identify the objects in an image”或者更模糊一点：“I am
+going to the zoo, and would like to track
+animals”。在zero-shot模式下这个instruction会直接给到gorilla，模型会给你返回一串API调用的代码，像这样：</p>
+<figure>
+<img src="/2023/06/08/%E5%A6%82%E4%BD%95%E5%AF%B9%E5%BC%80%E6%BA%90%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%EF%BC%9F%E9%9C%80%E8%A6%81%E5%A4%9A%E5%B0%91%E6%95%B0%E6%8D%AE%EF%BC%9F/image-20230608134439167.png" alt="image-20230608134439167">
+<figcaption aria-hidden="true">image-20230608134439167</figcaption>
+</figure>
+<p>总体来说这个项目想法蛮有意思的，就是很多东西暂时还没开源，我们拭目以待吧，现在就用用就行。</p>
 
       
     </div>
@@ -857,7 +644,7 @@ Resnet系列网络架构的区别</a></li>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -881,14 +668,14 @@ Resnet系列网络架构的区别</a></li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">196k</span>
+    <span title="Symbols count total">228k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:59</span>
+    <span title="Reading time total">3:27</span>
   </span>
 </div>
 

@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,7 +214,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -227,7 +227,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">使用PaddleVideo实现在attention_lstm模型上训练youtube-8m数据</a>
+          <a href="/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">pandas遇到的问题汇总</a>
         </h2>
 
         <div class="post-meta-container">
@@ -238,14 +238,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-11-25 15:44:47" itemprop="dateCreated datePublished" datetime="2021-11-25T15:44:47+08:00">2021-11-25</time>
+      <time title="Created: 2022-03-17 20:09:52" itemprop="dateCreated datePublished" datetime="2022-03-17T20:09:52+08:00">2022-03-17</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-01-05 10:14:26" itemprop="dateModified" datetime="2022-01-05T10:14:26+08:00">2022-01-05</time>
+        <time title="Modified: 2022-05-13 10:10:43" itemprop="dateModified" datetime="2022-05-13T10:10:43+08:00">2022-05-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,7 +253,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
         </span>
     </span>
 
@@ -264,7 +264,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.5k</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -282,56 +282,36 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="安装">安装</h1>
-<p>参照
-https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</p>
-<p>注意这里创建虚拟环境的时候要使用python=3.7，因为3.7之后的版本，paddleVideo只支持Linux系统。</p>
-<p>其他要求： <code>cuda &gt;= 10.1</code>,
-<code>cuDNN &gt;= 7.6.4</code></p>
-<p>安装完<code>paddlepaddle</code>之后，再安装<code>paddleVideo</code></p>
-<h1 id="快速开始">快速开始</h1>
-<p>这里官方教程写的不是很详细，安装完之后让直接用命令行方式启动程序，因为<code>paddleVideo</code>这个库里面有三个inference模型，分别是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Inference models that Paddle provides are listed as follows:</span><br><span class="line"></span><br><span class="line">&#123;&#x27;TSN&#x27;, &#x27;ppTSM&#x27;, &#x27;TSM&#x27;&#125;</span><br></pre></td></tr></table></figure>
-<p>这里安装好环境之后，直接命令行是会报错的，因为还没有下载模型参数以及label，会报<code>'If you want to use your own model, Please input model_file as model path!'</code>的错误。</p>
-<p>这时候进入python环境，跑以下程序:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ppvideo <span class="keyword">import</span> PaddleVideo</span><br><span class="line">clas = PaddleVideo(model_name=<span class="string">&#x27;ppTSM&#x27;</span>,use_gpu=<span class="literal">False</span>,use_tensorrt=<span class="literal">False</span>)</span><br><span class="line">video_file=<span class="string">&#x27;data/example.avi&#x27;</span></span><br><span class="line">result=clas.predict(video_file)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-<p>当你enter第二句话的时候，程序就会开始下载<code>InferenceModel</code>，大概有90.6兆，下载完之后再执行下面几行的程序，其中<code>video_file</code>这里要注意一下，程序里是相对路径。</p>
-<p>下载的模型会放在
-<code>C:\Users\XXXX\.paddlevideo_inference\inference_model\ppTSM</code></p>
-<p>下载的label的txt在<code>'D:\\XXXXX\\anaconda_envs\\paddleVideo\\lib\\site-packages\\ppvideo\\tools\\../data/k400/Kinetics-400_label_list.txt'</code>也就是虚拟环境那个ppvideo里</p>
-<h1 id="训练attention-lstm模型">训练attention-lstm模型</h1>
-<p>前两节安装完之后，快速开始是为了测试安装正确与否。paddleVideo只有attention-lstm模型，并没有提供在youtube-8m上训练后的参数和label。所以这部分我们使用paddle框架来自己训练。</p>
-<h2 id="下载youtube-8m数据集并转换为paddlepaddle处理的格式">下载youtube-8m数据集并转换为paddlepaddle处理的格式</h2>
-<p>整个数据集包含3844个训练数据文件和3844个验证数据文件（TFRecord格式）</p>
-<p>在linux系统下用curl下载，在windows下可以利用git的bash命令行的方式下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl data.yt8m.org/download.py | partition=2/frame/train mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/validate mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/test mirror=asia python</span><br></pre></td></tr></table></figure>
-<p>数据下载完成之后，因为paddlepaddle需要使用pickle的数据格式，所以需要用<code>https://github.com/PaddlePaddle/PaddleVideo/</code>该官方仓库里data/yt8m下的脚本<code>tf2pkl.py</code>脚本进行转换。<code>tf2pkl.py</code>文件运行时需要两个参数，分别是数据源tf文件存放路径和转化后的pkl文件存放路径。</p>
-<blockquote>
-<p>由于TFRecord文件的读取需要用到Tensorflow，用户要先安装Tensorflow，或者在安装有Tensorflow的环境中转化完数据，再拷贝到data/dataset/youtube8m/pkl目录下。为了避免和PaddlePaddle环境冲突，建议先在其他地方转化完成再将数据拷贝过来。</p>
-</blockquote>
-<p>上面在转换数据格式的时候还要注意，<code>tf2pkl.py</code>文件用的tensorflow是1.X的版本，用2.0之后版本的需要重新创建虚拟环境，如果不想麻烦，可以直接在这个paddleVideo的虚拟环境里面安装<code>tensorflow-gpu==1.14.0</code></p>
-<p>这里如果安装的是gpu版本，需要有对应的cuda版本支持，1.14.0需要10.0的cuda，我的服务器是11.2的cuda，所以这里我就直接安装的是cpu版本的tensorflow。其他的版本支持请查阅：https://www.tensorflow.org/install/source#gpu</p>
-<p><img src="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/image-20211126133025867.png"></p>
-<ul>
-<li>在linux中命令：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python tf2pkl.py ./tf/train ./pkl/train</span><br><span class="line">python tf2pkl.py ./tf/val ./pkl/val</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在windows中我的方案：</li>
-</ul>
-<p>我看到<code>tf2pkl.py</code>脚本里是用sys命令行的方式调用的，然后他整个脚本都是在linux的模式下的模式。其中有几个地方改动一下就可以适用于windows：</p>
-<ol type="1">
-<li>删掉以下几行：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># assert (len(sys.argv) == 3)</span><br><span class="line"># source_dir = sys.argv[1]</span><br><span class="line"># target_dir = sys.argv[2]</span><br></pre></td></tr></table></figure>
-<p>禁用命令行调用的模式</p>
-<ol start="2" type="1">
-<li>将record_dir
-变成你想转化的文件的文件夹的路径，比如<code>\data\dataset\youtube8m\tf</code></li>
-<li>将main函数中将outputdir路径改成你要存储pickle文件的文件夹的路径。</li>
-</ol>
-<p>完成上述步骤之后，直接在IDE中运行<code>tf2pkl.py</code>就可以开始转化文件了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_VISIBLE_DEVICES=1</span><br></pre></td></tr></table></figure>
+          <h1 id="join">join()</h1>
+<p>Examples</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;, &#x27;K3&#x27;, &#x27;K4&#x27;, &#x27;K5&#x27;],</span><br><span class="line">...                    &#x27;A&#x27;: [&#x27;A0&#x27;, &#x27;A1&#x27;, &#x27;A2&#x27;, &#x27;A3&#x27;, &#x27;A4&#x27;, &#x27;A5&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">  key   A</span><br><span class="line">0  K0  A0</span><br><span class="line">1  K1  A1</span><br><span class="line">2  K2  A2</span><br><span class="line">3  K3  A3</span><br><span class="line">4  K4  A4</span><br><span class="line">5  K5  A5</span><br><span class="line">&gt;&gt;&gt; other = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;],</span><br><span class="line">...                       &#x27;B&#x27;: [&#x27;B0&#x27;, &#x27;B1&#x27;, &#x27;B2&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; other</span><br><span class="line">  key   B</span><br><span class="line">0  K0  B0</span><br><span class="line">1  K1  B1</span><br><span class="line">2  K2  B2</span><br></pre></td></tr></table></figure>
+<p>Join DataFrames using their indexes.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.join(other, lsuffix=&#x27;_caller&#x27;, rsuffix=&#x27;_other&#x27;)</span><br><span class="line">  key_caller   A key_other    B</span><br><span class="line">0         K0  A0        K0   B0</span><br><span class="line">1         K1  A1        K1   B1</span><br><span class="line">2         K2  A2        K2   B2</span><br><span class="line">3         K3  A3       NaN  NaN</span><br><span class="line">4         K4  A4       NaN  NaN</span><br><span class="line">5         K5  A5       NaN  NaN</span><br></pre></td></tr></table></figure>
+<p>如果不想以现有index为基础去Join，比如上面的例子想用key这个index去Join，可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; df.join(other.set_index(&#x27;key&#x27;), on=&#x27;key&#x27;)</span><br><span class="line">  key   A    B</span><br><span class="line">0  K0  A0   B0</span><br><span class="line">1  K1  A1   B1</span><br><span class="line">2  K2  A2   B2</span><br><span class="line">3  K3  A3  NaN</span><br><span class="line">4  K4  A4  NaN</span><br><span class="line">5  K5  A5  NaN</span><br></pre></td></tr></table></figure>
+<h1 id="merge">merge()</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;&#x27;lkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [1, 2, 3, 5]&#125;)</span><br><span class="line">df2 = pd.DataFrame(&#123;&#x27;rkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [5, 6, 7, 8]&#125;)</span><br><span class="line">df1</span><br><span class="line">    lkey value</span><br><span class="line">0   foo      1</span><br><span class="line">1   bar      2</span><br><span class="line">2   baz      3</span><br><span class="line">3   foo      5</span><br><span class="line">df2</span><br><span class="line">    rkey value</span><br><span class="line">0   foo      5</span><br><span class="line">1   bar      6</span><br><span class="line">2   baz      7</span><br><span class="line">3   foo      8</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="选择多列">选择多列</h1>
+<p>有时候需要选择DataFrame中的多个列组成一个新的DataFrame，这时候要用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[[&#x27;column1&#x27;,&#x27;column2&#x27;]] # 注意这里是双层中括号！</span><br></pre></td></tr></table></figure>
+<h1 id="drop-满足条件的行">drop 满足条件的行</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_clear = df.drop(df[df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>].index)</span><br><span class="line"><span class="comment"># 也可以使用多个条件</span></span><br><span class="line">df_clear = df.drop(df[(df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>) | (df[<span class="string">&#x27;x&#x27;</span>]&gt;<span class="number">10</span>)].index) <span class="comment">#删除x小于0.01或大于10的行</span></span><br></pre></td></tr></table></figure>
+<h1 id="dropna-丢掉某一列中有空的行">dropna 丢掉某一列中有空的行</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.dropna(subset=[<span class="string">&#x27;column_name&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h1 id="applyapplymapmap">apply，applymap，map</h1>
+<h2 id="apply">apply</h2>
+<p>官方解释是 apply a function along an axis of the dataframe.</p>
+<p>apply内函数的是Series，也就是在Series上做函数操作。index可以是dataframe的index，也可以是dataframe的columns(axis=1)。axis=0时，apply
+the function to each
+column，也就是每一列为一个整体去实施函数。axis=1时，每一行作为一个整体去实施函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="applymap">applymap</h2>
+<p>官方解释是 apply a function to a dataframe
+elementwise.和apply不一样的是对dataframe中每一个元素分别作函数。</p>
+<p>applymap允许实施一个函数，这个函数接受和返回的都是一个标量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.applymap(<span class="keyword">lambda</span> x: <span class="built_in">len</span>(<span class="built_in">str</span>(x)))</span><br></pre></td></tr></table></figure>
+<h2 id="map">map</h2>
+<p>map调用的对象只能是Series，而上面两个方法的调用对象是Dataframe。</p>
 
       
     </div>
@@ -358,7 +338,7 @@ https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/15/linux%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -371,7 +351,7 @@ https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/" class="post-title-link" itemprop="url">Part 2:Model Validation模型验证</a>
+          <a href="/2022/03/15/linux%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux命令</a>
         </h2>
 
         <div class="post-meta-container">
@@ -382,184 +362,14 @@ https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-11-22 10:50:35" itemprop="dateCreated datePublished" datetime="2021-11-22T10:50:35+08:00">2021-11-22</time>
+      <time title="Created: 2022-03-15 16:56:38" itemprop="dateCreated datePublished" datetime="2022-03-15T16:56:38+08:00">2022-03-15</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-03-16 14:01:17" itemprop="dateModified" datetime="2023-03-16T14:01:17+08:00">2023-03-16</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%8E%E6%B2%90-%E5%AE%9E%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">李沐-实用机器学习(学习笔记)</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.7k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>前提：已有训练好的模型</p>
-<h1 id="evaluation-metrics">Evaluation Metrics</h1>
-<h2 id="model-metrics">model metrics</h2>
-<h3 id="accuracy-precision-recall">Accuracy, Precision, Recall</h3>
-<p>分类问题常用的metrics:</p>
-<p>Accuracy ：分类正确的概率，正确分类的个数/样本总数<img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122111445504.png" alt="image-20211122111445504"></p>
-<p>Precision：对于某一个具体的类，正确分类个数的占比（<strong>主要是为了处理类别分布不均衡的情况，重点关注你需要的类</strong>）</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122110908650.png"></p>
-<p>也可以说是:</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122111419758.png"></p>
-<p>Recall ：分子和Precision一样，但是分母不一样</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122111353554.png"></p>
-<p>这三个概念再补充说一下，特别容易混淆：</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122111608127.png"></p>
-<p>以上来自维基百科的定义。</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/800px-Precisionrecall.svg.png"></p>
-<p>这里的False Positive的意思是:
-你的模型预测成了1，但是真实情况是该样本的分类是0，所以是你的模型预测错误了。计算Precision的时候，我们在我们的模型全部预测成1的情况下，计算我们有多少个样本真的预测正确了。</p>
-<p>而Recall的意思是：在真实所有属于1分类的样本中，我们计算我们模型预测正确的样本个数占比。</p>
-<p><code>F1 Score</code>就是平衡P和R的Metric：<code>2pr/(p+r)</code></p>
-<h3 id="aucroc">AUC&amp;ROC</h3>
-<p>经常用于二分类问题，ROC曲线下的面积值就是AUC，ROC曲线：</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122132511911.png"></p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/1024px-Roc_curve.svg.png"></p>
-<p>当AUC=1时，说明model能完美区分两个类别，当AUC=0.5时，model最差，基本上等于随机分的。当AUC=0时，并不代表模型很差，而是把两个类别搞反了，0类分类成了1类，这时候只需要调整一下model的符号即可。在实际操作过程中，我们通常是去优化AUC的值，让它能从0.5优化成1。<strong>该metric通常用于广告行业。</strong></p>
-<h3 id="business-metrics">Business Metrics</h3>
-<p>take Ads for example：</p>
-<ul>
-<li>Latency : 广告要出来的和其他内容一样快</li>
-<li>ASN : 平均每一页展示的广告</li>
-<li>CTR：user click through rate真实的用户点击率</li>
-<li>ACP : average privce advertiser pays per click</li>
-</ul>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122133426363.png"></p>
-<h1 id="underfitting-overfitting">Underfitting &amp; overfitting</h1>
-<p><em>training error（训练误差）</em> vs <em>generalization
-error（泛化误差）</em></p>
-<p>Overfit : train的error低，而泛化误差高。高bias。</p>
-<p>Underfit: train的error高，泛化误差也很高。高Variance。</p>
-<p>最好的情况是：泛化误差低，训练误差也要比较低，<strong>最好的那个模型可能也会有一点overfit</strong>。</p>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122145236131.png"></p>
-<h2 id="model-complexity-模型复杂度">model complexity 模型复杂度</h2>
-<ul>
-<li>不同种类的模型，很难比较他们的复杂度</li>
-<li>同一种模型（比如都属于神经网络模型），通常比较：
-<ul>
-<li>num of parameters</li>
-<li>参数可以选择的值的范围</li>
-</ul></li>
-</ul>
-<p><img src="/2021/11/22/Part-2-Model-Validation%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81/image-20211122150220071.png"></p>
-<h2 id="data-capacity-数据复杂度">Data capacity 数据复杂度</h2>
-<ul>
-<li>样本个数</li>
-<li>每一个样本的elements</li>
-<li>time/space structure</li>
-<li>diversity</li>
-</ul>
-<p>泛化误差和什么有关？ 模型</p>
-<ul>
-<li>加入正则项可以使得复杂模型的泛化误差降低</li>
-<li>随机下降训练方法可以使得模型泛化误差降低</li>
-</ul>
-<h1 id="模型验证-model-validation">模型验证 model Validation</h1>
-<p>test dataset
-：<strong>只能用一次</strong>，为了得到模型的无偏估计（泛化误差）。所以就算没有设置测试集也没有关系，测试集的最终目的是对最终所选定的神经网络模型做出无偏估计，如果不需要这个具体的值，也可以不设置测试集。所以如果只有验证集，没有测试集，需要做的就是在训练集上尝试不同的模型框架，在验证集上评估这些模型，然后迭代并选出适用的模型。在实际的使用过程中，大家会用“训练-测试集”来指代训练验证集。也就是test数据集当做validation来用，同时提供挑选合适的模型以及计算无偏估计的两功能。</p>
-<p>Validation dataset :
-<strong>可以用多次</strong>，通常作为训练集的一部分。通常用于选出合适的模型以及超参数。</p>
-<h2 id="k折交叉验证">k折交叉验证</h2>
-<p>将数据集分为K份，每次拿一份来做验证集，最终取平均error。</p>
-<p>K通常取5或者10,当数据集比较小时，可以选用较大的K，循环多次。当数据足够多，model训练比较贵，那么选用直接切的方式选验证集。</p>
-<h2 id="common-mistakes">Common mistakes</h2>
-<ul>
-<li><p>验证集中有来自训练集的样本，导致模型结果特别好（比如数据集中的样本有重复的）</p></li>
-<li><p>验证集最好是和最终模型部署的生产环境的数据差不多</p></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">hexo图片插入问题：在主页和文章详情页同时显示图片</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-17 14:45:04" itemprop="dateCreated datePublished" datetime="2021-11-17T14:45:04+08:00">2021-11-17</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:34:02" itemprop="dateModified" datetime="2023-02-08T11:34:02+08:00">2023-02-08</time>
+        <time title="Modified: 2023-02-08 11:29:17" itemprop="dateModified" datetime="2023-02-08T11:29:17+08:00">2023-02-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -578,14 +388,14 @@ error（泛化误差）</em></p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.2k</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -596,40 +406,203 @@ error（泛化误差）</em></p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="设置静态文件根目录">设置静态文件根目录</h1>
-<p><code>_config.yml</code>中有个<code>url</code>和<code>root</code>参数
-如果你部署的地址是<code>http://yoursite.com/child</code>，需要设置下面两个参数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: &#x27;http://yoursite.com/child&#x27; // 部署的域名</span><br><span class="line">root: &#x27;/child/&#x27; // 部署的根目录</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-<h1 id="设置资源文件夹">设置资源文件夹</h1>
-<p>资源（Asset）代表 source
-文件夹中除了文章以外的所有文件，例如图片、CSS、JS
-文件等。比方说，如果你的Hexo项目中只有少量图片，那最简单的方法就是将它们放在
-<code>source/images</code> 文件夹中。然后通过类似于
-<code>![](/images/image.jpg)</code> 的方法访问它们。</p>
-<p>&lt; !--more--&gt;</p>
-<p>文章资源文件夹
-对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过<strong>将
-<code>config.yml</code> 文件中的 <code>post_asset_folder</code> 选项设为
-true 来打开</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">post_asset_folder: true</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-<p>当资源文件管理功能打开后，Hexo将会在你<strong>每一次通过
-<code>hexo new [layout] &lt;title&gt;</code>
-命令创建新文章时自动创建一个文件夹</strong>。这个资源文件夹将会有与这个
-<code>markdown</code>
-文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。</p>
-<p>相对路径引用的标签插件 通过常规的 markdown
-语法和相对路径来引用图片和其它资源可能会导致它们在存档页或者主页上显示不正确。在Hexo
-2时代，社区创建了很多插件来解决这个问题。但是，随着Hexo 3
-的发布，许多新的标签插件被加入到了核心代码中。这使得你可以更简单地在文章中引用你的资源。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path slug %&#125;</span><br><span class="line">&#123;% asset_img slug [title] %&#125;</span><br><span class="line">&#123;% asset_link slug [title] %&#125;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
-<p>比如说：当你打开文章资源文件夹功能后，你把一个
-<code>example.jpg</code>
-图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法
-<code>![](/example.jpg)</code> ，它将 不会
-出现在首页上。（但是它会在文章中按你期待的方式工作）</p>
-<p>正确的引用图片方式是使用下列的标签插件而不是 markdown ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img example.jpg avatar %&#125;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<p><strong>通过这种方式，图片将会同时出现在文章和主页以及归档页中。通过<code>&#123;% asset_img 图片名称 图片说明 %&#125;</code></strong></p>
+          <h1 id="tar-压缩以及解压">tar 压缩以及解压</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.txt   //压缩 a.c文件为test.tar.gz</span><br><span class="line">tar -xzvf test.tar.gz // 解压</span><br><span class="line">tar -tzvf test.tar.gz //列出压缩文件的内容</span><br></pre></td></tr></table></figure>
+<h1 id="linux中环境变量">linux中环境变量</h1>
+<p>参考https://www.cjavapy.com/article/2250/</p>
+<h2 id="介绍">1、介绍</h2>
+<p>Linux中环境变量包括系统级和用户级</p>
+<p>1）系统级</p>
+<p><strong>/etc/environment</strong>：系统在登录时读取的第一个文件，用于为所有进程设置环境变量。系统使用此文件时并不是执行此文件中的命令，而是根据<code>KEY=VALUE</code>模式的代码，对<code>KEY</code>赋值以<code>VALUE</code>，因此文件中如果要定义<code>PATH</code>环境变量，只需加入类似如<code>PATH=$PATH:/xxx/bin</code>的代码即可。</p>
+<p><strong>/etc/profile</strong>：是系统登录时执行的第二个文件，可以用于设定针对全系统所有用户的环境变量。该文件一般是调用<code>/etc/bash.bashrc</code>文件。</p>
+<p><strong>/etc/bash.bashrc</strong>：系统级的<code>bashrc</code>文件，为每一个运行bash
+shell的用户执行此文件。此文件会在用户每次打开shell时执行一次。</p>
+<p><strong>注意</strong>：<code>/etc/environment</code>是设置整个系统的环境，而<code>/etc/profile</code>是设置所有用户的环境，前者与登录用户无关，后者与登录用户有关。
+这两个文件修改后一般都要重启系统才能生效。</p>
+<p>2）用户级</p>
+<p><strong>~/.profile:</strong>
+是对应当前登录用户的<code>profile</code>文件，用于定制当前用户的个人工作环境。</p>
+<p>每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下，会设置一些环境变量，执行用户的<code>.bashrc</code>文件。</p>
+<p><strong>~/.bashrc</strong>:
+是对应当前登录用户的bash初始化文件，当用户每次打开shell时，系统都会执行此文件一次。通常设置环境变量修改这个文件。</p>
+<p>上述配置文件执行先后顺序如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/enviroment `–&gt; `/etc/profile` –&gt; `~/.profile` –&gt; `/etc/bash.bashrc `–&gt; `~/.bashrc</span><br></pre></td></tr></table></figure>
+<h2 id="环境变量的作用">2、环境变量的作用</h2>
+<p>环境变量相当于给系统或用户应用程序设置的一些参数，具体起什么作用这当然和具体的环境变量相关。比如<code>PATH</code>，是告诉系统，当要求系统运行一个程序而没有告诉它程序所在的完整路径时，系统除了在当前目录下面寻找此程序外，还应到哪些目录下去寻找；再如tc或vc++中，<code>set include=path1;path2</code>;
+是告诉编译程序到哪里去找.h类型的文件；当然不仅仅是指定什么路径，还有其它的作用的，如<code>set dircmd=/4</code>
+设置一个环境变量的作用是在使用dir命令时会把<code>/4</code>作为缺省的参数添加到你的dir命令之后，就像你的每个命令都加了/4参数，它实际上是给命令解释程序<code>command</code>设置的一个环境变量，并且是给<code>dir</code>这个内部命令。</p>
+<h2 id="配置环境变量的方法">3、配置环境变量的方法</h2>
+<p>1）临时环境变量</p>
+<p>linux下设定环境变量时，如果只是临时用一下，可以直接在shell下用<code>set</code>或<code>export</code>命令设定环境变量。但是只能在当前shell环境下可以用，切换或关闭重新进入就会失效。具体配置方法，如下，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#终端输入：</span><br><span class="line">export MYSQLPATH=/home/mysql  #MYSQLPATH设置为该路径</span><br><span class="line">#终端查看一个特定环境变量包含的内容，比如，MYSQLPATH，PATH</span><br><span class="line">echo $PATH</span><br><span class="line">echo $MYSQLPATH</span><br></pre></td></tr></table></figure>
+<p>2）永久环境变量</p>
+<p>设置的环境变量，需要经常使用的，而不是临时使用，把上面的设置环境变量命令写到上面提到的相应配置文件中即可，则可以每次开机或打开shell时自动设置，</p>
+<p><strong>例如，</strong></p>
+<p>只需要当前用户生效的环境变量：</p>
+<p>终端中输入：<code>sudo vi ~/.bashrc</code>，编辑这个文件，在其末尾添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：在终端执行，<code>source ~/.bashrc</code>
+，使其立即生效，或者重启电脑即可。</p>
+<p>设置所有用户生效的环境变更：</p>
+<p>终端中输入：<code>sudo vi /etc/profile</code>，编辑这个文件，在其末尾添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：在终端执行，<code>source /etc/profile</code>
+，使其立即生效，或者重启电脑即可。</p>
+<h1 id="查看linux版本信息">查看linux版本信息</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lu_embedded/article/details/44350445" class="uri">https://blog.csdn.net/lu_embedded/article/details/44350445</a></p>
+<h1 id="查看进程">查看进程</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lechengyuyuan/article/details/16337233" class="uri">https://blog.csdn.net/lechengyuyuan/article/details/16337233</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef # 查看所有本机进程</span><br><span class="line">ps -ef |grep python # 查看python进程</span><br><span class="line"></span><br><span class="line">kill -9 pid # 杀死某个进程</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/li528405176/article/details/83379164" class="uri">https://blog.csdn.net/li528405176/article/details/83379164</a></p>
+<h1 id="将程序留在后台运行">将程序留在后台运行</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &gt; out.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p>参考 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4041c4e6e1b0" class="uri">https://www.jianshu.com/p/4041c4e6e1b0</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">git常用命令总结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-13 13:24:46" itemprop="dateCreated datePublished" datetime="2022-01-13T13:24:46+08:00">2022-01-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:23:20" itemprop="dateModified" datetime="2023-02-08T11:23:20+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>github官网给出的教程挺通俗易懂的，移步[https://docs.github.com/cn/get-started/using-git]</p>
+<p>本地配置ssh和github，参考官方文档[https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/about-ssh]</p>
+<h1 id="远程仓库使用">远程仓库使用</h1>
+<p>在本地设置推送到远程仓库的用户名:[https://docs.github.com/cn/get-started/getting-started-with-git/setting-your-username-in-git]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;your name&quot;</span><br></pre></td></tr></table></figure>
+<p>远程URL是 Git 一种指示“您的代码存储位置”的绝佳方式，您只能推送到两类
+URL 地址：</p>
+<ul>
+<li>HTTPS URL，如 <code>https://github.com/user/repo.git</code></li>
+<li>SSH URL，如 <code>git@github.com:user/repo.git</code></li>
+</ul>
+<p>Git 将远程 URL 与名称相关联，您的默认远程通常名为
+<code>origin</code></p>
+<p>创建远程仓库，并将其命名为master</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add master &lt;REMOTE_URL&gt; </span><br></pre></td></tr></table></figure>
+<p>如果后面想更改url，使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin &lt;new_url&gt;</span><br></pre></td></tr></table></figure>
+<p>查看远程仓库设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+<p>重命名远程仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename origin destination</span><br></pre></td></tr></table></figure>
+<p>删除远程仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm destination</span><br></pre></td></tr></table></figure>
+<p>推送提交至远程仓库，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt; </span><br></pre></td></tr></table></figure>
+<p>拉取某远程仓库距离上一次抓取之后的工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote_name&gt;</span><br><span class="line">必须注意 git fetch 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</span><br></pre></td></tr></table></figure>
+<p>显示某远程仓库的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote_name&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="忽略文件">忽略文件</h1>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/cn/get-started/getting-started-with-git/ignoring-files">见文档</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore #该命令在项目根目录会创建一个.gitignore文件,然后往该文件中填东西</span><br></pre></td></tr></table></figure>
+<p>如果有些我们不需要跟踪的文件已经提交到了暂存区，那么使用下面的命令来删除暂存区的该文件，再将该文件写入.gitignore文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached FILENAME 该命令直接将暂存区的那个版本删除了</span><br><span class="line">或者 git restore --staged &lt;file&gt; 该命令会用暂存区的代码覆盖掉工作区的代码</span><br></pre></td></tr></table></figure>
+<h1 id="在自己的project中添加别人的project">在自己的project中添加别人的project</h1>
+<p><a target="_blank" rel="noopener" href="https://devconnected.com/how-to-add-and-update-git-submodules/" class="uri">https://devconnected.com/how-to-add-and-update-git-submodules/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;remote_url&gt; &lt;destination_folder&gt;</span><br><span class="line"></span><br><span class="line">git commit -m &quot;Added the submodule to the project.&quot;</span><br><span class="line"></span><br><span class="line">git push</span><br><span class="line"></span><br><span class="line">git submodule update --init --recursive # 如果想要拉取别人仓库里的submodule到本地</span><br></pre></td></tr></table></figure>
+<h1 id="分支">分支</h1>
+<p>创建分支：当执行git init时，默认创建名字是master的分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+<p>切换到某分支:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>分支切换会改变你工作目录中的文件。在切换分支时，一定要注意你工作目录里的文件会被改变。
+如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
+如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
+</blockquote>
+<p>上面两条命令可以使用一条命令搞定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+<p>在一条分支上，比如hotfix修改一些文件提交后，需要回到master分支并将hotfix上的分支的修改合并到master</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge hotfix</span><br></pre></td></tr></table></figure>
+<p>这是一个Fast-forward。合并完之后master会和hotfix指向同一个位置，这时可以删除hotfix这个分支：<code>git branch -d hotfix</code></p>
 
       
     </div>
@@ -649,7 +622,7 @@ true 来打开</strong>。</p>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -673,14 +646,14 @@ true 来打开</strong>。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">196k</span>
+    <span title="Symbols count total">228k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:59</span>
+    <span title="Reading time total">3:27</span>
   </span>
 </div>
 

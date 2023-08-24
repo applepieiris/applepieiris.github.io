@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,7 +214,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/15/linux%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/python-%E5%AF%B9Counter%E5%86%85%E5%AE%B9%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -227,7 +227,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/15/linux%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux命令</a>
+          <a href="/2022/08/11/python-%E5%AF%B9Counter%E5%86%85%E5%AE%B9%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">python对Counter内容进行排序</a>
         </h2>
 
         <div class="post-meta-container">
@@ -238,14 +238,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-15 16:56:38" itemprop="dateCreated datePublished" datetime="2022-03-15T16:56:38+08:00">2022-03-15</time>
+      <time title="Created: 2022-08-11 16:49:54" itemprop="dateCreated datePublished" datetime="2022-08-11T16:49:54+08:00">2022-08-11</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:17" itemprop="dateModified" datetime="2023-02-08T11:29:17+08:00">2023-02-08</time>
+        <time title="Modified: 2023-04-28 14:03:36" itemprop="dateModified" datetime="2023-04-28T14:03:36+08:00">2023-04-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,7 +253,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
         </span>
     </span>
 
@@ -264,14 +264,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.3k</span>
+      <span>454</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>1 mins.</span>
     </span>
 </div>
 
@@ -282,57 +282,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="tar-压缩以及解压">tar 压缩以及解压</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.txt   //压缩 a.c文件为test.tar.gz</span><br><span class="line">tar -xzvf test.tar.gz // 解压</span><br><span class="line">tar -tzvf test.tar.gz //列出压缩文件的内容</span><br></pre></td></tr></table></figure>
-<h1 id="linux中环境变量">linux中环境变量</h1>
-<p>参考https://www.cjavapy.com/article/2250/</p>
-<h2 id="介绍">1、介绍</h2>
-<p>Linux中环境变量包括系统级和用户级</p>
-<p>1）系统级</p>
-<p><strong>/etc/environment</strong>：系统在登录时读取的第一个文件，用于为所有进程设置环境变量。系统使用此文件时并不是执行此文件中的命令，而是根据<code>KEY=VALUE</code>模式的代码，对<code>KEY</code>赋值以<code>VALUE</code>，因此文件中如果要定义<code>PATH</code>环境变量，只需加入类似如<code>PATH=$PATH:/xxx/bin</code>的代码即可。</p>
-<p><strong>/etc/profile</strong>：是系统登录时执行的第二个文件，可以用于设定针对全系统所有用户的环境变量。该文件一般是调用<code>/etc/bash.bashrc</code>文件。</p>
-<p><strong>/etc/bash.bashrc</strong>：系统级的<code>bashrc</code>文件，为每一个运行bash
-shell的用户执行此文件。此文件会在用户每次打开shell时执行一次。</p>
-<p><strong>注意</strong>：<code>/etc/environment</code>是设置整个系统的环境，而<code>/etc/profile</code>是设置所有用户的环境，前者与登录用户无关，后者与登录用户有关。
-这两个文件修改后一般都要重启系统才能生效。</p>
-<p>2）用户级</p>
-<p><strong>~/.profile:</strong>
-是对应当前登录用户的<code>profile</code>文件，用于定制当前用户的个人工作环境。</p>
-<p>每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下，会设置一些环境变量，执行用户的<code>.bashrc</code>文件。</p>
-<p><strong>~/.bashrc</strong>:
-是对应当前登录用户的bash初始化文件，当用户每次打开shell时，系统都会执行此文件一次。通常设置环境变量修改这个文件。</p>
-<p>上述配置文件执行先后顺序如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/enviroment `–&gt; `/etc/profile` –&gt; `~/.profile` –&gt; `/etc/bash.bashrc `–&gt; `~/.bashrc</span><br></pre></td></tr></table></figure>
-<h2 id="环境变量的作用">2、环境变量的作用</h2>
-<p>环境变量相当于给系统或用户应用程序设置的一些参数，具体起什么作用这当然和具体的环境变量相关。比如<code>PATH</code>，是告诉系统，当要求系统运行一个程序而没有告诉它程序所在的完整路径时，系统除了在当前目录下面寻找此程序外，还应到哪些目录下去寻找；再如tc或vc++中，<code>set include=path1;path2</code>;
-是告诉编译程序到哪里去找.h类型的文件；当然不仅仅是指定什么路径，还有其它的作用的，如<code>set dircmd=/4</code>
-设置一个环境变量的作用是在使用dir命令时会把<code>/4</code>作为缺省的参数添加到你的dir命令之后，就像你的每个命令都加了/4参数，它实际上是给命令解释程序<code>command</code>设置的一个环境变量，并且是给<code>dir</code>这个内部命令。</p>
-<h2 id="配置环境变量的方法">3、配置环境变量的方法</h2>
-<p>1）临时环境变量</p>
-<p>linux下设定环境变量时，如果只是临时用一下，可以直接在shell下用<code>set</code>或<code>export</code>命令设定环境变量。但是只能在当前shell环境下可以用，切换或关闭重新进入就会失效。具体配置方法，如下，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#终端输入：</span><br><span class="line">export MYSQLPATH=/home/mysql  #MYSQLPATH设置为该路径</span><br><span class="line">#终端查看一个特定环境变量包含的内容，比如，MYSQLPATH，PATH</span><br><span class="line">echo $PATH</span><br><span class="line">echo $MYSQLPATH</span><br></pre></td></tr></table></figure>
-<p>2）永久环境变量</p>
-<p>设置的环境变量，需要经常使用的，而不是临时使用，把上面的设置环境变量命令写到上面提到的相应配置文件中即可，则可以每次开机或打开shell时自动设置，</p>
-<p><strong>例如，</strong></p>
-<p>只需要当前用户生效的环境变量：</p>
-<p>终端中输入：<code>sudo vi ~/.bashrc</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source ~/.bashrc</code>
-，使其立即生效，或者重启电脑即可。</p>
-<p>设置所有用户生效的环境变更：</p>
-<p>终端中输入：<code>sudo vi /etc/profile</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source /etc/profile</code>
-，使其立即生效，或者重启电脑即可。</p>
-<h1 id="查看linux版本信息">查看linux版本信息</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lu_embedded/article/details/44350445" class="uri">https://blog.csdn.net/lu_embedded/article/details/44350445</a></p>
-<h1 id="查看进程">查看进程</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lechengyuyuan/article/details/16337233" class="uri">https://blog.csdn.net/lechengyuyuan/article/details/16337233</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef # 查看所有本机进程</span><br><span class="line">ps -ef |grep python # 查看python进程</span><br><span class="line"></span><br><span class="line">kill -9 pid # 杀死某个进程</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/li528405176/article/details/83379164" class="uri">https://blog.csdn.net/li528405176/article/details/83379164</a></p>
-<h1 id="将程序留在后台运行">将程序留在后台运行</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &gt; out.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-<p>参考 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4041c4e6e1b0" class="uri">https://www.jianshu.com/p/4041c4e6e1b0</a></p>
+          <h1 id="对counter中的内容进行排序">对Counter中的内容进行排序</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line">x = Counter(&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">5</span>, <span class="string">&#x27;b&#x27;</span>:<span class="number">3</span>, <span class="string">&#x27;c&#x27;</span>:<span class="number">7</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">x.most_common() <span class="comment"># [(&#x27;c&#x27;, 7), (&#x27;a&#x27;, 5), (&#x27;b&#x27;, 3)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"><span class="built_in">sorted</span>(x, key=x.get, reverse=<span class="literal">True</span>) <span class="comment"># [&#x27;c&#x27;, &#x27;a&#x27;, &#x27;b&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line"><span class="built_in">sorted</span>(x.items(), key=<span class="keyword">lambda</span> pair: pair[<span class="number">1</span>], reverse=<span class="literal">True</span>) <span class="comment"># [(&#x27;c&#x27;, 7), (&#x27;a&#x27;, 5), (&#x27;b&#x27;, 3)]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>一共三种方法，其中第二种方法中传入<code>key=x.get</code>最终返回的是所有的key，而其他两种方法返回的都是排完序之后的list</p>
 
       
     </div>
@@ -359,7 +311,7 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -372,7 +324,7 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">git常用命令总结</a>
+          <a href="/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">图像的读取方式</a>
         </h2>
 
         <div class="post-meta-container">
@@ -383,14 +335,14 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-01-13 13:24:46" itemprop="dateCreated datePublished" datetime="2022-01-13T13:24:46+08:00">2022-01-13</time>
+      <time title="Created: 2022-06-21 15:09:14" itemprop="dateCreated datePublished" datetime="2022-06-21T15:09:14+08:00">2022-06-21</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:23:20" itemprop="dateModified" datetime="2023-02-08T11:23:20+08:00">2023-02-08</time>
+        <time title="Modified: 2023-02-08 11:36:10" itemprop="dateModified" datetime="2023-02-08T11:36:10+08:00">2023-02-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -398,7 +350,7 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
         </span>
     </span>
 
@@ -409,14 +361,14 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.8k</span>
+      <span>866</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>1 mins.</span>
     </span>
 </div>
 
@@ -427,58 +379,16 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>github官网给出的教程挺通俗易懂的，移步[https://docs.github.com/cn/get-started/using-git]</p>
-<p>本地配置ssh和github，参考官方文档[https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/about-ssh]</p>
-<h1 id="远程仓库使用">远程仓库使用</h1>
-<p>在本地设置推送到远程仓库的用户名:[https://docs.github.com/cn/get-started/getting-started-with-git/setting-your-username-in-git]</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;your name&quot;</span><br></pre></td></tr></table></figure>
-<p>远程URL是 Git 一种指示“您的代码存储位置”的绝佳方式，您只能推送到两类
-URL 地址：</p>
-<ul>
-<li>HTTPS URL，如 <code>https://github.com/user/repo.git</code></li>
-<li>SSH URL，如 <code>git@github.com:user/repo.git</code></li>
-</ul>
-<p>Git 将远程 URL 与名称相关联，您的默认远程通常名为
-<code>origin</code></p>
-<p>创建远程仓库，并将其命名为master</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add master &lt;REMOTE_URL&gt; </span><br></pre></td></tr></table></figure>
-<p>如果后面想更改url，使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin &lt;new_url&gt;</span><br></pre></td></tr></table></figure>
-<p>查看远程仓库设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-<p>重命名远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename origin destination</span><br></pre></td></tr></table></figure>
-<p>删除远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm destination</span><br></pre></td></tr></table></figure>
-<p>推送提交至远程仓库，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt; </span><br></pre></td></tr></table></figure>
-<p>拉取某远程仓库距离上一次抓取之后的工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote_name&gt;</span><br><span class="line">必须注意 git fetch 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</span><br></pre></td></tr></table></figure>
-<p>显示某远程仓库的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote_name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="忽略文件">忽略文件</h1>
-<p><a target="_blank" rel="noopener" href="https://docs.github.com/cn/get-started/getting-started-with-git/ignoring-files">见文档</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore #该命令在项目根目录会创建一个.gitignore文件,然后往该文件中填东西</span><br></pre></td></tr></table></figure>
-<p>如果有些我们不需要跟踪的文件已经提交到了暂存区，那么使用下面的命令来删除暂存区的该文件，再将该文件写入.gitignore文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached FILENAME 该命令直接将暂存区的那个版本删除了</span><br><span class="line">或者 git restore --staged &lt;file&gt; 该命令会用暂存区的代码覆盖掉工作区的代码</span><br></pre></td></tr></table></figure>
-<h1 id="在自己的project中添加别人的project">在自己的project中添加别人的project</h1>
-<p><a target="_blank" rel="noopener" href="https://devconnected.com/how-to-add-and-update-git-submodules/" class="uri">https://devconnected.com/how-to-add-and-update-git-submodules/</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;remote_url&gt; &lt;destination_folder&gt;</span><br><span class="line"></span><br><span class="line">git commit -m &quot;Added the submodule to the project.&quot;</span><br><span class="line"></span><br><span class="line">git push</span><br><span class="line"></span><br><span class="line">git submodule update --init --recursive # 如果想要拉取别人仓库里的submodule到本地</span><br></pre></td></tr></table></figure>
-<h1 id="分支">分支</h1>
-<p>创建分支：当执行git init时，默认创建名字是master的分支</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>切换到某分支:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>分支切换会改变你工作目录中的文件。在切换分支时，一定要注意你工作目录里的文件会被改变。
-如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
-如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
-</blockquote>
-<p>上面两条命令可以使用一条命令搞定：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>在一条分支上，比如hotfix修改一些文件提交后，需要回到master分支并将hotfix上的分支的修改合并到master</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge hotfix</span><br></pre></td></tr></table></figure>
-<p>这是一个Fast-forward。合并完之后master会和hotfix指向同一个位置，这时可以删除hotfix这个分支：<code>git branch -d hotfix</code></p>
+          <h1 id="pil">PIL</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&quot;1.jpg&quot;</span>)</span><br><span class="line">img.load()</span><br><span class="line"></span><br><span class="line">array = np.asarrary(img)</span><br><span class="line"></span><br><span class="line">img.show() <span class="comment"># view the picture</span></span><br><span class="line"></span><br><span class="line">img.save(<span class="string">&quot;./new_img.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>PIL.Image包有很多其他的功能，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从array生成图片convert it to a Pillow image</span></span><br><span class="line">Image.fromarray(data,<span class="string">&#x27;RGB&#x27;</span>) <span class="comment"># 如果mode=&#x27;L&#x27;,那么只有一个通道</span></span><br></pre></td></tr></table></figure>
+<h1 id="cv2">cv2</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">&quot;./1.jpg&quot;</span>) <span class="comment"># 返回的img的channel顺序是BGR</span></span><br><span class="line"></span><br><span class="line">grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment"># 转化为灰度图的模式</span></span><br><span class="line">rgb_img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB) <span class="comment"># 转化为RGB的模式</span></span><br></pre></td></tr></table></figure>
+<p><code>cv2</code>一个有用的method是resize</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img = cv2.resize(raw_img,(width,height))</span><br></pre></td></tr></table></figure>
+<h1 id="tensorflow">tensorflow</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">img = tf.keras.preprocessing.image.load_img(<span class="string">&quot;./i.jpg&quot;</span>,target_size=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>)) <span class="comment"># Loads an image into PIL format</span></span><br><span class="line">img = tf.keras.preprocessing.image.img_to_array(img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从array转化成PIL image 实例</span></span><br><span class="line">img = tf.keras.preprocessing.image.array_to_img(array) <span class="comment"># array是3D numpy array</span></span><br><span class="line"></span><br><span class="line">tf.keras.utils.save_img(path,array)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -505,7 +415,7 @@ URL 地址：</p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/15/python-%E5%85%A8%E8%A7%92%E8%BD%AC%E5%8D%8A%E8%A7%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -518,7 +428,7 @@ URL 地址：</p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">python OS 文件/目录常用方法总结</a>
+          <a href="/2022/04/15/python-%E5%85%A8%E8%A7%92%E8%BD%AC%E5%8D%8A%E8%A7%92/" class="post-title-link" itemprop="url">python 全角转半角</a>
         </h2>
 
         <div class="post-meta-container">
@@ -528,16 +438,10 @@ URL 地址：</p>
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2021-12-30 10:15:13" itemprop="dateCreated datePublished" datetime="2021-12-30T10:15:13+08:00">2021-12-30</time>
+      <time title="Created: 2022-04-15 17:09:54 / Modified: 17:11:44" itemprop="dateCreated datePublished" datetime="2022-04-15T17:09:54+08:00">2022-04-15</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:25:00" itemprop="dateModified" datetime="2023-02-08T11:25:00+08:00">2023-02-08</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -555,14 +459,14 @@ URL 地址：</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>4k</span>
+      <span>5.1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>4 mins.</span>
+      <span>5 mins.</span>
     </span>
 </div>
 
@@ -573,31 +477,842 @@ URL 地址：</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs(path[, mode]) </span><br><span class="line">递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。</span><br><span class="line"></span><br><span class="line">os.walk(top[, topdown=<span class="literal">True</span>[, onerror=<span class="literal">None</span>[, followlinks=<span class="literal">False</span>]]])</span><br><span class="line">输出在文件夹中的文件名通过在树中游走，向上或者向下。返回的是一个三元组(root,dirs,files),是一个生成器类型，需要用<span class="keyword">for</span>遍历读取</span><br><span class="line"></span><br><span class="line">os.chdir(path)</span><br><span class="line">改变当前工作目录</span><br><span class="line">	</span><br><span class="line">os.listdir(path)</span><br><span class="line">返回path指定的文件夹包含的文件或文件夹的名字的列表。</span><br></pre></td></tr></table></figure>
-<p>例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> dirs:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">        </span><br><span class="line">path = <span class="string">&quot;/var/www/html/&quot;</span></span><br><span class="line">dirs = os.listdir( path )</span><br><span class="line"><span class="comment"># 输出所有文件和文件夹</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> dirs:</span><br><span class="line">   <span class="built_in">print</span> (file)</span><br></pre></td></tr></table></figure>
-<p><code>os.walk</code>和<code>os.listdir</code>两个函数的区别在于前者会遍历到子文件夹中的子文件，而后者只是返回你传入的path中的文件夹名字和文件名字。</p>
-<p><code>os</code>库中有一个<code>path</code>的模块，专门用于处理文件<code>path</code>相关的属性信息。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">os.path.abspath(path)</span><br><span class="line">返回绝对路径</span><br><span class="line"></span><br><span class="line">os.path.basename(path)</span><br><span class="line">返回文件名</span><br><span class="line"></span><br><span class="line">os.path.exists(path)</span><br><span class="line">如果路径 path 存在，返回 True；如果路径 path 不存在，返回 False。</span><br><span class="line"></span><br><span class="line">os.path.join(path1[, path2[, ...]])</span><br><span class="line">把目录和文件名合成一个路径</span><br><span class="line"></span><br><span class="line">os.path.split(path)</span><br><span class="line">把路径分割成 dirname 和 basename，返回一个元组</span><br><span class="line"></span><br><span class="line">os.path.splitext(path)</span><br><span class="line">分割路径，返回路径名和文件扩展名的元组</span><br><span class="line"></span><br><span class="line">os.path.walk(path, visit, arg)</span><br><span class="line">遍历path，进入每个目录都调用visit函数，visit函数必须有3个参数(arg, dirname, names)，dirname表示当前目录的目录名，names代表当前目录下的所有文件名，args则为walk的第三个参数</span><br></pre></td></tr></table></figure>
-<p>例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>( os.path.basename(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )   <span class="comment"># 返回文件名</span></span><br><span class="line"><span class="built_in">print</span>( os.path.dirname(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )    <span class="comment"># 返回目录路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.split(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )      <span class="comment"># 分割文件名与路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.join(<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;test&#x27;</span>,<span class="string">&#x27;runoob.txt&#x27;</span>) )  <span class="comment"># 将目录和文件名合成一个路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.splitext(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">runoob.txt</span><br><span class="line">/root</span><br><span class="line">(&#x27;/root&#x27;, &#x27;runoob.txt&#x27;)</span><br><span class="line">root/test/runoob.txt</span><br><span class="line">(&#x27;/root/run/test&#x27;, &#x27;.txt&#x27;)</span><br></pre></td></tr></table></figure>
-<p>上面的split和splitext，前者分割出了文件名和路径，而后者可以分割出路径名和扩展名，如果想要获得文件的扩展名，可以用splitext，传入文件的path就可以了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.mknod(filename) 创建</span><br></pre></td></tr></table></figure>
-<h1 id="复制文件和删除文件移动文件">复制文件和删除文件,移动文件</h1>
-<p>如果是删除一个目录，可以使用以下两种方式:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="comment"># method 1</span></span><br><span class="line"><span class="keyword">if</span> os.path.exists(root_dir):</span><br><span class="line">  shutil.rmtree(root_dir) <span class="comment"># 这里不可以使用os.removedirs(),removedirs只可以删除非空的文件夹，rmdir也是</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># method 2</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(os.listdir(root_dir)) &gt; <span class="number">0</span>:</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.scandir(root_dir):</span><br><span class="line">    os.remove(file.path)</span><br></pre></td></tr></table></figure>
-<p>如果想复制一个文件到另外一个文件夹，参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35725217" class="uri">https://zhuanlan.zhihu.com/p/35725217</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copyfile(source_file, destination_file)</span><br></pre></td></tr></table></figure>
-<p>记住这里第二个参数一定要是可写入的文件名字，而不是目录。</p>
-<h2 id="移动文件">移动文件</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line">file_source = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line">file_destination = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line"> </span><br><span class="line">get_files = os.listdir(file_source)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> get_files:</span><br><span class="line">    shutil.move(file_source + g, file_destination)</span><br></pre></td></tr></table></figure>
-<h1 id="读写csv文件">读写csv文件</h1>
-<p>第一个方式是用pandas，具体不介绍。</p>
-<p>这里总结一下csv库</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">     csv_reader = csv.reader(csvfile)</span><br><span class="line">     <span class="keyword">for</span> row <span class="keyword">in</span> csv_reader:</span><br><span class="line">        <span class="built_in">print</span>(row[<span class="number">1</span>]) <span class="comment"># 用列表的index取值</span></span><br><span class="line"><span class="comment"># 写csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    csv_writer = csv.writer(csvfile)</span><br><span class="line">    spamwriter.writerow([<span class="string">&#x27;Spam&#x27;</span>, <span class="string">&#x27;Lovely Spam&#x27;</span>, <span class="string">&#x27;Wonderful Spam&#x27;</span>]) <span class="comment"># writerow接受一个list，所有值都会写在一行里</span></span><br><span class="line">    spamwriter.writerows([[],[],[]]) <span class="comment"># writerows写入多行，每一行是一个列表，传进去的是列表的列表</span></span><br></pre></td></tr></table></figure>
-<p>除了写入list，还可以写字典类型的数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my data rows as dictionary objects </span></span><br><span class="line">mydict =[&#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.0&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Nikhil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sanchit&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;IT&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.3&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Aditya&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;SE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.5&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sagar&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;1&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;MCE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;7.8&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Prateek&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;3&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;EP&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sahil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># field names </span></span><br><span class="line">fields = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;branch&#x27;</span>, <span class="string">&#x27;year&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># name of csv file </span></span><br><span class="line">filename = <span class="string">&quot;university_records.csv&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># writing to csv file </span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile: </span><br><span class="line">    <span class="comment"># creating a csv dict writer object </span></span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames = fields) </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing headers (field names) </span></span><br><span class="line">    writer.writeheader() </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing data rows </span></span><br><span class="line">    writer.writerows(mydict)</span><br></pre></td></tr></table></figure>
+          <p>全角与半角转换在处理汉语语料中会经常出现，这里分别说明汉字、数字、字母的unicode编码范围。以及全角与半角的转换方法。最后给出wiki上全角和半角的编码对照表。这里Python需要用Python3版本。</p>
+<h3 id="汉字的判断">汉字的判断</h3>
+<p>汉字的unicode编码范围 u4e00 到 u9fa5。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_chinese</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断一个unicode是否是汉字&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> uchar &gt;= <span class="string">u&#x27;\u4e00&#x27;</span> <span class="keyword">and</span> uchar&lt;=<span class="string">u&#x27;\u9fa5&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h3 id="数字0-9的判断">数字0-9的判断</h3>
+<p>数字的unicode编码范围根据全角和半角，有两个不同区域，半角数字 u0030
+到 u0039，全角数字 uff10 到 uff19。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_number</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断一个unicode是否是半角数字&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> uchar &gt;= <span class="string">u&#x27;\u0030&#x27;</span> <span class="keyword">and</span> uchar&lt;=<span class="string">u&#x27;\u0039&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_Qnumber</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断一个unicode是否是全角数字&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> uchar &gt;= <span class="string">u&#x27;\uff10&#x27;</span> <span class="keyword">and</span> uchar &lt;= <span class="string">u&#x27;\uff19&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h3 id="大小写字母判断">大小写字母判断</h3>
+<p>字母的unicode编码根据字母大小写，以及全角和半角共有四个区域。
+半角大写字母：u0041 - u005a ，半角小写字母：u0061 - u007a ；
+全角大写字母：uff21 - uff3a ， 全角小写字母：uff41 - uff5a 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_alphabet</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断一个unicode是否是半角英文字母&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> (uchar &gt;= <span class="string">u&#x27;\u0041&#x27;</span> <span class="keyword">and</span> uchar &lt;= <span class="string">u&#x27;\u005a&#x27;</span>) <span class="keyword">or</span> (uchar &gt;= <span class="string">u&#x27;\u0061&#x27;</span> <span class="keyword">and</span> uchar &lt;= <span class="string">u&#x27;\u007a&#x27;</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_Qalphabet</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断一个unicode是否是全角英文字母&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> (uchar &gt;= <span class="string">u&#x27;\uff21&#x27;</span> <span class="keyword">and</span> uchar &lt;= <span class="string">u&#x27;\uff3a&#x27;</span>) <span class="keyword">or</span> (uchar &gt;= <span class="string">u&#x27;\uff41&#x27;</span> <span class="keyword">and</span> uchar &lt;= <span class="string">u&#x27;\uff5a&#x27;</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h3 id="非汉字和数字字母的判断">非汉字和数字字母的判断</h3>
+<p>判断除汉字、数字0-9、字母之外的字符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_other</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断是否非汉字，数字和英文字符&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (is_chinese(uchar) <span class="keyword">or</span> is_number(uchar) <span class="keyword">or</span> is_alphabet(uchar)):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h3 id="全角和半角的转换">全角和半角的转换</h3>
+<p>全角半角转换需要用到上面的数字、字母等判断。</p>
+<ol type="1">
+<li>所有半角转全角，不是半角范围直接返回，空格半角特殊单独处理，其它半角和全角对应公式：半角
+= 全角 - 0xfee0</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">B2Q</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;单个字符 半角转全角&quot;&quot;&quot;</span></span><br><span class="line">    inside_code = <span class="built_in">ord</span>(uchar)</span><br><span class="line">    <span class="keyword">if</span> inside_code &lt; <span class="number">0x0020</span> <span class="keyword">or</span> inside_code &gt; <span class="number">0x7e</span>: <span class="comment"># 不是半角字符就返回原来的字符</span></span><br><span class="line">        <span class="keyword">return</span> uchar </span><br><span class="line">    <span class="keyword">if</span> inside_code == <span class="number">0x0020</span>: <span class="comment"># 除了空格其他的全角半角的公式为: 半角 = 全角 - 0xfee0</span></span><br><span class="line">        inside_code = <span class="number">0x3000</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        inside_code += <span class="number">0xfee0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">chr</span>(inside_code)</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>所有全角转半角，和前面正好相反，公式对应：全角 = 半角 + 0xfee0</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Q2B</span>(<span class="params">uchar</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;单个字符 全角转半角&quot;&quot;&quot;</span></span><br><span class="line">    inside_code = <span class="built_in">ord</span>(uchar)</span><br><span class="line">    <span class="keyword">if</span> inside_code == <span class="number">0x3000</span>:</span><br><span class="line">        inside_code = <span class="number">0x0020</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        inside_code -= <span class="number">0xfee0</span></span><br><span class="line">    <span class="keyword">if</span> inside_code &lt; <span class="number">0x0020</span> <span class="keyword">or</span> inside_code &gt; <span class="number">0x7e</span>: <span class="comment">#转完之后不是半角字符返回原来的字符</span></span><br><span class="line">        <span class="keyword">return</span> uchar</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">chr</span>(inside_code)</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>把整个字符串全角转半角，也可以只转部分如数字和字母</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stringQ2B</span>(<span class="params">ustring</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;把字符串全角转半角&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join([Q2B(uchar) <span class="keyword">for</span> uchar <span class="keyword">in</span> ustring])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stringpartQ2B</span>(<span class="params">ustring</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;把字符串中数字和字母全角转半角&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join([Q2B(uchar) <span class="keyword">if</span> is_Qnumber(uchar) <span class="keyword">or</span> is_Qalphabet(uchar) <span class="keyword">else</span> uchar <span class="keyword">for</span> uchar <span class="keyword">in</span> ustring])</span><br></pre></td></tr></table></figure>
+<p>测试上面的全角半角转换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&quot;电影《２０１２》讲述了２０１２年１２月２１日的世界末日，主人公Ｊａｃｋ以及世界各国人民挣扎求生的经历，灾难面前，尽现人间百态。&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;text原文：&quot;</span>, text, sep=<span class="string">&quot;\n&quot;</span>, end=<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">text1 = stringQ2B(text)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全角转半角：&quot;</span>, text1, sep=<span class="string">&quot;\n&quot;</span>, end=<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">text2 = stringpartQ2B(text)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数字字母全角转半角：&quot;</span>, text2, sep=<span class="string">&quot;\n&quot;</span>, end=<span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>结果如下，只转数字字母与全部转是有区别的：</p>
+<figure>
+<img src="https:////upload-images.jianshu.io/upload_images/17669901-55fb5ccee96dcf60.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/980/format/webp" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>全角半角转换结果</p>
+<h3 id="附全角和半角编码对应表">附全角和半角编码对应表</h3>
+<ol type="1">
+<li>ASCII内字符的全角和半角，包括数字0-9、大小写字母、标点符号等。</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>ASCII</th>
+<th>全角字符</th>
+<th>Unicode</th>
+<th>半角字符</th>
+<th>Unicode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0x20</td>
+<td>"　"</td>
+<td>U+3000</td>
+<td>" "</td>
+<td>U+0020</td>
+</tr>
+<tr class="even">
+<td>0x21</td>
+<td>！</td>
+<td>U+FF01</td>
+<td>!</td>
+<td>U+0021</td>
+</tr>
+<tr class="odd">
+<td>0x22</td>
+<td>＂</td>
+<td>U+FF02</td>
+<td>"</td>
+<td>U+0022</td>
+</tr>
+<tr class="even">
+<td>0x23</td>
+<td>＃</td>
+<td>U+FF03</td>
+<td>#</td>
+<td>U+0023</td>
+</tr>
+<tr class="odd">
+<td>0x24</td>
+<td>＄</td>
+<td>U+FF04</td>
+<td>$</td>
+<td>U+0024</td>
+</tr>
+<tr class="even">
+<td>0x25</td>
+<td>％</td>
+<td>U+FF05</td>
+<td>%</td>
+<td>U+0025</td>
+</tr>
+<tr class="odd">
+<td>0x26</td>
+<td>＆</td>
+<td>U+FF06</td>
+<td>&amp;</td>
+<td>U+0026</td>
+</tr>
+<tr class="even">
+<td>0x27</td>
+<td>＇</td>
+<td>U+FF07</td>
+<td>'</td>
+<td>U+0027</td>
+</tr>
+<tr class="odd">
+<td>0x28</td>
+<td>（</td>
+<td>U+FF08</td>
+<td>(</td>
+<td>U+0028</td>
+</tr>
+<tr class="even">
+<td>0x29</td>
+<td>）</td>
+<td>U+FF09</td>
+<td>)</td>
+<td>U+0029</td>
+</tr>
+<tr class="odd">
+<td>0x2A</td>
+<td>＊</td>
+<td>U+FF0A</td>
+<td>*</td>
+<td>U+002A</td>
+</tr>
+<tr class="even">
+<td>0x2B</td>
+<td>＋</td>
+<td>U+FF0B</td>
+<td>+</td>
+<td>U+002B</td>
+</tr>
+<tr class="odd">
+<td>0x2C</td>
+<td>，</td>
+<td>U+FF0C</td>
+<td>,</td>
+<td>U+002C</td>
+</tr>
+<tr class="even">
+<td>0x2D</td>
+<td>－</td>
+<td>U+FF0D</td>
+<td>-</td>
+<td>U+002D</td>
+</tr>
+<tr class="odd">
+<td>0x2E</td>
+<td>．</td>
+<td>U+FF0E</td>
+<td>.</td>
+<td>U+002E</td>
+</tr>
+<tr class="even">
+<td>0x2F</td>
+<td>／</td>
+<td>U+FF0F</td>
+<td>/</td>
+<td>U+002F</td>
+</tr>
+<tr class="odd">
+<td>0x30</td>
+<td>０</td>
+<td>U+FF10</td>
+<td>0</td>
+<td>U+0030</td>
+</tr>
+<tr class="even">
+<td>0x31</td>
+<td>１</td>
+<td>U+FF11</td>
+<td>1</td>
+<td>U+0031</td>
+</tr>
+<tr class="odd">
+<td>0x32</td>
+<td>２</td>
+<td>U+FF12</td>
+<td>2</td>
+<td>U+0032</td>
+</tr>
+<tr class="even">
+<td>0x33</td>
+<td>３</td>
+<td>U+FF13</td>
+<td>3</td>
+<td>U+0033</td>
+</tr>
+<tr class="odd">
+<td>0x34</td>
+<td>４</td>
+<td>U+FF14</td>
+<td>4</td>
+<td>U+0034</td>
+</tr>
+<tr class="even">
+<td>0x35</td>
+<td>５</td>
+<td>U+FF15</td>
+<td>5</td>
+<td>U+0035</td>
+</tr>
+<tr class="odd">
+<td>0x36</td>
+<td>６</td>
+<td>U+FF16</td>
+<td>6</td>
+<td>U+0036</td>
+</tr>
+<tr class="even">
+<td>0x37</td>
+<td>７</td>
+<td>U+FF17</td>
+<td>7</td>
+<td>U+0037</td>
+</tr>
+<tr class="odd">
+<td>0x38</td>
+<td>８</td>
+<td>U+FF18</td>
+<td>8</td>
+<td>U+0038</td>
+</tr>
+<tr class="even">
+<td>0x39</td>
+<td>９</td>
+<td>U+FF19</td>
+<td>9</td>
+<td>U+0039</td>
+</tr>
+<tr class="odd">
+<td>0x3A</td>
+<td>：</td>
+<td>U+FF1A</td>
+<td>:</td>
+<td>U+003A</td>
+</tr>
+<tr class="even">
+<td>0x3B</td>
+<td>；</td>
+<td>U+FF1B</td>
+<td>;</td>
+<td>U+003B</td>
+</tr>
+<tr class="odd">
+<td>0x3C</td>
+<td>＜</td>
+<td>U+FF1C</td>
+<td>&lt;</td>
+<td>U+003C</td>
+</tr>
+<tr class="even">
+<td>0x3D</td>
+<td>＝</td>
+<td>U+FF1D</td>
+<td>=</td>
+<td>U+003D</td>
+</tr>
+<tr class="odd">
+<td>0x3E</td>
+<td>＞</td>
+<td>U+FF1E</td>
+<td>&gt;</td>
+<td>U+003E</td>
+</tr>
+<tr class="even">
+<td>0x3F</td>
+<td>？</td>
+<td>U+FF1F</td>
+<td>?</td>
+<td>U+003F</td>
+</tr>
+<tr class="odd">
+<td>0x40</td>
+<td>＠</td>
+<td>U+FF20</td>
+<td>@</td>
+<td>U+0040</td>
+</tr>
+<tr class="even">
+<td>0x41</td>
+<td>Ａ</td>
+<td>U+FF21</td>
+<td>A</td>
+<td>U+0041</td>
+</tr>
+<tr class="odd">
+<td>0x42</td>
+<td>Ｂ</td>
+<td>U+FF22</td>
+<td>B</td>
+<td>U+0042</td>
+</tr>
+<tr class="even">
+<td>0x43</td>
+<td>Ｃ</td>
+<td>U+FF23</td>
+<td>C</td>
+<td>U+0043</td>
+</tr>
+<tr class="odd">
+<td>0x44</td>
+<td>Ｄ</td>
+<td>U+FF24</td>
+<td>D</td>
+<td>U+0044</td>
+</tr>
+<tr class="even">
+<td>0x45</td>
+<td>Ｅ</td>
+<td>U+FF25</td>
+<td>E</td>
+<td>U+0045</td>
+</tr>
+<tr class="odd">
+<td>0x46</td>
+<td>Ｆ</td>
+<td>U+FF26</td>
+<td>F</td>
+<td>U+0046</td>
+</tr>
+<tr class="even">
+<td>0x47</td>
+<td>Ｇ</td>
+<td>U+FF27</td>
+<td>G</td>
+<td>U+0047</td>
+</tr>
+<tr class="odd">
+<td>0x48</td>
+<td>Ｈ</td>
+<td>U+FF28</td>
+<td>H</td>
+<td>U+0048</td>
+</tr>
+<tr class="even">
+<td>0x49</td>
+<td>Ｉ</td>
+<td>U+FF29</td>
+<td>I</td>
+<td>U+0049</td>
+</tr>
+<tr class="odd">
+<td>0x4A</td>
+<td>Ｊ</td>
+<td>U+FF2A</td>
+<td>J</td>
+<td>U+004A</td>
+</tr>
+<tr class="even">
+<td>0x4B</td>
+<td>Ｋ</td>
+<td>U+FF2B</td>
+<td>K</td>
+<td>U+004B</td>
+</tr>
+<tr class="odd">
+<td>0x4C</td>
+<td>Ｌ</td>
+<td>U+FF2C</td>
+<td>L</td>
+<td>U+004C</td>
+</tr>
+<tr class="even">
+<td>0x4D</td>
+<td>Ｍ</td>
+<td>U+FF2D</td>
+<td>M</td>
+<td>U+004D</td>
+</tr>
+<tr class="odd">
+<td>0x4E</td>
+<td>Ｎ</td>
+<td>U+FF2E</td>
+<td>N</td>
+<td>U+004E</td>
+</tr>
+<tr class="even">
+<td>0x4F</td>
+<td>Ｏ</td>
+<td>U+FF2F</td>
+<td>O</td>
+<td>U+004F</td>
+</tr>
+<tr class="odd">
+<td>0x50</td>
+<td>Ｐ</td>
+<td>U+FF30</td>
+<td>P</td>
+<td>U+0050</td>
+</tr>
+<tr class="even">
+<td>0x51</td>
+<td>Ｑ</td>
+<td>U+FF31</td>
+<td>Q</td>
+<td>U+0051</td>
+</tr>
+<tr class="odd">
+<td>0x52</td>
+<td>Ｒ</td>
+<td>U+FF32</td>
+<td>R</td>
+<td>U+0052</td>
+</tr>
+<tr class="even">
+<td>0x53</td>
+<td>Ｓ</td>
+<td>U+FF33</td>
+<td>S</td>
+<td>U+0053</td>
+</tr>
+<tr class="odd">
+<td>0x54</td>
+<td>Ｔ</td>
+<td>U+FF34</td>
+<td>T</td>
+<td>U+0054</td>
+</tr>
+<tr class="even">
+<td>0x55</td>
+<td>Ｕ</td>
+<td>U+FF35</td>
+<td>U</td>
+<td>U+0055</td>
+</tr>
+<tr class="odd">
+<td>0x56</td>
+<td>Ｖ</td>
+<td>U+FF36</td>
+<td>V</td>
+<td>U+0056</td>
+</tr>
+<tr class="even">
+<td>0x57</td>
+<td>Ｗ</td>
+<td>U+FF37</td>
+<td>W</td>
+<td>U+0057</td>
+</tr>
+<tr class="odd">
+<td>0x58</td>
+<td>Ｘ</td>
+<td>U+FF38</td>
+<td>X</td>
+<td>U+0058</td>
+</tr>
+<tr class="even">
+<td>0x59</td>
+<td>Ｙ</td>
+<td>U+FF39</td>
+<td>Y</td>
+<td>U+0059</td>
+</tr>
+<tr class="odd">
+<td>0x5A</td>
+<td>Ｚ</td>
+<td>U+FF3A</td>
+<td>Z</td>
+<td>U+005A</td>
+</tr>
+<tr class="even">
+<td>0x5B</td>
+<td>［</td>
+<td>U+FF3B</td>
+<td>[</td>
+<td>U+005B</td>
+</tr>
+<tr class="odd">
+<td>0x5C</td>
+<td>＼</td>
+<td>U+FF3C</td>
+<td>\</td>
+<td>U+005C</td>
+</tr>
+<tr class="even">
+<td>0x5D</td>
+<td>］</td>
+<td>U+FF3D</td>
+<td>]</td>
+<td>U+005D</td>
+</tr>
+<tr class="odd">
+<td>0x5E</td>
+<td>＾</td>
+<td>U+FF3E</td>
+<td>^</td>
+<td>U+005E</td>
+</tr>
+<tr class="even">
+<td>0x5F</td>
+<td>＿</td>
+<td>U+FF3F</td>
+<td>_</td>
+<td>U+005F</td>
+</tr>
+<tr class="odd">
+<td>0x60</td>
+<td>｀</td>
+<td>U+FF40</td>
+<td>`</td>
+<td>U+0060</td>
+</tr>
+<tr class="even">
+<td>0x61</td>
+<td>ａ</td>
+<td>U+FF41</td>
+<td>a</td>
+<td>U+0061</td>
+</tr>
+<tr class="odd">
+<td>0x62</td>
+<td>ｂ</td>
+<td>U+FF42</td>
+<td>b</td>
+<td>U+0062</td>
+</tr>
+<tr class="even">
+<td>0x63</td>
+<td>ｃ</td>
+<td>U+FF43</td>
+<td>c</td>
+<td>U+0063</td>
+</tr>
+<tr class="odd">
+<td>0x64</td>
+<td>ｄ</td>
+<td>U+FF44</td>
+<td>d</td>
+<td>U+0064</td>
+</tr>
+<tr class="even">
+<td>0x65</td>
+<td>ｅ</td>
+<td>U+FF45</td>
+<td>e</td>
+<td>U+0065</td>
+</tr>
+<tr class="odd">
+<td>0x66</td>
+<td>ｆ</td>
+<td>U+FF46</td>
+<td>f</td>
+<td>U+0066</td>
+</tr>
+<tr class="even">
+<td>0x67</td>
+<td>ｇ</td>
+<td>U+FF47</td>
+<td>g</td>
+<td>U+0067</td>
+</tr>
+<tr class="odd">
+<td>0x68</td>
+<td>ｈ</td>
+<td>U+FF48</td>
+<td>h</td>
+<td>U+0068</td>
+</tr>
+<tr class="even">
+<td>0x69</td>
+<td>ｉ</td>
+<td>U+FF49</td>
+<td>i</td>
+<td>U+0069</td>
+</tr>
+<tr class="odd">
+<td>0x6A</td>
+<td>ｊ</td>
+<td>U+FF4A</td>
+<td>j</td>
+<td>U+006A</td>
+</tr>
+<tr class="even">
+<td>0x6B</td>
+<td>ｋ</td>
+<td>U+FF4B</td>
+<td>k</td>
+<td>U+006B</td>
+</tr>
+<tr class="odd">
+<td>0x6C</td>
+<td>ｌ</td>
+<td>U+FF4C</td>
+<td>l</td>
+<td>U+006C</td>
+</tr>
+<tr class="even">
+<td>0x6D</td>
+<td>ｍ</td>
+<td>U+FF4D</td>
+<td>m</td>
+<td>U+006D</td>
+</tr>
+<tr class="odd">
+<td>0x6E</td>
+<td>ｎ</td>
+<td>U+FF4E</td>
+<td>n</td>
+<td>U+006E</td>
+</tr>
+<tr class="even">
+<td>0x6F</td>
+<td>ｏ</td>
+<td>U+FF4F</td>
+<td>o</td>
+<td>U+006F</td>
+</tr>
+<tr class="odd">
+<td>0x70</td>
+<td>ｐ</td>
+<td>U+FF50</td>
+<td>p</td>
+<td>U+0070</td>
+</tr>
+<tr class="even">
+<td>0x71</td>
+<td>ｑ</td>
+<td>U+FF51</td>
+<td>q</td>
+<td>U+0071</td>
+</tr>
+<tr class="odd">
+<td>0x72</td>
+<td>ｒ</td>
+<td>U+FF52</td>
+<td>r</td>
+<td>U+0072</td>
+</tr>
+<tr class="even">
+<td>0x73</td>
+<td>ｓ</td>
+<td>U+FF53</td>
+<td>s</td>
+<td>U+0073</td>
+</tr>
+<tr class="odd">
+<td>0x74</td>
+<td>ｔ</td>
+<td>U+FF54</td>
+<td>t</td>
+<td>U+0074</td>
+</tr>
+<tr class="even">
+<td>0x75</td>
+<td>ｕ</td>
+<td>U+FF55</td>
+<td>u</td>
+<td>U+0075</td>
+</tr>
+<tr class="odd">
+<td>0x76</td>
+<td>ｖ</td>
+<td>U+FF56</td>
+<td>v</td>
+<td>U+0076</td>
+</tr>
+<tr class="even">
+<td>0x77</td>
+<td>ｗ</td>
+<td>U+FF57</td>
+<td>w</td>
+<td>U+0077</td>
+</tr>
+<tr class="odd">
+<td>0x78</td>
+<td>ｘ</td>
+<td>U+FF58</td>
+<td>x</td>
+<td>U+0078</td>
+</tr>
+<tr class="even">
+<td>0x79</td>
+<td>ｙ</td>
+<td>U+FF59</td>
+<td>y</td>
+<td>U+0079</td>
+</tr>
+<tr class="odd">
+<td>0x7A</td>
+<td>ｚ</td>
+<td>U+FF5A</td>
+<td>z</td>
+<td>U+007A</td>
+</tr>
+<tr class="even">
+<td>0x7B</td>
+<td>｛</td>
+<td>U+FF5B</td>
+<td>{</td>
+<td>U+007B</td>
+</tr>
+<tr class="odd">
+<td>0x7C</td>
+<td>｜</td>
+<td>U+FF5C</td>
+<td>|</td>
+<td>U+007C</td>
+</tr>
+<tr class="even">
+<td>0x7D</td>
+<td>｝</td>
+<td>U+FF5D</td>
+<td>}</td>
+<td>U+007D</td>
+</tr>
+<tr class="odd">
+<td>0x7E</td>
+<td>～</td>
+<td>U+FF5E</td>
+<td>~</td>
+<td>U+007E</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>其它特殊字符的全角和半角</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>半角字符</th>
+<th>Unicode</th>
+<th>全角字符</th>
+<th>Unicode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>⦅</td>
+<td>U+2985</td>
+<td>｟</td>
+<td>U+FF5F</td>
+</tr>
+<tr class="even">
+<td>⦆</td>
+<td>U+2986</td>
+<td>｠</td>
+<td>U+FF60</td>
+</tr>
+<tr class="odd">
+<td>¢</td>
+<td>U+00A2</td>
+<td>￠</td>
+<td>U+FFE0</td>
+</tr>
+<tr class="even">
+<td>£</td>
+<td>U+00A3</td>
+<td>￡</td>
+<td>U+FFE1</td>
+</tr>
+<tr class="odd">
+<td>¬</td>
+<td>U+00AC</td>
+<td>￢</td>
+<td>U+FFE2</td>
+</tr>
+<tr class="even">
+<td>¯</td>
+<td>U+00AF</td>
+<td>￣</td>
+<td>U+FFE3</td>
+</tr>
+<tr class="odd">
+<td>¦</td>
+<td>U+00A6</td>
+<td>￤</td>
+<td>U+FFE4</td>
+</tr>
+<tr class="even">
+<td>¥</td>
+<td>U+00A5</td>
+<td>￥</td>
+<td>U+FFE5</td>
+</tr>
+<tr class="odd">
+<td>₩</td>
+<td>U+20A9</td>
+<td>￦</td>
+<td>U+FFE6</td>
+</tr>
+<tr class="even">
+<td>￨</td>
+<td>U+FFE8</td>
+<td>│</td>
+<td>U+2502</td>
+</tr>
+<tr class="odd">
+<td>￩</td>
+<td>U+FFE9</td>
+<td>←</td>
+<td>U+2190</td>
+</tr>
+<tr class="even">
+<td>￪</td>
+<td>U+FFEA</td>
+<td>↑</td>
+<td>U+2191</td>
+</tr>
+<tr class="odd">
+<td>￫</td>
+<td>U+FFEB</td>
+<td>→</td>
+<td>U+2192</td>
+</tr>
+<tr class="even">
+<td>￬</td>
+<td>U+FFEC</td>
+<td>↓</td>
+<td>U+2193</td>
+</tr>
+<tr class="odd">
+<td>￭</td>
+<td>U+FFED</td>
+<td>■</td>
+<td>U+25A0</td>
+</tr>
+<tr class="even">
+<td>￮</td>
+<td>U+FFEE</td>
+<td>○</td>
+<td>U+25CB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考">参考</h3>
+<p>[1]. <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https%3A%2F%2Fzh.wikipedia.org%2Fwiki%2F%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2">https://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2</a>
+[2]. <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http%3A%2F%2Fwww.voidcn.com%2Farticle%2Fp-njiniuhl-nu.html">http://www.voidcn.com/article/p-njiniuhl-nu.html</a>
+[3]. https://www.jianshu.com/p/152e081fec1b</p>
 
       
     </div>
@@ -617,7 +1332,7 @@ URL 地址：</p>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -641,14 +1356,14 @@ URL 地址：</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">196k</span>
+    <span title="Symbols count total">228k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:59</span>
+    <span title="Reading time total">3:27</span>
   </span>
 </div>
 

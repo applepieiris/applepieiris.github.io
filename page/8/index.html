@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,7 +214,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/29/%E5%8D%B7%E7%A7%AF%E5%92%8C%E5%8F%8D%E5%8D%B7%E7%A7%AF%E4%B8%AD%E7%9A%84output-shape%E8%AE%A1%E7%AE%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -227,171 +227,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">numpy基础总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-03-27 16:41:11 / Modified: 16:54:03" itemprop="dateCreated datePublished" datetime="2022-03-27T16:41:11+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/numpy/" itemprop="url" rel="index"><span itemprop="name">numpy</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>930</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="numpy.linalg.norm">numpy.linalg.norm</h1>
-<p><code>linalg.norm(x,ord=None,axis=None,keepdims=False)</code></p>
-<p>其中x可以传入array，也可以是matrix。</p>
-<p>ord参数针对x是array还是matrix是不一样的计算：</p>
-<table>
-<thead>
-<tr class="header">
-<th>ord</th>
-<th>norm for matrices</th>
-<th>norm for vectors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>None</td>
-<td>Frobenius norm</td>
-<td>2-norm</td>
-</tr>
-<tr class="even">
-<td>‘fro’</td>
-<td>Frobenius norm</td>
-<td>–</td>
-</tr>
-<tr class="odd">
-<td>‘nuc’</td>
-<td>nuclear norm</td>
-<td>–</td>
-</tr>
-<tr class="even">
-<td>inf</td>
-<td>max(sum(abs(x), axis=1))</td>
-<td>max(abs(x))</td>
-</tr>
-<tr class="odd">
-<td>-inf</td>
-<td>min(sum(abs(x), axis=1))</td>
-<td>min(abs(x))</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>–</td>
-<td>sum(x != 0)</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>max(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="even">
-<td>-1</td>
-<td>min(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2-norm (largest sing. value)</td>
-<td>L2范数</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>smallest singular value</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>–</td>
-<td>sum(abs(x)<strong>ord)</strong>(1./ord)</td>
-</tr>
-</tbody>
-</table>
-<p>如果传入axis这个参数，axis=0表示每一列为向量，以每一列的向量为基础计算。然后就转化为了向量运算。</p>
-<p>其中keepdims如果是True，那么规范化的轴将作为尺寸1留在结果中，使用此选项，结果将针对原始
-x 正确广播。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">9</span>) - <span class="number">4</span></span><br><span class="line">b = a.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">Out[<span class="number">7</span>]: array([-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>])</span><br><span class="line">b</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">array([[-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>],</span><br><span class="line">       [-<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>)</span><br><span class="line">Out[<span class="number">9</span>]: array([<span class="number">5.38516481</span>, <span class="number">1.41421356</span>, <span class="number">5.38516481</span>])</span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>,keepdims=<span class="literal">True</span>)</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">array([[<span class="number">5.38516481</span>],</span><br><span class="line">       [<span class="number">1.41421356</span>],</span><br><span class="line">       [<span class="number">5.38516481</span>]])</span><br></pre></td></tr></table></figure>
-<p>从以上结果看出：如果keepdims等于True，那么输出的矩阵将会是3乘以1的矩阵，输入矩阵是3乘以3。如果用Input/
-norm(input)是不会报错的。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">mysql常用命令</a>
+          <a href="/2022/08/29/%E5%8D%B7%E7%A7%AF%E5%92%8C%E5%8F%8D%E5%8D%B7%E7%A7%AF%E4%B8%AD%E7%9A%84output-shape%E8%AE%A1%E7%AE%97/" class="post-title-link" itemprop="url">卷积和反卷积中的output shape计算</a>
         </h2>
 
         <div class="post-meta-container">
@@ -402,14 +238,14 @@ norm(input)是不会报错的。</p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-17 22:38:15" itemprop="dateCreated datePublished" datetime="2022-03-17T22:38:15+08:00">2022-03-17</time>
+      <time title="Created: 2022-08-29 14:30:31" itemprop="dateCreated datePublished" datetime="2022-08-29T14:30:31+08:00">2022-08-29</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:23" itemprop="dateModified" datetime="2023-02-08T11:29:23+08:00">2023-02-08</time>
+        <time title="Modified: 2023-02-23 11:57:03" itemprop="dateModified" datetime="2023-02-23T11:57:03+08:00">2023-02-23</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -417,7 +253,7 @@ norm(input)是不会报错的。</p>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
         </span>
     </span>
 
@@ -428,7 +264,7 @@ norm(input)是不会报错的。</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.2k</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -446,64 +282,25 @@ norm(input)是不会报错的。</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="select">select</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table_name; # 选取所有内容</span><br><span class="line"></span><br><span class="line">SELECT DISTINCT column_name,column_name</span><br><span class="line">FROM table_name; # 一个列可能包含不同的值，该句可以列出不同的值</span><br><span class="line"></span><br><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE column_name operator value; # OPERATOR部分可以是: =,&gt;,&lt;,between,in,like</span><br><span class="line"># WHERE后可以跟逻辑符号 and,or,not</span><br></pre></td></tr></table></figure>
-<p>mysql语句对大小写不敏感，select == SELECT</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where not sal &gt; 1500;</span><br><span class="line"></span><br><span class="line">Select * from emp where comm is null;</span><br><span class="line"></span><br><span class="line">Select * from emp where sal in (5000,3000,1500);</span><br><span class="line"></span><br><span class="line">SELECT * FROM Websites WHERE alexa &gt; 15 AND (country=&#x27;CN&#x27; OR country=&#x27;USA&#x27;); # AND和OR可以结合使用</span><br></pre></td></tr></table></figure>
-<p>Like模糊查询</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from emp where ename like &#x27;M%&#x27;;</span><br></pre></td></tr></table></figure>
-<p>查询 EMP 表中 Ename 列中有 M 的值，M 为要查询内容中的模糊信息。</p>
-<ul>
-<li><strong>%</strong> 表示多个字值，**_** 下划线表示一个字符；</li>
-<li><strong>M%</strong> :
-为能配符，正则表达式，表示的意思为模糊查询信息为 M 开头的。</li>
-<li><strong>%M%</strong> : 表示查询包含M的所有内容。</li>
-<li><strong>%M_</strong> : 表示查询以M在倒数第二位的所有内容。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">ORDER BY column_name,column_name ASC|DESC; # 默认是升序</span><br><span class="line"></span><br><span class="line">INSERT INTO table_name (column1,column2,column3,...)</span><br><span class="line">VALUES (value1,value2,value3,...); # 这种方式可以向table_name表格中插入一行，可以只向某一列插入，其他自动</span><br><span class="line"></span><br><span class="line">UPDATE table_name</span><br><span class="line">SET column1=value1,column2=value2,...</span><br><span class="line">WHERE some_column=some_value; # 用于更新某条记录 </span><br><span class="line"># 比如：</span><br><span class="line">UPDATE Websites </span><br><span class="line">SET alexa=&#x27;5000&#x27;, country=&#x27;USA&#x27; </span><br><span class="line">WHERE name=&#x27;菜鸟教程&#x27;;</span><br><span class="line"></span><br><span class="line">DELETE FROM table_name</span><br><span class="line">WHERE some_column=some_value; # 删除某一行记录</span><br></pre></td></tr></table></figure>
-<h1 id="高级用法">高级用法</h1>
-<h2 id="join">join</h2>
-<figure>
-<img src="/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/sql-join.png" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># QL INNER JOIN（简单的 JOIN）。 SQL INNER JOIN 从多个表中返回满足 JOIN 条件的所有行。</span><br><span class="line">SELECT Websites.id, Websites.name, access_log.count, access_log.date</span><br><span class="line">FROM Websites</span><br><span class="line">INNER JOIN access_log</span><br><span class="line">ON Websites.id=access_log.site_id;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>INNER JOIN</strong>：如果表中有至少一个匹配，则返回行</li>
-<li><strong>LEFT
-JOIN</strong>：即使右表中没有匹配，也从左表返回所有的行</li>
-<li><strong>RIGHT
-JOIN</strong>：即使左表中没有匹配，也从右表返回所有的行</li>
-<li><strong>FULL JOIN</strong>：只要其中一个表中存在匹配，则返回行</li>
-</ul>
-<h2 id="union">union</h2>
-<p>UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
-<p>请注意，UNION 内部的每个 SELECT
-语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT
-语句中的列的顺序必须相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION</span><br><span class="line">SELECT column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>默认地，UNION
-操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。</p>
-<h3 id="sql-union-all-语法">SQL UNION ALL 语法</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT *column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>UNION 结果集中的列名总是等于 UNION 中第一个
-SELECT 语句中的列名。</p>
-<p>前者只会列出选出的值中不同的一些数据条，后者是所有的都返回。</p>
-<h2 id="count">Count</h2>
-<p>COUNT() 函数返回匹配指定条件的行数。</p>
-<hr>
-<h3 id="sql-countcolumn_name-语法">SQL COUNT(column_name) 语法</h3>
-<p>COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-count-语法">SQL COUNT(*) 语法</h3>
-<p>COUNT(*) 函数返回表中的记录数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(*) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-countdistinct-column_name-语法">SQL COUNT(DISTINCT
-column_name) 语法</h3>
-<p>COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>COUNT(DISTINCT) 适用于 ORACLE 和 Microsoft SQL
-Server，但是无法用于 Microsoft Access。</p>
+          <h1 id="conv2d">Conv2D</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">input_shape = (<span class="number">4</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">3</span>)</span><br><span class="line">x = tf.random.normal(input_shape)</span><br><span class="line"></span><br><span class="line">y1 = tf.keras.layers.Conv2D(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&#x27;valid&#x27;</span>)(x) <span class="comment"># output_shape= (input_shape - filter_size + 1) * (input_shape - filter_size + 1)</span></span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">26</span>, <span class="number">26</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y2 = tf.keras.layers.Conv2D(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;same&quot;</span>)(x)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y3 = tf.keras.layers.Conv2D(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;valid&quot;</span>,strides=<span class="number">2</span>)(x) </span><br><span class="line"><span class="built_in">print</span>(y.shape) <span class="comment"># output_shape= [(input_shape - filter_size)/strides + 1] * [(input_shape - filter_size)/strides + 1]</span></span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">13</span>, <span class="number">13</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y4 = tf.keras.layers.Conv2D(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;same&quot;</span>,strides=<span class="number">2</span>)(x) </span><br><span class="line"><span class="built_in">print</span>(y.shape) <span class="comment"># output_shape= (input_shape - filter_size + 1) * (input_shape - filter_size + 1)</span></span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">14</span>, <span class="number">14</span>, <span class="number">2</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上例中输入是<code>(28,28,3)</code>的<code>shape</code>。
+我们在推算<code>output shape</code>时要分两种情况：</p>
+<ol type="1">
+<li><code>padding="valid"</code>:
+<code>output_shape= [(input_shape - filter_size)/strides + 1] * [(input_shape - filter_size)/strides + 1]</code>。如果<code>strides</code>除不尽，则向下取整（取比该数小的那个整数）。所以<code>y3</code>的<code>shape</code>是13</li>
+<li><code>padding="same"</code>:
+当<code>padding="same"</code>时计算很简单，得到的<code>output</code>的<code>shape</code>一定是<code>input_shape/strides</code>。所以当<code>strides=1</code>时，输入和输出的<code>shape</code>时相等的，比如上面的<code>y2</code>。</li>
+</ol>
+<p>如果需要更细节的原理可以参考<a target="_blank" rel="noopener" href="https://towardsdatascience.com/understand-transposed-convolutions-and-build-your-own-transposed-convolution-layer-from-scratch-4f5d97b2967">博客</a>。这篇文章讲的特别好！重点推荐。</p>
+<h1 id="conv2dtranspose">Conv2DTranspose</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">y1 = tf.keras.layers.Conv2DTranspose(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;valid&quot;</span>)(x)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">30</span>, <span class="number">30</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y2 = tf.keras.layers.Conv2DTranspose(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;same&quot;</span>)(x)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y3 = tf.keras.layers.Conv2DTranspose(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;valid&quot;</span>,strides=<span class="number">2</span>)(x)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">57</span>, <span class="number">57</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">y4 = tf.keras.layers.Conv2DTranspose(<span class="number">2</span>, <span class="number">3</span>, activation=<span class="string">&#x27;relu&#x27;</span>, input_shape=input_shape[<span class="number">1</span>:],padding=<span class="string">&quot;same&quot;</span>,strides=<span class="number">2</span>)(x)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line">&gt;&gt;(<span class="number">4</span>, <span class="number">56</span>, <span class="number">56</span>, <span class="number">2</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>同样的总结下这个反卷积我们在推算<code>output shape</code>时也是分两种情况：
+1. <code>padding="valid"</code>:
+<code>output_length = input_length * stride + max(filter_size - stride, 0)</code>
+2. <code>padding="same"</code>:
+<code>output_shape=input_shape * strides</code>。当<code>strides=1</code>时，输出<code>shape</code>等于输入<code>shape</code></p>
+<p>当<code>padding=valid</code>时的计算有点复杂。再细究一下的话，<code>tensorflow</code>中<code>Conv2DTranspose</code>还接受<code>output_padding</code>这个参数。如果有这个参数的话（默认是None），可以参考<code>tensorflow</code>官方文档给出的<a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">公式</a></p>
 
       
     </div>
@@ -530,7 +327,7 @@ Server，但是无法用于 Microsoft Access。</p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/23/image-segmentation%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%92%8C%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -543,7 +340,7 @@ Server，但是无法用于 Microsoft Access。</p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">pandas遇到的问题汇总</a>
+          <a href="/2022/08/23/image-segmentation%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%92%8C%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">image-segmentation图像分割中的数据读取和处理</a>
         </h2>
 
         <div class="post-meta-container">
@@ -554,14 +351,14 @@ Server，但是无法用于 Microsoft Access。</p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-17 20:09:52" itemprop="dateCreated datePublished" datetime="2022-03-17T20:09:52+08:00">2022-03-17</time>
+      <time title="Created: 2022-08-23 13:20:32" itemprop="dateCreated datePublished" datetime="2022-08-23T13:20:32+08:00">2022-08-23</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-05-13 10:10:43" itemprop="dateModified" datetime="2022-05-13T10:10:43+08:00">2022-05-13</time>
+        <time title="Modified: 2023-02-08 11:35:57" itemprop="dateModified" datetime="2023-02-08T11:35:57+08:00">2023-02-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -569,7 +366,134 @@ Server，但是无法用于 Microsoft Access。</p>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>11 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="用tensorflow.image">用tensorflow.image</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> tensorflow_io <span class="keyword">as</span> tfio</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_image</span>(<span class="params">image_path, mask=<span class="literal">False</span></span>):</span></span><br><span class="line">    image = tf.io.read_file(image_path)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> mask:</span><br><span class="line">        image = tf.image.decode_png(image, channels=<span class="number">1</span>)</span><br><span class="line">        image.set_shape([<span class="literal">None</span>, <span class="literal">None</span>, <span class="number">1</span>])</span><br><span class="line">        image = tf.image.resize(images=image, size=[IMAGE_SIZE, IMAGE_SIZE])</span><br><span class="line">        image = tf.cast(image, tf.int32)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        image = tf.image.decode_png(image, channels=<span class="number">3</span>)</span><br><span class="line">        image.set_shape([<span class="literal">None</span>, <span class="literal">None</span>, <span class="number">3</span>])</span><br><span class="line">        image = tf.image.resize(images=image, size=[IMAGE_SIZE, IMAGE_SIZE])</span><br><span class="line">        image = image / <span class="number">255.</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> image</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span>(<span class="params">image_list, mask_list</span>):</span></span><br><span class="line">    image = read_image(image_list)</span><br><span class="line">    mask  = read_image(mask_list, mask=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> image, mask</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_generator</span>(<span class="params">image_list, mask_list, split=<span class="string">&#x27;train&#x27;</span></span>):</span></span><br><span class="line">    dataset = tf.data.Dataset.from_tensor_slices((image_list, mask_list))</span><br><span class="line">    dataset = dataset.shuffle(<span class="number">8</span>*BATCH_SIZE) <span class="keyword">if</span> split == <span class="string">&#x27;train&#x27;</span> <span class="keyword">else</span> dataset </span><br><span class="line">    dataset = dataset.<span class="built_in">map</span>(load_data, num_parallel_calls=tf.data.AUTOTUNE)</span><br><span class="line">    dataset = dataset.batch(BATCH_SIZE, drop_remainder=<span class="literal">True</span>)</span><br><span class="line">    dataset = dataset.prefetch(tf.data.AUTOTUNE)</span><br><span class="line">    <span class="keyword">return</span> dataset</span><br><span class="line"></span><br><span class="line">IMAGE_SIZE = <span class="number">128</span></span><br><span class="line">BATCH_SIZE = <span class="number">86</span></span><br><span class="line"></span><br><span class="line">train_dataset = data_generator(images, masks)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Train Dataset:&quot;</span>, train_dataset)</span><br><span class="line"></span><br><span class="line">input_data = os.path.join(root, <span class="string">&#x27;train_images&#x27;</span>)</span><br><span class="line">images = <span class="built_in">sorted</span>(</span><br><span class="line">    [</span><br><span class="line">        os.path.join(input_data, fname)</span><br><span class="line">        <span class="keyword">for</span> fname <span class="keyword">in</span> os.listdir(input_data)</span><br><span class="line">        <span class="keyword">if</span> fname.endswith(exts) <span class="keyword">and</span> <span class="keyword">not</span> fname.startswith(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">target_data = os.path.join(root, <span class="string">&#x27;train_masks&#x27;</span>)</span><br><span class="line">masks = <span class="built_in">sorted</span>(</span><br><span class="line">    [</span><br><span class="line">        os.path.join(target_data, fname)</span><br><span class="line">        <span class="keyword">for</span> fname <span class="keyword">in</span> os.listdir(target_data)</span><br><span class="line">        <span class="keyword">if</span> fname.endswith(exts) <span class="keyword">and</span> <span class="keyword">not</span> fname.startswith(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Number of samples:&quot;</span>, <span class="built_in">len</span>(images), <span class="built_in">len</span>(masks))</span><br><span class="line"><span class="keyword">for</span> input_path, target_path <span class="keyword">in</span> <span class="built_in">zip</span>(images[:<span class="number">10</span>], masks[:<span class="number">10</span>]):</span><br><span class="line">    <span class="built_in">print</span>(input_path[-<span class="number">32</span>:], <span class="string">&quot;|&quot;</span>, target_path[-<span class="number">31</span>:], <span class="string">&#x27;|&#x27;</span>, np.unique(cv2.imread(target_path)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>以上方式传入data_generator的是image和mask所在图片路径.</p>
+<h1 id="用cv2">用cv2</h1>
+<p>这种方式适合图片不多的情况下使用，直接读入ndarry里存储。
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">train_img_paths = <span class="built_in">sorted</span>(glob(<span class="string">&#x27;../output/kaggle/working/train/*.jpg&#x27;</span>))[:SAMPLE]</span><br><span class="line">train_mask_paths = <span class="built_in">sorted</span>(glob(<span class="string">&#x27;../output/kaggle/working/train_masks/*.gif&#x27;</span>))[:SAMPLE]</span><br><span class="line"></span><br><span class="line">train_imgs = np.array([cv2.resize(imageio.imread(path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">                        <span class="keyword">for</span> path <span class="keyword">in</span> train_img_paths])</span><br><span class="line"></span><br><span class="line">train_masks = np.array([cv2.resize(imageio.imread(path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">                        <span class="keyword">for</span> path <span class="keyword">in</span> train_mask_paths])</span><br><span class="line"></span><br><span class="line">train_masks = train_masks.astype(np.float32)</span><br><span class="line">train_masks[train_masks&lt;=<span class="number">127</span>] = <span class="number">0.</span></span><br><span class="line">train_masks[train_masks&gt;<span class="number">127</span>] = <span class="number">1.</span></span><br><span class="line">train_masks = np.reshape(train_masks, (*train_masks.shape, <span class="number">1</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h1 id="用generator方式">用generator方式</h1>
+<p>推荐用这种方式，占用内存小。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">img_paths = <span class="built_in">sorted</span>(glob(<span class="string">&#x27;../output/kaggle/working/train/*.jpg&#x27;</span>))[:<span class="number">500</span>]</span><br><span class="line">mask_paths = <span class="built_in">sorted</span>(glob(<span class="string">&#x27;../output/kaggle/working/train_masks/*.gif&#x27;</span>))[:<span class="number">500</span>]</span><br><span class="line">train_img_files,val_img_files,train_mask_files,val_mask_files = train_test_split(img_paths,mask_paths,test_size=<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_mask</span>(<span class="params">masks</span>):</span></span><br><span class="line">    masks[masks&lt;=<span class="number">127</span>] = <span class="number">0.</span></span><br><span class="line">    masks[masks&gt;<span class="number">127</span>] = <span class="number">1.</span></span><br><span class="line">    masks = masks.astype(np.float32)</span><br><span class="line">    masks = np.reshape(masks, (*masks.shape, <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> masks</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_img_mask_gen</span>():</span></span><br><span class="line">    <span class="keyword">for</span> img_path,mask_path <span class="keyword">in</span> <span class="built_in">zip</span>(train_img_files,train_mask_files):</span><br><span class="line">        img = cv2.resize(imageio.imread(img_path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">        img = img / <span class="number">127.5</span></span><br><span class="line">        mask = cv2.resize(imageio.imread(mask_path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">        mask = process_mask(mask)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">yield</span> img, mask</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">val_img_mask_gen</span>():</span></span><br><span class="line">    <span class="keyword">for</span> img_path,mask_path <span class="keyword">in</span> <span class="built_in">zip</span>(val_img_files,val_mask_files):</span><br><span class="line">        img = cv2.resize(imageio.imread(img_path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">        mask = cv2.resize(imageio.imread(mask_path), (IMG_ROWS, IMG_COLS))</span><br><span class="line">        img = img / <span class="number">127.5</span></span><br><span class="line">        mask = process_mask(mask)</span><br><span class="line">        <span class="keyword">yield</span> img, mask</span><br><span class="line"></span><br><span class="line">train_dataset = tf.data.Dataset.from_generator(train_img_mask_gen,</span><br><span class="line">                                              output_signature=(</span><br><span class="line">                                                    tf.TensorSpec(shape=(IMG_ROWS, IMG_COLS, <span class="number">3</span>), dtype=tf.float32),</span><br><span class="line">                                                    tf.TensorSpec(shape=(IMG_ROWS, IMG_COLS, <span class="number">1</span>), dtype=tf.float32))</span><br><span class="line">                                              )</span><br><span class="line">val_dataset = tf.data.Dataset.from_generator(val_img_mask_gen,</span><br><span class="line">                                             output_signature=(</span><br><span class="line">                                                    tf.TensorSpec(shape=(IMG_ROWS, IMG_COLS, <span class="number">3</span>), dtype=tf.float32),</span><br><span class="line">                                                    tf.TensorSpec(shape=(IMG_ROWS, IMG_COLS, <span class="number">1</span>), dtype=tf.float32))</span><br><span class="line">                                            )</span><br></pre></td></tr></table></figure>
+上面这种方式需要创建一个generator函数，该函数不接受参数，如果需要传入参数可以另外新建一个函数，该函数会返回一个不接受任何参数的fun().比如：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img_masks_generator_from_files</span>(<span class="params">img_files, mask_files, sample_weights=<span class="literal">None</span>, width=<span class="number">512</span>, height=<span class="number">512</span>, shuffle=<span class="literal">True</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sample_weights:</span><br><span class="line">        sample_weights = [[<span class="number">1</span>]] * <span class="built_in">len</span>(img_files) <span class="comment"># Make sample_weights equipped with a broadcastable shape when fed to a tf.Tensor</span></span><br><span class="line">    </span><br><span class="line">    sample_weights = np.array(sample_weights)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(sample_weights.shape) == <span class="number">1</span>:</span><br><span class="line">        sample_weights = sample_weights[..., np.newaxis] <span class="comment"># Make sample_weights equipped with a broadcastable shape when fed to a tf.Tensor</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">assert</span>(<span class="built_in">len</span>(sample_weights.shape) == <span class="number">2</span> <span class="keyword">and</span> sample_weights.shape[-<span class="number">1</span>] == <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">        indexes = np.arange(<span class="built_in">len</span>(img_files))</span><br><span class="line">        np.random.shuffle(indexes)</span><br><span class="line">        img_files = [ img_files[i] <span class="keyword">for</span> i <span class="keyword">in</span> indexes ]</span><br><span class="line">        mask_files = [ mask_files[i] <span class="keyword">for</span> i <span class="keyword">in</span> indexes ]</span><br><span class="line">        sample_weights = [ sample_weights[i] <span class="keyword">for</span> i <span class="keyword">in</span> indexes ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span>():</span></span><br><span class="line">        <span class="keyword">for</span> img, masks, sample_weight <span class="keyword">in</span> <span class="built_in">zip</span>(img_files, mask_files, sample_weights):</span><br><span class="line">            <span class="keyword">yield</span> img_masks_from_file(img, masks, sample_weight)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> f</span><br><span class="line"></span><br><span class="line">train_img_masks_gen = img_masks_generator_from_files(train_img_files, train_mask_files, train_sample_weights, width=W, height=H)</span><br><span class="line"></span><br><span class="line">train_img_masks_dataset = tf.data.Dataset.from_generator(</span><br><span class="line">    train_img_masks_gen, </span><br><span class="line">    output_signature=(</span><br><span class="line">        tf.TensorSpec(shape=(W, H, <span class="number">1</span>), dtype=tf.float32),</span><br><span class="line">        tf.TensorSpec(shape=(W, H, <span class="built_in">len</span>(train_mask_files[<span class="number">0</span>])), dtype=tf.int32),</span><br><span class="line">        tf.TensorSpec(shape=(<span class="number">1</span>), dtype=tf.float32)</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+上面这种方式还可以换成另一种，在tensorflow.data.Dataset初始化时直接传递args参数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ds_train = tf.data.Dataset.from_generator(noise_generator,args=[<span class="string">&#x27;train&#x27;</span>, mode],output_types=tf.int32,output_shapes=(<span class="literal">None</span>, <span class="literal">None</span>, n_channels))</span><br></pre></td></tr></table></figure>
+<p>官方文档是这样写的：</p>
+<blockquote>
+<p>(Optional.) A tuple of <a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code>tf.Tensor</code></a>
+objects that will be evaluated and passed to <code>generator</code> as
+NumPy-array arguments.</p>
+</blockquote>
+<p>关于更多<code>tf.data.Dataset.from_generator</code>的用法可以参考<a target="_blank" rel="noopener" href="https://vak.ai/tensorflow/TensorFlow2.0-dataset/">博客</a>。里面有一句话解答了我的疑惑：</p>
+<blockquote>
+<p>we need to have a python <a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/generator">generator</a>
+function which generates <strong>one</strong> training pair needed for
+our model.</p>
+</blockquote>
+<p>这就是说我们在创建<code>generator</code>这个函数的时候，函数返回值应该是一个<code>training pair</code>，也就是<code>X</code>和<code>y</code></p>
+<hr>
+<p>visualize图片的可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">visualize</span>(<span class="params">**images</span>):</span> <span class="comment"># **images是(key,item)的方式，*images是item list的方式</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;PLot images in one row.&quot;&quot;&quot;</span></span><br><span class="line">    n = <span class="built_in">len</span>(images)</span><br><span class="line">    plt.figure(figsize=(<span class="number">16</span>, <span class="number">5</span>))</span><br><span class="line">    <span class="keyword">for</span> i, (name, image) <span class="keyword">in</span> <span class="built_in">enumerate</span>(images.items()):</span><br><span class="line">        plt.subplot(<span class="number">1</span>, n, i + <span class="number">1</span>)</span><br><span class="line">        plt.xticks([])</span><br><span class="line">        plt.yticks([])</span><br><span class="line">        plt.title(<span class="string">&#x27; &#x27;</span>.join(name.split(<span class="string">&#x27;_&#x27;</span>)).title())</span><br><span class="line">        plt.imshow(image)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line">image, mask = <span class="built_in">next</span>(<span class="built_in">iter</span>(train_dataset.take(<span class="number">1</span>))) <span class="comment"># train_dataset</span></span><br><span class="line"><span class="comment"># image,mask = list(train_dataset.take(1)) </span></span><br><span class="line"><span class="built_in">print</span>(image.shape, mask.shape)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (img, msk) <span class="keyword">in</span> <span class="built_in">zip</span>(image[:<span class="number">5</span>], mask[:<span class="number">5</span>]):</span><br><span class="line">    <span class="built_in">print</span>(mask.numpy().<span class="built_in">min</span>(), mask.numpy().<span class="built_in">max</span>())</span><br><span class="line">    visualize(</span><br><span class="line">        image=img.numpy(),</span><br><span class="line">        gt_mask=msk.numpy(), </span><br><span class="line">    )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>以下是mask标注大于两类（0或者1）的情况下可以观察数据的方式（需要被赋予color）
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualization Utilities</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># there are 11 classes in the dataset: one class for each digit (0 to 9) plus the background class</span></span><br><span class="line">n_classes = <span class="number">11</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># assign a random color for each class</span></span><br><span class="line">colors = [<span class="built_in">tuple</span>(np.random.randint(<span class="number">256</span>, size=<span class="number">3</span>) / <span class="number">255.0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_classes)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fuse_with_pil</span>(<span class="params">images</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Creates a blank image and pastes input images</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    images (list of numpy arrays) - numpy array representations of the images to paste</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    PIL Image object containing the images</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">  widths = (image.shape[<span class="number">1</span>] <span class="keyword">for</span> image <span class="keyword">in</span> images)</span><br><span class="line">  heights = (image.shape[<span class="number">0</span>] <span class="keyword">for</span> image <span class="keyword">in</span> images)</span><br><span class="line">  total_width = <span class="built_in">sum</span>(widths)</span><br><span class="line">  max_height = <span class="built_in">max</span>(heights)</span><br><span class="line"></span><br><span class="line">  new_im = PIL.Image.new(<span class="string">&#x27;RGB&#x27;</span>, (total_width, max_height))</span><br><span class="line"></span><br><span class="line">  x_offset = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> im <span class="keyword">in</span> images:</span><br><span class="line">    pil_image = PIL.Image.fromarray(np.uint8(im))</span><br><span class="line">    new_im.paste(pil_image, (x_offset,<span class="number">0</span>))</span><br><span class="line">    x_offset += im.shape[<span class="number">1</span>]</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> new_im</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">give_color_to_annotation</span>(<span class="params">annotation</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Converts a 2-D annotation to a numpy array with shape (height, width, 3) where</span></span><br><span class="line"><span class="string">  the third axis represents the color channel. The label values are multiplied by</span></span><br><span class="line"><span class="string">  255 and placed in this axis to give color to the annotation</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    annotation (numpy array) - label map array</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    the annotation array with an additional color channel/axis</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line">  seg_img = np.zeros( (annotation.shape[<span class="number">0</span>],annotation.shape[<span class="number">1</span>], <span class="number">3</span>) ).astype(<span class="string">&#x27;float&#x27;</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> c <span class="keyword">in</span> <span class="built_in">range</span>(n_classes):</span><br><span class="line">    segc = (annotation == c)</span><br><span class="line">    seg_img[:,:,<span class="number">0</span>] += segc*( colors[c][<span class="number">0</span>] * <span class="number">255.0</span>)</span><br><span class="line">    seg_img[:,:,<span class="number">1</span>] += segc*( colors[c][<span class="number">1</span>] * <span class="number">255.0</span>)</span><br><span class="line">    seg_img[:,:,<span class="number">2</span>] += segc*( colors[c][<span class="number">2</span>] * <span class="number">255.0</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> seg_img</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_annotation_and_prediction</span>(<span class="params">image, annotation, prediction, iou_list, dice_score_list</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Displays the images with the ground truth and predicted label maps. Also overlays the metrics.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    image (numpy array) -- the input image</span></span><br><span class="line"><span class="string">    annotation (numpy array) -- the ground truth label map</span></span><br><span class="line"><span class="string">    prediction (numpy array) -- the predicted label map</span></span><br><span class="line"><span class="string">    iou_list (list of floats) -- the IOU values for each class</span></span><br><span class="line"><span class="string">    dice_score_list (list of floats) -- the Dice Score for each class</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">  new_ann = np.argmax(annotation, axis=<span class="number">2</span>)</span><br><span class="line">  true_img = give_color_to_annotation(new_ann)</span><br><span class="line">  pred_img = give_color_to_annotation(prediction)</span><br><span class="line"></span><br><span class="line">  image = image + <span class="number">1</span></span><br><span class="line">  image = image * <span class="number">127.5</span></span><br><span class="line">  image = np.reshape(image, (image.shape[<span class="number">0</span>], image.shape[<span class="number">1</span>],))</span><br><span class="line">  image = np.uint8(image)</span><br><span class="line">  images = [image, np.uint8(pred_img), np.uint8(true_img)]</span><br><span class="line"></span><br><span class="line">  metrics_by_id = [(idx, iou, dice_score) <span class="keyword">for</span> idx, (iou, dice_score) <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">zip</span>(iou_list, dice_score_list)) <span class="keyword">if</span> iou &gt; <span class="number">0.0</span> <span class="keyword">and</span> idx &lt; <span class="number">10</span>]</span><br><span class="line">  metrics_by_id.sort(key=<span class="keyword">lambda</span> tup: tup[<span class="number">1</span>], reverse=<span class="literal">True</span>)  <span class="comment"># sorts in place</span></span><br><span class="line"></span><br><span class="line">  display_string_list = [<span class="string">&quot;&#123;&#125;: IOU: &#123;&#125; Dice Score: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(idx, iou, dice_score) <span class="keyword">for</span> idx, iou, dice_score <span class="keyword">in</span> metrics_by_id]</span><br><span class="line">  display_string = <span class="string">&quot;\n&quot;</span>.join(display_string_list)</span><br><span class="line"></span><br><span class="line">  plt.figure(figsize=(<span class="number">15</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> idx, im <span class="keyword">in</span> <span class="built_in">enumerate</span>(images):</span><br><span class="line">    plt.subplot(<span class="number">1</span>, <span class="number">3</span>, idx+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> idx == <span class="number">1</span>:</span><br><span class="line">      plt.xlabel(display_string)</span><br><span class="line">    plt.xticks([])</span><br><span class="line">    plt.yticks([])</span><br><span class="line">    plt.imshow(im)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_annotation_and_image</span>(<span class="params">image, annotation</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Displays the image and its annotation side by side</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    image (numpy array) -- the input image</span></span><br><span class="line"><span class="string">    annotation (numpy array) -- the label map</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line">  new_ann = np.argmax(annotation, axis=<span class="number">2</span>)</span><br><span class="line">  seg_img = give_color_to_annotation(new_ann)</span><br><span class="line">  </span><br><span class="line">  image = image + <span class="number">1</span></span><br><span class="line">  image = image * <span class="number">127.5</span></span><br><span class="line">  image = np.reshape(image, (image.shape[<span class="number">0</span>], image.shape[<span class="number">1</span>],))</span><br><span class="line"></span><br><span class="line">  image = np.uint8(image)</span><br><span class="line">  images = [image, seg_img]</span><br><span class="line">  </span><br><span class="line">  images = [image, seg_img]</span><br><span class="line">  fused_img = fuse_with_pil(images)</span><br><span class="line">  plt.imshow(fused_img)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">list_show_annotation</span>(<span class="params">dataset, num_images</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Displays images and its annotations side by side</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    dataset (tf Dataset) -- batch of images and annotations</span></span><br><span class="line"><span class="string">    num_images (int) -- number of images to display</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line">  ds = dataset.unbatch()</span><br><span class="line"></span><br><span class="line">  plt.figure(figsize=(<span class="number">20</span>, <span class="number">15</span>))</span><br><span class="line">  plt.title(<span class="string">&quot;Images And Annotations&quot;</span>)</span><br><span class="line">  plt.subplots_adjust(bottom=<span class="number">0.1</span>, top=<span class="number">0.9</span>, hspace=<span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> idx, (image, annotation) <span class="keyword">in</span> <span class="built_in">enumerate</span>(ds.take(num_images)):</span><br><span class="line">    plt.subplot(<span class="number">5</span>, <span class="number">5</span>, idx + <span class="number">1</span>)</span><br><span class="line">    plt.yticks([])</span><br><span class="line">    plt.xticks([])</span><br><span class="line">    show_annotation_and_image(image.numpy(), annotation.numpy())</span><br><span class="line"></span><br><span class="line"><span class="comment"># get 10 images from the training set</span></span><br><span class="line">list_show_annotation(training_dataset, <span class="number">10</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h1 id="segmentation中checkpoint的设置">segmentation中checkpoint的设置</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DisplayCallback</span>(<span class="params">tf.keras.callbacks.Callback</span>):</span> <span class="comment"># 每间隔5个spoch显示一次结果</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, dataset, epoch_interval=<span class="number">5</span></span>):</span></span><br><span class="line">        self.dataset = dataset</span><br><span class="line">        self.epoch_interval = epoch_interval</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">display</span>(<span class="params">self, display_list, extra_title=<span class="string">&#x27;&#x27;</span></span>):</span></span><br><span class="line">        plt.figure(figsize=(<span class="number">15</span>, <span class="number">15</span>))</span><br><span class="line">        title = [<span class="string">&#x27;Input Image&#x27;</span>, <span class="string">&#x27;True Mask&#x27;</span>, <span class="string">&#x27;Predicted Mask&#x27;</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(display_list) &gt; <span class="built_in">len</span>(title):</span><br><span class="line">            title.append(extra_title)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(display_list)):</span><br><span class="line">            plt.subplot(<span class="number">1</span>, <span class="built_in">len</span>(display_list), i+<span class="number">1</span>)</span><br><span class="line">            plt.title(title[i])</span><br><span class="line">            plt.imshow(display_list[i])</span><br><span class="line">            plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line">        plt.show()</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_mask</span>(<span class="params">self, pred_mask</span>):</span></span><br><span class="line">        pred_mask = (pred_mask &gt; <span class="number">0.5</span>).astype(<span class="string">&quot;int32&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> pred_mask[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show_predictions</span>(<span class="params">self, dataset, num=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="keyword">for</span> image, mask <span class="keyword">in</span> dataset.take(num):</span><br><span class="line">            pred_mask = model.predict(image)</span><br><span class="line">            self.display([image[<span class="number">0</span>], mask[<span class="number">0</span>], self.create_mask(pred_mask)])</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_epoch_end</span>(<span class="params">self, epoch, logs=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> epoch <span class="keyword">and</span> epoch % self.epoch_interval == <span class="number">0</span>:</span><br><span class="line">            self.show_predictions(self.dataset)</span><br><span class="line">            <span class="built_in">print</span> (<span class="string">&#x27;\nSample Prediction after epoch &#123;&#125;\n&#x27;</span>.<span class="built_in">format</span>(epoch+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">epochs = <span class="number">30</span></span><br><span class="line">model.fit(</span><br><span class="line">    train_dataset, </span><br><span class="line">    epochs=epochs, </span><br><span class="line">    callbacks=[DisplayCallback(train_dataset)]</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>也需要有常规的checkpoint <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.keras.callbacks <span class="keyword">import</span> EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, LearningRateScheduler</span><br><span class="line"></span><br><span class="line">filepath_dice_coeff = <span class="string">&quot;_val_loss.hdf5&quot;</span> <span class="comment"># 保存成一个单独的hdf5文件</span></span><br><span class="line">checkpointer = ModelCheckpoint(filepath_dice_coeff, monitor=<span class="string">&#x27;val_loss&#x27;</span>, verbose=<span class="number">1</span>, save_best_only=<span class="literal">True</span>, mode=<span class="string">&#x27;min&#x27;</span>)<span class="comment"># val_dice_coeff</span></span><br><span class="line">lr_reducer = ReduceLROnPlateau(factor=np.sqrt(<span class="number">0.1</span>), cooldown=<span class="number">0</span>, patience=<span class="number">30</span>, min_lr=<span class="number">0.5e-6</span>)</span><br><span class="line">early_stop = EarlyStopping(monitor=<span class="string">&#x27;val_loss&#x27;</span>, patience=<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">hist = seg_classi_model.fit(train_data,</span><br><span class="line">                steps_per_epoch=(train_imgs.shape[<span class="number">0</span>] + batch_size - <span class="number">1</span>) // batch_size,</span><br><span class="line">                epochs=<span class="number">300</span>,</span><br><span class="line">                callbacks=[checkpointer, lr_reducer, early_stop],</span><br><span class="line">                validation_data=val_data,</span><br><span class="line">                validation_steps=(valid_imgs.shape[<span class="number">0</span>] + batch_size - <span class="number">1</span>) // batch_size) </span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/22/image-segmentation-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E4%B8%AD%E7%9A%84IOU-Dice%E7%9A%84%E8%AE%A1%E7%AE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/22/image-segmentation-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E4%B8%AD%E7%9A%84IOU-Dice%E7%9A%84%E8%AE%A1%E7%AE%97/" class="post-title-link" itemprop="url">image segmentation(图像分割)中的IOU,Dice的计算</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-22 14:38:14" itemprop="dateCreated datePublished" datetime="2022-08-22T14:38:14+08:00">2022-08-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:35:54" itemprop="dateModified" datetime="2023-02-08T11:35:54+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
         </span>
     </span>
 
@@ -598,36 +522,16 @@ Server，但是无法用于 Microsoft Access。</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="join">join()</h1>
-<p>Examples</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;, &#x27;K3&#x27;, &#x27;K4&#x27;, &#x27;K5&#x27;],</span><br><span class="line">...                    &#x27;A&#x27;: [&#x27;A0&#x27;, &#x27;A1&#x27;, &#x27;A2&#x27;, &#x27;A3&#x27;, &#x27;A4&#x27;, &#x27;A5&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">  key   A</span><br><span class="line">0  K0  A0</span><br><span class="line">1  K1  A1</span><br><span class="line">2  K2  A2</span><br><span class="line">3  K3  A3</span><br><span class="line">4  K4  A4</span><br><span class="line">5  K5  A5</span><br><span class="line">&gt;&gt;&gt; other = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;],</span><br><span class="line">...                       &#x27;B&#x27;: [&#x27;B0&#x27;, &#x27;B1&#x27;, &#x27;B2&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; other</span><br><span class="line">  key   B</span><br><span class="line">0  K0  B0</span><br><span class="line">1  K1  B1</span><br><span class="line">2  K2  B2</span><br></pre></td></tr></table></figure>
-<p>Join DataFrames using their indexes.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.join(other, lsuffix=&#x27;_caller&#x27;, rsuffix=&#x27;_other&#x27;)</span><br><span class="line">  key_caller   A key_other    B</span><br><span class="line">0         K0  A0        K0   B0</span><br><span class="line">1         K1  A1        K1   B1</span><br><span class="line">2         K2  A2        K2   B2</span><br><span class="line">3         K3  A3       NaN  NaN</span><br><span class="line">4         K4  A4       NaN  NaN</span><br><span class="line">5         K5  A5       NaN  NaN</span><br></pre></td></tr></table></figure>
-<p>如果不想以现有index为基础去Join，比如上面的例子想用key这个index去Join，可以：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; df.join(other.set_index(&#x27;key&#x27;), on=&#x27;key&#x27;)</span><br><span class="line">  key   A    B</span><br><span class="line">0  K0  A0   B0</span><br><span class="line">1  K1  A1   B1</span><br><span class="line">2  K2  A2   B2</span><br><span class="line">3  K3  A3  NaN</span><br><span class="line">4  K4  A4  NaN</span><br><span class="line">5  K5  A5  NaN</span><br></pre></td></tr></table></figure>
-<h1 id="merge">merge()</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;&#x27;lkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [1, 2, 3, 5]&#125;)</span><br><span class="line">df2 = pd.DataFrame(&#123;&#x27;rkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [5, 6, 7, 8]&#125;)</span><br><span class="line">df1</span><br><span class="line">    lkey value</span><br><span class="line">0   foo      1</span><br><span class="line">1   bar      2</span><br><span class="line">2   baz      3</span><br><span class="line">3   foo      5</span><br><span class="line">df2</span><br><span class="line">    rkey value</span><br><span class="line">0   foo      5</span><br><span class="line">1   bar      6</span><br><span class="line">2   baz      7</span><br><span class="line">3   foo      8</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="选择多列">选择多列</h1>
-<p>有时候需要选择DataFrame中的多个列组成一个新的DataFrame，这时候要用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[[&#x27;column1&#x27;,&#x27;column2&#x27;]] # 注意这里是双层中括号！</span><br></pre></td></tr></table></figure>
-<h1 id="drop-满足条件的行">drop 满足条件的行</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_clear = df.drop(df[df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>].index)</span><br><span class="line"><span class="comment"># 也可以使用多个条件</span></span><br><span class="line">df_clear = df.drop(df[(df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>) | (df[<span class="string">&#x27;x&#x27;</span>]&gt;<span class="number">10</span>)].index) <span class="comment">#删除x小于0.01或大于10的行</span></span><br></pre></td></tr></table></figure>
-<h1 id="dropna-丢掉某一列中有空的行">dropna 丢掉某一列中有空的行</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.dropna(subset=[<span class="string">&#x27;column_name&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="applyapplymapmap">apply，applymap，map</h1>
-<h2 id="apply">apply</h2>
-<p>官方解释是 apply a function along an axis of the dataframe.</p>
-<p>apply内函数的是Series，也就是在Series上做函数操作。index可以是dataframe的index，也可以是dataframe的columns(axis=1)。axis=0时，apply
-the function to each
-column，也就是每一列为一个整体去实施函数。axis=1时，每一行作为一个整体去实施函数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="applymap">applymap</h2>
-<p>官方解释是 apply a function to a dataframe
-elementwise.和apply不一样的是对dataframe中每一个元素分别作函数。</p>
-<p>applymap允许实施一个函数，这个函数接受和返回的都是一个标量。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.applymap(<span class="keyword">lambda</span> x: <span class="built_in">len</span>(<span class="built_in">str</span>(x)))</span><br></pre></td></tr></table></figure>
-<h2 id="map">map</h2>
-<p>map调用的对象只能是Series，而上面两个方法的调用对象是Dataframe。</p>
+          <p>在图像分割任务中，通常需要将loss设置成dice或者IOU的值，这里总结一下他们的使用方式：</p>
+<h1 id="二分类问题mask只有0或者1">二分类问题（mask只有0或者1）</h1>
+<p>这种task网络的最后一层通常会加sigmoid激活函数，比如unet实现中最后一层就是一个卷积层：
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conv10 = Conv2D(<span class="number">1</span>, (<span class="number">1</span>, <span class="number">1</span>), activation=<span class="string">&#x27;sigmoid&#x27;</span>)(conv9)</span><br></pre></td></tr></table></figure> 因此输出的feature
+map中每一个pixel的值就是0~1之间的值。</p>
+<p>dice loss可以如下计算： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> backend <span class="keyword">as</span> K</span><br><span class="line"><span class="keyword">from</span> keras.losses <span class="keyword">import</span> binary_crossentropy</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.optimizers <span class="keyword">import</span> Adam</span><br><span class="line"></span><br><span class="line">SMOOTH = <span class="number">1.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dice_coef</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">    y_true_f = K.flatten(y_true)</span><br><span class="line">    y_pred_f = K.flatten(y_pred)</span><br><span class="line">    intersection = K.<span class="built_in">sum</span>(y_true_f * y_pred_f)</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">2.</span> * intersection + SMOOTH) / (K.<span class="built_in">sum</span>(y_true_f) + K.<span class="built_in">sum</span>(y_pred_f) + SMOOTH)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">iou_coef</span>(<span class="params">y_true, y_pred, smooth=<span class="number">1</span></span>):</span></span><br><span class="line">    intersection = K.<span class="built_in">sum</span>(K.<span class="built_in">abs</span>(y_true * y_pred), axis=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">    union = K.<span class="built_in">sum</span>(y_true,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])+K.<span class="built_in">sum</span>(y_pred,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])-intersection</span><br><span class="line">    iou = K.mean((intersection + smooth) / (union + smooth), axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> iou</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bce_dice_loss</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span> * binary_crossentropy(y_true, y_pred) - dice_coef(y_true, y_pred) <span class="comment"># 这里也可以用 + (1-dice_coef)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">model.<span class="built_in">compile</span>(Adam(learning_rate=<span class="number">1e-4</span>),</span><br><span class="line">              bce_dice_loss,</span><br><span class="line">              metrics=[binary_crossentropy, dice_coef])</span><br></pre></td></tr></table></figure></p>
+<h1 id="多分类问题mask有除了0和1以外的其他值">多分类问题（mask有除了0和1以外的其他值）</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">class_wise_metrics</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Computes the class-wise IOU and Dice Score.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    y_true (tensor) - ground truth label maps</span></span><br><span class="line"><span class="string">    y_pred (tensor) - predicted label maps</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line">  class_wise_iou = []</span><br><span class="line">  class_wise_dice_score = []</span><br><span class="line"></span><br><span class="line">  smoothing_factor = <span class="number">0.00001</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_classes):</span><br><span class="line">    intersection = np.<span class="built_in">sum</span>((y_pred == i) * (y_true == i)) <span class="comment"># 计算true positive的pixel个数</span></span><br><span class="line">    y_true_area = np.<span class="built_in">sum</span>((y_true == i)) <span class="comment"># 计算pixcel=i的像素个数</span></span><br><span class="line">    y_pred_area = np.<span class="built_in">sum</span>((y_pred == i))</span><br><span class="line">    combined_area = y_true_area + y_pred_area</span><br><span class="line">    </span><br><span class="line">    iou = (intersection) / (combined_area - intersection + smoothing_factor)</span><br><span class="line">    class_wise_iou.append(iou)</span><br><span class="line">    </span><br><span class="line">    dice_score =  <span class="number">2</span> * ((intersection) / (combined_area + smoothing_factor))</span><br><span class="line">    class_wise_dice_score.append(dice_score)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> class_wise_iou, class_wise_dice_score</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在上述计算过程中需要注意的是，这里的y_pred是要经过np.argmax()的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">results = model.predict(test_dataset, steps=test_steps)</span><br><span class="line"><span class="built_in">print</span>(results.shape) <span class="comment"># (192, 64, 84, 11)</span></span><br><span class="line"></span><br><span class="line">results = np.argmax(results, axis=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">integer_slider = <span class="number">105</span> <span class="comment"># 取第105个图片</span></span><br><span class="line">iou, dice_score = class_wise_metrics(np.argmax(y_true_segments[integer_slider], axis=<span class="number">3</span>), results[integer_slider]) </span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -647,7 +551,7 @@ elementwise.和apply不一样的是对dataframe中每一个元素分别作函数
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -671,14 +575,14 @@ elementwise.和apply不一样的是对dataframe中每一个元素分别作函数
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">196k</span>
+    <span title="Symbols count total">228k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:59</span>
+    <span title="Reading time total">3:27</span>
   </span>
 </div>
 
