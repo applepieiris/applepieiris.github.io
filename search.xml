@@ -68,7 +68,7 @@ overhead, which can be even slower than FP16 inference.
 <h1 id="knowledge-distillation">Knowledge distillation</h1>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -151,7 +151,7 @@ language processing for transformers</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -231,7 +231,7 @@ token数。</p>
 <h1 id="section"></h1>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -282,7 +282,7 @@ thought并不能很好的回答问题，受制于预训练模型自己模型内�
 </figure>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -370,7 +370,7 @@ https://huggingface.co/datasets/colbertv2/lotte/tree/main</li>
 偶然看到官方仓库昨天更新了intro的notebook，我看到里面下载数据集的仓库变化了，然后导入包的时候也写得更清晰了，加了条件：https://github.com/stanford-futuredata/ColBERT/blob/main/docs/intro2new.ipynb</p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -433,7 +433,7 @@ elements of <code>train_dataset</code> or <code>eval_dataset</code>.</p>
 </ul>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -516,7 +516,7 @@ animals”。在zero-shot模式下这个instruction会直接给到gorilla，模�
 <p>总体来说这个项目想法蛮有意思的，就是很多东西暂时还没开源，我们拭目以待吧，现在就用用就行。</p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -585,7 +585,7 @@ learning是可以促进大语言模型解决特定问题（因为我们让LLM以
 <p>所以研究者也想了一些办法如何以最小的成本为特定的任务增加一些参数，fix住预训练模型的大部分参数，而去finetune给每一个任务增加的那一部分参数。其中adapter-tuning就是一种。</p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -613,7 +613,7 @@ engineering blog by Lilian Weng</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>NLP</tag>
@@ -734,7 +734,7 @@ vectors，这是和tfidf这种稀疏向量相对应的叫法。</p>
 <p>由于LLM的兴起，大家开始发现用生成模型来做QA更能回答复杂的问题。比如现在的GPT系列模型。它完全摈弃了抽取信息和从passage中寻找answer所在位置的环节，有点黑科技，就好像模型将所有的知识都记到脑子里去了。但也带来了新的问题，用户没有办法知道模型是从哪里找到的答案。</p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -788,7 +788,7 @@ Degeneration</a>文章进行了解答，但我发现有一点和paper中不一�
 </figure>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -902,7 +902,7 @@ Are Zero-Shot Learners</a></li>
 </ol>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>LLMs</tag>
@@ -1233,7 +1233,7 @@ or decoder-only <a href="https://lilianweng.github.io/posts/2019-01-31-lm/#opena
 </blockquote>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
@@ -2363,7 +2363,7 @@ and <code>key</code> vectors to determine how well they match, the
 </blockquote>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>attention</tag>
