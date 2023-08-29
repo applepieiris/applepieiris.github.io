@@ -322,7 +322,7 @@ bit类型存储的checkpoints）以int8类型的方式load进gpu，不仅可以l
 projection计算里的weights进行量化。那么对于inference阶段我们拿过来的就是FP16精度的输入和FP16精度的weights们，对于正常的值我们走上面的那一条计算逻辑，对于outliers走下面的计算路径，最终将两者的结果相加。其实我们可以发现tricks都在上面那条线，就是如果将FP16精度的x和w先转化为int8类型，然后让两者相乘得到int32类型，然后再将int32类型的结果转化为fp16，技术上是可行的，但最终的是要在这个“降维&amp;升维”的过程中不损失精度，这就很tricky了。可以参考阅读<a href="https://huggingface.co/blog/hf-bitsandbytes-integration">blog</a></p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>
