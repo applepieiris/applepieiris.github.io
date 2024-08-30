@@ -36,12 +36,15 @@
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/IEEE_754r_Half_Floating_Point_Format-16933761704442.svg">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230830145435142-16933784764394.png">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230831103106998.png">
+<meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228160733632.png">
+<meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171113210.png">
+<meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171318056.png">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/640.png">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829155237303-16932955599782.png">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829162652549.png">
 <meta property="og:image" content="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829162732067.png">
 <meta property="article:published_time" content="2023-08-29T01:55:47.000Z">
-<meta property="article:modified_time" content="2023-08-31T08:14:10.751Z">
+<meta property="article:modified_time" content="2023-12-28T09:17:13.235Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary">
@@ -161,7 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9-model-compression"><span class="nav-number">1.</span> <span class="nav-text">模型压缩 model compression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#quatization-%E9%87%8F%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">Quatization 量化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gptq"><span class="nav-number">1.1.2.</span> <span class="nav-text">GPTQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparsity"><span class="nav-number">1.2.</span> <span class="nav-text">Sparsity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#low-rank-approximation"><span class="nav-number">1.3.</span> <span class="nav-text">low-Rank Approximation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#knowledge-distillation"><span class="nav-number">1.4.</span> <span class="nav-text">Knowledge Distillation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#continuous-batching"><span class="nav-number">2.</span> <span class="nav-text">Continuous Batching</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vllm"><span class="nav-number">2.1.</span> <span class="nav-text">vLLM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-generation-inference"><span class="nav-number">2.2.</span> <span class="nav-text">Text Generation Inference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transformer%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">Transformer结构优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#flash-attention"><span class="nav-number">3.1.</span> <span class="nav-text">flash Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#paged-attention"><span class="nav-number">3.2.</span> <span class="nav-text">Paged Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flat-attention"><span class="nav-number">3.3.</span> <span class="nav-text">FLAT Attention</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C-parallel-processing"><span class="nav-number">4.</span> <span class="nav-text">并行 Parallel Processing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB"><span class="nav-number">5.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9-model-compression"><span class="nav-number">1.</span> <span class="nav-text">模型压缩 model compression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#quatization-%E9%87%8F%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">Quatization 量化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gptq"><span class="nav-number">1.1.2.</span> <span class="nav-text">GPTQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparsity"><span class="nav-number">1.2.</span> <span class="nav-text">Sparsity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#low-rank-approximation"><span class="nav-number">1.3.</span> <span class="nav-text">low-Rank Approximation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lora"><span class="nav-number">1.3.1.</span> <span class="nav-text">Lora</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#knowledge-distillation"><span class="nav-number">1.4.</span> <span class="nav-text">Knowledge Distillation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#continuous-batching"><span class="nav-number">2.</span> <span class="nav-text">Continuous Batching</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vllm"><span class="nav-number">2.1.</span> <span class="nav-text">vLLM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#text-generation-inference"><span class="nav-number">2.2.</span> <span class="nav-text">Text Generation Inference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transformer%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">Transformer结构优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#flash-attention"><span class="nav-number">3.1.</span> <span class="nav-text">flash Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#paged-attention"><span class="nav-number">3.2.</span> <span class="nav-text">Paged Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flat-attention"><span class="nav-number">3.3.</span> <span class="nav-text">FLAT Attention</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C-parallel-processing"><span class="nav-number">4.</span> <span class="nav-text">并行 Parallel Processing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB"><span class="nav-number">5.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,7 +179,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -261,7 +264,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-08-31 16:14:10" itemprop="dateModified" datetime="2023-08-31T16:14:10+08:00">2023-08-31</time>
+        <time title="Modified: 2023-12-28 17:17:13" itemprop="dateModified" datetime="2023-12-28T17:17:13+08:00">2023-12-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -280,14 +283,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.8k</span>
+      <span>7.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
+      <span>7 mins.</span>
     </span>
 </div>
 
@@ -414,6 +417,34 @@ overhead, which can be even slower than FP16 inference.
 </blockquote>
 <h2 id="sparsity">Sparsity</h2>
 <h2 id="low-rank-approximation">low-Rank Approximation</h2>
+<h3 id="lora"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2106.09685">Lora</a></h3>
+<p>用lora的方式替换全参数微调大模型已经成为好多研究者的选择，一个是它的确有效的降低了训练参数的比例，第二个很大的原因是它的performance还不错，也就是只训练低秩的那些参数矩阵完全可以得到一个高质量的模型.</p>
+<blockquote>
+<p>We propose Low-Rank Adaptation, or LoRA, which freezes the pretrained
+model weights and injects trainable rank decomposition matrices into
+each layer of the Transformer architecture, greatly reducing the number
+of trainable parameters for downstream tasks</p>
+</blockquote>
+<p>从文章的介绍可以看出，它主要是应用于transformer架构中的layer中，这个layer包含self-attention，也包含MLP。只要有矩阵乘的地方都可以用lora。</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228160733632.png" alt="lora图示">
+<figcaption aria-hidden="true">lora图示</figcaption>
+</figure>
+<p>具体的在transformer中如何使用呢？我们知道transformer架构中涉及矩阵运算的地方：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171113210.png" alt="image-20231228171113210">
+<figcaption aria-hidden="true">image-20231228171113210</figcaption>
+</figure>
+<p>在上图中的self-attention中涉及四个weights矩阵：(Wq, Wk, Wv,
+Wo)。在feed-forward(lora原文中叫MLP，我觉得原因在于这里是有两个线性变换的)，具体看attention
+is all you need 原文：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171318056.png" alt="image-20231228171318056">
+<figcaption aria-hidden="true">image-20231228171318056</figcaption>
+</figure>
+<p>所以每一个encoder的layer都有6个weights矩阵可以实施lora。lora的作者仅仅对attention
+weights做了lora，更简化的只是对其中的Wq和Wv做了lora变换。实现上由于现在有了peft库，只是几句话就能实现对这两个矩阵进行lora：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_peft_config</span>(<span class="params">model</span>):</span></span><br><span class="line">    <span class="keyword">from</span> peft <span class="keyword">import</span> (</span><br><span class="line">        get_peft_model,</span><br><span class="line">        LoraConfig,</span><br><span class="line">        TaskType,</span><br><span class="line">        prepare_model_for_int8_training,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    peft_config = LoraConfig(</span><br><span class="line">        task_type=TaskType.CAUSAL_LM,</span><br><span class="line">        inference_mode=<span class="literal">False</span>,</span><br><span class="line">        r=<span class="number">8</span>,</span><br><span class="line">        lora_alpha=<span class="number">32</span>,</span><br><span class="line">        lora_dropout=<span class="number">0.05</span>,</span><br><span class="line">        target_modules = [<span class="string">&quot;q_proj&quot;</span>, <span class="string">&quot;v_proj&quot;</span>] <span class="comment"># 这里仅仅对Q和V的变换矩阵做lora</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># prepare int-8 model for training</span></span><br><span class="line">    model = prepare_model_for_int8_training(model)</span><br><span class="line">    model = get_peft_model(model, peft_config)</span><br><span class="line">    model.print_trainable_parameters()</span><br><span class="line">    <span class="keyword">return</span> model, peft_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># create peft config</span></span><br><span class="line">model, lora_config = create_peft_config(model)</span><br></pre></td></tr></table></figure>
 <h2 id="knowledge-distillation">Knowledge Distillation</h2>
 <p>知识蒸馏出现的比较早，一开始也是在Bert上流行起来的。在LLM这种非常多参数的模型上用的不多。</p>
 <p>这里罗列我看的对我理解很有帮助的文章：</p>
@@ -550,7 +581,7 @@ lilian的博客，在文首推荐的知乎文章大抵参考了这篇博客，�
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -562,14 +593,14 @@ lilian的博客，在文首推荐的知乎文章大抵参考了这篇博客，�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">182k</span>
+    <span title="Symbols count total">203k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:46</span>
+    <span title="Reading time total">3:04</span>
   </span>
 </div>
 
