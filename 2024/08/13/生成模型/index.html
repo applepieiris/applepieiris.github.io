@@ -23,16 +23,28 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="在这个全民皆Difussion Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己记录学习生成模型，这里的生成模型仅局限于生成图片的模型，不是LLM这一类自然语言生成模型。启发点有两个： - 在斯坦福cs231n这节课里，GAN这一章节详细讲解了从VAE到GAN的发展脉络，并没有延申到Difussion Model。Difussion Model的内容放到cs236中去讲了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="生成模型">
 <meta property="og:url" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="YAN&#39;s Blog">
+<meta property="og:description" content="在这个全民皆Difussion Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己记录学习生成模型，这里的生成模型仅局限于生成图片的模型，不是LLM这一类自然语言生成模型。启发点有两个： - 在斯坦福cs231n这节课里，GAN这一章节详细讲解了从VAE到GAN的发展脉络，并没有延申到Difussion Model。Difussion Model的内容放到cs236中去讲了。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904095209899.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133326653-17254280087461.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133608437-17254281697663.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904134006818.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904144210318.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103604877.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103757996.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016105016392.png">
+<meta property="og:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016111401857.png">
 <meta property="article:published_time" content="2024-08-13T06:04:23.000Z">
-<meta property="article:modified_time" content="2024-08-30T01:38:31.825Z">
+<meta property="article:modified_time" content="2024-12-04T07:30:33.414Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904095209899.png">
 
 
 <link rel="canonical" href="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/">
@@ -135,7 +147,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -148,6 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#self-supervised-learning"><span class="nav-number">1.</span> <span class="nav-text">Self-supervised Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-learning"><span class="nav-number">1.1.</span> <span class="nav-text">Contrastive Learning</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#generative-modeling"><span class="nav-number">2.</span> <span class="nav-text">Generative Modeling</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +175,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -247,7 +260,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2024-08-30 09:38:31" itemprop="dateModified" datetime="2024-08-30T09:38:31+08:00">2024-08-30</time>
+        <time title="Modified: 2024-12-04 15:30:33" itemprop="dateModified" datetime="2024-12-04T15:30:33+08:00">2024-12-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -266,14 +279,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>0</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -284,7 +297,86 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <p>在这个全民皆Difussion
+Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己记录学习生成模型，这里的生成模型仅局限于生成图片的模型，不是LLM这一类自然语言生成模型。启发点有两个：
+-
+在斯坦福cs231n这节课里，GAN这一章节详细讲解了从VAE到GAN的发展脉络，并没有延申到Difussion
+Model。Difussion Model的内容放到cs236中去讲了。 - Lilian
+Blog曾写过一篇<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What
+are Diffusion Models?</a>, 内扩展了两篇介绍: GAN 和 VAE。</p>
+<h1 id="self-supervised-learning">Self-supervised Learning</h1>
+<p>自监督学习中最出彩的就是对比学习。</p>
+<h2 id="contrastive-learning">Contrastive Learning</h2>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">Contrastive
+Representation Learning</a></li>
+<li><a target="_blank" rel="noopener" href="https://shairozsohail.medium.com/contrastive-representation-learning-a-comprehensive-guide-part-1-foundations-90c1944dbd1e">Contrastive
+Representation Learning — A Comprehensive Guide (part 1,
+foundations)</a></li>
+</ul>
+<blockquote>
+<p>The goal of contrastive representation learning is to learn such an
+embedding space in which similar sample pairs stay close to each other
+while dissimilar ones are far apart.</p>
+</blockquote>
+<p>对比学习的本质思想是：将positive的sample和negtive的sample距离分割的越远。cs231n中的lecture12发展逻辑捋的很好，是因为需要一个更general的pretext
+task:</p>
+<p><img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904095209899.png" alt="image-20240904095209899">之前的pretext task都是基于"visual common
+sense"，例如预测rotations，画面修复inpainting, 颜色填充colorization等，
+造成的问题是"learned representations may not be general"。</p>
+<p>在contrastive
+learning中有一个loss比较重要：<code>infoNCE</code>，是在<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive
+Coding</a>文章中提到的，这个loss就是为了上面的本质思想量身定制，如何将一个class的sample拉的更近，而不属于一个class的sample拉的更远呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133326653-17254280087461.png" alt="image-20240904133326653">
+<figcaption aria-hidden="true">image-20240904133326653</figcaption>
+</figure>
+<p>这里我贴一下<code>chatgpt</code>对于上述公式为什么可以作为损失函数的解释，比我自己组织的语言要好：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133608437-17254281697663.png" alt="image-20240904133551625">
+<figcaption aria-hidden="true">image-20240904133551625</figcaption>
+</figure>
+<p>那么我们有了基本思想和loss函数之后如何训练这个网络呢？<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2002.05709">A Simple Framework for
+Contrastive Learning of Visual Representations</a>
+这篇文章给我们介绍了一个<code>SimCLR</code>，可以重点阅读一下。文章内给出了算法伪代码：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904134006818.png" alt="image-20240904134006818">
+<figcaption aria-hidden="true">image-20240904134006818</figcaption>
+</figure>
+<p>SimCLR也披露了自己的训练代码：https://github.com/google-research/simclr?tab=readme-ov-file</p>
+<p>SimCLR属于<strong>Instance contrastive
+learning</strong>中的一种，包括he Kaiming团队所出的MOCO以及MOCO
+V2，与之相对应的是另外一种contrastive learning: <strong>Sequence
+contrastive learning</strong>, 代表为CPC（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive Coding</a>）。其实很好理解，如果接触过image
+segmentation这个任务的话，会记得在图像分割这个任务里有两种segmentation，一种是instance
+segmentation，一种是semantic segmentation。contrastive
+learning中的instance对比学习就是如上面图示，猫的图片它是一个class，我们将猫的图片和狗的图片的距离变大，而让猫和猫的图片的”距离“变小。对于sequence对比学习，顾名思义就是加入了序列的影响：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904144210318.png" alt="image-20240904144210318">
+<figcaption aria-hidden="true">image-20240904144210318</figcaption>
+</figure>
+<h1 id="generative-modeling">Generative Modeling</h1>
+<p>generative
+modeling被认为是自监督学习的一种，但他们俩的目的不一样，前者是希望建立一个模型，我们用这个模型可以生成一些diverse和realistic的图片，后者是希望通过自监督的representation
+learning去生成图片更好的features，用这些features去帮助下游任务拥有更好的performance。<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103604877.png" alt="image-20241016103604877"></p>
+<p>强烈建议阅读<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1701.00160">NIPS 2016
+Tutorial: Generative Adversarial Networks</a>,
+作者将拟合Pmodel的方式分成两种：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103757996.png" alt="image-20241016103757996">
+<figcaption aria-hidden="true">image-20241016103757996</figcaption>
+</figure>
+<p>其中Explicit Density中可以Tractable
+density的PixelRNN是我们所熟知的，我对于Tractable
+Density的理解就是可以求导并利用梯度下降去一点点降低loss的函数，那么对于FVBN来说，拟合Pmodel的方式就是：一张图片的概率等于所有这张图片上pixel的联合概率<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016105016392.png" alt="image-20241016105016392"></p>
+<p>而近似估算中的VAE则采用的是一种引入潜在变量z的方式来间接的建模数据，导致密度函数不可解，必须采用变分推断等近似方法。那么为什么要引入潜在变量z呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016111401857.png" alt="image-20241016111401857">
+<figcaption aria-hidden="true">image-20241016111401857</figcaption>
+</figure>
 
     </div>
 
@@ -320,6 +412,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2025/01/09/Novel-view-synthesis-NVS/" rel="next" title="Novel view synthesis(NVS)">
+                  Novel view synthesis(NVS) <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -340,7 +435,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -352,14 +447,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

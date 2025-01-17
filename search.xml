@@ -1,9 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Novel view synthesis(NVS)</title>
+    <url>/2025/01/09/Novel-view-synthesis-NVS/</url>
+    <content><![CDATA[<p>最近刚接触到这个话题，想开一篇新博客来记录一下自己学习的过程。</p>
+<p>首先我是看了两篇review了解了这个topic的主要任务：</p>
+<ul>
+<li>advancements in radiance field techniques for volumetric video
+generation: a technical overview</li>
+<li><a href="http://arxiv.org/abs/2309.05658">From Capture to Display: A
+Survey on Volumetric Video</a></li>
+</ul>
+<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs。这篇博客将NVS描述为这样一个任务：</p>
+<blockquote>
+<p>generate views from new camera angles that are plausibly consistent
+with a set of images.</p>
+</blockquote>
+<p>我们在对一个场景进行3D还原时，首先的输入是一系列相机在不同的视角拍摄的静态图片，通过这些图片我们对该场景下的人物以及物体进行3D建模，但相机个数是有限的，如何推算出某个没有相机的角度上的view，这就是NVS这个任务要做的事情。</p>
+<p>很多方法在这个topic上提出来，大致可以分成两类：<em>1）generate an
+intermediate three-dimensional representation, which is rendered from a
+new viewing direction. 比如PixelNeFRF 2）direclty generated new views
+without an intermediate 3D representaion</em>， 比如Zero123</p>
+<h1 id="nerf">NeRF</h1>
+<p><a href="http://arxiv.org/abs/2003.08934">NeRF: Representing Scenes
+as Neural Radiance Fields for View Synthesis</a></p>
+<p>2020年出的一篇文章，下面这句话就是它这个算法的精华：</p>
+<blockquote>
+<p>Our algorithm represents a scene using a fully-connected
+(nonconvolutional) deep network, whose input is a single continuous 5D
+coordinate (spatial location (x, y, z) and viewing direction (θ, φ)) and
+whose output is the volume density and view-dependent emitted radiance
+at that spatial location</p>
+</blockquote>
+<h2 id="llff-数据集">LLFF 数据集</h2>
+<p>在查看NeRF的github
+code时，发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
+<p>LLFF全称为Local light Field
+Fusion，也是提出了一个NVS的算法。LLFF的主旨思想是：</p>
+<blockquote>
+<p>present a simple and reliable method for view synthesis from a set of
+input images captured by a handheld camera in an irregular grid
+pattern.</p>
+</blockquote>
+<p>简单说就是：该方法可以从一系列手持拍摄的静态图片生成一个scene，这个scene可以理解为一个3D的场景，可以用VR眼镜看的那种。</p>
+<p>该<a href="(https://github.com/Fyusion/LLFF)">LLFF
+repo</a>提供了非常详细的安装教程，令我比较感兴趣的是，它可以基于自己拍摄的一些静态图片生成一个scene。先来看看它的这份代码。</p>
+<p>我们的输入是从一系列的images开始的，首先第一步</p>
+<ol type="1">
+<li>recover cammera poses</li>
+</ol>
+<p>这一步采用<a href="https://github.com/colmap/colmap?tab=readme-ov-file">COLMAP</a>
+实现了一个 struture from emotion + Multi-View
+Stereo(MVS)的完整pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
+6-DoF camera poses和 near/far depth bounds。</p>
+<p>Structure-from-Motion (SfM) <strong>is the process of reconstructing
+3D structure from its projections into a series of images. The input is
+a set of overlapping images of the same object, taken from different
+viewpoints. The output is a 3-D reconstruction of the object, and the
+reconstructed intrinsic and extrinsic camera parameters of all
+images.</strong></p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/incremental-sfm.png" alt="incremental-sfm">
+<figcaption aria-hidden="true">incremental-sfm</figcaption>
+</figure>
+<p>COLMAP使用的方法依赖于<a href="http://ieeexplore.ieee.org/document/7780814/">Structure-from-Motion
+Revisited</a>这篇文章，它将SfM分成三个步骤：</p>
+<ul>
+<li>feature detection and extraction</li>
+</ul>
+<p>这一步好理解，特征抽取，利用一个<code>apprearance descriptor f</code></p>
+<ul>
+<li>feature matching and geometric verification</li>
+</ul>
+<p><em>feature matching</em>利用前一步的features找出这一系列图片中的same
+scene part。原文是这样写的：</p>
+<blockquote>
+<p>The na ̈ıve approach tests every image pair for scene overlap; it
+searches for feature correspondences by finding the most similar feature
+in image I(a) for every feature in image I(b), using a similarity metric
+comparing the appearance fj of the features</p>
+</blockquote>
+<p>简单理解就是根据上一步抽取的features去一一比对每一对image
+pair，寻找出每一对image pair中的相似feature，从而找出same scene
+part。</p>
+<p><em>geometric verification</em>
+我觉得有点稍微难理解。上一步只是确认了每一张图片中在apperance上相似的scene
+part，但有可能不是指代的这个场景下的同一个object（Point）,
+所以就需要去verify上一步的match是否准确，怎么verify呢？通过projective
+geometry去预估transformation</p>
+<blockquote>
+<p>Since matching is based solely on appearance, it is not guaranteed
+that corresponding features actually map to the same scene point</p>
+</blockquote>
+<ul>
+<li>structure and motion reconstruction</li>
+</ul>
+<p>Multi-View Stereo(MVS) takes the output of SfM to compute depth
+and/or normal infomation for every pixel in an image.Fusion of the depth
+and normal maps of multiple images in 3D then produces a dense point
+cloud of the scene.</p>
+<p>实现脚本为<code>imgs2poses.py</code>,
+看该源代码就是基于COLMAP来做的。试着运行该脚本，测试数据用repo内的<code>download_data.sh</code>下载的数据。运行完后可以看到如下输出：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250114162420847.png" alt="image-20250114162420847">
+<figcaption aria-hidden="true">image-20250114162420847</figcaption>
+</figure>
+<p>其中images是source
+images，testscene下除了images这个文件夹，其他都是COLMAP生成的。具体含义参考COLMAP的<a href="https://colmap.github.io/tutorial.html#data-structure">document</a></p>
+<p>logs文件内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Need to run COLMAP</span><br><span class="line">Features extracted</span><br><span class="line">Features matched</span><br><span class="line">Sparse map created</span><br><span class="line">Finished running COLMAP, see data/testscene/colmap_output.txt for logs</span><br><span class="line">Post-colmap</span><br><span class="line">(&#x27;Cameras&#x27;, 5)</span><br><span class="line">(&#x27;Images #&#x27;, 20)</span><br><span class="line">(&#x27;Points&#x27;, (9906, 3), &#x27;Visibility&#x27;, (9906, 20))</span><br><span class="line">(&#x27;Depth stats&#x27;, 13.732739125795911, 118.85217973695897, 30.413495856274356)</span><br><span class="line">Done with imgs2poses</span><br></pre></td></tr></table></figure>
+<p>仔细分析一下<code>imgs2poses.py</code>，一共用COLMAP执行了三条terminal命令：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># extract features</span></span><br><span class="line">feature_extractor_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;feature_extractor&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--ImageReader.single_camera&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">            <span class="comment"># &#x27;--SiftExtraction.use_gpu&#x27;, &#x27;0&#x27;,</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># matching</span></span><br><span class="line">exhaustive_matcher_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, match_type, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">    ]</span><br><span class="line"><span class="comment"># Sparse map create</span></span><br><span class="line">mapper_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;mapper&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--output_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;sparse&#x27;</span>), <span class="comment"># --export_path changed to --output_path in colmap 3.6</span></span><br><span class="line">            <span class="string">&#x27;--Mapper.num_threads&#x27;</span>, <span class="string">&#x27;16&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.init_min_tri_angle&#x27;</span>, <span class="string">&#x27;4&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.multiple_models&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.extract_colors&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+<p>对照colmap cli的<a href="https://colmap.github.io/cli.html">guidebook</a>,
+作者使用了前三个命令，dense部分没有继续生成。想要知道它output出来的这些.bin文件含义，需要搞明白<code>database.db</code>内有什么东西，它是feature
+extraction的产物。db文件可以用vscode的插件打开，它包含7个table：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250115133036561.png" alt="image-20250115133036561">
+<figcaption aria-hidden="true">image-20250115133036561</figcaption>
+</figure>
+<p>keypoints表格中，我下图截图的data部分里才是所有feature的信息，内有每一个feature所在的X，Y坐标。</p>
+<blockquote>
+<p>COLMAP uses the convention that the upper left image corner has
+coordinate (0, 0) and the center of the upper left most pixel has
+coordinate (0.5, 0.5)</p>
+<p>COLMAP在表示图像坐标时，采用了一种特定的坐标系统，其中图像的左上角被定义为坐标原点
+(0, 0)。而“the center of the upper left most pixel has coordinate (0.5,
+0.5)” 指的是图像中最左上角的像素的中心位置被赋予了坐标 (0.5, 0.5)。</p>
+</blockquote>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250115133949032.png" alt="image-20250115133949032">
+<figcaption aria-hidden="true">image-20250115133949032</figcaption>
+</figure>
+<p>在这两张表格中，rows表示的数值是number of detected features per
+image, 如果rows=0, 那么这个image没有feature</p>
+<p>在运行命令<code>colmap exhaustive_matcher --database_path ./data/testscene/database.db</code>后，db文件内的matchs这张表会出现值（之前没有），每一行会表示一张图片和另外一张图片的匹配结果，rows的值表示match上特征点的个数。</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>cv</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>生成模型</title>
     <url>/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[
+    <content><![CDATA[<p>在这个全民皆Difussion
+Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己记录学习生成模型，这里的生成模型仅局限于生成图片的模型，不是LLM这一类自然语言生成模型。启发点有两个：
+-
+在斯坦福cs231n这节课里，GAN这一章节详细讲解了从VAE到GAN的发展脉络，并没有延申到Difussion
+Model。Difussion Model的内容放到cs236中去讲了。 - Lilian
+Blog曾写过一篇<a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What
+are Diffusion Models?</a>, 内扩展了两篇介绍: GAN 和 VAE。</p>
+<h1 id="self-supervised-learning">Self-supervised Learning</h1>
+<p>自监督学习中最出彩的就是对比学习。</p>
+<h2 id="contrastive-learning">Contrastive Learning</h2>
+<p>参考：</p>
+<ul>
+<li><a href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">Contrastive
+Representation Learning</a></li>
+<li><a href="https://shairozsohail.medium.com/contrastive-representation-learning-a-comprehensive-guide-part-1-foundations-90c1944dbd1e">Contrastive
+Representation Learning — A Comprehensive Guide (part 1,
+foundations)</a></li>
+</ul>
+<blockquote>
+<p>The goal of contrastive representation learning is to learn such an
+embedding space in which similar sample pairs stay close to each other
+while dissimilar ones are far apart.</p>
+</blockquote>
+<p>对比学习的本质思想是：将positive的sample和negtive的sample距离分割的越远。cs231n中的lecture12发展逻辑捋的很好，是因为需要一个更general的pretext
+task:</p>
+<p><img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904095209899.png" alt="image-20240904095209899">之前的pretext task都是基于"visual common
+sense"，例如预测rotations，画面修复inpainting, 颜色填充colorization等，
+造成的问题是"learned representations may not be general"。</p>
+<p>在contrastive
+learning中有一个loss比较重要：<code>infoNCE</code>，是在<a href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive
+Coding</a>文章中提到的，这个loss就是为了上面的本质思想量身定制，如何将一个class的sample拉的更近，而不属于一个class的sample拉的更远呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133326653-17254280087461.png" alt="image-20240904133326653">
+<figcaption aria-hidden="true">image-20240904133326653</figcaption>
+</figure>
+<p>这里我贴一下<code>chatgpt</code>对于上述公式为什么可以作为损失函数的解释，比我自己组织的语言要好：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133608437-17254281697663.png" alt="image-20240904133551625">
+<figcaption aria-hidden="true">image-20240904133551625</figcaption>
+</figure>
+<p>那么我们有了基本思想和loss函数之后如何训练这个网络呢？<a href="https://arxiv.org/pdf/2002.05709">A Simple Framework for
+Contrastive Learning of Visual Representations</a>
+这篇文章给我们介绍了一个<code>SimCLR</code>，可以重点阅读一下。文章内给出了算法伪代码：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904134006818.png" alt="image-20240904134006818">
+<figcaption aria-hidden="true">image-20240904134006818</figcaption>
+</figure>
+<p>SimCLR也披露了自己的训练代码：https://github.com/google-research/simclr?tab=readme-ov-file</p>
+<p>SimCLR属于<strong>Instance contrastive
+learning</strong>中的一种，包括he Kaiming团队所出的MOCO以及MOCO
+V2，与之相对应的是另外一种contrastive learning: <strong>Sequence
+contrastive learning</strong>, 代表为CPC（<a href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive Coding</a>）。其实很好理解，如果接触过image
+segmentation这个任务的话，会记得在图像分割这个任务里有两种segmentation，一种是instance
+segmentation，一种是semantic segmentation。contrastive
+learning中的instance对比学习就是如上面图示，猫的图片它是一个class，我们将猫的图片和狗的图片的距离变大，而让猫和猫的图片的”距离“变小。对于sequence对比学习，顾名思义就是加入了序列的影响：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904144210318.png" alt="image-20240904144210318">
+<figcaption aria-hidden="true">image-20240904144210318</figcaption>
+</figure>
+<h1 id="generative-modeling">Generative Modeling</h1>
+<p>generative
+modeling被认为是自监督学习的一种，但他们俩的目的不一样，前者是希望建立一个模型，我们用这个模型可以生成一些diverse和realistic的图片，后者是希望通过自监督的representation
+learning去生成图片更好的features，用这些features去帮助下游任务拥有更好的performance。<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103604877.png" alt="image-20241016103604877"></p>
+<p>强烈建议阅读<a href="http://arxiv.org/abs/1701.00160">NIPS 2016
+Tutorial: Generative Adversarial Networks</a>,
+作者将拟合Pmodel的方式分成两种：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103757996.png" alt="image-20241016103757996">
+<figcaption aria-hidden="true">image-20241016103757996</figcaption>
+</figure>
+<p>其中Explicit Density中可以Tractable
+density的PixelRNN是我们所熟知的，我对于Tractable
+Density的理解就是可以求导并利用梯度下降去一点点降低loss的函数，那么对于FVBN来说，拟合Pmodel的方式就是：一张图片的概率等于所有这张图片上pixel的联合概率<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016105016392.png" alt="image-20241016105016392"></p>
+<p>而近似估算中的VAE则采用的是一种引入潜在变量z的方式来间接的建模数据，导致密度函数不可解，必须采用变分推断等近似方法。那么为什么要引入潜在变量z呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016111401857.png" alt="image-20241016111401857">
+<figcaption aria-hidden="true">image-20241016111401857</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>NLP</category>
@@ -366,7 +587,7 @@ attention中的Q和K上添加相对位置信息的方法</p>
 Cache搭配使用</p>
 ]]></content>
       <categories>
-        <category>nlp</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>nlp</tag>

@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,152 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">浅析stanford alpaca羊驼代码</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-20 15:30:20" itemprop="dateCreated datePublished" datetime="2023-06-20T15:30:20+08:00">2023-06-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-08-29 13:24:02" itemprop="dateModified" datetime="2023-08-29T13:24:02+08:00">2023-08-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>斯坦福的羊驼alpaca开启了大家微调大语言模型的先河，现在很多国内的工作都是基于斯坦福的羊驼模型的范式来微调chatglm-6B,alpaca的<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>.</p>
+<p>之前我一个很厉害的师兄说过，要想写代码写的厉害或者有所提高，最重要的就是要多读别人优秀的代码，多思考别人为什么这么写，如果让自己写的话是不是可以做到如此高效。这就是我想写这篇博客的原因，我是最近几个月才接触的huggingface的transformer库，发现很多API虽然设计的很简单，但里面功能丰富，不可能一下子就掌握住，所以我的办法是多看别人是如何写的，我的主要参考repo就是alpaca和chatglm-6B官方repo给出的那些finetune
+LLM的代码。</p>
+<p>回到羊驼alpca这份代码，不得不说斯坦福的这份代码写的真的很优秀，值得一句一句去debug。</p>
+<h1 id="数据准备部分">数据准备部分</h1>
+<p>代码在<code>generate_instruction.py</code>内。</p>
+<p>这部分代码主要功能是实现由seed_tasks.jsonl作为模板，让GPT3.5来根据两个seed生成一些instruction和input，output。思想基于self-instruct的理念，在我另外一篇博客instrcution
+tuning中有所详细介绍。</p>
+<p>这里的启动函数是<code>def generate_instruction_following_data()</code>,
+首先会将seed_tasks读取进来，然后从中随机选取num_prompt_instructions个数据，默认是三个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions)</span><br></pre></td></tr></table></figure>
+<p>注意这里羊驼采用了向chatgpt传输batch请求的方式，也就是一次性向chatgpt传输多个prompt，程序里默认是5个prompt一起传输给gpt，然后每一个prompt长什么样子呢？</p>
+<p>举一个简单的例子, 下面这是一个seed_task</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;: &quot;seed_task_1&quot;, &quot;name&quot;: &quot;antonym_relation&quot;, &quot;instruction&quot;: &quot;What is the relation between the given pairs?&quot;, &quot;instances&quot;: [&#123;&quot;input&quot;: &quot;Night : Day :: Right : Left&quot;, &quot;output&quot;: &quot;The relation between the given pairs is that they are opposites.&quot;&#125;], &quot;is_classification&quot;: false&#125;</span><br></pre></td></tr></table></figure>
+<p>作者将三个seed_task拼接在一起，然后前面加上事先定义好的prompt：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_prompt</span>(<span class="params">prompt_instructions</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Encode multiple prompt instructions into a single string.&quot;&quot;&quot;</span></span><br><span class="line">    prompt = <span class="built_in">open</span>(<span class="string">&quot;./prompt.txt&quot;</span>).read() + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx, task_dict <span class="keyword">in</span> <span class="built_in">enumerate</span>(prompt_instructions):</span><br><span class="line">        (instruction, <span class="built_in">input</span>, output) = task_dict[<span class="string">&quot;instruction&quot;</span>], task_dict[<span class="string">&quot;input&quot;</span>], task_dict[<span class="string">&quot;output&quot;</span>]</span><br><span class="line">        instruction = re.sub(<span class="string">r&quot;\s+&quot;</span>, <span class="string">&quot; &quot;</span>, instruction).strip().rstrip(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">        <span class="built_in">input</span> = <span class="string">&quot;&lt;noinput&gt;&quot;</span> <span class="keyword">if</span> <span class="built_in">input</span>.lower() == <span class="string">&quot;&quot;</span> <span class="keyword">else</span> <span class="built_in">input</span></span><br><span class="line">        prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Instruction: <span class="subst">&#123;instruction&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Input:\n<span class="subst">&#123;<span class="built_in">input</span>&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Output:\n<span class="subst">&#123;output&#125;</span>\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">2</span>&#125;</span>. Instruction:&quot;</span></span><br><span class="line">    <span class="keyword">return</span> prompt</span><br></pre></td></tr></table></figure>
+<p>事先定义好的prompt长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">You are asked to come up with a set of 20 diverse task instructions. These task instructions will be given to a GPT model and we will evaluate the GPT model for completing the instructions.</span><br><span class="line"></span><br><span class="line">Here are the requirements:</span><br><span class="line">1. Try not to repeat the verb for each instruction to maximize diversity.</span><br><span class="line">2. The language used for the instruction also should be diverse. For example, you should combine questions with imperative instrucitons.</span><br><span class="line">3. The type of instructions should be diverse. The list should include diverse types of tasks like open-ended generation, classification, editing, etc.</span><br><span class="line">4. A GPT language model should be able to complete the instruction. For example, do not ask the assistant to create any visual or audio output. For another example, do not ask the assistant to wake you up at 5pm or set a reminder because it cannot perform any action.</span><br><span class="line">5. The instructions should be in English.</span><br><span class="line">6. The instructions should be 1 to 2 sentences long. Either an imperative sentence or a question is permitted.</span><br><span class="line">7. You should generate an appropriate input to the instruction. The input field should contain a specific example provided for the instruction. It should involve realistic data and should not contain simple placeholders. The input should provide substantial content to make the instruction challenging but should ideally not exceed 100 words.</span><br><span class="line">8. Not all instructions require input. For example, when a instruction asks about some general information, &quot;what is the highest peak in the world&quot;, it is not necssary to provide a specific context. In this case, we simply put &quot;&lt;noinput&gt;&quot; in the input field.</span><br><span class="line">9. The output should be an appropriate response to the instruction and the input. Make sure the output is less than 100 words.</span><br><span class="line"></span><br><span class="line">List of 20 tasks:</span><br></pre></td></tr></table></figure>
+<p>理解起来就是作者在list of 20 tasks后面跟上了三个seed
+tasks，也就是给gpt打个样，让它知道按这个模式去生成。这里有个地方值得参考的：</p>
+<blockquote>
+<p>用模板的时候给每一个example配上分隔符，这里作者采用了###,
+不仅如此，作者还采用了序号的方式，这些都是为了方便后面对gpt返回的text进行处理</p>
+</blockquote>
+<p>这里还有一个值得学习的地方在utils.py内，我们在使用openai的api获取回复时，有时候会遇到prompt过长的问题，羊驼catch了这个报错，将prompt的长度变为原来的80%，然后再向gpt发送请求，正是由于这份耐心，这个代码的耦合性就没那么高，所以易用性非常强，非常值得野生程序员学习。</p>
+<hr>
+<p>gpt返回的文本羊驼模型还做了similarity的计算，将相似度超过一定阈值的instrcution剔除掉。这部分代码可以直接复用。</p>
+<h1 id="train中的数据处理">train中的数据处理</h1>
+<p>羊驼模型采用了一个函数生成transformers库所需要的参数：
+<code>make_supervised_data_module</code>，该函数返回一个dict，其中字典的key就是我们初始化Trainer类所需要的train_dataset,eval_dataset和data_collator。这个函数里首先是构建数据集的类<code>SupervisedDataset</code>，继承自Dataset.
+注意pytorch里规定如果你想要创建一个自建的Dataset，这个继承自Dataset的子类必须重写<code>__len__</code>和<code>__getitem__</code>两个方法，羊驼这里写的是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SupervisedDataset</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Dataset for supervised fine-tuning.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path: <span class="built_in">str</span>, tokenizer: transformers.PreTrainedTokenizer</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(SupervisedDataset, self).__init__()</span><br><span class="line">        logging.warning(<span class="string">&quot;Loading data...&quot;</span>)</span><br><span class="line">        list_data_dict = utils.jload(data_path)</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Formatting inputs...&quot;</span>)</span><br><span class="line">        prompt_input, prompt_no_input = PROMPT_DICT[<span class="string">&quot;prompt_input&quot;</span>], PROMPT_DICT[<span class="string">&quot;prompt_no_input&quot;</span>]</span><br><span class="line">        sources = [</span><br><span class="line">            prompt_input.format_map(example) <span class="keyword">if</span> example.get(<span class="string">&quot;input&quot;</span>, <span class="string">&quot;&quot;</span>) != <span class="string">&quot;&quot;</span> <span class="keyword">else</span> prompt_no_input.format_map(example)</span><br><span class="line">            <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict</span><br><span class="line">        ]</span><br><span class="line">        targets = [<span class="string">f&quot;<span class="subst">&#123;example[<span class="string">&#x27;output&#x27;</span>]&#125;</span><span class="subst">&#123;tokenizer.eos_token&#125;</span>&quot;</span> <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict]</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Tokenizing inputs... This may take some time...&quot;</span>)</span><br><span class="line">        data_dict = preprocess(sources, targets, tokenizer)</span><br><span class="line"></span><br><span class="line">        self.input_ids = data_dict[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">        self.labels = data_dict[<span class="string">&quot;labels&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.input_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, i</span>) -&gt; <span class="type">Dict</span>[<span class="built_in">str</span>, torch.Tensor]:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=self.input_ids[i], labels=self.labels[i]) <span class="comment"># 这里key必须是input_ids和labels,这是由于是llama模型的规定。</span></span><br></pre></td></tr></table></figure>
+<p>羊驼模型用的DataCollator是自定义的，首先解释下datacollator是什么东西，transformers的官方文档的解释是：</p>
+<blockquote>
+<p>Data collators are objects that will form a batch by using a list of
+dataset elements as input. These elements are of the same type as the
+elements of <code>train_dataset</code> or <code>eval_dataset</code>.</p>
+</blockquote>
+<p>也就是你把所有的文本用tokenizer转化成input_ids和labels之后，要把他们组织成batch的形式，不仅如此，collator还能做一些数据处理的工作。它的输入就是我们之前的数据集，注意我们数据集的组织形式每一个数据sample它是一个字典，字典有两个key。所以羊驼这里首先将其拆分,
+一句话解决，非常善于利用[ for
+句式]，让我写的话应该是写成非常冗余的两个for循环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input_ids, labels = <span class="built_in">tuple</span>([instance[key] <span class="keyword">for</span> instance <span class="keyword">in</span> instances] <span class="keyword">for</span> key <span class="keyword">in</span> (<span class="string">&quot;input_ids&quot;</span>, <span class="string">&quot;labels&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p>后面就是很简单的train了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainer.train()</span><br><span class="line">trainer.save_state()</span><br><span class="line">trainer.save_model(output_dir=training_args.output_dir)</span><br></pre></td></tr></table></figure>
+<p>我当时看到这里的时候有点奇怪，因为我之前的习惯还是tensorflow那一套，基本上你把数据处理完之后还要prefetech，batch等，但是这里感觉transformer全部做了集成，可以仔细看羊驼模型的训练启动命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">torchrun --nproc_per_node=4 --master_port=&lt;your_random_port&gt; train.py \</span><br><span class="line">    --model_name_or_path <span class="string">&quot;facebook/opt-6.7b&quot;</span> \</span><br><span class="line">    --data_path ./alpaca_data.json \</span><br><span class="line">    --bf16 True \</span><br><span class="line">    --output_dir &lt;your_output_dir&gt; \</span><br><span class="line">    --num_train_epochs 3 \</span><br><span class="line">    --per_device_train_batch_size 4 \</span><br><span class="line">    --per_device_eval_batch_size 4 \</span><br><span class="line">    --gradient_accumulation_steps 8 \</span><br><span class="line">    --evaluation_strategy <span class="string">&quot;no&quot;</span> \</span><br><span class="line">    --save_strategy <span class="string">&quot;steps&quot;</span> \</span><br><span class="line">    --save_steps 2000 \</span><br><span class="line">    --save_total_limit 1 \</span><br><span class="line">    --learning_rate 2e-5 \</span><br><span class="line">    --weight_decay 0. \</span><br><span class="line">    --warmup_ratio 0.03 \</span><br><span class="line">    --lr_scheduler_type <span class="string">&quot;cosine&quot;</span> \</span><br><span class="line">    --logging_steps 1 \</span><br><span class="line">    --fsdp <span class="string">&quot;full_shard auto_wrap&quot;</span> \</span><br><span class="line">    --fsdp_transformer_layer_cls_to_wrap <span class="string">&#x27;OPTDecoderLayer&#x27;</span> \</span><br><span class="line">    --tf32 True</span><br></pre></td></tr></table></figure>
+<p>其中的per_device_train_batch_size就指定了一个device上弄几个数据，也就是batch_size是多少，另外loss计算这些都是pretrained模型定好的，所以不用管，包括optimizer，所以我们在训练的时候只需要指定训练过程中用到的参数，比如保存步数，学习率，训练多少个epoch等。这是finetune大语言模型和之前做深度学习模型不一样的地方，技术往往更新的太快，都快看不懂大家写的代码了，怎么咔咔一两句就开始训练了，所以函数集成太厉害也不是只有好处。</p>
+<h1 id="推荐阅读">推荐阅读</h1>
+<ul>
+<li>https://mp.weixin.qq.com/s/ehEM04xmeJyqB4z7rmLKBQ
+讲解self-instruct方法</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -524,126 +670,8 @@ learning是可以促进大语言模型解决特定问题（因为我们让LLM以
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/19/prompt-engineering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/19/prompt-engineering/" class="post-title-link" itemprop="url">prompt engineering</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-19 11:14:03" itemprop="dateCreated datePublished" datetime="2023-05-19T11:14:03+08:00">2023-05-19</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-09-06 13:19:46" itemprop="dateModified" datetime="2023-09-06T13:19:46+08:00">2023-09-06</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在LLM兴起之后，很多工作都在如果更好的设计prompt的形式上下了很多苦功夫，设计提示词的这个学问就是prompt
-engineering。我之前一直觉得这是一个静态的过程，建议刚接触的同学先学习吴恩达和openai合作制作的prompt
-engineering的知道<a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/">课程</a>,另外也有中国热心的网友也翻译了自己的中文版本，还加入了一些自己的思考，推荐<a target="_blank" rel="noopener" href="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb">骆驼</a>。</p>
-<p>我是从斯坦福的羊驼模型开始接触instruction tuning的，instruction
-tuning提供给了用户一种在特定数据集上低成本finetune模型的可能性，后来又接触到了斯坦福新出的paper：Demonstrate-Search-Predict:
-Composing retrieval and language models for knowledge-intensive
-NLP，这是一篇用信息抽取技术retrieval
-models来扩充query，从而使得LM能够得到更多context的技术，这才让我了解到其实除了最基础的我们知道的那些prompting的方式，比如zero-shot,few-shot,chain-of-thought方式，还有一些方式在这些方式上进行了创新。</p>
-<p>lilian weng的<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">博客</a>在chiin-of-thought章节之后就介绍了自动prompt
-design和augmented language
-models。这些对于我来说都是新东西，新技术发展的很快，我学习的过程其实也是在织自己知识结构中的这个网，从接触GPT以来写了好几篇博客，零零散散的，很多博客都是只局限于其中的技术，时不时我需要停下里思考这些技术之间的关联，从而把整个逻辑理顺。技术的发展或者一个模型一个方法的出现都是有路径可循的，我希望能把这些路径穿起来，摸清楚发展脉络。</p>
-<h1 id="augmented-language-models">Augmented Language Models</h1>
-<p>本节参考<a href="Augmented%20Language%20Models:%20a%20Survey">review</a>，我之前理解augmented
-llm有点狭隘，最基本的方法是从一个知识库或者搜索引擎中搜索query相关的内容，将这些内容加到prompt里，从而一定程度上解决大模型的幻觉问题，这种思路的典型应用见<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2203.05115">Internet-augmented language
-models through few-shot prompting for open-domain question
-answering</a>.
-但上面提到的这篇review把问题更细化一点，从更高的维度去分析现在的这些方法，第一个就是reasoning，也就是把复杂问题如何细化成LLM可以解决的简单问题，第二个是Tools，也就是我们上面介绍的应用的场景，tool帮我们抽取相关信息（document
-retriever）。关于更具体地解释可以阅读review地1.2节。</p>
-<h1 id="useful-links">Useful Links</h1>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/#augmented-language-models">Prompt
-engineering blog by Lilian Weng</a></li>
-<li></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -655,7 +683,7 @@ engineering blog by Lilian Weng</a></li>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -667,14 +695,14 @@ engineering blog by Lilian Weng</a></li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

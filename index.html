@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -214,6 +214,231 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/09/Novel-view-synthesis-NVS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/01/09/Novel-view-synthesis-NVS/" class="post-title-link" itemprop="url">Novel view synthesis(NVS)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-01-09 10:17:18" itemprop="dateCreated datePublished" datetime="2025-01-09T10:17:18+08:00">2025-01-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2025-01-16 14:22:26" itemprop="dateModified" datetime="2025-01-16T14:22:26+08:00">2025-01-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/cv/" itemprop="url" rel="index"><span itemprop="name">cv</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>5.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近刚接触到这个话题，想开一篇新博客来记录一下自己学习的过程。</p>
+<p>首先我是看了两篇review了解了这个topic的主要任务：</p>
+<ul>
+<li>advancements in radiance field techniques for volumetric video
+generation: a technical overview</li>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2309.05658">From Capture to Display: A
+Survey on Volumetric Video</a></li>
+</ul>
+<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs。这篇博客将NVS描述为这样一个任务：</p>
+<blockquote>
+<p>generate views from new camera angles that are plausibly consistent
+with a set of images.</p>
+</blockquote>
+<p>我们在对一个场景进行3D还原时，首先的输入是一系列相机在不同的视角拍摄的静态图片，通过这些图片我们对该场景下的人物以及物体进行3D建模，但相机个数是有限的，如何推算出某个没有相机的角度上的view，这就是NVS这个任务要做的事情。</p>
+<p>很多方法在这个topic上提出来，大致可以分成两类：<em>1）generate an
+intermediate three-dimensional representation, which is rendered from a
+new viewing direction. 比如PixelNeFRF 2）direclty generated new views
+without an intermediate 3D representaion</em>， 比如Zero123</p>
+<h1 id="nerf">NeRF</h1>
+<p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2003.08934">NeRF: Representing Scenes
+as Neural Radiance Fields for View Synthesis</a></p>
+<p>2020年出的一篇文章，下面这句话就是它这个算法的精华：</p>
+<blockquote>
+<p>Our algorithm represents a scene using a fully-connected
+(nonconvolutional) deep network, whose input is a single continuous 5D
+coordinate (spatial location (x, y, z) and viewing direction (θ, φ)) and
+whose output is the volume density and view-dependent emitted radiance
+at that spatial location</p>
+</blockquote>
+<h2 id="llff-数据集">LLFF 数据集</h2>
+<p>在查看NeRF的github
+code时，发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a target="_blank" rel="noopener" href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
+<p>LLFF全称为Local light Field
+Fusion，也是提出了一个NVS的算法。LLFF的主旨思想是：</p>
+<blockquote>
+<p>present a simple and reliable method for view synthesis from a set of
+input images captured by a handheld camera in an irregular grid
+pattern.</p>
+</blockquote>
+<p>简单说就是：该方法可以从一系列手持拍摄的静态图片生成一个scene，这个scene可以理解为一个3D的场景，可以用VR眼镜看的那种。</p>
+<p>该<a href="(https://github.com/Fyusion/LLFF)">LLFF
+repo</a>提供了非常详细的安装教程，令我比较感兴趣的是，它可以基于自己拍摄的一些静态图片生成一个scene。先来看看它的这份代码。</p>
+<p>我们的输入是从一系列的images开始的，首先第一步</p>
+<ol type="1">
+<li>recover cammera poses</li>
+</ol>
+<p>这一步采用<a target="_blank" rel="noopener" href="https://github.com/colmap/colmap?tab=readme-ov-file">COLMAP</a>
+实现了一个 struture from emotion + Multi-View
+Stereo(MVS)的完整pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
+6-DoF camera poses和 near/far depth bounds。</p>
+<p>Structure-from-Motion (SfM) <strong>is the process of reconstructing
+3D structure from its projections into a series of images. The input is
+a set of overlapping images of the same object, taken from different
+viewpoints. The output is a 3-D reconstruction of the object, and the
+reconstructed intrinsic and extrinsic camera parameters of all
+images.</strong></p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/incremental-sfm.png" alt="incremental-sfm">
+<figcaption aria-hidden="true">incremental-sfm</figcaption>
+</figure>
+<p>COLMAP使用的方法依赖于<a target="_blank" rel="noopener" href="http://ieeexplore.ieee.org/document/7780814/">Structure-from-Motion
+Revisited</a>这篇文章，它将SfM分成三个步骤：</p>
+<ul>
+<li>feature detection and extraction</li>
+</ul>
+<p>这一步好理解，特征抽取，利用一个<code>apprearance descriptor f</code></p>
+<ul>
+<li>feature matching and geometric verification</li>
+</ul>
+<p><em>feature matching</em>利用前一步的features找出这一系列图片中的same
+scene part。原文是这样写的：</p>
+<blockquote>
+<p>The na ̈ıve approach tests every image pair for scene overlap; it
+searches for feature correspondences by finding the most similar feature
+in image I(a) for every feature in image I(b), using a similarity metric
+comparing the appearance fj of the features</p>
+</blockquote>
+<p>简单理解就是根据上一步抽取的features去一一比对每一对image
+pair，寻找出每一对image pair中的相似feature，从而找出same scene
+part。</p>
+<p><em>geometric verification</em>
+我觉得有点稍微难理解。上一步只是确认了每一张图片中在apperance上相似的scene
+part，但有可能不是指代的这个场景下的同一个object（Point）,
+所以就需要去verify上一步的match是否准确，怎么verify呢？通过projective
+geometry去预估transformation</p>
+<blockquote>
+<p>Since matching is based solely on appearance, it is not guaranteed
+that corresponding features actually map to the same scene point</p>
+</blockquote>
+<ul>
+<li>structure and motion reconstruction</li>
+</ul>
+<p>Multi-View Stereo(MVS) takes the output of SfM to compute depth
+and/or normal infomation for every pixel in an image.Fusion of the depth
+and normal maps of multiple images in 3D then produces a dense point
+cloud of the scene.</p>
+<p>实现脚本为<code>imgs2poses.py</code>,
+看该源代码就是基于COLMAP来做的。试着运行该脚本，测试数据用repo内的<code>download_data.sh</code>下载的数据。运行完后可以看到如下输出：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250114162420847.png" alt="image-20250114162420847">
+<figcaption aria-hidden="true">image-20250114162420847</figcaption>
+</figure>
+<p>其中images是source
+images，testscene下除了images这个文件夹，其他都是COLMAP生成的。具体含义参考COLMAP的<a target="_blank" rel="noopener" href="https://colmap.github.io/tutorial.html#data-structure">document</a></p>
+<p>logs文件内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Need to run COLMAP</span><br><span class="line">Features extracted</span><br><span class="line">Features matched</span><br><span class="line">Sparse map created</span><br><span class="line">Finished running COLMAP, see data/testscene/colmap_output.txt for logs</span><br><span class="line">Post-colmap</span><br><span class="line">(&#x27;Cameras&#x27;, 5)</span><br><span class="line">(&#x27;Images #&#x27;, 20)</span><br><span class="line">(&#x27;Points&#x27;, (9906, 3), &#x27;Visibility&#x27;, (9906, 20))</span><br><span class="line">(&#x27;Depth stats&#x27;, 13.732739125795911, 118.85217973695897, 30.413495856274356)</span><br><span class="line">Done with imgs2poses</span><br></pre></td></tr></table></figure>
+<p>仔细分析一下<code>imgs2poses.py</code>，一共用COLMAP执行了三条terminal命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># extract features</span></span><br><span class="line">feature_extractor_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;feature_extractor&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--ImageReader.single_camera&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">            <span class="comment"># &#x27;--SiftExtraction.use_gpu&#x27;, &#x27;0&#x27;,</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># matching</span></span><br><span class="line">exhaustive_matcher_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, match_type, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">    ]</span><br><span class="line"><span class="comment"># Sparse map create</span></span><br><span class="line">mapper_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;mapper&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--output_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;sparse&#x27;</span>), <span class="comment"># --export_path changed to --output_path in colmap 3.6</span></span><br><span class="line">            <span class="string">&#x27;--Mapper.num_threads&#x27;</span>, <span class="string">&#x27;16&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.init_min_tri_angle&#x27;</span>, <span class="string">&#x27;4&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.multiple_models&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.extract_colors&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+<p>对照colmap cli的<a target="_blank" rel="noopener" href="https://colmap.github.io/cli.html">guidebook</a>,
+作者使用了前三个命令，dense部分没有继续生成。想要知道它output出来的这些.bin文件含义，需要搞明白<code>database.db</code>内有什么东西，它是feature
+extraction的产物。db文件可以用vscode的插件打开，它包含7个table：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250115133036561.png" alt="image-20250115133036561">
+<figcaption aria-hidden="true">image-20250115133036561</figcaption>
+</figure>
+<p>keypoints表格中，我下图截图的data部分里才是所有feature的信息，内有每一个feature所在的X，Y坐标。</p>
+<blockquote>
+<p>COLMAP uses the convention that the upper left image corner has
+coordinate (0, 0) and the center of the upper left most pixel has
+coordinate (0.5, 0.5)</p>
+<p>COLMAP在表示图像坐标时，采用了一种特定的坐标系统，其中图像的左上角被定义为坐标原点
+(0, 0)。而“the center of the upper left most pixel has coordinate (0.5,
+0.5)” 指的是图像中最左上角的像素的中心位置被赋予了坐标 (0.5, 0.5)。</p>
+</blockquote>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250115133949032.png" alt="image-20250115133949032">
+<figcaption aria-hidden="true">image-20250115133949032</figcaption>
+</figure>
+<p>在这两张表格中，rows表示的数值是number of detected features per
+image, 如果rows=0, 那么这个image没有feature</p>
+<p>在运行命令<code>colmap exhaustive_matcher --database_path ./data/testscene/database.db</code>后，db文件内的matchs这张表会出现值（之前没有），每一行会表示一张图片和另外一张图片的匹配结果，rows的值表示match上特征点的个数。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -245,7 +470,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2024-08-30 09:38:31" itemprop="dateModified" datetime="2024-08-30T09:38:31+08:00">2024-08-30</time>
+        <time title="Modified: 2024-12-04 15:30:33" itemprop="dateModified" datetime="2024-12-04T15:30:33+08:00">2024-12-04</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -264,14 +489,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>0</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -282,7 +507,86 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <p>在这个全民皆Difussion
+Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己记录学习生成模型，这里的生成模型仅局限于生成图片的模型，不是LLM这一类自然语言生成模型。启发点有两个：
+-
+在斯坦福cs231n这节课里，GAN这一章节详细讲解了从VAE到GAN的发展脉络，并没有延申到Difussion
+Model。Difussion Model的内容放到cs236中去讲了。 - Lilian
+Blog曾写过一篇<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What
+are Diffusion Models?</a>, 内扩展了两篇介绍: GAN 和 VAE。</p>
+<h1 id="self-supervised-learning">Self-supervised Learning</h1>
+<p>自监督学习中最出彩的就是对比学习。</p>
+<h2 id="contrastive-learning">Contrastive Learning</h2>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">Contrastive
+Representation Learning</a></li>
+<li><a target="_blank" rel="noopener" href="https://shairozsohail.medium.com/contrastive-representation-learning-a-comprehensive-guide-part-1-foundations-90c1944dbd1e">Contrastive
+Representation Learning — A Comprehensive Guide (part 1,
+foundations)</a></li>
+</ul>
+<blockquote>
+<p>The goal of contrastive representation learning is to learn such an
+embedding space in which similar sample pairs stay close to each other
+while dissimilar ones are far apart.</p>
+</blockquote>
+<p>对比学习的本质思想是：将positive的sample和negtive的sample距离分割的越远。cs231n中的lecture12发展逻辑捋的很好，是因为需要一个更general的pretext
+task:</p>
+<p><img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904095209899.png" alt="image-20240904095209899">之前的pretext task都是基于"visual common
+sense"，例如预测rotations，画面修复inpainting, 颜色填充colorization等，
+造成的问题是"learned representations may not be general"。</p>
+<p>在contrastive
+learning中有一个loss比较重要：<code>infoNCE</code>，是在<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive
+Coding</a>文章中提到的，这个loss就是为了上面的本质思想量身定制，如何将一个class的sample拉的更近，而不属于一个class的sample拉的更远呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133326653-17254280087461.png" alt="image-20240904133326653">
+<figcaption aria-hidden="true">image-20240904133326653</figcaption>
+</figure>
+<p>这里我贴一下<code>chatgpt</code>对于上述公式为什么可以作为损失函数的解释，比我自己组织的语言要好：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904133608437-17254281697663.png" alt="image-20240904133551625">
+<figcaption aria-hidden="true">image-20240904133551625</figcaption>
+</figure>
+<p>那么我们有了基本思想和loss函数之后如何训练这个网络呢？<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2002.05709">A Simple Framework for
+Contrastive Learning of Visual Representations</a>
+这篇文章给我们介绍了一个<code>SimCLR</code>，可以重点阅读一下。文章内给出了算法伪代码：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904134006818.png" alt="image-20240904134006818">
+<figcaption aria-hidden="true">image-20240904134006818</figcaption>
+</figure>
+<p>SimCLR也披露了自己的训练代码：https://github.com/google-research/simclr?tab=readme-ov-file</p>
+<p>SimCLR属于<strong>Instance contrastive
+learning</strong>中的一种，包括he Kaiming团队所出的MOCO以及MOCO
+V2，与之相对应的是另外一种contrastive learning: <strong>Sequence
+contrastive learning</strong>, 代表为CPC（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.03748">Representation Learning with
+Contrastive Predictive Coding</a>）。其实很好理解，如果接触过image
+segmentation这个任务的话，会记得在图像分割这个任务里有两种segmentation，一种是instance
+segmentation，一种是semantic segmentation。contrastive
+learning中的instance对比学习就是如上面图示，猫的图片它是一个class，我们将猫的图片和狗的图片的距离变大，而让猫和猫的图片的”距离“变小。对于sequence对比学习，顾名思义就是加入了序列的影响：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240904144210318.png" alt="image-20240904144210318">
+<figcaption aria-hidden="true">image-20240904144210318</figcaption>
+</figure>
+<h1 id="generative-modeling">Generative Modeling</h1>
+<p>generative
+modeling被认为是自监督学习的一种，但他们俩的目的不一样，前者是希望建立一个模型，我们用这个模型可以生成一些diverse和realistic的图片，后者是希望通过自监督的representation
+learning去生成图片更好的features，用这些features去帮助下游任务拥有更好的performance。<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103604877.png" alt="image-20241016103604877"></p>
+<p>强烈建议阅读<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1701.00160">NIPS 2016
+Tutorial: Generative Adversarial Networks</a>,
+作者将拟合Pmodel的方式分成两种：</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016103757996.png" alt="image-20241016103757996">
+<figcaption aria-hidden="true">image-20241016103757996</figcaption>
+</figure>
+<p>其中Explicit Density中可以Tractable
+density的PixelRNN是我们所熟知的，我对于Tractable
+Density的理解就是可以求导并利用梯度下降去一点点降低loss的函数，那么对于FVBN来说，拟合Pmodel的方式就是：一张图片的概率等于所有这张图片上pixel的联合概率<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016105016392.png" alt="image-20241016105016392"></p>
+<p>而近似估算中的VAE则采用的是一种引入潜在变量z的方式来间接的建模数据，导致密度函数不可解，必须采用变分推断等近似方法。那么为什么要引入潜在变量z呢？</p>
+<figure>
+<img src="/2024/08/13/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20241016111401857.png" alt="image-20241016111401857">
+<figcaption aria-hidden="true">image-20241016111401857</figcaption>
+</figure>
 
       
     </div>
@@ -452,191 +756,8 @@ transformer处理table。</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/" class="post-title-link" itemprop="url">Transformer拆解</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-01-02 13:32:33" itemprop="dateCreated datePublished" datetime="2024-01-02T13:32:33+08:00">2024-01-02</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2024-08-30 09:38:23" itemprop="dateModified" datetime="2024-08-30T09:38:23+08:00">2024-08-30</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>6.9k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>6 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这篇博客主要记录Transformer架构的代码实现。以下是参考资料 - <a target="_blank" rel="noopener" href="http://arxiv.org/abs/1706.03762">Attention is All you need</a> -
-<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-06-24-attention/">Attention?
-Attention!</a> - <a target="_blank" rel="noopener" href="https://github.com/lilianweng/transformer-tensorflow">lilian
-wen的tensorflow版本的实现</a> - <a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/">illustrated-transformer</a>
-强烈建议看illustrated
-transformer这篇博客，是跟paper介绍的transformer架构完全对齐的 - <a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch/blob/main/torch/nn/modules/transformer.py">pytorch
-transformer实现</a></p>
-<p>​ 这是pytorch的官方实现</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/harvardnlp/annotated-transformer/tree/master">annotated
-transformer</a></li>
-</ul>
-<p>​ 斯坦福出的transformer架构的实现tutorial</p>
-<p>我自己想实现的一遍的原因在于：</p>
-<ol type="1">
-<li>transformer的文章读了很多遍，但是很多细节还是没有去深究。</li>
-<li>斯坦福的实现完全遵照的是paper的架构，但是我觉得还是实现的过于复杂了，我想遵循lilian的tensorflow实现把原生的tranformer架构实现一下</li>
-<li>我对pytorch的掌握没有tensorflow好，感觉现在pytorch基本上成为深度学习网络的主流，特别是大模型出来之后，hugginggface的transformer库也是支持pytorch更好一点，更大的社区。（此时有点后悔当时系统学习的是tensorflow而不是pytorch）</li>
-</ol>
-<p>transformer的整体架构:
-encoder-decoder两大模块，encoder模块内有重复的6个子模块，decoder模块内也有重复的6个子模块。</p>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/transformer.png" alt="Transformer model">
-<figcaption aria-hidden="true">Transformer model</figcaption>
-</figure>
-<p>我们采用自上而下的方式来看这两个模块</p>
-<h1 id="transformer整体架构">Transformer整体架构</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Transformer</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    define the whole architecture of Transformer in:</span></span><br><span class="line"><span class="string">        Vaswani et al. Attention is All You Need. NIPS 2017.</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, num_heads=<span class="number">8</span>, d_model=<span class="number">512</span>, d_ff=<span class="number">2048</span>, num_enc_layers=<span class="number">6</span>, num_dec_layers=<span class="number">6</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                 drop_rate=<span class="number">0.1</span>, warmup_steps=<span class="number">400</span>, pos_encoding_type=<span class="string">&#x27;sinusoid&#x27;</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                 ls_epsilon=<span class="number">0.1</span>, use_label_smoothing=<span class="literal">True</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                 model_name=<span class="string">&#x27;transformer&#x27;</span>, tf_sess_config=<span class="literal">None</span>, **kwargs</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.h = num_heads</span><br><span class="line">        self.d_model = d_model</span><br><span class="line">        self.d_ff = d_ff</span><br><span class="line"></span><br><span class="line">        self.num_enc_layers = num_enc_layers</span><br><span class="line">        self.num_dec_layers = num_dec_layers</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Dropout regularization: added in every sublayer before layer_norm(...) and</span></span><br><span class="line">        <span class="comment"># applied to embedding + positional encoding.</span></span><br><span class="line">        self.drop_rate = drop_rate</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Label smoothing epsilon</span></span><br><span class="line">        self.ls_epsilon = ls_epsilon</span><br><span class="line">        self.use_label_smoothing = use_label_smoothing</span><br><span class="line">        self.pos_encoding_type = pos_encoding_type</span><br><span class="line"></span><br><span class="line">        <span class="comment"># For computing the learning rate</span></span><br><span class="line">        self.warmup_steps = warmup_steps</span><br><span class="line"></span><br><span class="line">        self.config = <span class="built_in">dict</span>(</span><br><span class="line">            num_heads=self.h,</span><br><span class="line">            d_model=self.d_model,</span><br><span class="line">            d_ff=self.d_ff,</span><br><span class="line">            num_enc_layers=self.num_enc_layers,</span><br><span class="line">            num_dec_layers=self.num_dec_layers,</span><br><span class="line">            drop_rate=self.drop_rate,</span><br><span class="line">            warmup_steps=self.warmup_steps,</span><br><span class="line">            ls_epsilon=self.ls_epsilon,</span><br><span class="line">            use_label_smoothing=self.use_label_smoothing,</span><br><span class="line">            pos_encoding_type=self.pos_encoding_type,</span><br><span class="line">            model_name=self.model_name,</span><br><span class="line">            tf_sess_config=self.tf_sess_config,</span><br><span class="line">        )</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, src, tgt, src_mask, tgt_mask</span>):</span> <span class="comment"># 这里进行拼接，将encoder和decoder两大模块拼接在一起</span></span><br><span class="line">            enc_out = self.encoder(src, src_mask)</span><br><span class="line">            dec_out = self.decoder(enc_out, src_mask, tgt, tgt_mask)</span><br><span class="line">            <span class="keyword">return</span> dec_out</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-<h1 id="tranformer-encoder">Tranformer Encoder</h1>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/image-20240102135835011.png" alt="image-20240102135835011">
-<figcaption aria-hidden="true">image-20240102135835011</figcaption>
-</figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clones</span>(<span class="params">module, N</span>):</span></span><br><span class="line">    <span class="string">&quot;Produce N identical layers.&quot;</span></span><br><span class="line">    <span class="keyword">return</span> nn.ModuleList([copy.deepcopy(module) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)])</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TransformerEncoder</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, encoder_layer, num_enc_layers</span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">        self.num_enc_layers = num_enc_layers</span><br><span class="line">        self.encoder_layers = clones(encoder_layer,num_enc_layers) <span class="comment"># 将encoder_layer复制6次</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, src, src_mask</span>):</span></span><br><span class="line">        out = src</span><br><span class="line">        <span class="keyword">for</span> layer <span class="keyword">in</span> self.encoder_layers:</span><br><span class="line">            out = layer(out, src_mask)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
-<p>这里实现了一个<code>clones</code>帮助函数，我想过在这里用for循环，lilian在这里就是用的for循环：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">out = inp  <span class="comment"># now, (batch, seq_len, embed_size)</span></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.num_enc_layers):</span><br><span class="line">        out = self.encoder_layer(out, input_mask, <span class="string">f&#x27;enc_<span class="subst">&#123;i&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
-<p>注意这里的每一个encoder_layer的参数都是独立的，也就是有6份encoder_layer的参数需要训练，tensorflow为什么可行？是因为它这里使用了variable_scope的概念，上面的tensorflow实现每一次out和input_mask进来都是和不同的数值进行的运算。如果在pytorch中想实现这种方式，要先把encoder_layer复制六遍，每一次输入进来都拿不同的layer做运算。</p>
-<h2 id="encoder-layer">encoder layer</h2>
-<p>接下来我们实现encoder layer中的细节部分，它包含两个sub-layer： 1）
-self-attention + Add&amp;layer_Norm 2) position-wise feed forward +
-Add&amp;layer_Norm</p>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/image-20240102135835011.png" alt="image-20240102135835011">
-<figcaption aria-hidden="true">image-20240102135835011</figcaption>
-</figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TransformerEncoderLayer</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        d_model: the number of expected features in the input (required).</span></span><br><span class="line"><span class="string">        nhead: the number of heads in the multiheadattention models (required).</span></span><br><span class="line"><span class="string">        dim_feedforward: the dimension of the feedforward network model (default=2048).</span></span><br><span class="line"><span class="string">    About:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># One multi-head attention + one feed-forward</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, d_model, n_head, dim_feedforward, dropout = <span class="number">0.1</span></span>) -&gt; <span class="literal">None</span>:</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.self_attn = MultiheadAttention(d_model, n_head)</span><br><span class="line">        self.norm_1 = nn.LayerNorm(d_model)</span><br><span class="line">        <span class="comment"># Implementation of Feedforward model(Two linear transformation together with one dropout)</span></span><br><span class="line">        self.linear1 = nn.Linear(d_model, dim_feedforward, )</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        self.linear2 = nn.Linear(dim_feedforward, d_model)</span><br><span class="line">        self.norm_2 = nn.LayerNorm(d_model)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__ff_block</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        <span class="comment"># feed forward layer contains two linear</span></span><br><span class="line">        out = F.relu(self.linear1(x))</span><br><span class="line">        out = self.dropout(out)</span><br><span class="line">        out = self.linear2(out)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, src, src_mask</span>):</span></span><br><span class="line">        out = src</span><br><span class="line">        out = self.norm_1(out + self.self_attn(out, src_mask))<span class="comment"># 这里在pytorch的官方实现中在self_attention后还加了一个dropout</span></span><br><span class="line">        out = self.norm_2(out + self.__ff_block(out))</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
-<h3 id="self-attention">self attention</h3>
-<p>我一开始查阅的资料是<a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/">illustrated-transformer</a>,
-这个博客内没有具体的实现。后来我参考的是lilian
-wen的tensorflow实现。在lilian的实现里对于multihead
-attention是这样写的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multihead_attention</span>(<span class="params">self, query, memory=<span class="literal">None</span>, mask=<span class="literal">None</span>, scope=<span class="string">&#x27;attn&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            query (tf.tensor): of shape (batch, q_size, d_model)</span></span><br><span class="line"><span class="string">            memory (tf.tensor): of shape (batch, m_size, d_model)</span></span><br><span class="line"><span class="string">            mask (tf.tensor): shape (batch, q_size, k_size)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:h</span></span><br><span class="line"><span class="string">            a tensor of shape (bs, q_size, d_model)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> memory <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            memory = query</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># Linear project to d_model dimension: [batch, q_size/k_size, d_model]</span></span><br><span class="line">            Q = tf.layers.dense(query, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            K = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            V = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Split the matrix to multiple heads and then concatenate to have a larger</span></span><br><span class="line">            <span class="comment"># batch size: [h*batch, q_size/k_size, d_model/num_heads]</span></span><br><span class="line">            Q_split = tf.concat(tf.split(Q, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            K_split = tf.concat(tf.split(K, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            V_split = tf.concat(tf.split(V, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            mask_split = tf.tile(mask, [self.h, <span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Apply scaled dot product attention</span></span><br><span class="line">            out = self.scaled_dot_product_attention(Q_split, K_split, V_split, mask=mask_split)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Merge the multi-head back to the original shape</span></span><br><span class="line">            out = tf.concat(tf.split(out, self.h, axis=<span class="number">0</span>), axis=<span class="number">2</span>)  <span class="comment"># [bs, q_size, d_model]</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># The final linear layer and dropout.</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_model)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dropout(out, rate=self.drop_rate, training=self._is_training)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
-<p>以上的实现其实和博客内的内容有点相左，博客写的是：</p>
-<blockquote>
-<p>As we’ll see next, with multi-headed attention we have not only one,
-but multiple sets of Query/Key/Value weight matrices (the Transformer
-uses eight attention heads, so we end up with eight sets for each
-encoder/decoder). Each of these sets is randomly initialized. Then,
-after training, each set is used to project the input embeddings (or
-vectors from lower encoders/decoders) into a different representation
-subspace.</p>
-</blockquote>
-<p>结合作者给出的图片：</p>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/image-20240104131802468.png" alt="image-20240104131802468">
-<figcaption aria-hidden="true">image-20240104131802468</figcaption>
-</figure>
-<p>我一开始的理解是每一个head都有一份单独的W
-sets（WQ,WK,WV）。每一个head经过了scaled attention的计算</p>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/image-20240104132257007.png" alt="image-20240104132257007">
-<figcaption aria-hidden="true">image-20240104132257007</figcaption>
-</figure>
-<p>得到的Z的shape都是<code>(batch, seq_len, embeded_size)</code>，所以才会有WO这个线性变化（blog里说的）：</p>
-<figure>
-<img src="/2024/01/02/Transformer%E6%8B%86%E8%A7%A3/image-20240104132406484.png" alt="image-20240104132406484">
-<figcaption aria-hidden="true">image-20240104132406484</figcaption>
-</figure>
-<p>但我看完代码之后发现并不是我想的那样。我觉得这篇博客写的有点问题。后来又找到了一篇<a target="_blank" rel="noopener" href="https://towardsdatascience.com/transformers-explained-visually-part-3-multi-head-attention-deep-dive-1c1ff1024853">博客</a>，能够解答我的疑问。它最重要的话是：</p>
-<blockquote>
-<p>However, the important thing to understand is that this is a logical
-split only. The Query, Key, and Value are not physically split into
-separate matrices, one for each Attention head. A single data matrix is
-used for the Query, Key, and Value, respectively, with logically
-separate sections of the matrix for each Attention head. Similarly,
-there are not separate Linear layers, one for each Attention head. All
-the Attention heads share the same Linear layer but simply operate on
-their ‘own’ logical section of the data matrix.</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -648,7 +769,7 @@ their ‘own’ logical section of the data matrix.</p>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -660,14 +781,14 @@ their ‘own’ logical section of the data matrix.</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

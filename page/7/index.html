@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,203 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/Instruction-Finetuned-LLM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/14/Instruction-Finetuned-LLM/" class="post-title-link" itemprop="url">instruction-following language models</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-04-14 10:37:53" itemprop="dateCreated datePublished" datetime="2023-04-14T10:37:53+08:00">2023-04-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-08-29 13:24:11" itemprop="dateModified" datetime="2023-08-29T13:24:11+08:00">2023-08-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>nlp领域很多新出现的名词或者火热的研究方向，没有一个统一的标准。我在接触这些新的概念的时候往往会很糊涂，需要找大量的文献来看，然后捋清楚模型或者技术路线的发展脉络。instructed
+LM，它是需要对pre-trained
+LLM进行finetune的，在这之前也有一种技术叫做prompt
+engineering，它是一种给大模型指令输入的手段，通过调整给大模型的输入，从而使得大模型能够返回更好的输出，解决我们的问题。也有更好的解释引用自<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">blog</a></p>
+<blockquote>
+<p><strong>Prompt Engineering</strong>, also known as <strong>In-Context
+Prompting</strong>, refers to methods for how to communicate with LLM to
+steer its behavior for desired outcomes <em>without</em> updating the
+model weights. It is an empirical science and the effect of prompt
+engineering methods can vary a lot among models, thus requiring heavy
+experimentation and heuristics</p>
+</blockquote>
+<p>prompt engineering得益于LLM拥有zero-shot learning和few-shot
+learning的两种prompt 模型的方法的发展。它更多的来源于经验。</p>
+<p>prompt engineering领域也出现了非常多的文章，就正如<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">blog</a>里的观点一样，我同样觉得有一些文章只需要很少的文字就能讲明白它提出的方法是什么，但还是花了很多的篇幅，一个通用的benchmark才是我们需要的，现在有的只是一些零零碎碎的方法论。prompt
+engineering不是我的关注重点，它受制于很多因素的影响，比如如果你使用的是GPT-3模型来开展你的任务或者搭建你的application，你可能会因为输入过多的文字而超出limit，而且GPT可是按照字符数收费的，所以可能会比较贵。</p>
+<p>那么除了使用prompt
+engineering的方式来让LLM输出能让我们满意的结果，另外一种方式是fine-tune整个LLM，直接让它在特定的数据集上调整参数（整体调整或者局部调整，比如Lora，prefix-tuning）或者使用增强学习训练一个打分模型，这也属于fine-tune的一个大分支。</p>
+<p>2013年的综述文章<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of
+Large Language Models</a> 在第五章介绍了详细的adaptation tuning of
+LLMs的方法，也就是我一个pretrain好的LLM，如何让它在不同的任务上得到更好的泛化能力，这时候就要tuning
+LLM。作者介绍其中有两种方法，一个是instruction Tuning，第二个是alignment
+tuning。后者就是利用增强学习让模型从人类的反馈中去改进自己生成的文本，InstructGPT采用了这种方法。第一种会稍微复杂一点，但原理很简单，就是创造一系列的instruction和问答对，让LLM在这些新instruction上重新finetune，loss为sequence-to-sequence的loss。</p>
+<blockquote>
+<p>[My personal spicy take]
+这里这篇综述我觉得写的不完整，有点误导读者。这篇综述第五章只介绍了adaptation
+tuning模型中的两种，但在instruction
+tuning出现之前，还有不少技术能够帮助我们“further adapt LLM according to
+specific goals”. 不仅如此，这篇综述也没有很好的解释instruction
+tuning为什么就能帮助我们在不同任务上有了performance的提高。所以我就想写一篇博客来记录如果我们拥有了一个pretrained的大模型，我们可以有什么样的做法来使得大模型在特定的任务上为我们所用。详见另一篇博客“Adaptation
+Tuning of LLMs”</p>
+</blockquote>
+<p>在接触羊驼模型后，我一直有一个疑问，为什么instruction
+finetuned模型performance有了提高，或者说它在什么样的任务上有了提高？这个问题一直困扰我，直到我看到了google家的<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2109.01652">Finetuned Language Models Are
+Zero-Shot Learners</a>.instruction
+tuning这种finetune方式的提出是为了<strong>improve zero-shot performance
+on unseen tasks</strong>，具体一点就是在一些任务上比如阅读归纳，question
+answering和语言推理上，研究者发现GPT3的zero-shot learning比few-shot
+能力差很多，作者说一个潜在的原因是因为如果没有一些context给到模型的话，模型在面对跟pretrain时候数据相差很大的prompt时候会很困难，说直白点，就是没有例子给它参考了，就不会做题了。instruction
+tuning这种方式就提供了一种非常简单的方式，它在好多个task上finetune这个模型，这里每一个task的数据组织形式跟原来不一样了，现在被组织成了(instruction,[input],output)的形式。finetune完之后的模型在unseen
+task上做evaluation，研究者发现被instruction
+finetune之后的模型比原来的模型在同一任务上的zero-shot能力大大提升：</p>
+<figure>
+<img src="/2023/04/14/Instruction-Finetuned-LLM/image-20230522182724638-16848907566251.png" alt="performance">
+<figcaption aria-hidden="true">performance</figcaption>
+</figure>
+<h1 id="instruction-tuning">instruction tuning</h1>
+<p>想要做到instruction tuning有两个前提条件：1. 你有一个pretrained的模型
+2.
+有很多instructions。首先第一个条件可以看看市面上有哪些模型是已经开源了，参考<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of Large Language
+Models</a>3.1的整理，2023年斯坦福的羊驼模型是基于meta的LLaMA，所以目前github上出现了很多用LLaMA为LLM，在上面做instruction
+tuning工作的。</p>
+<figure>
+<img src="/2023/04/14/Instruction-Finetuned-LLM/image-20230418093127008.png" alt="LLMs">
+<figcaption aria-hidden="true">LLMs</figcaption>
+</figure>
+<p>那第一个问题解决了，起码我们有开源的LLM可以load到本地来使用，感谢facebook的开源。第二个问题如何产生很多的instructions，斯坦福的<a target="_blank" rel="noopener" href="https://crfm.stanford.edu/2023/03/13/alpaca.html">羊驼模型Alpaca</a>采用的是下面文章介绍的方法，省时省力，花费上不超过600美金。当然也有其他的一些产生instruction的方法，详细可以参考<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2303.18223">A Survey of Large Language
+Models</a>
+，其中作者介绍了一系列可以从现有数据集生成instruction的方法，这些方法应该也是低成本快速产生instruction的方法。</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2212.10560">Self-instruct: Aligning
+Language Model with Self Generated Instructions</a>
+这篇文章介绍了一种self generated
+instructions的方法，简单说就是让LLM自己生成人类的问题的答案，然后将这些instructions
+重新来fine-tune我们的LLM。这样做的一个前提条件是：1. Large
+“instruction-tuned” language models (finetuned to respond to
+instructions) have demonstrated a remarkable ability to generalize
+zero-shot to new tasks. 2. 产生instruction
+data非常的耗时，原来都是采用Human written的方式。具体步骤是：</p>
+<figure>
+<img src="/2023/04/14/Instruction-Finetuned-LLM/image-20230414131301078.png" alt="self-instruct whole picture">
+<figcaption aria-hidden="true">self-instruct whole picture</figcaption>
+</figure>
+<p>作者首先使用175个手工写的instructions作为seed
+set，利用这175个instructions用LLM再次生成更多的instructions，将这些instructions再次输入到LLM中我们就得到了很多input-output
+pair。这些input-output pair将会用来做instruction tuning.
+作者使用的LLM是GPT-3. 最终得到了52k个instructions，以及82k个input-output
+pair。</p>
+<h2 id="instruction-generation">Instruction generation</h2>
+<p>用bootstrap的方式，以人工产生的instruction为基础，用GPT来自己生成更多的"new
+and novel"instruction。</p>
+<hr>
+<p>自Alpaca之后，国内的一些团队也仿照斯坦福的这种模型，做了一些自己的LLM，例如https://github.com/LC1332/Chinese-alpaca-lora，instruction来自用GPT翻译的斯坦福产生的52k的instruction的数据，它基于的模型<a target="_blank" rel="noopener" href="https://github.com/tloen/alpaca-lora">aplaca-lora</a>,lora的全称是Low-rank
+adaptation，作者说自己"reproducing the <a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">Stanford Alpaca</a>
+results using <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2106.09685.pdf">low-rank
+adaptation (LoRA)</a>."，并且训练好的instructed
+model提供的文本质量可以和text-davinci-003(GPT-3)媲美。不太了解这个LoRA，有兴趣的可以读原文：https://arxiv.org/pdf/2106.09685.pdf。</p>
+<p>看了Alpaca的blog，我发现斯坦福在evaluation阶段是将alpaca的结果和gpt3来进行比较的，由此也引发了我的思考，就是我们如何去衡量一个LLM的performance。刚上文的review的第七章很好的解答了我的疑惑，包括一系列的基本评测任务以及高级的评测任务。当然作者在7.3也给出了一些公开的全面的benchmarks，而且是用的比较多的，其中有MMLU，BIG-bench，HELM，这些benchmark内都包含了很多个任务，可以综合评测一个LLM的performance。</p>
+<h1 id="stanford-alpaca">stanford alpaca</h1>
+<p>这是2023年斯坦福开源的一款基于meta的LLaMA的大语言模型,名字叫<a target="_blank" rel="noopener" href="https://crfm.stanford.edu/2023/03/13/alpaca.html">羊驼</a>，只有7个billion的参数。属于instruction
+tuning的一个标杆。里面用了两个比较新的技术，第一个是上文提到的self-instruct，就是让GPT或者市面上的LLM在我们人工产生的种子instruction上去产生一系列更多的instruction，包括配套每一个instruction的input和output。斯坦福将这部分用GPT-3.5(text-davinci-003)产生的instruction数据慷慨开源，见<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>。不仅如此斯坦福还给出了产生这些instructions的代码，可谓是非常nice了，方便大家上手学习。</p>
+<p>我比较关注用这些instructions数据如何finetune大模型LLaMA的过程，这里权当自己复现以及阅读斯坦福代码时候的记录。首先我本来是想在meta的LLaMA的7B开源模型上做实验，但发现想获取meta的weights需要提前申请，详细可参考huggingface的transformer页面。</p>
+<p>斯坦福的代码仓库可以在<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>找到。</p>
+<h1 id="reference">reference</h1>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2212.10560">Self-instruct: Aligning
+Language Model with Self Generated Instructions</a></li>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2210.11416">Scaling
+Instruction-Finetuned Language Models</a></li>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2109.01652">Finetuned Language Models
+Are Zero-Shot Learners</a></li>
+<li></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -787,249 +984,8 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">image classification models总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-06 13:39:21" itemprop="dateCreated datePublished" datetime="2023-02-06T13:39:21+08:00">2023-02-06</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-28 17:09:47" itemprop="dateModified" datetime="2023-02-28T17:09:47+08:00">2023-02-28</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.4k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本博客旨在记录自己在了解<code>image classification</code>这个术语<code>computer vision</code>的一个子任务中常见的模型。耳熟能详的就是<code>ResNet</code>,<code>VGG</code>,<code>Inception</code>,<code>MobileNet</code>,
-<code>Efficientnet</code>。每一个模型之间有什么区别，他们自身又有哪些变种，比如<code>VGG</code>，它拥有<code>VGG16,VGG19</code>等，<code>ResNet</code>又有很多，单是查看<code>Tensorflow</code>的官方文档就会发现在<code>tf.keras.applications</code>模块下，就有很多模型架构可选（也都有预训练参数）。整理这个博客的目的在于让自己对这些模型之间的差别有所了解，这样在不同的任务中才会知道使用什么样的模型架构来handle自己的数据。</p>
-<p>在整理这篇博客的过程中，我也去搜了有没有<code>image classification</code>这个单任务上的<code>review</code>文章，文章都挺多的，筛选之后推荐这篇<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of Image
-Classification Algorithms Based on Convolutional Neural
-Networks</a>.这篇文章主要是介绍基于CNN的一些模型，共有三个章节。重点是第二章节梳理了<code>CNN-based</code>的一些模型，包括本文想要<code>cover</code>的<code>VGG</code>，<code>inception</code>，<code>resnet</code>，<code>mobilenet</code>。重点关注图像分类算法的小伙伴可以通读一下这篇文章。</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207094857739-16757345394748.png" alt="Review of Image Classification Algorithms Based on Convolutional Neural Networks第二章节目录">
-<figcaption aria-hidden="true">Review of Image Classification Algorithms
-Based on Convolutional Neural Networks第二章节目录</figcaption>
-</figure>
-<h1 id="vgg">VGG</h1>
-<p>首次提出在2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">paper</a></p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/vgg16.png" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>上图中包含13个卷积层和3个全连接层，是<code>VGG16</code>的结构。而<code>VGG19</code>包含了16个卷积层和3个全连接层：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1dNYBNBDP7ZvckfOSYzHxIw.jpeg" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p><code>VGG</code>系列就是<code>VGG16</code>和<code>VGG19</code>，两者的区别在于19用了更多的卷积层。<code>Tensorflow</code>也提供了这两个模型的黑盒子实现供大家使用。</p>
-<h1 id="resnet">ResNet</h1>
-<p>首次提出在2016年的<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf">paper</a>，其中最重要的就是网络中的<code>residual block</code>:</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1_nmPcwwnsHE-AC69ASkj9w.jpeg" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>在作者的原文中我们可以发现，文章中提出的Resnet是34层，也就是ResNet34。在具体实现的时候，作者在每一个卷积操作之后（激活函数之前）加上了batch
-Normalization。在<code>Module: tf.keras.applications.resnet</code><a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet">Tensorflow
-applications
-resnet</a>中现在只有ResNet101，152，50三个版本，其中ResNet50和ResNet34的区别在于：前者使用三个卷积一个block，后者是2个卷积一个block.
-ResNet50表现更优异。ResNet101和ResNet152在一个block内使用了更多的卷积layer。</p>
-<p>以上所说的都是resnet v1，后来同一个作者又发表了<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.05027.pdf">Identity Mappings in Deep
-Residual Networks</a>,提出了ResNet
-v2。同样我们在tensorflow中也可以看到模块<code>Module: tf.keras.applications.resnet_v2</code>，同样的也有50，101，152三个版本的model。</p>
-<p>v1和v2的区别在于：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206150618805-16756671800395.png" alt="ResNet v1 and ResNet v2">
-<figcaption aria-hidden="true">ResNet v1 and ResNet v2</figcaption>
-</figure>
-<p>以上只是概念上的解释，看代码会更合适一点，其中<code>Deep Residual Learning for Image Recognition</code>文章中也给出了34，50，101，152等几个模型在实现中注意的细节：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206153053177-16756686549546.png" alt="image-20230206153053177">
-<figcaption aria-hidden="true">image-20230206153053177</figcaption>
-</figure>
-<p>ResNet34 V1中，一个resnet
-block是由两个卷积layer组成的，同时它和V2的一个区别就在于X进来后就先进行卷积运算，也就是上图中的weight</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow <span class="keyword">import</span> keras</span><br><span class="line"><span class="keyword">from</span> keras.activations <span class="keyword">import</span> relu</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> layers <span class="keyword">as</span> Layers</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResBlock</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, channels, stride=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResBlock, self).__init__(name=<span class="string">&#x27;ResBlock&#x27;</span>)</span><br><span class="line">        self.flag = (stride != <span class="number">1</span>)</span><br><span class="line">        self.conv1 = Conv2D(channels, <span class="number">3</span>, stride, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn1 = BatchNormalization()</span><br><span class="line">        self.conv2 = Conv2D(channels, <span class="number">3</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn2 = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            self.bn3 = BatchNormalization()</span><br><span class="line">            self.conv3 = Conv2D(channels, <span class="number">1</span>, stride)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x1 = self.conv1(x)</span><br><span class="line">        x1 = self.bn1(x1)</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        x1 = self.conv2(x1)</span><br><span class="line">        x1 = self.bn2(x1)</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            x = self.conv3(x)</span><br><span class="line">            x = self.bn3(x)</span><br><span class="line">        x1 = Layers.add([x, x1])</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        <span class="keyword">return</span> x1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResNet34</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResNet34, self).__init__(name=<span class="string">&#x27;ResNet34&#x27;</span>)</span><br><span class="line">        self.conv1 = Conv2D(<span class="number">64</span>, <span class="number">7</span>, <span class="number">2</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        self.mp1 = MaxPooling2D(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        self.conv2_1 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_2 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_3 = ResBlock(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">        self.conv3_1 = ResBlock(<span class="number">128</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv3_2 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_3 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_4 = ResBlock(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">        self.conv4_1 = ResBlock(<span class="number">256</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv4_2 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_3 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_4 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_5 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_6 = ResBlock(<span class="number">256</span>)</span><br><span class="line"></span><br><span class="line">        self.conv5_1 = ResBlock(<span class="number">512</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv5_2 = ResBlock(<span class="number">512</span>)</span><br><span class="line">        self.conv5_3 = ResBlock(<span class="number">512</span>)</span><br><span class="line"></span><br><span class="line">        self.pool = GlobalAveragePooling2D()</span><br><span class="line">        self.fc1 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp1 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc2 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp2 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc3 = Dense(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.bn(x)</span><br><span class="line">        x = self.relu(x)</span><br><span class="line">        x = self.mp1(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv2_1(x)</span><br><span class="line">        x = self.conv2_2(x)</span><br><span class="line">        x = self.conv2_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv3_1(x)</span><br><span class="line">        x = self.conv3_2(x)</span><br><span class="line">        x = self.conv3_3(x)</span><br><span class="line">        x = self.conv3_4(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv4_1(x)</span><br><span class="line">        x = self.conv4_2(x)</span><br><span class="line">        x = self.conv4_3(x)</span><br><span class="line">        x = self.conv4_4(x)</span><br><span class="line">        x = self.conv4_5(x)</span><br><span class="line">        x = self.conv4_6(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv5_1(x)</span><br><span class="line">        x = self.conv5_2(x)</span><br><span class="line">        x = self.conv5_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.pool(x)</span><br><span class="line">        x = self.fc1(x)</span><br><span class="line">        x = self.dp1(x)</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        x = self.dp2(x)</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">model = ResNet34()</span><br><span class="line">model.build(input_shape=(<span class="number">1</span>, <span class="number">480</span>, <span class="number">480</span>, <span class="number">3</span>))</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
-<h1 id="inception">Inception</h1>
-<p>已经有不少博客在科普Inception系列模型的区别<a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-simple-guide-to-the-versions-of-the-inception-network-7fc52b863202">A
-Simple Guide to the Versions of the Inception Network</a></p>
-<p>首先提出该模型的是2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.4842v1.pdf">Going deeper with
-convolutions</a> Inception
-V1（GoogleNet）,然后又分别有了好几个变体：<code>Inception V2，Inception V3，Inception V4</code>，<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1602.07261">Inception-ResNet-v2</a>。和<code>ResNet</code>一样，<code>Inception</code>网络中一个重要的<code>module</code>是<code>Inception Module</code>：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206161239990-16756711610527.png" alt="Inception Module">
-<figcaption aria-hidden="true">Inception Module</figcaption>
-</figure>
-<p>其中这些Network中被广泛使用的是<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.00567v3.pdf">Inception_v3</a>和<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1602.07261.pdf">Inception-ResNet-v2</a>.</p>
-<h1 id="mobilenet">MobileNet</h1>
-<blockquote>
-<p>The idea behind MobileNet is to use depthwise separable convolutions
-to build loghter deep neural networks. In regular convolutional layer,
-the convolution kernel or filter is applied to all of the channels of
-the input image, by doing weighted sum of the input pixels with the
-filter and then slides to the next input pixels across the
-images.MobileNet uses this regular convolution only in the first layer.
-The next layers are the depthwise separable convolutions which are the
-combination of the depthwise and pointwise convolution. The depthwise
-convolution does the convolution on each channel separately. If the
-image has three channels, therefore, the output image also has three
-channels. This depthwise convolution is used to filter the input
-channels. The next step is the pointwise convolution, which is similar
-to the regular convolution but with a 1x1 filter. The purpose of
-pointwise convolution is to merge the output channels of the depthwise
-convolution to create new features. By doing so, the computational work
-needed to be done is less than the regular convolutional networks.</p>
-<p>引用自<a target="_blank" rel="noopener" href="https://medium.com/@fransiska26/the-differences-between-inception-resnet-and-mobilenet-e97736a709b0">the-differences-between-inception-resnet-and-mobilenet</a></p>
-</blockquote>
-<p><code>MobileNet</code>使用了两种卷积形式，<code>depthwise</code>和<code>pointwise</code>，后者就是我们常见的卷积操作，只是使用的是1✖1的卷积核，input
-image有多少个<code>channel</code>，<code>filter</code>就会延展为几个<code>channel</code>，比如输入进来的<code>channel</code>数是3，那么一个<code>3*3</code>大小的filter就会extend成3✖3✖3的一个立方体，然后这27个数分别禹输入image对应的区域做乘积之后相加取和。但是<code>depthwise</code>卷积是对每一个<code>channel</code>分别做卷积，如果输入图片有三个<code>channel</code>，那么输出的也会是三个<code>channel</code>。如图：</p>
-<figure>
-<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207132331415.png" alt="depthwise convolution">
-<figcaption aria-hidden="true">depthwise convolution</figcaption>
-</figure>
-<p><code>tensorflow</code>中有<code>DepthwiseConv2D</code>这个<a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/DepthwiseConv2D">layer</a>,它对于<code>depthwise convolution</code>的解释是：</p>
-<blockquote>
-<p>Depthwise convolution is a type of convolution in which each input
-channel is convolved with a different kernel (called a depthwise
-kernel). You can understand depthwise convolution as the first step in a
-depthwise separable convolution.</p>
-</blockquote>
-<p><code>MobileNetV2</code>主要引进了<code>Inverted residuals</code>和<code>linear bottlenecks</code>去解决在<code>depthwise</code>卷积操作中卷积核的参数往往是0的问题</p>
-<h1 id="other-topics">other topics</h1>
-<p>在阅读<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of
-Image Classification Algorithms Based on Convolutional Neural
-Networks</a>的最后一章节时，作者不仅介绍了现在research和industry领域用的比较多的image
-classification的模型，也给出了各个模型在image-net数据集上的accuracy。在总结章，作者还提出了一些结论性的发现，我觉得蛮收益的，将文章的观点整理在这里。</p>
-<ol type="1">
-<li>2012年到2017年主要提供了日后用于分类的basic
-CNN模型架构，这期间的模型架构有2012的alexnet，2014年的vgg，2014年的inception，2015年的resnet，2017年提出了attention加cnn的架构</li>
-<li>attention加入到cnn之后形成了新的模型，也因此提高了模型的performance。现在很多模型会将SE
-block嵌入到模型架构中去，我查了下这个SE
-block是SEnet中的一个block，squeeze and excitation block。<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>是在2017年提出的，这个知识点待补充</li>
-<li>超参数的选择对于CNN网络的performance影响很大，很多的工作在着力于减少超参数的个数以及replace
-them with other composite coefficients。</li>
-<li>手动设计一个performance很好的网络往往需要很多effort，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Neural_architecture_search">NAS
-search</a> （neural architecture search）可以让这个过程变得更简单</li>
-<li>想要提升模型的performance，不仅仅需要将关注力放在模型架构的设计上，data
-augmentation,transfer learning,training
-strategies也可以帮助我们提高模型的准确度。在transfer learning上，paper：
-Large Scale Learning of General Visual Representations for Transfer
-总结了一些在不同的task上如何利用transfer
-learning取得很好的performance的办法。</li>
-</ol>
-<hr>
-<p>CNN model 还面临的挑战：</p>
-<ol type="1">
-<li>lightweight
-models比如mobileNet系列的轻量级模型往往需要牺牲accuracy来提高efficiency。未来在embedded系统上，CNN的运行效率值得去explore</li>
-<li>cnn模型在semi-supervised和unsupervised上的发挥不如NLP领域。</li>
-</ol>
-<hr>
-<p>future directions:</p>
-<ol type="1">
-<li>重视vision transformer.
-如何将卷积和transformer有效结合起来是当前的一个热点。目前的SOTA
-network是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.04803">CoAtNet</a>，在image
-net数据集上的accuracy是90.88，确实是目前在image
-net数据集上performance最高的模型架构。值得读一下，mark！</li>
-<li>有一些关于CNN的传统技术可能会成为阻碍CNN发展的重要因素，诸如：activation
-function的选择，dropout，batch normalization。</li>
-</ol>
-<h1 id="senet-2017">SENet 2017</h1>
-<p>原文 <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>，是由自动驾驶公司Momenta在2017年公布的一种全新的图像识别结构，它通过对特征通道间的相关性进行建模，把重要的特征进行强化来提升准确率。这个结构是2017
-ILSVR竞赛的冠军，top5的错误率达到了2.251%，比2016年的第一名还要低25%，可谓提升巨大。</p>
-<h1 id="coatnet">CoAtNet</h1>
-<h1 id="reference">Reference</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/architecture-comparison-of-alexnet-vggnet-resnet-inception-densenet-beb8b116866d">Architecture
-comparison of AlexNet, VGGNet, ResNet, Inception, DenseNet</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/analytics-vidhya/vggnet-architecture-explained-e5c7318aa5b6">VGGNet
-Architecture Explained</a></li>
-<li><a target="_blank" rel="noopener" href="https://viso.ai/deep-learning/resnet-residual-neural-network/">resnet-residual-neural-network
-Resnet系列网络架构的区别</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1041,7 +997,7 @@ Resnet系列网络架构的区别</a></li>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1053,14 +1009,14 @@ Resnet系列网络架构的区别</a></li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

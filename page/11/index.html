@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">图像的读取方式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-21 15:09:14" itemprop="dateCreated datePublished" datetime="2022-06-21T15:09:14+08:00">2022-06-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:36:10" itemprop="dateModified" datetime="2023-02-08T11:36:10+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>866</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="pil">PIL</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&quot;1.jpg&quot;</span>)</span><br><span class="line">img.load()</span><br><span class="line"></span><br><span class="line">array = np.asarrary(img)</span><br><span class="line"></span><br><span class="line">img.show() <span class="comment"># view the picture</span></span><br><span class="line"></span><br><span class="line">img.save(<span class="string">&quot;./new_img.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>PIL.Image包有很多其他的功能，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从array生成图片convert it to a Pillow image</span></span><br><span class="line">Image.fromarray(data,<span class="string">&#x27;RGB&#x27;</span>) <span class="comment"># 如果mode=&#x27;L&#x27;,那么只有一个通道</span></span><br></pre></td></tr></table></figure>
+<h1 id="cv2">cv2</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">&quot;./1.jpg&quot;</span>) <span class="comment"># 返回的img的channel顺序是BGR</span></span><br><span class="line"></span><br><span class="line">grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment"># 转化为灰度图的模式</span></span><br><span class="line">rgb_img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB) <span class="comment"># 转化为RGB的模式</span></span><br></pre></td></tr></table></figure>
+<p><code>cv2</code>一个有用的method是resize</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img = cv2.resize(raw_img,(width,height))</span><br></pre></td></tr></table></figure>
+<h1 id="tensorflow">tensorflow</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">img = tf.keras.preprocessing.image.load_img(<span class="string">&quot;./i.jpg&quot;</span>,target_size=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>)) <span class="comment"># Loads an image into PIL format</span></span><br><span class="line">img = tf.keras.preprocessing.image.img_to_array(img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从array转化成PIL image 实例</span></span><br><span class="line">img = tf.keras.preprocessing.image.array_to_img(array) <span class="comment"># array是3D numpy array</span></span><br><span class="line"></span><br><span class="line">tf.keras.utils.save_img(path,array)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1232,172 +1336,8 @@ f1_score</h2>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">numpy基础总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-03-27 16:41:11 / Modified: 16:54:03" itemprop="dateCreated datePublished" datetime="2022-03-27T16:41:11+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/numpy/" itemprop="url" rel="index"><span itemprop="name">numpy</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>930</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="numpy.linalg.norm">numpy.linalg.norm</h1>
-<p><code>linalg.norm(x,ord=None,axis=None,keepdims=False)</code></p>
-<p>其中x可以传入array，也可以是matrix。</p>
-<p>ord参数针对x是array还是matrix是不一样的计算：</p>
-<table>
-<thead>
-<tr class="header">
-<th>ord</th>
-<th>norm for matrices</th>
-<th>norm for vectors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>None</td>
-<td>Frobenius norm</td>
-<td>2-norm</td>
-</tr>
-<tr class="even">
-<td>‘fro’</td>
-<td>Frobenius norm</td>
-<td>–</td>
-</tr>
-<tr class="odd">
-<td>‘nuc’</td>
-<td>nuclear norm</td>
-<td>–</td>
-</tr>
-<tr class="even">
-<td>inf</td>
-<td>max(sum(abs(x), axis=1))</td>
-<td>max(abs(x))</td>
-</tr>
-<tr class="odd">
-<td>-inf</td>
-<td>min(sum(abs(x), axis=1))</td>
-<td>min(abs(x))</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>–</td>
-<td>sum(x != 0)</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>max(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="even">
-<td>-1</td>
-<td>min(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2-norm (largest sing. value)</td>
-<td>L2范数</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>smallest singular value</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>–</td>
-<td>sum(abs(x)<strong>ord)</strong>(1./ord)</td>
-</tr>
-</tbody>
-</table>
-<p>如果传入axis这个参数，axis=0表示每一列为向量，以每一列的向量为基础计算。然后就转化为了向量运算。</p>
-<p>其中keepdims如果是True，那么规范化的轴将作为尺寸1留在结果中，使用此选项，结果将针对原始
-x 正确广播。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">9</span>) - <span class="number">4</span></span><br><span class="line">b = a.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">Out[<span class="number">7</span>]: array([-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>])</span><br><span class="line">b</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">array([[-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>],</span><br><span class="line">       [-<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>)</span><br><span class="line">Out[<span class="number">9</span>]: array([<span class="number">5.38516481</span>, <span class="number">1.41421356</span>, <span class="number">5.38516481</span>])</span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>,keepdims=<span class="literal">True</span>)</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">array([[<span class="number">5.38516481</span>],</span><br><span class="line">       [<span class="number">1.41421356</span>],</span><br><span class="line">       [<span class="number">5.38516481</span>]])</span><br></pre></td></tr></table></figure>
-<p>从以上结果看出：如果keepdims等于True，那么输出的矩阵将会是3乘以1的矩阵，输入矩阵是3乘以3。如果用Input/
-norm(input)是不会报错的。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1409,7 +1349,7 @@ norm(input)是不会报错的。</p>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1421,14 +1361,14 @@ norm(input)是不会报错的。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

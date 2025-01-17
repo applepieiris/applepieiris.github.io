@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,170 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">numpy基础总结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-03-27 16:41:11 / Modified: 16:54:03" itemprop="dateCreated datePublished" datetime="2022-03-27T16:41:11+08:00">2022-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/numpy/" itemprop="url" rel="index"><span itemprop="name">numpy</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>930</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="numpy.linalg.norm">numpy.linalg.norm</h1>
+<p><code>linalg.norm(x,ord=None,axis=None,keepdims=False)</code></p>
+<p>其中x可以传入array，也可以是matrix。</p>
+<p>ord参数针对x是array还是matrix是不一样的计算：</p>
+<table>
+<thead>
+<tr class="header">
+<th>ord</th>
+<th>norm for matrices</th>
+<th>norm for vectors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>None</td>
+<td>Frobenius norm</td>
+<td>2-norm</td>
+</tr>
+<tr class="even">
+<td>‘fro’</td>
+<td>Frobenius norm</td>
+<td>–</td>
+</tr>
+<tr class="odd">
+<td>‘nuc’</td>
+<td>nuclear norm</td>
+<td>–</td>
+</tr>
+<tr class="even">
+<td>inf</td>
+<td>max(sum(abs(x), axis=1))</td>
+<td>max(abs(x))</td>
+</tr>
+<tr class="odd">
+<td>-inf</td>
+<td>min(sum(abs(x), axis=1))</td>
+<td>min(abs(x))</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>–</td>
+<td>sum(x != 0)</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>max(sum(abs(x), axis=0))</td>
+<td>as below</td>
+</tr>
+<tr class="even">
+<td>-1</td>
+<td>min(sum(abs(x), axis=0))</td>
+<td>as below</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>2-norm (largest sing. value)</td>
+<td>L2范数</td>
+</tr>
+<tr class="even">
+<td>-2</td>
+<td>smallest singular value</td>
+<td>as below</td>
+</tr>
+<tr class="odd">
+<td>other</td>
+<td>–</td>
+<td>sum(abs(x)<strong>ord)</strong>(1./ord)</td>
+</tr>
+</tbody>
+</table>
+<p>如果传入axis这个参数，axis=0表示每一列为向量，以每一列的向量为基础计算。然后就转化为了向量运算。</p>
+<p>其中keepdims如果是True，那么规范化的轴将作为尺寸1留在结果中，使用此选项，结果将针对原始
+x 正确广播。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">9</span>) - <span class="number">4</span></span><br><span class="line">b = a.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">Out[<span class="number">7</span>]: array([-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>])</span><br><span class="line">b</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">array([[-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>],</span><br><span class="line">       [-<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>)</span><br><span class="line">Out[<span class="number">9</span>]: array([<span class="number">5.38516481</span>, <span class="number">1.41421356</span>, <span class="number">5.38516481</span>])</span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>,keepdims=<span class="literal">True</span>)</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">array([[<span class="number">5.38516481</span>],</span><br><span class="line">       [<span class="number">1.41421356</span>],</span><br><span class="line">       [<span class="number">5.38516481</span>]])</span><br></pre></td></tr></table></figure>
+<p>从以上结果看出：如果keepdims等于True，那么输出的矩阵将会是3乘以1的矩阵，输入矩阵是3乘以3。如果用Input/
+norm(input)是不会报错的。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -482,153 +646,8 @@ elementwise.和apply不一样的是对dataframe中每一个元素分别作函数
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/15/linux%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/15/linux%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux命令</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-15 16:56:38" itemprop="dateCreated datePublished" datetime="2022-03-15T16:56:38+08:00">2022-03-15</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:17" itemprop="dateModified" datetime="2023-02-08T11:29:17+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.3k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="tar-压缩以及解压">tar 压缩以及解压</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.txt   //压缩 a.c文件为test.tar.gz</span><br><span class="line">tar -xzvf test.tar.gz // 解压</span><br><span class="line">tar -tzvf test.tar.gz //列出压缩文件的内容</span><br></pre></td></tr></table></figure>
-<h1 id="linux中环境变量">linux中环境变量</h1>
-<p>参考https://www.cjavapy.com/article/2250/</p>
-<h2 id="介绍">1、介绍</h2>
-<p>Linux中环境变量包括系统级和用户级</p>
-<p>1）系统级</p>
-<p><strong>/etc/environment</strong>：系统在登录时读取的第一个文件，用于为所有进程设置环境变量。系统使用此文件时并不是执行此文件中的命令，而是根据<code>KEY=VALUE</code>模式的代码，对<code>KEY</code>赋值以<code>VALUE</code>，因此文件中如果要定义<code>PATH</code>环境变量，只需加入类似如<code>PATH=$PATH:/xxx/bin</code>的代码即可。</p>
-<p><strong>/etc/profile</strong>：是系统登录时执行的第二个文件，可以用于设定针对全系统所有用户的环境变量。该文件一般是调用<code>/etc/bash.bashrc</code>文件。</p>
-<p><strong>/etc/bash.bashrc</strong>：系统级的<code>bashrc</code>文件，为每一个运行bash
-shell的用户执行此文件。此文件会在用户每次打开shell时执行一次。</p>
-<p><strong>注意</strong>：<code>/etc/environment</code>是设置整个系统的环境，而<code>/etc/profile</code>是设置所有用户的环境，前者与登录用户无关，后者与登录用户有关。
-这两个文件修改后一般都要重启系统才能生效。</p>
-<p>2）用户级</p>
-<p><strong>~/.profile:</strong>
-是对应当前登录用户的<code>profile</code>文件，用于定制当前用户的个人工作环境。</p>
-<p>每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下，会设置一些环境变量，执行用户的<code>.bashrc</code>文件。</p>
-<p><strong>~/.bashrc</strong>:
-是对应当前登录用户的bash初始化文件，当用户每次打开shell时，系统都会执行此文件一次。通常设置环境变量修改这个文件。</p>
-<p>上述配置文件执行先后顺序如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/enviroment `–&gt; `/etc/profile` –&gt; `~/.profile` –&gt; `/etc/bash.bashrc `–&gt; `~/.bashrc</span><br></pre></td></tr></table></figure>
-<h2 id="环境变量的作用">2、环境变量的作用</h2>
-<p>环境变量相当于给系统或用户应用程序设置的一些参数，具体起什么作用这当然和具体的环境变量相关。比如<code>PATH</code>，是告诉系统，当要求系统运行一个程序而没有告诉它程序所在的完整路径时，系统除了在当前目录下面寻找此程序外，还应到哪些目录下去寻找；再如tc或vc++中，<code>set include=path1;path2</code>;
-是告诉编译程序到哪里去找.h类型的文件；当然不仅仅是指定什么路径，还有其它的作用的，如<code>set dircmd=/4</code>
-设置一个环境变量的作用是在使用dir命令时会把<code>/4</code>作为缺省的参数添加到你的dir命令之后，就像你的每个命令都加了/4参数，它实际上是给命令解释程序<code>command</code>设置的一个环境变量，并且是给<code>dir</code>这个内部命令。</p>
-<h2 id="配置环境变量的方法">3、配置环境变量的方法</h2>
-<p>1）临时环境变量</p>
-<p>linux下设定环境变量时，如果只是临时用一下，可以直接在shell下用<code>set</code>或<code>export</code>命令设定环境变量。但是只能在当前shell环境下可以用，切换或关闭重新进入就会失效。具体配置方法，如下，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#终端输入：</span><br><span class="line">export MYSQLPATH=/home/mysql  #MYSQLPATH设置为该路径</span><br><span class="line">#终端查看一个特定环境变量包含的内容，比如，MYSQLPATH，PATH</span><br><span class="line">echo $PATH</span><br><span class="line">echo $MYSQLPATH</span><br></pre></td></tr></table></figure>
-<p>2）永久环境变量</p>
-<p>设置的环境变量，需要经常使用的，而不是临时使用，把上面的设置环境变量命令写到上面提到的相应配置文件中即可，则可以每次开机或打开shell时自动设置，</p>
-<p><strong>例如，</strong></p>
-<p>只需要当前用户生效的环境变量：</p>
-<p>终端中输入：<code>sudo vi ~/.bashrc</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source ~/.bashrc</code>
-，使其立即生效，或者重启电脑即可。</p>
-<p>设置所有用户生效的环境变更：</p>
-<p>终端中输入：<code>sudo vi /etc/profile</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source /etc/profile</code>
-，使其立即生效，或者重启电脑即可。</p>
-<h1 id="查看linux版本信息">查看linux版本信息</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lu_embedded/article/details/44350445" class="uri">https://blog.csdn.net/lu_embedded/article/details/44350445</a></p>
-<h1 id="查看进程">查看进程</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lechengyuyuan/article/details/16337233" class="uri">https://blog.csdn.net/lechengyuyuan/article/details/16337233</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef # 查看所有本机进程</span><br><span class="line">ps -ef |grep python # 查看python进程</span><br><span class="line"></span><br><span class="line">kill -9 pid # 杀死某个进程</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/li528405176/article/details/83379164" class="uri">https://blog.csdn.net/li528405176/article/details/83379164</a></p>
-<h1 id="将程序留在后台运行">将程序留在后台运行</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &gt; out.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-<p>参考 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4041c4e6e1b0" class="uri">https://www.jianshu.com/p/4041c4e6e1b0</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -640,7 +659,7 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -652,14 +671,14 @@ shell的用户执行此文件。此文件会在用户每次打开shell时执行�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

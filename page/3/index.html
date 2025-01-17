@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,343 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">构建和评估RAG应用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-12-05 09:56:05" itemprop="dateCreated datePublished" datetime="2023-12-05T09:56:05+08:00">2023-12-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2024-08-30 09:38:27" itemprop="dateModified" datetime="2024-08-30T09:38:27+08:00">2024-08-30</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>8.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近吴恩达出了一个小课程，传送门: <a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/">Building
+and Evaluating Advanced RAG Applications</a>。<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1494y1E7H9?p=3&amp;vd_source=f998f640fc8575504e3e97753bf817f4">B站</a>也有人搬运了，有中英文字幕。最近也正好在做RAG相关的项目，看到这个课程里有一些新的东西，权当在这篇博客里总结记录。</p>
+<p>另外还推荐阅读一篇综述<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2311.05876">Trends in Integration of
+Knowledge and Large Language Models: A Survey and Taxonomy of Methods,
+Benchmarks, and Applications</a>, 该综述的第三章详细介绍了retrieval
+augmentation的方法。我这篇博客会首先理顺一些理论，然后再介绍吴恩达课程里的知识（个人认为吴大佬出的关于LLM的一系列shot
+course可食用性不够高，比如上面说的这个RAG相关的课怎么看都觉得是在推广LlamaIndex这个框架，对于原理一句话带过，很多细节不清楚）。</p>
+<p>3.2节提到的两个工作值得注意：</p>
+<ol type="1">
+<li>Query2doc</li>
+</ol>
+<blockquote>
+<p>Query2doc prompts the LLMs to generate a pseudo-document by employing
+a few-shot prompting paradigm. Subsequently, the original query is
+expanded by incorporating the pseudo-document. The retriever module uses
+this new query to retrieve a list of relevant documents.</p>
+</blockquote>
+<ol start="2" type="1">
+<li>Rewrite-Retrieve-Read</li>
+</ol>
+<blockquote>
+<p>Different with Query2doc,they adopt a trainable language model to
+perform the rewriting step</p>
+</blockquote>
+<p>在抽取的context的使用上，我们一般的认知是加入到prompt里，告诉LLM根据这个context回答某个query，这篇综述在3.2节还概括介绍了另外两种使用knowledge的方式：</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20231205145030752.png" alt="image-20231205145030752">
+<figcaption aria-hidden="true">image-20231205145030752</figcaption>
+</figure>
+<p>我个人认为第二种方式实操性差一点，第三种和第一种应该是大家会普遍采取的方式，第二种需要更多精细的prompt设计。</p>
+<hr>
+<p>以下为课程相关的 ，传送门: <a target="_blank" rel="noopener" href="https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/">Building
+and Evaluating Advanced RAG Applications</a>. 课程笔记参考<a target="_blank" rel="noopener" href="https://medium.com/@LakshmiNarayana_U/frameworks-in-focus-building-and-evaluating-advanced-rag-with-trulens-and-llamaindex-insights-19db95ffcf6e">Frameworks
+in Focus: ‘Building and Evaluating Advanced RAG’ with TruLens and
+LlamaIndex Insights</a></p>
+<h1 id="构建-construction">构建 Construction</h1>
+<p>简单的RAG构建的资料太多太多了，最简易的RAG构建可以参考<a target="_blank" rel="noopener" href="https://huggingface.co/learn/cookbook/rag_zephyr_langchain">Simple
+RAG for GitHub issues using Hugging Face Zephyr and LangChain</a>.</p>
+<p>RAG中两个最核心的模块： Retrieval 和 Generation
+(Read)，内部都有很多可以enhance的地方。这里列举一些可以查阅的资料，内整理了一些对于RAG的enhancement的点：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2402.19473">Retrieval-Augmented
+Generation for AI-Generated Content: A Survey</a> Chapter 3</li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/aimonks/retrieval-augmented-generation-rag-enhancement-for-llm-based-prediction-relp-59645a67dcdb">Retrieval
+Augmented Generation (RAG) Enhancement for LLM-based Prediction —
+RELP</a></li>
+<li><a target="_blank" rel="noopener" href="https://pub.towardsai.net/advanced-rag-techniques-an-illustrated-overview-04d193d8fec6">Advanced
+RAG Techniques: an Illustrated Overview</a> 这个博客整理的挺全面的</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/huggingface/cookbook/blob/main/notebooks/en/advanced_rag.ipynb">Advanced
+RAG on Hugging Face documentation using LangChain</a></li>
+</ul>
+<figure>
+<img src="https://camo.githubusercontent.com/738a616ea3fc69c8c0a0f26deae64b0f88e6e1d430db5c0454f1127b362b2e98/68747470733a2f2f68756767696e67666163652e636f2f64617461736574732f68756767696e67666163652f636f6f6b626f6f6b2d696d616765732f7265736f6c76652f6d61696e2f5241475f776f726b666c6f772e706e67" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>上面这张图来自于langchain的cookbook，蓝色部分是作者认为<code>all possibilities for system enhancement</code>。我这里只对一些我关注的技术做整理和探索。</p>
+<h2 id="chunking">Chunking</h2>
+<p>有一堆文档，如何将这些文档切分成“完美的”chunk。</p>
+<p>我比较关注的是对PDF格式的文件的处理，比较有参考价值的资料：<a target="_blank" rel="noopener" href="https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/main/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb">5
+Levels Of Text
+Splitting</a>，内介绍的level1和level2的切分方式都是现在比较常见的。</p>
+<p>对于PDF中的图片，也有<a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain/blob/master/cookbook/Multi_modal_RAG.ipynb">博客</a>进行了探索</p>
+<p><img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/下载-17152333305102.png"></p>
+<p>对于PDF中table的处理，一个可行的方式是用Unstuctured这个library抽取出HTML格式的table，然后用LLM将其summary一下，那么对于retriveal的时候，是将summary的vector和query的vector去进行比对的，如果match上了，就会把原生的HTML的表格表示输入给LLM去生成最终的答案。做法详见<a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain/blob/master/cookbook/Semi_Structured_RAG.ipynb">Semi-structured
+RAG</a>。<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/下载%20(1)-17152442960173.png"></p>
+<p>对于PDF中图片的处理，也是对image先用LLM总结描述一下。其实<a target="_blank" rel="noopener" href="https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/main/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb">5
+Levels Of Text
+Splitting</a>里面介绍的方法都是可以的，但我觉得实操会有一定的难度。因为PDF中的images是会被单独放到一个文件夹里的，前后夹的文本其实是丢失了，这样不可避免的就会丢失一定的语义信息。表格其实还好，但是很多时候贴了一张图片之后，后面的文字基本上是相关联的。这时候需要把图片的信息和后面的文字结合起来就需要知道每一个图片所在pdf的位置，我目前看到的资料还没有很好的解决这个问题。</p>
+<h1 id="评估-evaluation">评估 Evaluation</h1>
+<p>该课程建议从三个维度来评测一个RAG Application的好坏：</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20231205105234142.png" alt="image-20231205105234142">
+<figcaption aria-hidden="true">image-20231205105234142</figcaption>
+</figure>
+<ul>
+<li>问题和回答的相关性</li>
+<li>根据问题抽取出来的context和问题的相关性</li>
+<li>回答和context的相关性</li>
+</ul>
+<p>该课程主要目的是宣传自己的框架Trulens(目前该框架在github有1.8k
+star，热度不咋高)，如果想了解Evaluation的全景知识建议看一下<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2312.10997">Retrieval-Augmented Generation
+for Large Language Models: A Survey</a></p>
+<p>上面的review中很重要的两个总结：</p>
+<ol type="1">
+<li>上面所说的三个quality
+score如何计算？可以看到仍然是我们熟悉的一些metrics</li>
+</ol>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240228142327120.png" alt="image-20240228142327120">
+<figcaption aria-hidden="true">image-20240228142327120</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>现有的可用评估框架有哪些？</li>
+</ol>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240508133011839.png" alt="image-20240508133011839">
+<figcaption aria-hidden="true">image-20240508133011839</figcaption>
+</figure>
+<p>我们上面提到的课程里使用的就是该表格中列出的TruLens.
+上面这张表格总结的还不是特别全面，而且没有datasets的整理，24年新出的文章<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2401.17043">CRUD-RAG: A Comprehensive Chinese
+Benchmark for Retrieval-Augmented Generation of Large Language
+Models</a> 中对这部分做了整理：</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240228152011016.png" alt="image-20240228152011016">
+<figcaption aria-hidden="true">image-20240228152011016</figcaption>
+</figure>
+<blockquote>
+<p>这里做一下update，在作者写这篇文章时，综述<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2312.10997">Retrieval-Augmented Generation
+for Large Language Models: A
+Survey</a>还未对评估的数据集做整理，但最近一期3月的论文更新中已经有了这部分的内容。主要增添了对于每一个评测任务的数据集的整理。</p>
+</blockquote>
+<p>其中[7]就是RGB，它数据的生成是利用一系列收集到的news
+report，然后利用LLM来基于这些report生成relevant
+events,questions和answers。[38]是ARES，利用flan-t5来生成的一系列合成query和answer。其中比较重要的一列是是否有金标准，也就是上图中的倒数第二列。
+13,12以及38分别是TruLens-Eval，RAGAS和ARES，这三个是不需要金标准的，不过代价是需要用到Chatgpt来做自动评估呀，这些可都是白花花的银子。使用Trulens-Eval都是需要配置openai的API的。</p>
+<h2 id="langchain-benchmark">LangChain Benchmark</h2>
+<p>对于想要快速去搭建一个评估RAG的框架的人来说，最好是有现成的可以直接用的评估体系，省去自己搜集数据以及编写各种计算metrics的麻烦。langchain提供了这么一个benchmark包，<a target="_blank" rel="noopener" href="https://langchain-ai.github.io/langchain-benchmarks/notebooks/retrieval/comparing_techniques.html">介绍传送门</a>,截止到24年3月，该库已经包含了三个开源数据集，两个是上面介绍的python文档和pdf的QA问答数据集，还有一个是正在开发中的基于PPT的问答数据集：</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240314142718109.png" alt="image-20240314142718109">
+<figcaption aria-hidden="true">image-20240314142718109</figcaption>
+</figure>
+<p>这份langchain官方教程里用了好多新的tool，其中一个就是Smith,
+在notebook中clone的所有数据集都可以在这个平台上看到，有点像console。LangChain
+Docs Q&amp;A的数据长这样：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;question&quot;</span>: <span class="string">&quot;How can I parallelize calls in LangChain?&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;answer&quot;</span>: <span class="string">&quot;To make parallel calls from a LangChain object, use the &#x27;batch()&#x27; (or asynchronous &#x27;abatch()&#x27;) method. You can also use a `RunnableParallel` object.&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>langchain-benchmark总体而言还处于初期，对于retrival的task也只有三个数据集做支撑，定制化的程度不是特别高。具体可以参考<a target="_blank" rel="noopener" href="https://langchain-ai.github.io/langchain-benchmarks/">langchain-benchmark官方教程</a>。</p>
+<p>今天在看huggingface官网文档的时候又看到官方出了新的evaluation的<a target="_blank" rel="noopener" href="https://github.com/huggingface/cookbook/blob/main/notebooks/en/rag_evaluation.ipynb">guidebook</a>，这份代码里写的相当详细，不再是一个普通的RAG评估流程，还介绍了评估数据集的生成方式，最重要的是还做了数据集的filtering，这份教程对于企业内部生成自己的评估数据集是有很大的参考价值的。</p>
+<h2 id="crud">CRUD</h2>
+<p>现在我们花点篇幅来详细说一下CRUD这个中文评估benchmark。作者的出发点在于评估一个RAG的应用，要区别于评估一个LLM模型，下面这句话是作者从四个维度来评估RAG的出发点：</p>
+<blockquote>
+<p>Lewis et al. [25] argue that the core of RAG systems is their
+interactive way of combining LLMs with external knowledge sources</p>
+</blockquote>
+<p>RAG和LLM的交互方式，也就是RAG帮助LLM做了哪些东西让LLM能更好的回答问题，作者觉得是这四个方面：Create，Read，Update和Delete.</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240314135617343.png" alt="image-20240314135617343">
+<figcaption aria-hidden="true">image-20240314135617343</figcaption>
+</figure>
+<p>Read很常见，RAG会从知识库中搜集更多的信息来供LLM回答问题，Update主要是为了解决LLM无法回答具有时效性的问题，或者当时训练模型时没有加入的信息，Delete这点其实在我看来有点牵强。Read和Update这两点确实是评估一个RAG很关键的方面。</p>
+<p>做RAG的评估，最重要的两点就是：</p>
+<ol type="1">
+<li>数据集的准备，作者打算从上面四个维度去衡量一个RAG的好坏，那就得准备相应的数据集，这部分的工作是我们平时自己做测评的重点</li>
+<li>测评metrics的选择，除了我们熟知的BLEU，ROUGE，还有bert判分。其中还有作者基于QuestEval创造的RAGQuestEval评分。这个metrics还挺有意思的。这里放在这里详细介绍下：</li>
+</ol>
+<p>首先基于ground truth
+sentence生成一系列的问题，生成问题的prompt设计是这样的：</p>
+<blockquote>
+<p>你是一位新闻编辑，现在，你被提供了一篇新闻，请先从新闻中抽取出你认为重要的所有关键信息（通常为一个关键词，包含文章中的所有实体和名词性短语），然后，根据关键信息设计几个问题，考验大家能否正确回答问题。用json的形式返回答案。以下是个例子。</p>
+<p>新闻：2014年，全国新增并网光伏发电容量1060万千瓦，约占全球新增容量的四分之一。其中，全国新增光伏电站855万千瓦，分布式205万千瓦。据统计，2014年中国光伏发电量达到了250亿千瓦时，同比增⻓超过
+200%。</p>
+<p>{json_response}</p>
+<p>现在你需要为这篇新闻设计问题，尽量涵盖大多数关键信息，请尽量让答案可以用两三个词回答，答案不能太长，key_info包含文章中的所有实体和名词性短语，question与key_info一一对应，数量一致，输出用json的格式：</p>
+<p>{news}</p>
+</blockquote>
+<p>注意这里先让LLM抽取文章中的所有实体和名词性短语作为关键信息，question是根据这些关键信息生成的。问题生成完之后分别用reference
+sentence和ground truth
+sentence作为context，去让LLM回答上面生成的问题。如果遇到无法回答的问题就让LLM答“无法回答”.
+最后一步针对回答的结果计算precision 和 recall。</p>
+<p>该文章作者在数据的处理方面，选择去爬取网上最新的news，然后用这8000个新闻建立了三个task的数据集：open-domain
+multi-document
+summarization(考察RAG的delete能力)，text-continuation(考察RAG的Generation能力)，question-answering(read能力)和hallucination
+modification(考察RAG的Update能力)。</p>
+<p>其实仔细看上面review中的总结，CRUD这篇文章里提到的应该考察RAG的“哪些能力”还是不够全面的，而且我个人认为CRUD里面仅仅是以end-to-end的方式计算generated
+anwser和gound
+truth之间的差距也是不太可取的，它没有涉及到RAG里面很重要的一个环节：retrieval。更全面的方式应该是计算三种quality
+scores（具体参考review的介绍）：</p>
+<ul>
+<li>context relevance： query 和 context 的关系</li>
+<li>faithfulness(groundness)：answer 和 context 的关系</li>
+</ul>
+<p><strong>This measures the factual consistency of the generated answer
+againest the given context</strong></p>
+<p>主要用于检测LLM的幻觉。这里<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/automated-rag-project-assessment-testing-using-trulens/">博客</a>
+对trulens的计算方式做了详细介绍，注意它里面的prompt的设计。Ragas框架对于faithfulness的计算查看<a target="_blank" rel="noopener" href="https://docs.ragas.io/en/latest/concepts/metrics/faithfulness.html">Faithfulness</a>，也是用chatgpt来把answer中的statement拆开然后分别去与召回的context做对照，可以查看ragas框架计算faithfulness的<a target="_blank" rel="noopener" href="https://github.com/explodinggradients/ragas/blob/c5eac536000fcbc3d9fb9a741dfe10163cdc3cce/src/ragas/metrics/_faithfulness.py#L108">代码</a>.</p>
+<p><em>My spicy comment:
+trulens和ragas两者还挺类似的，就是ragas除了计算faithfulness，还多了好几个metrics，如context
+precision, context recall, context entity recall。其实就是把context
+relevance这个metric拆分地更细了。不仅如此，ragas把answer
+relevance也拆的更细了，它包含了answer correctness, answer
+relevance和answer similarity.
+相比较而言，ragas在笔者写这篇文章的时候，star数是要比trulens多的，前者4.8k，后者1.8k。而且issues明显要多于trulens，直觉上看应该是ragas用的人比较多。</em></p>
+<p>在整理这部分metrics的时候，也搜了一下大家都在用什么样的框架来评估自己的RAG，看到reddit上也有人有这样的疑问<a target="_blank" rel="noopener" href="https://www.reddit.com/r/LangChain/comments/1bijg75/why_is_everyone_using_ragas_for_rag_evaluation/">Why
+is everyone using RAGAS for RAG evaluation? For me it looks very
+unreliable</a>,
+我觉得其中一个回答比较贴合当下对于RAG评估的一个现状：</p>
+<blockquote>
+<p>There is no proper techincal report, paper, or any experiment that
+ragas metric is useful and effective to evaluate LLM performance. That's
+why I do not choose ragas at my <a target="_blank" rel="noopener" href="https://github.com/Marker-Inc-Korea/AutoRAG">AutoRAG</a> tool. I
+use metrics like G-eval or sem score that has proper experiment and
+result that shows such metrics are effective. I think evaluating LLM
+generation performance is not easy problem and do not have silver
+bullet. All we can do is doing lots of experiment and mixing various
+metrics for reliable result. In this term, ragas can be a opiton... (If
+i am missing ragas experiment or benchmark result, let me know)</p>
+<p>https://www.reddit.com/r/LangChain/comments/1bijg75/comment/kvoj1q8/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button</p>
+</blockquote>
+<ul>
+<li>answer relevance： answer 和 query 的关系</li>
+</ul>
+<p>至于计算出上面这三个方面的数值，有多种方式。有用LLM的，比如Trulens就是用的chatgpt，也可以用claude，参考见<a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/blogs/china/automated-rag-project-assessment-testing-using-trulens/">基于大语言模型知识问答应用落地实践
+– 使用 TruLens 做自动化 RAG
+项目评估测试</a>。也有直接计算相似度的，比如我们熟悉的bert
+score，rouge-L。review在这里也进行了整理：</p>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240508132450374.png" alt="image-20240508132450374">
+<figcaption aria-hidden="true">image-20240508132450374</figcaption>
+</figure>
+<h2 id="customization模式">Customization模式</h2>
+<p>其实在具体的业务场景下，如果已经搭建了一套RAG系统，如何来评估这个RAG系统的好坏，更合理的方式还是需要用自己的数据来测评，如果只是用一些公开的benchmark，如上面提到的langchain
+benchmark，还是CRUD提出的以新闻为数据的benchmark，都有一点不那么让人信服，毕竟你费劲巴拉地搭建一个RAG的chatbot，还是要在自己的具体的业务场景表现好，客户才会买账吧。</p>
+<p>但更多情况下，业务场景下往往是缺少金标数据集的，这时候就需要去针对自己的业务场景去生成一些“合成”数据集。我们可能基于的就是一堆的业务文档，这些文档有的是PDF，有的可能是word，也会有PPT，如果根据这些文档去生成自己的评测数据集，这样基于这个评测数据集我们再去“调整”我们RAG中的各个能影响RAG
+performance的环节：embedding模型选择哪个，LLM选择哪个？chunking应该如何优化等等？加了rewrite和rerank等techniques之后有没有让RAG的效果变好，这里的变好仅仅是指在我们自己的业务数据上变好，而不是在其他开源的benchmark上，这样才具有一定的说服力。</p>
+<p>参考博客<a target="_blank" rel="noopener" href="https://huggingface.co/learn/cookbook/rag_evaluation">RAG
+Evaluation</a>, 文章介绍了一种根据documents生成synthetic evaluation
+dataset的办法，里面还加了一些tricks：如何用一个critique
+agents去筛选QA。不过该篇文章evaluation环节仅仅计算了answer和query的关系（faithfulness），它给出的理由是：</p>
+<blockquote>
+<p>Out of <a target="_blank" rel="noopener" href="https://docs.ragas.io/en/latest/concepts/metrics/index.html">the
+different RAG evaluation metrics</a>, we choose to focus only on
+faithfulness since it the best end-to-end metric of our system’s
+performance.</p>
+</blockquote>
+<h1 id="rag-中的painpoints">RAG 中的PainPoints</h1>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=EBpT_cscTis">LLamaindex出品的视频</a></li>
+<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/12-rag-pain-points-and-proposed-solutions-43709939a28c#cea4">12
+RAG Pain Points and Proposed Solutions</a></li>
+</ul>
+<p>上面视频对应的博客</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2401.05856">Seven Failure Points When
+Engineering a Retrieval Augmented Generation System</a></li>
+</ul>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240725140423246-17218874651211.png" alt="image-20240725140423246">
+<figcaption aria-hidden="true">image-20240725140423246</figcaption>
+</figure>
+<figure>
+<img src="/2023/12/05/%E6%9E%84%E5%BB%BA%E5%92%8C%E8%AF%84%E4%BC%B0RAG%E5%BA%94%E7%94%A8/image-20240725140443402.png" alt="image-20240725140443402">
+<figcaption aria-hidden="true">image-20240725140443402</figcaption>
+</figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -661,171 +998,8 @@ lilian的博客，在文首推荐的知乎文章大抵参考了这篇博客，�
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/" class="post-title-link" itemprop="url">LLM评测/Evaluation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-08-16 14:33:33" itemprop="dateCreated datePublished" datetime="2023-08-16T14:33:33+08:00">2023-08-16</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-08-29 13:24:10" itemprop="dateModified" datetime="2023-08-29T13:24:10+08:00">2023-08-29</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>4.7k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>4 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近在关注模型performance评估的问题，打算在这个主题上做一个整理，也是受到很多博客和文章的启发写这篇文章，所以就将所有推荐阅读的文章放在前面，感兴趣的小伙伴可以拓展阅读。</p>
-<ol type="1">
-<li>老刘说NLP 公众号中8.10发的一篇文章《如何让自己的大模型榜单评分更高》
-这篇文章有点借鉴了hugging face的<a target="_blank" rel="noopener" href="https://huggingface.co/blog/zh/evaluating-mmlu-leaderboard">Open
-LLM 排行榜近况</a></li>
-<li>https://mp.weixin.qq.com/s/WiF3yRU5MZS7ulLTP8FIpw</li>
-</ol>
-<p>首先说一下这个<a target="_blank" rel="noopener" href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard">LLM榜单</a>,
-有四个benchmark，其中上面的博客就是重点讲了为什么同样一个模型比如LLaMA在MMLU上评测的结果会不如llama文章中提的效果，trick就在作者使用MMLU这个benchmark的方式有很大不同，这里来看看MMLU这个benchmark。</p>
-<h1 id="mmlu-benchmark">MMLU benchmark</h1>
-<p>首先看一下这个数据集到底是什么数据集，长什么样子，先给出文章中的定义：</p>
-<blockquote>
-<p><strong>MMLU</strong> (<strong>Massive Multitask Language
-Understanding</strong>) is a new benchmark designed to measure knowledge
-acquired during pretraining by evaluating models exclusively in
-zero-shot and few-shot settings.</p>
-</blockquote>
-<p>这个评测集合里包含了57个学科，也就是57个task。原始的数据集长这样，里面的每个问题包含四个可能选项，且每个问题只有一个正确答案。：</p>
-<figure>
-<img src="/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/image-20230816145305589.png" alt="image-20230816145305589">
-<figcaption aria-hidden="true">image-20230816145305589</figcaption>
-</figure>
-<p>可以看到基本上就是question，answer的组织。注意这里看到原始数据的时候我还有点没看明白，作者的readme中也没写，还是对beginner有点不友好，第一列表示question，第二到第四列表示四个选项，最后一列是答案。所以可以看到原作者在<a target="_blank" rel="noopener" href="https://github.com/hendrycks/test/blob/master/evaluate.py">evaluation</a>的代码中这样处理的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">choices = [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>] <span class="comment"># 首先定义选项</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eval</span>(<span class="params">args, subject, engine, dev_df, test_df</span>):</span></span><br><span class="line">    cors = []</span><br><span class="line">    all_probs = []</span><br><span class="line">    answers = choices[:test_df.shape[<span class="number">1</span>]-<span class="number">2</span>] <span class="comment"># 对于每一个csv文件读取进来后取answers</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">label = test_df.iloc[i, test_df.shape[<span class="number">1</span>]-<span class="number">1</span>] <span class="comment"># label这里其实是取得最后一列，也就是答案</span></span><br></pre></td></tr></table></figure>
-<p>但这个评测数据集在用来评测LLM的过程中衍生出了很多版本，基本是prompt的变化：</p>
-<figure>
-<img src="/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/640.png" alt="MMLU的不同实现">
-<figcaption aria-hidden="true">MMLU的不同实现</figcaption>
-</figure>
-<p>同样的问答对，比如上面的选择题，Harness没有指令，并且衍生的两个版本也就是helm和harness版本还加了Question这个前缀，harness在选线之前还加了Choices。就这么一点差距，就导致同一个llm的出来的分数不一样：</p>
-<figure>
-<img src="/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/LLM-01-bis-01.png" alt="LLM在不同MMLU实现上的评分">
-<figcaption aria-hidden="true">LLM在不同MMLU实现上的评分</figcaption>
-</figure>
-<blockquote>
-<p>关于如何使用这个benchmark，参考<a target="_blank" rel="noopener" href="https://github.com/hendrycks/test/blob/master/evaluate.py">MMLU原始实现</a>，作者写的是用chatgpt来产生答案，prompt为：<code>prompt = "The following are multiple choice questions (with answers) about &#123;&#125;.\n\n".format(format_subject(subject))</code></p>
-</blockquote>
-<p>这三种实现方式不仅prompt的形式不同，也就是上面提到的。并且它在计算F1score的时候的机制也不同。</p>
-<ol type="1">
-<li>原始实现</li>
-</ol>
-<p>在原始实现中的评估的代码是这样写的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ans <span class="keyword">in</span> answers:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        lprobs.append(c[<span class="string">&quot;choices&quot;</span>][<span class="number">0</span>][<span class="string">&quot;logprobs&quot;</span>][<span class="string">&quot;top_logprobs&quot;</span>][-<span class="number">1</span>][<span class="string">&quot; &#123;&#125;&quot;</span>.<span class="built_in">format</span>(ans)]) <span class="comment"># c是chatgpt的回答</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Warning: &#123;&#125; not found. Artificially adding log prob of -100.&quot;</span>.<span class="built_in">format</span>(ans))</span><br><span class="line">    lprobs.append(-<span class="number">100</span>)</span><br><span class="line">    pred = &#123;<span class="number">0</span>: <span class="string">&quot;A&quot;</span>, <span class="number">1</span>: <span class="string">&quot;B&quot;</span>, <span class="number">2</span>: <span class="string">&quot;C&quot;</span>, <span class="number">3</span>: <span class="string">&quot;D&quot;</span>&#125;[np.argmax(lprobs)]</span><br><span class="line">    probs = softmax(np.array(lprobs))</span><br><span class="line"></span><br><span class="line">    cor = pred == label</span><br><span class="line">    cors.append(cor)</span><br><span class="line">    all_probs.append(probs)</span><br></pre></td></tr></table></figure>
-<p>该方法在评估的时候，仅仅比较了模型对四个选项字母的预测概率，哪个选项的概率高就选哪个，即便是在极端情况下四个选项的概率值都很低的情况下也会选择某个选项，但其实模型有时候会回答很多不相关的东西（都是很高的概率的token），所以这种方式有点”放水“，整体评估出来的分数会偏高。</p>
-<ol start="2" type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/stanford-crfm/helm">HELM实现</a></li>
-</ol>
-<p>HELM实现是根据模型预测的下一个输出词元的概率来选择输出文本，并将生成的文本与正确答案的文本进行对比。这种方式有效避免了如果模型的答案中出现概率高的token不是选项中的任意一个，那么就会判为错误答案。</p>
-<p>看了helm的代码仓库，着实有点丰富。内容很多我都没有找到在哪个文件里做的evaluation的计算，只知道了读取csv的地方。有好心的小伙伴可以私信我告诉我在哪里。</p>
-<ol start="3" type="1">
-<li>harness实现</li>
-</ol>
-<p>这是hugging
-face的llm榜单所用的实现。它不再是只是统计选项，而是连同选项字母以及后面的答案一起被考虑进来，计算的是整个序列的概率（获取每个词元的概率
-(与上面其他实现一样)
-并求它们的联合概率），那么很容易一些长文本的联合概率会比短文本的联合概率大，所以作者说可以在联合概率的基础上在做一个归一化，也就是用对数联合概率/
-token数。</p>
-<figure>
-<img src="/2023/08/16/LLM%E8%AF%84%E6%B5%8B-Evaluation/image-20230817100952429.png" alt="MMLU三种实现对于模型输出的总结">
-<figcaption aria-hidden="true">MMLU三种实现对于模型输出的总结</figcaption>
-</figure>
-<p>例如实现如下，基于GPT2计算句子联合概率的一个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">data = [</span><br><span class="line">    <span class="string">&quot;A multilayer perceptron (MLP) is a class of feedforward artificial neural network (ANN)&quot;</span>,</span><br><span class="line">    <span class="string">&quot;The term MLP is used ambiguously, sometimes loosely to any feedforward ANN, sometimes strictly to refer to networks composed of multiple layers of perceptrons (with threshold activation); see § Terminology&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;Multilayer perceptrons are sometimes colloquially referred to as &quot;vanilla&quot; neural networks, especially when they have a single hidden layer.[1]&#x27;</span>,</span><br><span class="line">    <span class="string">&quot;An MLP consists of at least three layers of nodes: an input layer, a hidden layer and an output layer. Except for the input nodes, each node is a neuron that uses a nonlinear activation function.&quot;</span>,</span><br><span class="line">]</span><br><span class="line">model = transformers.GPT2LMHeadModel.from_pretrained(<span class="string">&quot;gpt2&quot;</span>)</span><br><span class="line">tok = transformers.GPT2Tokenizer.from_pretrained(<span class="string">&quot;gpt2&quot;</span>)</span><br><span class="line">tgs = []</span><br><span class="line"><span class="keyword">for</span> dat <span class="keyword">in</span> data:</span><br><span class="line">    random.seed(dat)</span><br><span class="line">    <span class="comment"># print(model(tok.encode(dat, return_tensors=&quot;pt&quot;))[0][0])</span></span><br><span class="line">    toks = tok.encode(dat, return_tensors=<span class="string">&quot;pt&quot;</span>)</span><br><span class="line">    ind = random.randrange(<span class="built_in">len</span>(toks[<span class="number">0</span>]) - <span class="number">1</span>)</span><br><span class="line">    logits = F.log_softmax(model(toks)[<span class="number">0</span>], dim=-<span class="number">1</span>)[:, :-<span class="number">1</span>]  <span class="comment"># [batch, seq, vocab]</span></span><br><span class="line">    res = torch.gather(logits, <span class="number">2</span>, toks[:, <span class="number">1</span>:].unsqueeze(-<span class="number">1</span>)).squeeze(-<span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">    tgs.append(<span class="built_in">float</span>(res[ind:].<span class="built_in">sum</span>()))</span><br></pre></td></tr></table></figure>
-<p>在“老刘说NLP”的博客中也提到了一点，就是上面的方式都是开源模型，所以很容易就能得到每一个token的预测概率，所以返回结果可以拆的这么细致来分析。如果是闭源模型只返回response的话，这时候就需要用正则的方式来抽取回答内容里的选项，比如<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.04813">CEVAL</a>的测试方案：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_cot_answer</span>(<span class="params">self, line, gen_ans</span>):</span></span><br><span class="line">    m = re.findall(<span class="string">r&#x27;所以答案是(.+?)。&#x27;</span>, gen_ans, re.M)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(m) &gt; <span class="number">0</span> <span class="keyword">and</span> m[-<span class="number">1</span>] <span class="keyword">in</span> self.choices:</span><br><span class="line">        <span class="keyword">return</span> m[-<span class="number">1</span>], <span class="literal">True</span></span><br><span class="line">    answer_patterns = [</span><br><span class="line">        <span class="string">r&#x27;([ABCD])是正确的&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;选项([ABCD])正确&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;答案为([ABCD])&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;答案是([ABCD])&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;答案([ABCD])&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;选择([ABCD])&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;答案：([ABCD])&#x27;</span>,</span><br><span class="line">        <span class="string">r&#x27;选择答案([ABCD])&#x27;</span></span><br><span class="line">    ]</span><br><span class="line">    <span class="comment"># RE extraction</span></span><br><span class="line">    <span class="keyword">for</span> answer_pattern <span class="keyword">in</span> answer_patterns:</span><br><span class="line">        m = re.search(answer_pattern, gen_ans, re.M)</span><br><span class="line">        <span class="keyword">if</span> m:</span><br><span class="line">            answer = m.group(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> answer, <span class="literal">False</span></span><br><span class="line">        <span class="comment"># only containing one choice-character</span></span><br><span class="line">        m = re.findall(<span class="string">r&#x27;[ABCD]&#x27;</span>, gen_ans, re.M)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(m) == <span class="number">1</span>:</span><br><span class="line">            answer = m[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">return</span> answer, <span class="literal">False</span></span><br><span class="line">        answer_word_counter = <span class="number">0</span></span><br><span class="line">        <span class="comment"># only containing one choice-context</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> self.choices:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">str</span>(line[<span class="string">f&#x27;<span class="subst">&#123;c&#125;</span>&#x27;</span>]) <span class="keyword">in</span> gen_ans:</span><br><span class="line">                answer = c</span><br><span class="line">                answer_word_counter += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> answer_word_counter == <span class="number">1</span>:</span><br><span class="line">                    <span class="keyword">return</span> answer, <span class="literal">False</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">&#x27;-&#x27;</span>, <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>对CLEVA评测平台感兴趣的可以看原文paper或者参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/WiF3yRU5MZS7ulLTP8FIpw">文章</a>。原文说CLEVA是专门为评估中文语言模型而设计的平台。</p>
-</blockquote>
-<h1 id="section"></h1>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -837,7 +1011,7 @@ token数。</p>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -849,14 +1023,14 @@ token数。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 

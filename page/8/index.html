@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -205,6 +205,247 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">image classification models总结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-06 13:39:21" itemprop="dateCreated datePublished" datetime="2023-02-06T13:39:21+08:00">2023-02-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-28 17:09:47" itemprop="dateModified" datetime="2023-02-28T17:09:47+08:00">2023-02-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/computer-vision-cv/" itemprop="url" rel="index"><span itemprop="name">computer vision(cv)</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本博客旨在记录自己在了解<code>image classification</code>这个术语<code>computer vision</code>的一个子任务中常见的模型。耳熟能详的就是<code>ResNet</code>,<code>VGG</code>,<code>Inception</code>,<code>MobileNet</code>,
+<code>Efficientnet</code>。每一个模型之间有什么区别，他们自身又有哪些变种，比如<code>VGG</code>，它拥有<code>VGG16,VGG19</code>等，<code>ResNet</code>又有很多，单是查看<code>Tensorflow</code>的官方文档就会发现在<code>tf.keras.applications</code>模块下，就有很多模型架构可选（也都有预训练参数）。整理这个博客的目的在于让自己对这些模型之间的差别有所了解，这样在不同的任务中才会知道使用什么样的模型架构来handle自己的数据。</p>
+<p>在整理这篇博客的过程中，我也去搜了有没有<code>image classification</code>这个单任务上的<code>review</code>文章，文章都挺多的，筛选之后推荐这篇<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of Image
+Classification Algorithms Based on Convolutional Neural
+Networks</a>.这篇文章主要是介绍基于CNN的一些模型，共有三个章节。重点是第二章节梳理了<code>CNN-based</code>的一些模型，包括本文想要<code>cover</code>的<code>VGG</code>，<code>inception</code>，<code>resnet</code>，<code>mobilenet</code>。重点关注图像分类算法的小伙伴可以通读一下这篇文章。</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207094857739-16757345394748.png" alt="Review of Image Classification Algorithms Based on Convolutional Neural Networks第二章节目录">
+<figcaption aria-hidden="true">Review of Image Classification Algorithms
+Based on Convolutional Neural Networks第二章节目录</figcaption>
+</figure>
+<h1 id="vgg">VGG</h1>
+<p>首次提出在2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1409.1556">paper</a></p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/vgg16.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>上图中包含13个卷积层和3个全连接层，是<code>VGG16</code>的结构。而<code>VGG19</code>包含了16个卷积层和3个全连接层：</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1dNYBNBDP7ZvckfOSYzHxIw.jpeg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p><code>VGG</code>系列就是<code>VGG16</code>和<code>VGG19</code>，两者的区别在于19用了更多的卷积层。<code>Tensorflow</code>也提供了这两个模型的黑盒子实现供大家使用。</p>
+<h1 id="resnet">ResNet</h1>
+<p>首次提出在2016年的<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf">paper</a>，其中最重要的就是网络中的<code>residual block</code>:</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/1_nmPcwwnsHE-AC69ASkj9w.jpeg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>在作者的原文中我们可以发现，文章中提出的Resnet是34层，也就是ResNet34。在具体实现的时候，作者在每一个卷积操作之后（激活函数之前）加上了batch
+Normalization。在<code>Module: tf.keras.applications.resnet</code><a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet">Tensorflow
+applications
+resnet</a>中现在只有ResNet101，152，50三个版本，其中ResNet50和ResNet34的区别在于：前者使用三个卷积一个block，后者是2个卷积一个block.
+ResNet50表现更优异。ResNet101和ResNet152在一个block内使用了更多的卷积layer。</p>
+<p>以上所说的都是resnet v1，后来同一个作者又发表了<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.05027.pdf">Identity Mappings in Deep
+Residual Networks</a>,提出了ResNet
+v2。同样我们在tensorflow中也可以看到模块<code>Module: tf.keras.applications.resnet_v2</code>，同样的也有50，101，152三个版本的model。</p>
+<p>v1和v2的区别在于：</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206150618805-16756671800395.png" alt="ResNet v1 and ResNet v2">
+<figcaption aria-hidden="true">ResNet v1 and ResNet v2</figcaption>
+</figure>
+<p>以上只是概念上的解释，看代码会更合适一点，其中<code>Deep Residual Learning for Image Recognition</code>文章中也给出了34，50，101，152等几个模型在实现中注意的细节：</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206153053177-16756686549546.png" alt="image-20230206153053177">
+<figcaption aria-hidden="true">image-20230206153053177</figcaption>
+</figure>
+<p>ResNet34 V1中，一个resnet
+block是由两个卷积layer组成的，同时它和V2的一个区别就在于X进来后就先进行卷积运算，也就是上图中的weight</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow <span class="keyword">import</span> keras</span><br><span class="line"><span class="keyword">from</span> keras.activations <span class="keyword">import</span> relu</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras <span class="keyword">import</span> layers <span class="keyword">as</span> Layers</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResBlock</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, channels, stride=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResBlock, self).__init__(name=<span class="string">&#x27;ResBlock&#x27;</span>)</span><br><span class="line">        self.flag = (stride != <span class="number">1</span>)</span><br><span class="line">        self.conv1 = Conv2D(channels, <span class="number">3</span>, stride, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn1 = BatchNormalization()</span><br><span class="line">        self.conv2 = Conv2D(channels, <span class="number">3</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn2 = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            self.bn3 = BatchNormalization()</span><br><span class="line">            self.conv3 = Conv2D(channels, <span class="number">1</span>, stride)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x1 = self.conv1(x)</span><br><span class="line">        x1 = self.bn1(x1)</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        x1 = self.conv2(x1)</span><br><span class="line">        x1 = self.bn2(x1)</span><br><span class="line">        <span class="keyword">if</span> self.flag:</span><br><span class="line">            x = self.conv3(x)</span><br><span class="line">            x = self.bn3(x)</span><br><span class="line">        x1 = Layers.add([x, x1])</span><br><span class="line">        x1 = self.relu(x1)</span><br><span class="line">        <span class="keyword">return</span> x1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResNet34</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(ResNet34, self).__init__(name=<span class="string">&#x27;ResNet34&#x27;</span>)</span><br><span class="line">        self.conv1 = Conv2D(<span class="number">64</span>, <span class="number">7</span>, <span class="number">2</span>, padding=<span class="string">&#x27;same&#x27;</span>)</span><br><span class="line">        self.bn = BatchNormalization()</span><br><span class="line">        self.relu = ReLU()</span><br><span class="line">        self.mp1 = MaxPooling2D(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        self.conv2_1 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_2 = ResBlock(<span class="number">64</span>)</span><br><span class="line">        self.conv2_3 = ResBlock(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">        self.conv3_1 = ResBlock(<span class="number">128</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv3_2 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_3 = ResBlock(<span class="number">128</span>)</span><br><span class="line">        self.conv3_4 = ResBlock(<span class="number">128</span>)</span><br><span class="line"></span><br><span class="line">        self.conv4_1 = ResBlock(<span class="number">256</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv4_2 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_3 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_4 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_5 = ResBlock(<span class="number">256</span>)</span><br><span class="line">        self.conv4_6 = ResBlock(<span class="number">256</span>)</span><br><span class="line"></span><br><span class="line">        self.conv5_1 = ResBlock(<span class="number">512</span>, <span class="number">2</span>)</span><br><span class="line">        self.conv5_2 = ResBlock(<span class="number">512</span>)</span><br><span class="line">        self.conv5_3 = ResBlock(<span class="number">512</span>)</span><br><span class="line"></span><br><span class="line">        self.pool = GlobalAveragePooling2D()</span><br><span class="line">        self.fc1 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp1 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc2 = Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line">        self.dp2 = Dropout(<span class="number">0.5</span>)</span><br><span class="line">        self.fc3 = Dense(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.bn(x)</span><br><span class="line">        x = self.relu(x)</span><br><span class="line">        x = self.mp1(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv2_1(x)</span><br><span class="line">        x = self.conv2_2(x)</span><br><span class="line">        x = self.conv2_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv3_1(x)</span><br><span class="line">        x = self.conv3_2(x)</span><br><span class="line">        x = self.conv3_3(x)</span><br><span class="line">        x = self.conv3_4(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv4_1(x)</span><br><span class="line">        x = self.conv4_2(x)</span><br><span class="line">        x = self.conv4_3(x)</span><br><span class="line">        x = self.conv4_4(x)</span><br><span class="line">        x = self.conv4_5(x)</span><br><span class="line">        x = self.conv4_6(x)</span><br><span class="line"></span><br><span class="line">        x = self.conv5_1(x)</span><br><span class="line">        x = self.conv5_2(x)</span><br><span class="line">        x = self.conv5_3(x)</span><br><span class="line"></span><br><span class="line">        x = self.pool(x)</span><br><span class="line">        x = self.fc1(x)</span><br><span class="line">        x = self.dp1(x)</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        x = self.dp2(x)</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">model = ResNet34()</span><br><span class="line">model.build(input_shape=(<span class="number">1</span>, <span class="number">480</span>, <span class="number">480</span>, <span class="number">3</span>))</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
+<h1 id="inception">Inception</h1>
+<p>已经有不少博客在科普Inception系列模型的区别<a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-simple-guide-to-the-versions-of-the-inception-network-7fc52b863202">A
+Simple Guide to the Versions of the Inception Network</a></p>
+<p>首先提出该模型的是2014年的<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1409.4842v1.pdf">Going deeper with
+convolutions</a> Inception
+V1（GoogleNet）,然后又分别有了好几个变体：<code>Inception V2，Inception V3，Inception V4</code>，<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1602.07261">Inception-ResNet-v2</a>。和<code>ResNet</code>一样，<code>Inception</code>网络中一个重要的<code>module</code>是<code>Inception Module</code>：</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230206161239990-16756711610527.png" alt="Inception Module">
+<figcaption aria-hidden="true">Inception Module</figcaption>
+</figure>
+<p>其中这些Network中被广泛使用的是<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.00567v3.pdf">Inception_v3</a>和<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1602.07261.pdf">Inception-ResNet-v2</a>.</p>
+<h1 id="mobilenet">MobileNet</h1>
+<blockquote>
+<p>The idea behind MobileNet is to use depthwise separable convolutions
+to build loghter deep neural networks. In regular convolutional layer,
+the convolution kernel or filter is applied to all of the channels of
+the input image, by doing weighted sum of the input pixels with the
+filter and then slides to the next input pixels across the
+images.MobileNet uses this regular convolution only in the first layer.
+The next layers are the depthwise separable convolutions which are the
+combination of the depthwise and pointwise convolution. The depthwise
+convolution does the convolution on each channel separately. If the
+image has three channels, therefore, the output image also has three
+channels. This depthwise convolution is used to filter the input
+channels. The next step is the pointwise convolution, which is similar
+to the regular convolution but with a 1x1 filter. The purpose of
+pointwise convolution is to merge the output channels of the depthwise
+convolution to create new features. By doing so, the computational work
+needed to be done is less than the regular convolutional networks.</p>
+<p>引用自<a target="_blank" rel="noopener" href="https://medium.com/@fransiska26/the-differences-between-inception-resnet-and-mobilenet-e97736a709b0">the-differences-between-inception-resnet-and-mobilenet</a></p>
+</blockquote>
+<p><code>MobileNet</code>使用了两种卷积形式，<code>depthwise</code>和<code>pointwise</code>，后者就是我们常见的卷积操作，只是使用的是1✖1的卷积核，input
+image有多少个<code>channel</code>，<code>filter</code>就会延展为几个<code>channel</code>，比如输入进来的<code>channel</code>数是3，那么一个<code>3*3</code>大小的filter就会extend成3✖3✖3的一个立方体，然后这27个数分别禹输入image对应的区域做乘积之后相加取和。但是<code>depthwise</code>卷积是对每一个<code>channel</code>分别做卷积，如果输入图片有三个<code>channel</code>，那么输出的也会是三个<code>channel</code>。如图：</p>
+<figure>
+<img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207132331415.png" alt="depthwise convolution">
+<figcaption aria-hidden="true">depthwise convolution</figcaption>
+</figure>
+<p><code>tensorflow</code>中有<code>DepthwiseConv2D</code>这个<a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/DepthwiseConv2D">layer</a>,它对于<code>depthwise convolution</code>的解释是：</p>
+<blockquote>
+<p>Depthwise convolution is a type of convolution in which each input
+channel is convolved with a different kernel (called a depthwise
+kernel). You can understand depthwise convolution as the first step in a
+depthwise separable convolution.</p>
+</blockquote>
+<p><code>MobileNetV2</code>主要引进了<code>Inverted residuals</code>和<code>linear bottlenecks</code>去解决在<code>depthwise</code>卷积操作中卷积核的参数往往是0的问题</p>
+<h1 id="other-topics">other topics</h1>
+<p>在阅读<a target="_blank" rel="noopener" href="https://www.mdpi.com/2072-4292/13/22/4712">Review of
+Image Classification Algorithms Based on Convolutional Neural
+Networks</a>的最后一章节时，作者不仅介绍了现在research和industry领域用的比较多的image
+classification的模型，也给出了各个模型在image-net数据集上的accuracy。在总结章，作者还提出了一些结论性的发现，我觉得蛮收益的，将文章的观点整理在这里。</p>
+<ol type="1">
+<li>2012年到2017年主要提供了日后用于分类的basic
+CNN模型架构，这期间的模型架构有2012的alexnet，2014年的vgg，2014年的inception，2015年的resnet，2017年提出了attention加cnn的架构</li>
+<li>attention加入到cnn之后形成了新的模型，也因此提高了模型的performance。现在很多模型会将SE
+block嵌入到模型架构中去，我查了下这个SE
+block是SEnet中的一个block，squeeze and excitation block。<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>是在2017年提出的，这个知识点待补充</li>
+<li>超参数的选择对于CNN网络的performance影响很大，很多的工作在着力于减少超参数的个数以及replace
+them with other composite coefficients。</li>
+<li>手动设计一个performance很好的网络往往需要很多effort，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Neural_architecture_search">NAS
+search</a> （neural architecture search）可以让这个过程变得更简单</li>
+<li>想要提升模型的performance，不仅仅需要将关注力放在模型架构的设计上，data
+augmentation,transfer learning,training
+strategies也可以帮助我们提高模型的准确度。在transfer learning上，paper：
+Large Scale Learning of General Visual Representations for Transfer
+总结了一些在不同的task上如何利用transfer
+learning取得很好的performance的办法。</li>
+</ol>
+<hr>
+<p>CNN model 还面临的挑战：</p>
+<ol type="1">
+<li>lightweight
+models比如mobileNet系列的轻量级模型往往需要牺牲accuracy来提高efficiency。未来在embedded系统上，CNN的运行效率值得去explore</li>
+<li>cnn模型在semi-supervised和unsupervised上的发挥不如NLP领域。</li>
+</ol>
+<hr>
+<p>future directions:</p>
+<ol type="1">
+<li>重视vision transformer.
+如何将卷积和transformer有效结合起来是当前的一个热点。目前的SOTA
+network是 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.04803">CoAtNet</a>，在image
+net数据集上的accuracy是90.88，确实是目前在image
+net数据集上performance最高的模型架构。值得读一下，mark！</li>
+<li>有一些关于CNN的传统技术可能会成为阻碍CNN发展的重要因素，诸如：activation
+function的选择，dropout，batch normalization。</li>
+</ol>
+<h1 id="senet-2017">SENet 2017</h1>
+<p>原文 <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf">SEnet</a>，是由自动驾驶公司Momenta在2017年公布的一种全新的图像识别结构，它通过对特征通道间的相关性进行建模，把重要的特征进行强化来提升准确率。这个结构是2017
+ILSVR竞赛的冠军，top5的错误率达到了2.251%，比2016年的第一名还要低25%，可谓提升巨大。</p>
+<h1 id="coatnet">CoAtNet</h1>
+<h1 id="reference">Reference</h1>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/architecture-comparison-of-alexnet-vggnet-resnet-inception-densenet-beb8b116866d">Architecture
+comparison of AlexNet, VGGNet, ResNet, Inception, DenseNet</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/analytics-vidhya/vggnet-architecture-explained-e5c7318aa5b6">VGGNet
+Architecture Explained</a></li>
+<li><a target="_blank" rel="noopener" href="https://viso.ai/deep-learning/resnet-residual-neural-network/">resnet-residual-neural-network
+Resnet系列网络架构的区别</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -577,615 +818,8 @@ RPN的layers。</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/27/Attention-and-Transformer-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/10/27/Attention-and-Transformer-model/" class="post-title-link" itemprop="url">Attention and Transformer model</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-10-27 10:03:57" itemprop="dateCreated datePublished" datetime="2022-10-27T10:03:57+08:00">2022-10-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-08-29 13:24:12" itemprop="dateModified" datetime="2023-08-29T13:24:12+08:00">2023-08-29</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>21k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>20 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>斯坦福cs231n最新的课程中包含了attention的模型讲解，但是很可惜我们现在只能看到17年的老课程，在youtube上可以找到，课程主页是<a target="_blank" rel="noopener" href="http://cs231n.stanford.edu/schedule.html">cs231n</a>。可以在课程主页中下载对应的slides和查看推荐的blog，都是学习attention机制的好教材。另外我在学习cs231n课程过程中，也参考了吴恩达对于sequence
-model的讲解，它课程中也涉及到了attention机制，课后作业也包含了简单的attention机制的实现，可以作为辅助理解来看。这篇博客权当自己学习attention以及由此创造的attention系列模型比如transformer的记录。cs231n推荐的<a target="_blank" rel="noopener" href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">博客</a>内容也是很通俗易懂，英文不好的同学有中文翻译可以参考。</p>
-<h1 id="general-attention-model">general attention model</h1>
-<p>RNN有多种类型的网络：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027100649410.png" alt="image-20221027100649410">
-<figcaption aria-hidden="true">image-20221027100649410</figcaption>
-</figure>
-<p>对于"many to
-many"类型的网络，有可能输入的长度不等于输出的长度，在机器翻译的任务中很常见。这种网络也叫Sequence
-to
-Sequence，首先该网络会经由encoder对输入进行编码，然后再有decoder进行sequence的生成。但是这种网络在长句子中表现很差，如果输入句子的长度很长，encoder网络就很难记忆住所有信息，从而在decoder中翻译出准确的词语。由此，需要用到attention
-model。从计算角度来说就是encoder每次都会产生一个固定长度的vector，这对于长句子来说fixed
-length的向量很难记住很早之前的信息：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027104026997.png" alt="image-20221027104026997">
-<figcaption aria-hidden="true">image-20221027104026997</figcaption>
-</figure>
-<p>那为了解决一个fixed
-length的vector很难记忆前序信息的缺陷，所以诞生了attention
-机制！具体的就是在decoder阶段的每一个时间步利用都产生不同的context，这个context产生的过程就是attention计算的过程。主要思想是在产生y之前做一个attention的权重计算，这个权重指的是在计算某个时间步的y值时，我们应该对输入句子的每一个词给予多少关注，给予的关注多，权重就大。所以这里我们会基于initial
-decoder state（previous hidden state of the (post-attention)
-LSTM）和encoder网络的输出值计算权重，计算过程采用dense
-layer.这些权重值的和是1。</p>
-<p>对于很长输入的句子，encoder不再是输出一个固定的context。如下：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027103845891.png" alt="image-20221027103845891">
-<figcaption aria-hidden="true">image-20221027103845891</figcaption>
-</figure>
-<p>context的详细计算如下：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027101307861.png" alt="吴恩达课程attention">
-<figcaption aria-hidden="true">吴恩达课程attention</figcaption>
-</figure>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221027101324129.png" alt="吴恩达课程attention">
-<figcaption aria-hidden="true">吴恩达课程attention</figcaption>
-</figure>
-<p>上面两张图是吴恩达在深度学习专项课程中的讲解细节，在cs231n的图中可以看出来它将dense
-layer的输出单独列出来了，也就是下图中alignment
-scores（<code>e</code>），在e的基础上再计算attention
-weights（<code>a</code>），所有的attention weights总和为1 <img src="/2022/10/27/Attention-and-Transformer-model/image-20221206141252321.png" alt="cs231n_attention"></p>
-<p>但是总体来说两个的讲解方式是一致的，cs231n这门课为什么把其中的<code>e</code>单独拎出来也是有它的用意，主要为了后面讲解self-attention。这里我琢磨了好一会儿才明白。还有一点值得提一下，吴恩达的图里那个与hidden
-state 一同输入进dense
-layer的repeateVector不要搞混淆，其实这里每次在decoder的一个时间步计算context时用到的s都不一样，比如在上面的里，计算<code>c1</code>用的是encoder的最后一个hidden
-state，而计算<code>C2</code>的时候我们需要用decoder的第一个时间步的hidden
-state来计算：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206142430931-16703078727111.png" alt="decoder第二个时间步">
-<figcaption aria-hidden="true">decoder第二个时间步</figcaption>
-</figure>
-<p>这种attention计算机制如果用到image
-caption上面如何做呢？获取图片的特征我们使用CNN来抓取，得到的feature
-map用来当作rnn中的hidden state计算：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206145117196-16703094790462.png" alt="image caption">
-<figcaption aria-hidden="true">image caption</figcaption>
-</figure>
-<p>理解以上的原理很重要，再把上面这个图改写一下，将h变成decoder的query：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206145317028-16703095989033.png" alt="query">
-<figcaption aria-hidden="true">query</figcaption>
-</figure>
-<p>以上都是简单的attention机制，随后的transformer模型真正的将attention机制推广开来，见transformer的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">paper</a></p>
-<h1 id="attention-is-all-you-need-2017">Attention is all you need
-2017</h1>
-<p>在transformer的<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">paper</a>中，作者首先介绍本文：主流的sequence
-tranduction模型主要基于复杂的RNN或者CNN模型，它们包含encoder和decoder两部分，其中表现最好的模型在encoder和decoder之间增加了attention
-mechanism。本文提出了一个新的简单的网络结构名叫<em>transformer</em>，也是完全基于attention机制，"dispensing
-with recurrence and convolutions entirely"!
-根本无需循环和卷积！了不起的Network~</p>
-<p>在阅读这篇文章之前需要提前了解我在另外一篇博客 Attention and
-transformer
-model中的知识，在translation领域我们的科学家们是如何从RNN循环神经网络过渡到CNN，然后最终是transformer的天下的状态。技术经过了一轮轮的迭代，每一种基础模型架构提出后，会不断的有文章提出新的改进，文章千千万，不可能全部读完，就精读一些经典文章就好，Vaswani这篇文章是NMT领域必读paper，文章不长，加上参考文献才12页，介绍部分非常简单，导致这篇文章的入门门槛很高（个人感觉）。我一开始先读的这篇文章，发现啃不下去，又去找了很多资料来看，其中对我非常帮助的有很多：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://jalammar.github.io/illustrated-transformer/">非常通俗易懂的blog</a>
-有中文版本的翻译</li>
-<li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/1912.02047">Neural Machine
-Translation: A Review and Survey</a>
-虽然这篇paper很长，90+页。前六章可以作为参照，不多25页左右，写的非常好</li>
-<li><a target="_blank" rel="noopener" href="http://cs231n.stanford.edu/slides/2022/lecture_11_ruohan.pdf">stanford
-cs231n课程的ppt</a>
-斯坦福这个课程真的很棒，youtube上可以找到17年的视频，17年的课程中没有attention的内容，所以就姑且看看ppt吧，希望斯坦福有朝一日能将最新的课程分享出来，也算是做贡献了</li>
-<li>cs231n推荐的阅读<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-06-24-attention/">博客</a>
-非常全面的整理，强烈建议食用.
-这位作者也附上了自己的transformer实现，在它参考的那些github实现里，哈佛大学的<a target="_blank" rel="noopener" href="http://nlp.seas.harvard.edu/2018/04/01/attention.html">pytorch实现</a>也值得借鉴。</li>
-</ul>
-<p>Transformer这篇文章有几个主要的创新点：</p>
-<ol type="1">
-<li>使用self-attention机制，并首次提出使用multi-head attention</li>
-</ol>
-<p>该机制作用是在编码当前word的时候，这个self-attention就会告诉我们编码这个词语我们应该放多少注意力在这个句子中其他的词语身上，说白了其实就是计算当前词语和其他词语的关系。这也是CNN用于解决NMT问题时用不同width的kernel来扫input
-metric的原因。</p>
-<p>multi-head的意思是我使用多个不同的self-attention
-layer来处理我们的输入，直观感觉是训练的参数更多了，模型的表现力自然要好一点。</p>
-<ol start="2" type="1">
-<li>Positional embeddings</li>
-</ol>
-<p>前一个创新点解决了dependence的问题，那如何解决位置的问题呢？也就是我这个词在编码的时候或者解码的时候应该放置在句子的哪个位置上。文章就用pisitional
-embedding来解决这个问题。这个positional embedding和input
-embedding拥有相同的shape，所以两者可以直接相加。transformer这篇文章提供了两种encoding方式：</p>
-<p>1） sunusoidal positional encoding</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230302133247664.png" alt="image-20230302133247664">
-<figcaption aria-hidden="true">image-20230302133247664</figcaption>
-</figure>
-<p>其中，pos=1,...,L(L是input句子的长度)，i是某一个PE中的一个维度，取值范围是1到dmodel。python实现为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">positional_encoding</span>(<span class="params">length, depth</span>):</span></span><br><span class="line">  depth = depth/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">  positions = np.arange(length)[:, np.newaxis]     <span class="comment"># (seq, 1)</span></span><br><span class="line">  depths = np.arange(depth)[np.newaxis, :]/depth   <span class="comment"># (1, depth)</span></span><br><span class="line"></span><br><span class="line">  angle_rates = <span class="number">1</span> / (<span class="number">10000</span>**depths)         <span class="comment"># (1, depth)</span></span><br><span class="line">  angle_rads = positions * angle_rates      <span class="comment"># (pos, depth)</span></span><br><span class="line"></span><br><span class="line">  pos_encoding = np.concatenate(</span><br><span class="line">      [np.sin(angle_rads), np.cos(angle_rads)],</span><br><span class="line">      axis=-<span class="number">1</span>) </span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> tf.cast(pos_encoding, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">pos_encoding = positional_encoding(length=<span class="number">2048</span>, depth=<span class="number">512</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Check the shape.</span></span><br><span class="line"><span class="built_in">print</span>(pos_encoding.shape) <span class="comment"># (2014,512)</span></span><br></pre></td></tr></table></figure>
-<p>2） learned positional encoding</p>
-<p>整体上看，这篇文章提出的transformer模型在做translation的任务时，架构是这样的：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133249379.png" alt="image-20230301133249379">
-<figcaption aria-hidden="true">image-20230301133249379</figcaption>
-</figure>
-<p>其中encoders部分包含了6个encoders的block，decoders部分也包含了6个decoders的block，将encoders的每一个block拆开来看，有两个sub
-layer：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133424302.png" alt="image-20230301133424302">
-<figcaption aria-hidden="true">image-20230301133424302</figcaption>
-</figure>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133440152.png" alt="image-20230301133440152">
-<figcaption aria-hidden="true">image-20230301133440152</figcaption>
-</figure>
-<p>其中decoder部分的block比encoder部分的block多了一个sub
-layer，其中self-attention和encoder-decoder attention都是multi-head
-attention layer，只不过decoder部分的第一个multi-head attention
-layer是一个masked multi-head
-attention，为了防止未来的信息泄露给当下（prevent positions from
-attending to the future）.</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301133608484.png" alt="image-20230301133608484">
-<figcaption aria-hidden="true">image-20230301133608484</figcaption>
-</figure>
-<p>在transformer模型中，作者还使用了residual
-connection，所以在encoder的每一个block中，数据的flow是:</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230307162830473-16781777124571.png" alt="transformer架构">
-<figcaption aria-hidden="true">transformer架构</figcaption>
-</figure>
-<p>其中self-attention中涉及的运算details是：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230301134258180.png" alt="image-20230301134258180">
-<figcaption aria-hidden="true">image-20230301134258180</figcaption>
-</figure>
-<p>可以发现其中涉及的运算都是矩阵的点乘，并没有RNN中那种时间步的概念，所以所有运算都是可以parallelizable，这就能使得模型的推理和训练更加的efficient。并且！Transformers也可以抓住distant的依赖，而不是像rnn那样对于长依赖并不是很擅长，因为它前面的信息如果像传递到很后面的单词推理上，需要经历很多时间步的计算，而transformer在推理每一个单词的时候都可以access到input句子中的每一个单词（毕竟我们的Z中包含了每一个单词跟其他单词的关系)。</p>
-<p>其中positional encoding现在可以简单的理解成在我们编码的word
-embedding上我们又加了一个positional
-encoding，维度和我们的embedding一模一样。</p>
-<blockquote>
-<p>在tensorflow中有一个layer是<code>MultiHeadAttention</code>,如果我们想实现transformer里的这个self-attention，那就是query，key，value其实都是由input
-vector计算来的。</p>
-</blockquote>
-<p>以上的理论计算看起来可能会有点模糊，可以同步参照<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-06-24-attention/">博客</a>
-参考 <a target="_blank" rel="noopener" href="http://jalammar.github.io/illustrated-transformer/">illustrated
-transformer</a>介绍的详细细节，基于tensorflow框架实现的<a target="_blank" rel="noopener" href="https://github.com/lilianweng/transformer-tensorflow/blob/master/transformer.py">transformer</a>来帮助自己理解transformer模型。</p>
-<h2 id="encoder部分">encoder部分</h2>
-<p>encoder的每一个block由两个sub-layer组成，中间穿插resnet
-connection。</p>
-<p><img src="/2022/10/27/Attention-and-Transformer-model/transformer_encoder_block.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multihead_attention</span>(<span class="params">self, query, memory=<span class="literal">None</span>, mask=<span class="literal">None</span>, scope=<span class="string">&#x27;attn&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            query (tf.tensor): of shape (batch, q_size, d_model)</span></span><br><span class="line"><span class="string">            memory (tf.tensor): of shape (batch, m_size, d_model)</span></span><br><span class="line"><span class="string">            mask (tf.tensor): shape (batch, q_size, k_size)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:h</span></span><br><span class="line"><span class="string">            a tensor of shape (bs, q_size, d_model)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> memory <span class="keyword">is</span> <span class="literal">None</span>: <span class="comment"># 如果memory是None，那么就是一个典型的self-attention layer</span></span><br><span class="line">            memory = query</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># Linear project to d_model dimension: [batch, q_size/k_size, d_model]</span></span><br><span class="line">            Q = tf.layers.dense(query, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            K = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line">            V = tf.layers.dense(memory, self.d_model, activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Split the matrix to multiple heads and then concatenate to have a larger</span></span><br><span class="line">            <span class="comment"># batch size: [h*batch, q_size/k_size, d_model/num_heads]</span></span><br><span class="line">            Q_split = tf.concat(tf.split(Q, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            K_split = tf.concat(tf.split(K, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            V_split = tf.concat(tf.split(V, self.h, axis=<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">            mask_split = tf.tile(mask, [self.h, <span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Apply scaled dot product attention</span></span><br><span class="line">            out = self.scaled_dot_product_attention(Q_split, K_split, V_split, mask=mask_split)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Merge the multi-head back to the original shape</span></span><br><span class="line">            out = tf.concat(tf.split(out, self.h, axis=<span class="number">0</span>), axis=<span class="number">2</span>)  <span class="comment"># [bs, q_size, d_model]</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># The final linear layer and dropout.</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_model)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dropout(out, rate=self.drop_rate, training=self._is_training)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">feed_forwad</span>(<span class="params">self, inp, scope=<span class="string">&#x27;ff&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Position-wise fully connected feed-forward network, applied to each position</span></span><br><span class="line"><span class="string">        separately and identically. It can be implemented as (linear + ReLU + linear) or</span></span><br><span class="line"><span class="string">        (conv1d + ReLU + conv1d).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            inp (tf.tensor): shape [batch, length, d_model]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        out = inp</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_ff, activation=tf.nn.relu)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dropout(out, rate=self.drop_rate, training=self._is_training)</span></span><br><span class="line">            <span class="comment"># out = tf.layers.dense(out, self.d_model, activation=None)</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># by default, use_bias=True</span></span><br><span class="line">            out = tf.layers.conv1d(out, filters=self.d_ff, kernel_size=<span class="number">1</span>, activation=tf.nn.relu)</span><br><span class="line">            out = tf.layers.conv1d(out, filters=self.d_model, kernel_size=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> out  </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encoder_layer</span>(<span class="params">self, inp, input_mask, scope</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            inp: tf.tensor of shape (batch, seq_len, embed_size)</span></span><br><span class="line"><span class="string">            input_mask: tf.tensor of shape (batch, seq_len, seq_len)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        out = inp</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="comment"># One multi-head attention + one feed-forword</span></span><br><span class="line">            out = self.layer_norm(out + self.multihead_attention(out, mask=input_mask))</span><br><span class="line">            out = self.layer_norm(out + self.feed_forwad(out))</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<h2 id="decoder部分">decoder部分</h2>
-<p><img src="/2022/10/27/Attention-and-Transformer-model/encoder-decoder.png"></p>
-<p>在decoder部分，我们可以看到每一个decoder
-block的输入有两个：<em>整个encoder部分的输出</em>以及<em>上一个decoder
-block的输出（第一个decoder
-block是词向量的输入）</em>，而encoder部分的输出是接到每一个decoder
-block的第二个sublayer的。正如刚刚提到了，decoder部分的每一个block跟encoder部分的block有一个不一样的地方，那就是多了一个sublayer：
-encoder-decoder
-attention。至于encoder部分和decoder部分是如何connect的，</p>
-<blockquote>
-<p>The encoder start by processing the input sequence. The output of the
-top encoder is then transformed into a set of attention vectors K and V.
-These are to be used by each decoder in its “encoder-decoder attention”
-layer which helps the decoder focus on appropriate places in the input
-sequence</p>
-</blockquote>
-<p>也就是我们得到了encoder部分top layer（最后一个encoder
-layer）的输出之后，我们将输出转化成K和V.
-我们可以看到在<code>multihead_attention</code>里，memory是<code>enc_out</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decoder_layer</span>(<span class="params">self, target, enc_out, input_mask, target_mask, scope</span>):</span></span><br><span class="line">        out = target</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            out = self.layer_norm(out + self.multihead_attention(</span><br><span class="line">                out, mask=target_mask, scope=<span class="string">&#x27;self_attn&#x27;</span>))</span><br><span class="line">            out = self.layer_norm(out + self.multihead_attention(</span><br><span class="line">                out, memory=enc_out, mask=input_mask)) <span class="comment"># 将encoder部分的输出结果作为输入</span></span><br><span class="line">            out = self.layer_norm(out + self.feed_forwad(out))</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decoder</span>(<span class="params">self, target, enc_out, input_mask, target_mask, scope=<span class="string">&#x27;decoder&#x27;</span></span>):</span></span><br><span class="line">        out = target</span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.num_enc_layers):</span><br><span class="line">                out = self.decoder_layer(out, enc_out, input_mask, target_mask, <span class="string">f&#x27;dec_<span class="subst">&#123;i&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
-<p>以上实现的transformer其实我觉得还是有一点点复杂，毕竟在tensorflow2.0+版本中已经有了官方实现好的<code>layers.MultiHeadAttention</code>可以使用，应该可以大大简化我们实现步骤，特别是上面的<code>def multihead_attention(self, query, memory=None, mask=None, scope='attn'):</code>。从刚刚的实现里我们可以发现，除了decoder部分每一个block的第二个sublayer的attention计算有一点不一样之外，其他的attention计算都是一模一样的。我在github上找了不少用TF2.0实现的transformer（最标准的也是Attention
-is all you
-need的模型），发现很多都都写得一般般，最终发现还是tensorflow官方文档写的<a target="_blank" rel="noopener" href="https://www.tensorflow.org/text/tutorials/transformer#add_and_normalize">tutotial</a>写的最好.</p>
-<p>现在对照tensorflow的tutorial以及上面transformer的计算过程，拆解一下官方给的代码。</p>
-<p>首先定义一个baseAttention类，然后在此基础上我们再定义encoder和decoder中的attention：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseAttention</span>(<span class="params">tf.keras.layers.Layer</span>):</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, **kwargs</span>):</span></span><br><span class="line">    <span class="built_in">super</span>().__init__()</span><br><span class="line">    self.mha = tf.keras.layers.MultiHeadAttention(**kwargs)</span><br><span class="line">    self.layernorm = tf.keras.layers.LayerNormalization()</span><br><span class="line">    self.add = tf.keras.layers.Add()</span><br></pre></td></tr></table></figure>
-<p>那么针对encoder结果输入到decoder的cross attention
-layer怎么处理呢？这时候我们使用MultiHeadAttention时就需要将target
-sequence x当作是query，将encoder输出当作是context
-sequence也就是key/value。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CrossAttention</span>(<span class="params">BaseAttention</span>):</span> <span class="comment"># encoder结果输入到decoder的层</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x, context</span>):</span> <span class="comment"># 这里的x是target sequence,context是encoder的输出结果</span></span><br><span class="line">    attn_output, attn_scores = self.mha(</span><br><span class="line">        query=x,</span><br><span class="line">        key=context,</span><br><span class="line">        value=context,</span><br><span class="line">        return_attention_scores=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Cache the attention scores for plotting later.</span></span><br><span class="line">    self.last_attn_scores = attn_scores</span><br><span class="line"></span><br><span class="line">    x = self.add([x, attn_output])</span><br><span class="line">    x = self.layernorm(x)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
-<p>然后我们再定义global attention，global
-attention就是没有任何特殊操作的（比如上面的attention计算它有特别的context），而在transformor中更多的是self-attention，也就是我们传递给MultiHeadAttention的query,key,value都是同一个值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GlobalSelfAttention</span>(<span class="params">BaseAttention</span>):</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">    attn_output = self.mha(</span><br><span class="line">        query=x,</span><br><span class="line">        value=x,</span><br><span class="line">        key=x)</span><br><span class="line">    x = self.add([x, attn_output])</span><br><span class="line">    x = self.layernorm(x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
-<p>最后我们定义causal self attention
-layer，这个是在decoder的每一个block的第一个sublayer：self-attention
-layer.其实这个layer是和global attention
-layer差不多的，但还是有一点微小的差别。为什么呢？因为我们在decoder阶段，我们是一个词语一个词语的预测的，这其实包含了一层因果关系，我们在预测一个词语的时候，我们应该已知它前面一个词语是什么，RNN中的hidden
-state传递到下一个时间步就是这个因果关系的传递。那么如果我们使用刚刚我们实现的global
-attention layer来实现这个self
-attention，并没有包含这个因果关系，不仅如此，如果我们使用常规的self
-attention的计算，将target
-sequence全部当作输入输入到decoder中的第一个block中，会有未来的数据提前被当前时刻看到的风险，所以在Transformer这篇文章中，作者提出使用mask的技术来避免这个问题。</p>
-<p>在tensorflow中实现很简单，就只需要给MultiHeadAttention传递一个use_causal_mask
-= True的参数即可：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CausalSelfAttention</span>(<span class="params">BaseAttention</span>):</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, x</span>):</span></span><br><span class="line">    attn_output = self.mha(</span><br><span class="line">        query=x,</span><br><span class="line">        value=x,</span><br><span class="line">        key=x,</span><br><span class="line">        use_causal_mask = <span class="literal">True</span>) <span class="comment"># The causal mask ensures that each location only has access to the locations that come before it</span></span><br><span class="line">    x = self.add([x, attn_output])</span><br><span class="line">    x = self.layernorm(x)</span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
-<p>这样就可以保证先前的sequence并不依赖于之后的elements。这里我本来有一个疑问是，这样一来这个causal
-layer并不能实现bi-rnn的能力？但后来一想并不是，因为双向的RNN的后向是指后面的词语先输入，其实就是从后往前输入，这样就可以知道一个sequence当前词语依赖于后面的词语的权重。</p>
-<h2 id="why-transformer">why transformer?</h2>
-<p>这里想补充一个东西，在从encoder-decoder过渡到transformer的时候，我一直的疑问是为什么要用transformer呢？为什么Effective
-Approaches to Attention-based Neural Machine
-Translation这篇paper介绍的方法就渐渐不被人所用了呢？一开始我去看了下transformer的原文，发现paper介绍的非常简单，所以就去找了下博客，找到一篇解释为什么transformer比LSTM快的<a target="_blank" rel="noopener" href="https://voidful.medium.com/why-transformer-faster-then-lstm-on-generation-c3f30977d747">博客</a></p>
-<p>文章说在传统的也就是paper：Neural Machine Translation by Jointly
-Learning to Align and
-Translate中介绍的用LSTM的encoder-decoder架构来做机器翻译的问题，一个问题在于：在RNN模型中，我们在计算当前时间步时，需要使用到前一个时间步的hidden_state，这就造成一个问题是无法并行训练，你必须要等到前面的东西都输完了你才能计算当前时间步的结果。transformer就可以解决这个问题，它完全摒弃了RNN的结构，基本上是一个FCNN。首先我们都知道输入到模型中来的是一个序列，序列中的每一个单词我们都转化为了词向量。如果是传统的RNN模型，这时候就要一个vector一个vector的往RNN里输入了，但transformer不是，它是将这个embedding变幻成了三个向量空间，也就是我们后面看到的Q,K,V.</p>
-<p>后面又去谷歌了一番，找到一个<a target="_blank" rel="noopener" href="https://ai.stackexchange.com/questions/20075/why-does-the-transformer-do-better-than-rnn-and-lstm-in-long-range-context-depen">stack</a>上的问题，也有人有这个疑问，被采取的回答总结起来就是：</p>
-<ol type="1">
-<li>transformer避免了recursion，从而可以方便并行运算（减少了训练时间），这个说法其实跟上面博客一个意思</li>
-<li>同时transformer在长句子的dependency上提高了performance</li>
-</ol>
-<blockquote>
-<ul>
-<li><strong>Non sequential</strong>: sentences are processed as a whole
-rather than word by word.</li>
-<li><strong>Self Attention</strong>: this is the newly introduced 'unit'
-used to compute similarity scores between words in a sentence.</li>
-<li><strong>Positional embeddings</strong>: another innovation
-introduced to replace recurrence. The idea is to use fixed or learned
-weights which encode information related to a specific position of a
-token in a sentence.</li>
-</ul>
-</blockquote>
-<p>transformer并没有long
-dependency的问题，为什么？我们知道transformer的做法是将整个sequence作为一个整体输入到模型。也就是它在预测当前时间步的word时并不依赖于上一个时间步的状态，模型看到的是整个序列，也许有人会质疑双向RNN不是也可以解决这个问题吗，但是这个作者说双向RNN仍然不能彻底解决长句子的依赖问题。</p>
-<p>其实在机器翻译领域，为了解决长句子的依赖问题，CNN曾经也被广泛用于解决这个问题，不仅如此，CNN还有共享参数的优点，也就是可以在GPU上并行计算。如何用CNN处理句子可以参考<a href="Convolutional%20Neural%20Networks%20for%20Sentence%20Classification">paper</a>,CNN解决依赖问题是用不同宽度的kernel去学习依赖，比如width=2就学习两个词之间的依赖关系，width=3就学习三个词之间的依赖，但长句子的依赖很可能会有很多组合，所以就需要使用到很多不同宽度的kernel，这是不现实的。虽然现在CNN不怎么用来解决S2S的问题，但我觉得它是RNN结构的模型过度到transformer的一个中间桥梁，同时也可以帮助我们理解attention
-is all your need这篇文章。感兴趣的可以读一下<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.03122">Convolutional Sequence to
-Sequence Learning 2017</a></p>
-<h2 id="drawbacks-and-variants-of-transformer">drawbacks and variants of
-transformer</h2>
-<p>transformer的一个很大的问题是它的计算量是随着sequence长度的增加而指数型增加的，从矩阵运算我们就可以发现每一个单词都和句子中的其他单词做了attention
-score的计算。所以自从17年transformer模型出来之后，很多用于改进transformer计算效率的小改动paper出了不少，详见<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2102.11972">Do Transformer Modifications
-Transfer Across Implementations and Applications?</a>.
-但这篇文章的作者发现：</p>
-<blockquote>
-<p>Surprisingly, we find that most modifications do not meaningfully
-improve performance.</p>
-</blockquote>
-<p>也就是说这些文章的改动更多的依赖于实现细节，并没有对tansformer的性能有本质上的提高。</p>
-<p>另外，对于positional encoding也有不少researcher做了功课，比如relative
-linear postion attention,dependency syntax-based position等。</p>
-<h2 id="tensorflow-api实现补充介绍">tensorflow API实现补充介绍</h2>
-<h3 id="tf.keras.layers.multiheadattention">tf.keras.layers.MultiHeadAttention</h3>
-<p><a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/MultiHeadAttention">doc</a></p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230309150541287.png" alt="image-20230309150541287">
-<figcaption aria-hidden="true">image-20230309150541287</figcaption>
-</figure>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230309150600806.png" alt="image-20230309150600806">
-<figcaption aria-hidden="true">image-20230309150600806</figcaption>
-</figure>
-<p>注意，return的结果包含两个，其中attention_output的shape的第二维是和target
-sequence的长度是一致的，并且E是和query的最后一维是一致的。</p>
-<p>https://dl.acm.org/doi/10.5555/3305381.3305510)</p>
-<h1 id="attention-family">Attention Family</h1>
-<p>这个章节整理于<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2020-04-07-the-transformer-family/">blog</a>，这个作者之前写了一篇介绍attention的文章，后面在2023年一月的时候又更新了两篇博客，详细介绍了从2020年以来出现的新的Transformer
-models。权当自己学习记录一些我还需要补充的知识。</p>
-<blockquote>
-<p>The <strong>Transformer</strong> (which will be referred to as
-“vanilla Transformer” to distinguish it from other enhanced versions; <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Vaswani, et al., 2017</a>) model
-has an encoder-decoder architecture, as commonly used in many <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-06-24-attention/#born-for-translation">NMT</a>
-models. Later simplified Transformer was shown to achieve great
-performance in language modeling tasks, like in encoder-only <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2019-01-31-lm/#bert">BERT</a>
-or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2019-01-31-lm/#openai-gpt">GPT</a>.</p>
-</blockquote>
-<h1 id="pretraining">pretraining</h1>
-<p>pretraining的技术在NLP领域取得了空前的发展，比如我们熟知的GPT系列模型以及Bert模型。自从transformer应运而生之后，pretrain的技术就发展开来。</p>
-<p>model pretrain的方式有三种：decoders,encoders,encoder-decoders:</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230315113701127.png" alt="pretrain for three types of architectures">
-<figcaption aria-hidden="true">pretrain for three types of
-architectures</figcaption>
-</figure>
-<hr>
-<p>上图中第一个将transformer中decoders拿来做pre-train的模型是GPT，paper是：<a target="_blank" rel="noopener" href="https://openai.com/research/language-unsupervised">Improving
-Language Understanding by Generative Pre-Training</a></p>
-<p>GPT模型分为两个阶段，第一个阶段是unsupervised
-learning，第二个是supervised learning。首先第一阶段是一个典型的language
-modeling模型，目标函数是：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230315141236557.png" alt="image-20230315141236557">
-<figcaption aria-hidden="true">image-20230315141236557</figcaption>
-</figure>
-<p>其中k是context窗口的大小，也就是我们预测一个单词的时候，只看它前k个单词，在前k个单词的基础上使得出现当前单词的概率最大。至于这个模型是什么？其实就是我们熟知的transformer
-decoder部分，包含multi-head
-self-attention(注意这里是masked的attention，原因我们只看前k个单词，并不看后面的部分)和feed-forward：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230315141542314.png" alt="Transformer used in GPT paper">
-<figcaption aria-hidden="true">Transformer used in GPT
-paper</figcaption>
-</figure>
-<p>我们取最上层的decoder的输出，然后使用softmax来预测p(u)。以上的decoder模型在一个很大的语料库上进行训练之后，我们预训练部分就做完了，通过这一步我们拥有了一个decoder，它的作用是当我们每次输入一个sentence，它会告诉我们紧接着的那个单词是什么。</p>
-<p>接着第二部分是我们的监督学习，原文说监督学习部分需要在不同的task上进行fine-tune：</p>
-<blockquote>
-<p>First, we use a language modeling objective on the unlabeled data to
-learn the initial parameters of a neural network model. Subsequently, we
-adapt these parameters to a target task using the corresponding
-supervised objective.</p>
-</blockquote>
-<hr>
-<p>第二种用于pre-train的模型架构是encoders。它和用decoder来做非监督学习不一样的地方在于，摘录自博客<a target="_blank" rel="noopener" href="https://medium.com/dataseries/openai-gpt-generative-pre-training-for-language-understanding-bbbdb42b7ff4">OpenAI
-GPT: Generative Pre-Training for Language Understanding</a></p>
-<p>Open AI GPT uses a <strong>Transformer Decoder</strong> architecture
-as opposed to <a target="_blank" rel="noopener" href="https://medium.com/swlh/bert-pre-training-of-transformers-for-language-understanding-5214fba4a9af">BERT’s</a>
-Transformer Encoder architecture. I have already covered the difference
-between the Transformer Encoder and Decoder in <a target="_blank" rel="noopener" href="https://medium.com/swlh/bert-pre-training-of-transformers-for-language-understanding-5214fba4a9af">this</a>
-post; however, it is as follows:</p>
-<ul>
-<li><strong>The Transformer Encoder</strong> is essentially a
-Bidirectional Self-Attentive Model, that uses all the tokens in a
-sequence to attend each token in that sequence</li>
-</ul>
-<blockquote>
-<p>i.e. for a given word, the attention is computed using all the words
-in the sentence and not just the words preceding the given word in one
-of the left-to-right or right-to-left traversal order.</p>
-</blockquote>
-<ul>
-<li>While the <strong>Transformer Decoder</strong>, is a Unidirectional
-Self-Attentive Model, that uses only the tokens preceding a given token
-in the sequence to attend that token</li>
-</ul>
-<blockquote>
-<p>i.e. for a given word, the attention is computed using only the words
-preceding the given word in that sentence according to the traversal
-order, left-to-right or right-to-left.</p>
-</blockquote>
-<p>— from <a target="_blank" rel="noopener" href="https://medium.com/swlh/bert-pre-training-of-transformers-for-language-understanding-5214fba4a9af">BERT:
-Pre-Training of Transformers for Language Understanding</a></p>
-<p>Thus, <strong>GPT gets its auto-regressive nature from this
-directionality provided by the Transformer Decoder</strong> as it uses
-just the previous tokens from the sequence to predict the next
-token.</p>
-<p>在这里典型的代表就是<a target="_blank" rel="noopener" href="https://medium.com/swlh/bert-pre-training-of-transformers-for-language-understanding-5214fba4a9af">Bert</a>.</p>
-<hr>
-<p>参考读物：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://medium.com/dataseries/openai-gpt-generative-pre-training-for-language-understanding-bbbdb42b7ff4">OpenAI
-GPT: Generative Pre-Training for Language Understanding</a></li>
-<li><a target="_blank" rel="noopener" href="https://medium.com/swlh/bert-pre-training-of-transformers-for-language-understanding-5214fba4a9af">Bert's
-Transformer Encoder architecture</a></li>
-<li></li>
-</ul>
-<h1 id="bertpre-training-of-deep-bidirectional-transformers-for-language-understanding-2019">Bert：Pre-training
-of Deep Bidirectional Transformers for Language Understanding 2019</h1>
-<p>这篇文章出现在openai的GPT模型之前，前身是ELMo。</p>
-<p>有两种方式将pre-trained language
-representations用于下游任务，第一种是feature-based，第二种是fine-tine，其中第一种代表是ELMo，将pre-trained
-representations用于附加的features输入到下游任务中；第二种是得到pre-trained的representation之后，将模型接入下游任务，然后同时fine-tune所有的参数。</p>
-<p>作者在finetune模型时，采取11个下游任务：</p>
-<ol type="1">
-<li>GLUE general language understanding evalation</li>
-</ol>
-<p>它的输入主要是sentence
-pair。比如MNLI数据集就是区分输入的两个句子，后者跟前者是entailment，contradiction还是中立的关系。另外GLUE
-benchmark中还包含其他的几个数据集：QQP（比较两个question是不是语义上近似的），QNLI（问答数据集，sentence中是否包含能够回答question的answer）等。</p>
-<p>Bert在处理此类任务的时候，不是单独对两个句子分别编码的，而是将两个句子拼接在一起，共同输入给self-attention，并且在两个句子中间加了一个标志[SEP]。在fine-tune的时候，直接将输出的hidden
-states的中的第一个token的向量输出到全连接层中接softmax分类器。</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230321101507418.png" alt="sentence pair classification tasks">
-<figcaption aria-hidden="true">sentence pair classification
-tasks</figcaption>
-</figure>
-<ol start="2" type="1">
-<li>SQuAD v1.1 stanford question answering dataset</li>
-</ol>
-<p>数据集的结构是一个question，一个passage，这个passage里面包含answer。该任务是预测answer在passage中的哪儿。在fine-tune的过程中引入了start和end两个vector，毕竟我们想知道这个answer在passage的哪个位置：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230321102053181.png" alt="SQuAD v1.1">
-<figcaption aria-hidden="true">SQuAD v1.1</figcaption>
-</figure>
-<p>这里做分类的时候不是用的全连接层，而是使用的dot product：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230321102257845.png" alt="image-20230321102257845">
-<figcaption aria-hidden="true">image-20230321102257845</figcaption>
-</figure>
-<p>其中，S是start vector，i是指位置i的token
-word，Pi指位置i的word成为start的概率。</p>
-<p>作者还在SQuAD
-v2.0上做了实验，这个数据集和1.1不一样的地方在于数据集中包含不存在answer的情况。</p>
-<ol start="3" type="1">
-<li>SWAG situation with adversatial generations</li>
-</ol>
-<hr>
-<p>在阅读本篇文章的过程中一个有一个疑问就是，其实bert的思想并不陌生，有点像之前的word2vec，那为什么现在大家不用预训练的word2vec来解决问题了呢？在Bert原文的第二章节，作者解答了这个问题：</p>
-<blockquote>
-<p>The advantage of these approaches is that few parameters need to be
-learned from scratch.</p>
-</blockquote>
-<p>同样在cs224n的课件上我们也可以看到为什么大家转而从静态的词向量投向了GPT，Bert：</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230321093156801.png" alt="pretrained word embeddings">
-<figcaption aria-hidden="true">pretrained word embeddings</figcaption>
-</figure>
-<p>上面这张图说明的是以往的用预训练的词向量用于模型的方式，可以看到大多数的模型参数是随机初始化的，只是模型的输入部分是我们预训练的词向量。</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20230321093348933.png" alt="pretrain whole models">
-<figcaption aria-hidden="true">pretrain whole models</figcaption>
-</figure>
-<p>但是在model
-nlp内，我们可以看到所有的参数在初始化的时候都是使用的预训练好的参数。这一类模型可以在预训练的过程中学习到如何表示一整个句子。</p>
-<h1 id="improving-language-understanding-by-generative-pre-training-2018">Improving
-Language Understanding by Generative Pre-Training 2018</h1>
-<p>GPT stands for "Generative pretrained transformer" or "generative
-pre-trained"</p>
-<p>two main reasons for leveraging more than word-level information from
-unlabeled text data</p>
-<ol type="1">
-<li>unclear about what type of optimization objectives are most
-effective at learning text representations that are useful for transfer
-缺乏很好的优化函数</li>
-<li>Second, there is no consensus on the most effective way to transfer
-these learned representations to the target task
-如何更有效的将pre-train的知识transfer到target task还没有很好的方法</li>
-</ol>
-<p>作者在introduction部分强调了自己提出的模型在fine-tune阶段只需要对模型架构进行微调便可以适应target
-task，在知识迁移时，采用了paper： Reasoning about entailment with neural
-attention，which process structured text input as a single contiguous
-sequence of tokens.</p>
-<p><strong>Related work</strong> : LSTM using as the pre-trained network
-to capture the representation but they has lots of restrictions. This
-paper use transformer networks to allow capturing longer range
-linguistic structure. Further, in fine-tuning process, the model only
-requires minimal changes to model architecture other than involving
-substantial amount of new parameters.</p>
-<h2 id="framework">Framework</h2>
-<h3 id="unsupervised-pre-train-process">1. unsupervised pre-train
-process</h3>
-<p><img src="/2022/10/27/Attention-and-Transformer-model/unsupervised%20pre-train%20process.png"></p>
-<p>以当前token的前k个单词为context，预测当前token。典型的language
-modeling。</p>
-<h3 id="supervised-fine-tuning">2. Supervised fine-tuning</h3>
-<p>这里和Bert不一样的是，作者采用了两个目标，第一个目标是target
-task的目标（比如分类），第二个目标是pre-train时候的language
-modeling的目标，即预测当前词语。为什么这么设定？作者的意思是将language
-modeling的目标加入模型的fine-tune阶段可以增加模型的泛化能力和加速收敛。所以整体的模型架构是：</p>
-<p><img src="/2022/10/27/Attention-and-Transformer-model/whole-picture%20of%20GPT.png"></p>
-<p>截至到目前，如果我们的下游任务是分类任务，模型的fine-tune是很简单的，就将decoder的输出的最后一个token的vector拿出来接一个classifier就可以了，但是如果处理QA，texttual
-entailment的数据集任务，这一类的任务的输入往往是句子的pair或者question，answer的组合。这时候作者想到一个办法是，将他们都当成一个连续的sequence，并在其中增加了随机初始化的vectors比如start/END.
-同时作者指出之前有一些论文在这个方面也做了不少research，但都是“re-introduce
-a significant amount of task-specific customization and does not use
-transfer learning for these additional architectural components”.
-那么具体是如何对模型的输入进行小改造的，如图：</p>
-<p><img src="/2022/10/27/Attention-and-Transformer-model/whole%20architectures.png"></p>
-<p>其中对于QA的task，作者的处理有一丢丢特殊，我们拿到的数据是一系列context，question和一系列answers，作者将document
-context，question和answer拼接在一起变成一整个sequence输入到decoder中，然后计算当前question和answer的匹配程度。</p>
-<h2 id="experiment">Experiment</h2>
-<p>dataset ： BooksCorpus dataset contains 7000 unique books</p>
-<h2 id="analysis">Analysis</h2>
-<ol type="1">
-<li>随着decoder部分层数的增加，performance会越来越好。作者得出结论
-<em>”This indicates that each layer in the pre-trained model contains
-useful functionality for solving target tasks“</em></li>
-<li>zero-shot</li>
-<li>ablation studies 作者在fine-tune阶段将LM任务去除，其实这时候和Bert
-finetune阶段是一模一样的，只有target
-task的任务需要优化。作者从这个实验中得出的结论是：LM可以在NLI和QQP两个任务上帮助提高performance。同时也发现，更大的数据集会从LM任务中获利更多，但小数据集并不会获利。同时作者将模型不进行pretrain，直接在数据集上训练，发现如果没有pretrain，所有的任务的performance都会下降，以此证明pre-train确实给所有任务都带来了performance的提升</li>
-</ol>
-<h2 id="conclusions">Conclusions</h2>
-<p>GPT的两个关键词： generative pre-training &amp; discriminative
-fine-tuning</p>
-<p>同时作者得出结论是：在Transformer(what models)上利用text with long
-range dependencies(which dataset to use)会收获好的performance。</p>
-<h2 id="本文推荐阅读材料">本文推荐阅读材料</h2>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/tokenizer_summary#summary-of-the-tokenizers">summary
-of tokenizers</a></li>
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/word-subword-and-character-based-tokenization-know-the-difference-ea0976b64e17">Word,
-Subword, and Character-Based Tokenization: Know the Difference</a></li>
-<li></li>
-</ul>
-<h1 id="reference">Reference</h1>
-<p>在读transformer论文的时候，有几个概念key，query，value三个概念一下子就抛出来了。在讲transformer的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=OyFJWRnt_AY">lecture
-video</a>里,我看到有不少评论反应讲者没有将这三个概念讲清楚。我一开始在看cs231n的lecture
-ppt时也有点疑惑，老师刚说完general attention layer转到讲self-attention
-layer，就直接从h变成了q，确实有点云里雾里。</p>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206170135727-16703172985855.png" alt="image-20221206170135727">
-<figcaption aria-hidden="true">image-20221206170135727</figcaption>
-</figure>
-<figure>
-<img src="/2022/10/27/Attention-and-Transformer-model/image-20221206170101403.png" alt="image-20221206170101403">
-<figcaption aria-hidden="true">image-20221206170101403</figcaption>
-</figure>
-<p>可以从上面的ppt中看出，原来是仅仅有q这个变量的，这是从一开始的h演变来的，而我们可以看到为了“add
-more expressivity to the layer”，所以我们在1.输入x输入到FC得到alignment
-score之前又加了一个不同的FC 2. 对输入x用attention weights进行weight
-sum的过程也加了一个完全不同的FC layer。而我们可以看到这里加的这两个FC
-layer是为了增加模型的表现力。这两个FC
-layer的输出也就是成了我们所说的key和value。后面的过程就清晰了，首先利用query和key计算attention
-weights，然后用attention weights和value进行计算得到context。</p>
-<blockquote>
-<p>An attention layer does a fuzzy lookup like this, but it's not just
-looking for the best key. It combines the <code>values</code> based on
-how well the <code>query</code> matches each <code>key</code>.</p>
-<p>How does that work? In an attention layer the <code>query</code>,
-<code>key</code>, and <code>value</code> are each vectors. Instead of
-doing a hash lookup the attention layer combines the <code>query</code>
-and <code>key</code> vectors to determine how well they match, the
-"attention score". The layer returns the average across all the
-<code>values</code>, weighted by the "attention scores</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -1197,7 +831,7 @@ and <code>key</code> vectors to determine how well they match, the
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1209,14 +843,14 @@ and <code>key</code> vectors to determine how well they match, the
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">203k</span>
+    <span title="Symbols count total">210k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:04</span>
+    <span title="Reading time total">3:11</span>
   </span>
 </div>
 
