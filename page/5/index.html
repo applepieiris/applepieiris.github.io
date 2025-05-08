@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,137 +205,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/" class="post-title-link" itemprop="url">训练一个information retrival</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-06-30 10:54:28" itemprop="dateCreated datePublished" datetime="2023-06-30T10:54:28+08:00">2023-06-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-08-29 13:24:02" itemprop="dateModified" datetime="2023-08-29T13:24:02+08:00">2023-08-29</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>3.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>近期中文大语言模型出现了好多产品，独领风骚的chatglm-6B确实表现很不错，所以大家就纷纷下场想做一个自己领域的大语言模型，最近看到一篇<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2305.15062">Lawyer LLaMA Technical
-Report</a>，作者基于llama模型做了一个法律的语言模型。我觉得这篇文章值得想在垂直领域做语言模型的研究者参考，特别是它所采取的路径：</p>
-<figure>
-<img src="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/image-20230630105909352.png" alt="training process of lawyer LLaMA">
-<figcaption aria-hidden="true">training process of lawyer
-LLaMA</figcaption>
-</figure>
-<p>也有<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/XYJMDND4Od41WECqlxt3Fw">博客</a>粗略介绍了这篇文章。</p>
-<p>我重点关注的是这个工作里的信息抽取：</p>
-<figure>
-<img src="/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/image-20230630110134378.png" alt="image-20230630110134378">
-<figcaption aria-hidden="true">image-20230630110134378</figcaption>
-</figure>
-<p>思路大概就是和斯坦福的dsp一个思路，用户问一个问题，第一种方式就是直接把这个问题抛给llm，让它去回答，第二种就是在把问题抛给llm之前先过一道retrival模型，这个模型会抽取一些和回答这个问题相关的一些context，将这些context加入prompt中，然后再抛给llm。这有一个专门的名词，在Demonstrate-Search-Predict:
-Composing retrieval and language models for knowledge-intensive NLP
-中有所介绍：
-<em>retrieve-then-read</em>。有兴趣的可以再看一下斯坦福在做这部分工作时出的<a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/dsp/blob/main/intro.ipynb">notebook</a>介绍，看完你就知道为啥要retrieve一些context加入到prompt中去。</p>
-<p>可惜的是laywer
-llama这篇文章并没有详细的介绍它的retrieve咋做的，文章中也是一笔带过，数据规模包括组织形式一概没说。我主要是参考斯坦福的dsp这框架中retrieve的实现，它是基于ColBERTv2做的抽取模块，但其实colbert预训练的模型是在微软的msmarco数据集上训练的，也就是没有中文，那必然对中文的适配度应该就不太行，所以我就想找找有咩有好心的博主写过自己用colbert在自己组织的语料库上训练的过程，发现没有，所以这就是我写这篇文章的动机啦，希望能给后面想用自己组建的数据集训练一个colbert做信息抽取的童鞋一点参考。</p>
-<p>以下的内容参考<a target="_blank" rel="noopener" href="https://github.com/stanford-futuredata/ColBERT">colbert
-github</a></p>
-<h1 id="数据组织">数据组织</h1>
-<h1 id="模型使用">模型使用</h1>
-<h2 id="用官方训练好的checkpoints">用官方训练好的checkpoints</h2>
-<p>参考https://github.com/stanford-futuredata/ColBERT/blob/main/docs/intro.ipynb</p>
-<p>里面的输就LoTTE的url已经失效了，包括checkpoints的下载地址。可以到hugging
-face的仓库找</p>
-<ul>
-<li>colbertv2.0 checkpoints :
-https://huggingface.co/colbert-ir/colbertv2.0/tree/main</li>
-<li>lotte 数据集地址：
-https://huggingface.co/datasets/colbertv2/lotte/tree/main</li>
-</ul>
-<p>注意上面这个lotte的数据集的组织方式和colbert官方github仓库里的介绍不一样，这一点上colbert2这个代码仓库的维护做的蛮糟糕的，比羊驼可差远了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.insert(<span class="number">0</span>, <span class="string">&#x27;../&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面这些包是colbert写好的类，可以导入预训练的checkpoints和你自己的querys，documents</span></span><br><span class="line"><span class="keyword">from</span> colbert.infra <span class="keyword">import</span> Run, RunConfig, ColBERTConfig</span><br><span class="line"><span class="keyword">from</span> colbert.data <span class="keyword">import</span> Queries, Collection</span><br><span class="line"><span class="keyword">from</span> colbert <span class="keyword">import</span> Indexer, Searcher</span><br><span class="line"></span><br><span class="line">dataroot = <span class="string">&#x27;downloads/lotte&#x27;</span> <span class="comment"># 假设你已经把lotte放到downloads文件夹下</span></span><br><span class="line">dataset = <span class="string">&#x27;lifestyle&#x27;</span></span><br><span class="line">datasplit = <span class="string">&#x27;dev&#x27;</span></span><br><span class="line"></span><br><span class="line">queries = os.path.join(dataroot, dataset, datasplit, <span class="string">&#x27;questions.search.tsv&#x27;</span>) <span class="comment"># questions.search.txv没找到</span></span><br><span class="line">collection = os.path.join(dataroot, dataset, datasplit, <span class="string">&#x27;collection.tsv&#x27;</span>) <span class="comment"># collections.tsv也没找到</span></span><br><span class="line"></span><br><span class="line">queries = Queries(path=queries)</span><br><span class="line">collection = Collection(path=collection)</span><br><span class="line"></span><br><span class="line"><span class="string">f&#x27;Loaded <span class="subst">&#123;<span class="built_in">len</span>(queries)&#125;</span> queries and <span class="subst">&#123;<span class="built_in">len</span>(collection):,&#125;</span> passages&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># indexing 主要用于对所有的document进行index</span></span><br><span class="line">nbits = <span class="number">2</span>   <span class="comment"># encode each dimension with 2 bits</span></span><br><span class="line">doc_maxlen = <span class="number">300</span>   <span class="comment"># truncate passages at 300 tokens</span></span><br><span class="line"></span><br><span class="line">checkpoint = <span class="string">&#x27;downloads/colbertv2.0&#x27;</span></span><br><span class="line">index_name = <span class="string">f&#x27;<span class="subst">&#123;dataset&#125;</span>.<span class="subst">&#123;datasplit&#125;</span>.<span class="subst">&#123;nbits&#125;</span>bits&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> Run().context(RunConfig(nranks=<span class="number">4</span>, experiment=<span class="string">&#x27;notebook&#x27;</span>)):  <span class="comment"># nranks specifies the number of GPUs to use.</span></span><br><span class="line">    config = ColBERTConfig(doc_maxlen=doc_maxlen, nbits=nbits)</span><br><span class="line"></span><br><span class="line">    indexer = Indexer(checkpoint=checkpoint, config=config)</span><br><span class="line">    indexer.index(name=index_name, collection=collection, overwrite=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># search </span></span><br><span class="line"><span class="keyword">with</span> Run().context(RunConfig(experiment=<span class="string">&#x27;notebook&#x27;</span>)):</span><br><span class="line">    searcher = Searcher(index=index_name)</span><br><span class="line">query = queries[<span class="number">37</span>]   <span class="comment"># or supply your own query</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;#&gt; <span class="subst">&#123;query&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Find the top-3 passages for this query</span></span><br><span class="line">results = searcher.search(query, k=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print out the top-k retrieved passages</span></span><br><span class="line"><span class="keyword">for</span> passage_id, passage_rank, passage_score <span class="keyword">in</span> <span class="built_in">zip</span>(*results):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\t [<span class="subst">&#123;passage_rank&#125;</span>] \t\t <span class="subst">&#123;passage_score:<span class="number">.1</span>f&#125;</span> \t\t <span class="subst">&#123;searcher.collection[passage_id]&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>ok
-偶然看到官方仓库昨天更新了intro的notebook，我看到里面下载数据集的仓库变化了，然后导入包的时候也写得更清晰了，加了条件：https://github.com/stanford-futuredata/ColBERT/blob/main/docs/intro2new.ipynb</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -649,6 +518,158 @@ animals”。在zero-shot模式下这个instruction会直接给到gorilla，模�
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/19/Adaptation-Tuning-of-LLMs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/19/Adaptation-Tuning-of-LLMs/" class="post-title-link" itemprop="url">Adaptation Tuning of LLMs</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-05-19 13:59:41" itemprop="dateCreated datePublished" datetime="2023-05-19T13:59:41+08:00">2023-05-19</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-08-29 13:24:13" itemprop="dateModified" datetime="2023-08-29T13:24:13+08:00">2023-08-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>让LLM适配specific的下游任务，两条线：1. 在prompt engineering上下功夫
+2. Fine-tune LLM.
+其实这两条线并不分家，中间也有一些技术是有overlap的。prompt
+engineering并不只是手动设计prompt让LLM返回更好的结果，使得其在下游任务中得以使用，一些研究并不想自己手动设计prompt，那就产生了很多自动产生prompt的方式。刘鹏飞博士的review文章<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2107.13586">Pre-train, Prompt, and Predict: A
+Systematic Survey of Prompting Methods in Natural Language
+Processing</a>将这些技术统一到一个体系里来，分类方式也比较清晰：</p>
+<figure>
+<img src="/2023/05/19/Adaptation-Tuning-of-LLMs/image-20230524100148539.png" alt="characteristics of different tuning strategies">
+<figcaption aria-hidden="true">characteristics of different tuning
+strategies</figcaption>
+</figure>
+<h1 id="full-fine-tunepromptless-finetune">Full Fine-tune（Promptless
+Finetune）</h1>
+<p>Bert就是一个典型的应用，将模型在一个很大的语料库上pretrain之后，再在一些任务的数据集上对模型参数进行调整。注意这里模型的所有参数都会进行调整。</p>
+<figure>
+<img src="/2023/05/19/Adaptation-Tuning-of-LLMs/image-20230519142832464.png" alt="image-20230519142832464">
+<figcaption aria-hidden="true">image-20230519142832464</figcaption>
+</figure>
+<p>对所有模型参数调整就带来很多问题：</p>
+<ul>
+<li>要维护每一个task上的模型，有一些模型的参数量都是亿级别的，这对存储是一个考验</li>
+<li>finetune所有参数就需要数据集达到一定的数量级，这在特定领域不一定是可以达到的；如果没有很多数据，有可能finetune完之后还会引起perfomance的下降或者过拟合。</li>
+<li>计算资源的限制</li>
+</ul>
+<h1 id="more-efficient-ways-of-tuning">More Efficient Ways of
+Tuning</h1>
+<p>或许有更合适的tuning方式，less overfitting and more efficient
+finetuning and inference</p>
+<h2 id="prefix-tuning">Prefix-Tuning</h2>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2101.00190.pdf">Prefix-Tuning:
+Optimizing Continuous Prompts for Generation</a></p>
+<figure>
+<img src="/2023/05/19/Adaptation-Tuning-of-LLMs/image-20230519150912298.png" alt="prefix Tuning">
+<figcaption aria-hidden="true">prefix Tuning</figcaption>
+</figure>
+<p>一开始理解prefix
+tuning其实是从“如果不调整所有参数，那么是不是可以调整部分参数”来思考这个模型的。但是看了原文之后会发现作者的思考路径其实有点不太一样。paper中说</p>
+<blockquote>
+<p>Prefix-tuning draws inspiration from prompting, allowing subsequent
+tokens to attend to this prefix as if it were “virtual tokens”</p>
+</blockquote>
+<p>lilian的<a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/#automatic-prompt-design">博客</a>对于这个也解释的蛮有意思：</p>
+<blockquote>
+<p>Prompt is a sequence of prefix tokens that increase the probability
+of getting desired output given input. Therefore we can treat them as
+trainable parameters and <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-01-02-controllable-text-generation/#smart-prompt-design">optimize
+them directly</a> on the embedding space via gradient descent, such as
+<strong>AutoPrompt</strong> (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2010.15980">Shin et al., 2020</a>,
+<strong>Prefix-Tuning</strong> (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2101.00190">Li &amp; Liang (2021)</a>),
+<strong>P-tuning</strong> (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.10385">Liu et al. 2021</a>) and
+<strong>Prompt-Tuning</strong> (<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.08691">Lester et al. 2021</a>). <a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2021-01-02-controllable-text-generation/#smart-prompt-design">This
+section in my “Controllable Neural Text Generation” post</a> has a good
+coverage of them. The trend from AutoPrompt to Prompt-Tuning is that the
+setup gets gradually simplified.</p>
+</blockquote>
+<p>也就是既然我们发现in-context
+learning是可以促进大语言模型解决特定问题（因为我们让LLM以更高的概率输出我们想要的结果了），那么是不是可以可以把这一部分信息编码进模型参数里，从而在特定地数据集上单独训练这些参数。</p>
+<p>所以研究者也想了一些办法如何以最小的成本为特定的任务增加一些参数，fix住预训练模型的大部分参数，而去finetune给每一个任务增加的那一部分参数。其中adapter-tuning就是一种。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -674,14 +695,14 @@ animals”。在zero-shot模式下这个instruction会直接给到gorilla，模�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">216k</span>
+    <span title="Symbols count total">214k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:16</span>
+    <span title="Reading time total">3:14</span>
   </span>
 </div>
 

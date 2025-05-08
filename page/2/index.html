@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,157 +205,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">RAG中PDF的解析</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-06-27 13:17:26" itemprop="dateCreated datePublished" datetime="2024-06-27T13:17:26+08:00">2024-06-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2024-08-30 09:38:12" itemprop="dateModified" datetime="2024-08-30T09:38:12+08:00">2024-08-30</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.4k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>今天新开一篇文章。前段时间一直忙于项目周期中琐碎的事情，没有好好总结和思考技术核心的东西。探索RAG的应用也有一段时间了，市面上的应用也看的不少，很多的应用包括langchain-chatchat，Dify,
-都是整体搭建了一个最basic版本的RAG框架，至于很多细节点，并没有提供更精细化的实现，今天要写的这部分：PDF上传到知识库之后如何parse和chunking，直接影响后续retrival的表现，目前还没有很全面的review来总结这部分内容。这里就对我看到的一些技术做一些整理。</p>
-<p>解析PDF文档的难点主要在于如何精确地捕捉页面的整体布局，并将包括<code>表格</code>，<code>标题</code>,
-段落以及图片在内的内容转译为文档的文字形式。这一过程涉及到多个技术点，布局的检测，图片中文字的抽取，表格中行与列的识别（如何正确将PDF中的表格识别成可用结构化形式表示的表格，也就是能还原出原表格来）。</p>
-<p>目前解析PDF文档主要有三种主流方式：</p>
-<ol type="1">
-<li>基于规则的方法：这种方法根据文档的组织特性来确定每个部分的样式和内容，代表库：<a target="_blank" rel="noopener" href="https://pypi.org/project/pypdf/">pypdf</a>，
-这种方法的适用性比较差，很难通过预设的规则覆盖所有PDF的情形。</li>
-<li>基于深度学习模型的方法：一个流行的解决方案是结合了物体检测和OCR模型，代表
-Chatdoc</li>
-<li>基于多模态大模型的方法：通过这种方法可以解析PDF中复杂结构或者提取关键信息</li>
-</ol>
-<h1 id="基于规则的方法">基于规则的方法</h1>
-<p>基于规则的PDF处理库真的太多了，每一次看到一个应用使用的新的PDF解析器，都要重新看看怎么处理的。比如langchain-chatchat用的是pyMuPDF中的fitz包，见<a target="_blank" rel="noopener" href="https://github.com/chatchat-space/Langchain-Chatchat/blob/master/libs/chatchat-server/chatchat/server/file_rag/document_loaders/mypdfloader.py">langchain-chatchat源代码</a>，这一段处理特别粗糙，我贴上来：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fitz  <span class="comment"># pyMuPDF里面的fitz包，不要与pip install fitz混淆</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">ocr = get_ocr()</span><br><span class="line">doc = fitz.<span class="built_in">open</span>(filepath)</span><br><span class="line">resp = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">b_unit = tqdm.tqdm(</span><br><span class="line">    total=doc.page_count, desc=<span class="string">&quot;RapidOCRPDFLoader context page index: 0&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">for</span> i, page <span class="keyword">in</span> <span class="built_in">enumerate</span>(doc):</span><br><span class="line">    b_unit.set_description(</span><br><span class="line">        <span class="string">&quot;RapidOCRPDFLoader context page index: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">    )</span><br><span class="line">    b_unit.refresh()</span><br><span class="line">    text = page.get_text(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    resp += text + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    img_list = page.get_image_info(xrefs=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> img <span class="keyword">in</span> img_list:</span><br><span class="line">        <span class="keyword">if</span> xref := img.get(<span class="string">&quot;xref&quot;</span>):</span><br><span class="line">                bbox = img[<span class="string">&quot;bbox&quot;</span>]</span><br><span class="line">                <span class="comment"># 检查图片尺寸是否超过设定的阈值</span></span><br><span class="line">                <span class="keyword">if</span> (bbox[<span class="number">2</span>] - bbox[<span class="number">0</span>]) / (page.rect.width) &lt; PDF_OCR_THRESHOLD[</span><br><span class="line">                    <span class="number">0</span></span><br><span class="line">                ] <span class="keyword">or</span> (bbox[<span class="number">3</span>] - bbox[<span class="number">1</span>]) / (</span><br><span class="line">                    page.rect.height</span><br><span class="line">                ) &lt; PDF_OCR_THRESHOLD[<span class="number">1</span>]:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                    pix = fitz.Pixmap(doc, xref)</span><br><span class="line">                    samples = pix.samples</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">int</span>(page.rotation) != <span class="number">0</span>:  <span class="comment"># 如果Page有旋转角度，则旋转图片</span></span><br><span class="line">                        img_array = np.frombuffer(</span><br><span class="line">                            pix.samples, dtype=np.uint8</span><br><span class="line">                        ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line">                        tmp_img = Image.fromarray(img_array)</span><br><span class="line">                        ori_img = cv2.cvtColor(np.array(tmp_img), cv2.COLOR_RGB2BGR)</span><br><span class="line">                        rot_img = rotate_img(img=ori_img, angle=<span class="number">360</span> - page.rotation)</span><br><span class="line">                        img_array = cv2.cvtColor(rot_img, cv2.COLOR_RGB2BGR)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            img_array = np.frombuffer(</span><br><span class="line">                                pix.samples, dtype=np.uint8</span><br><span class="line">                            ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">                            result, _ = ocr(img_array)</span><br><span class="line">                            <span class="keyword">if</span> result:</span><br><span class="line">                                ocr_result = [line[<span class="number">1</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">                                resp += <span class="string">&quot;\n&quot;</span>.join(ocr_result)</span><br></pre></td></tr></table></figure>
-<p>注意它对PDF中图片的处理，是将某一页中所有的图片存入一个img_list，然后遍历这个list，用ocr算法抠出里面的文字，将这些文字都放到该页text的末尾，很大程度上丧失了图片在PDF中应该表达的语义，不仅如此，我觉得还影响了retrival的performance，加入了噪声。</p>
-<p>再来看看<a target="_blank" rel="noopener" href="https://github.com/langgenius/dify/blob/main/api/core/rag/extractor/pdf_extractor.py">Dify</a>怎么处理的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pypdfium2</span><br><span class="line">    <span class="keyword">with</span> blob.as_bytes_io() <span class="keyword">as</span> file_path:</span><br><span class="line">        pdf_reader = pypdfium2.PdfDocument(file_path, autoclose=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> page_number, page <span class="keyword">in</span> <span class="built_in">enumerate</span>(pdf_reader):</span><br><span class="line">                text_page = page.get_textpage()</span><br><span class="line">                content = text_page.get_text_range()</span><br><span class="line">                text_page.close()</span><br><span class="line">                page.close()</span><br><span class="line">                metadata = &#123;<span class="string">&quot;source&quot;</span>: blob.source, <span class="string">&quot;page&quot;</span>: page_number&#125;</span><br><span class="line">                <span class="keyword">yield</span> Document(page_content=content, metadata=metadata)</span><br><span class="line">                <span class="keyword">finally</span>:</span><br><span class="line">                    pdf_reader.close()</span><br></pre></td></tr></table></figure>
-<p>换了一个pypdfium2的库，<strong>图片完全舍弃</strong>。我也去搜了有没有对两者的比较，见<a target="_blank" rel="noopener" href="https://www.reddit.com/r/learnpython/comments/1796l3g/pypdf_or_pymupdf/">pypdf
-or pymupdf?</a>，更有作者做了一个repo用于比较各种library的效果：<a target="_blank" rel="noopener" href="https://github.com/py-pdf/benchmarks">传送门</a>。结论是如果单论文本抽取的质量，pypdfium2是第一</p>
-<blockquote>
-<p>对于RAG中PDF的处理，我觉得最理想的目标应该是，query能够link到PDF中的图片，不仅如此，这张图片也应该作为reference，目前市面上的reference只能link到相应文件的纯文本。远远不够精细，不过做起来确实有点困难，也需要一点耐心。</p>
-</blockquote>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628100839214.png" alt="image-20240628100839214">
-<figcaption aria-hidden="true">image-20240628100839214</figcaption>
-</figure>
-<p>更多其他工具的比较可参考<a target="_blank" rel="noopener" href="https://ad-publications.cs.uni-freiburg.de/benchmark.pdf">A
-Benchmark and Evaluation for Text Extraction from PDF</a></p>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628101040870.png" alt="image-20240628101040870">
-<figcaption aria-hidden="true">image-20240628101040870</figcaption>
-</figure>
-<p>基于规则的方法有一个最大的缺点就是：它会将每一行视为由换行符“”分隔的序列，如果那一行确实是以句号为结尾，影响还稍微小一点，但是如果下一行还在表述这句话，语义上就完全断掉了。要知道在chunking的阶段，大部分的做法是以<code>\n</code>作分隔符的。</p>
-<h1 id="基于深度学习模型的方法">基于深度学习模型的方法</h1>
-<p>这种方法的又是是它能准确识别整个文档的布局，包括表格和段落。它甚至能理解表格内的结构。这意味着解析出来的表格能完整的解析成表格原本的样子。局限性就在于对象检测和OCR的识别两个阶段可能会耗时。这时候可以考虑采用GPU加速或者多进程和多线程的方式进行处理。</p>
-<p>这里有几个开源的代表框架：</p>
-<ul>
-<li>Unstructured：它是langchain官方推荐的方式。在启用infer_table_structure=True的hi_res策略下，表格的识别效果良好。fast策略下表现不佳</li>
-<li>Layout-parser：如果需要识别复杂结构的PDF，建议使用最大的模型，虽然可能会稍慢一点</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/PaddleOCR/blob/main/ppstructure/README_ch.md">PP-StructureV2</a>：
-采用多种模型组合进行文档的分析，性能优于平均水平。这是百度的飞桨出品的文档智能模型。</li>
-</ul>
-<p>另外有一些闭源付费的工具诸如ChatDoc和LLama Parse,
-这些在现实的落地中存在一定阻碍，毕竟调用API是一定会存在数据上传到别人服务器的风险的，如果是处理非敏感数据，付费API可以做考虑。</p>
-<p>这里对Unstructured处理PDF做一些探索。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.unstructured.io/open-source/core-functionality/partitioning#partition-pdf">Unstructured</a>对PDF的处理首先是对layout进行检测(detectron2模型)，然后使用tesseract实现OCR的功能，用table
-transformer处理table。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unstructured.partition.pdf <span class="keyword">import</span> partition_pdf</span><br><span class="line"><span class="comment"># Get elements</span></span><br><span class="line">raw_pdf_elements = partition_pdf(</span><br><span class="line">    filename=test_file,</span><br><span class="line">    <span class="comment"># Using pdf format to find embedded image blocks</span></span><br><span class="line">    extract_images_in_pdf=<span class="literal">True</span>,</span><br><span class="line">    <span class="comment"># Use layout model (YOLOX) to get bounding boxes (for tables) and find titles</span></span><br><span class="line">    <span class="comment"># Titles are any sub-section of the document</span></span><br><span class="line">    infer_table_structure=<span class="literal">True</span>,</span><br><span class="line">    <span class="comment"># Post processing to aggregate text once we have the title</span></span><br><span class="line">    chunking_strategy=<span class="string">&quot;by_title&quot;</span>,</span><br><span class="line">    <span class="comment"># Chunking params to aggregate text blocks</span></span><br><span class="line">    <span class="comment"># Attempt to create a new chunk 3800 chars</span></span><br><span class="line">    <span class="comment"># Attempt to keep chunks &gt; 2000 chars</span></span><br><span class="line">    <span class="comment"># Hard max on chunks</span></span><br><span class="line">    max_characters=<span class="number">4000</span>,</span><br><span class="line">    new_after_n_chars=<span class="number">3800</span>,</span><br><span class="line">    combine_text_under_n_chars=<span class="number">2000</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">tables = [el <span class="keyword">for</span> el <span class="keyword">in</span> raw_pdf_elements <span class="keyword">if</span> el.category == <span class="string">&#x27;Table&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(tables[<span class="number">0</span>].text)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(tables[<span class="number">0</span>].metadata.text_as_html)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>上述的第二个输出：将表格转化为html格式，如果将其保存为html，它可以在浏览器中打开，打开后还是一个完整的表格。unstructured的好处就在于它保证了一个表格的完整性。官方给出的<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1BJYYyrPVe0_9EGyXqeNyzmVZDrCRZwsg">示例代码</a>中就是将每一个element的text去做embedding，对于表格来说就是将表格的text去做embedding。但是我测试了两个例子发现，它把表格的标题以及表格的注解给弄到其他element里去了，这些文本本应该和表格一起，比如下面的表格：</p>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628160939056.png" alt="image-20240628160939056">
-<figcaption aria-hidden="true">image-20240628160939056</figcaption>
-</figure>
-<p>它抽取出来的表格element就只包含纯表格那部分，上面关于Table1的介绍都包含在了上面一个element里</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">3.5 Positional Encoding</span><br><span class="line"></span><br><span class="line">Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the</span><br><span class="line"></span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.</span><br><span class="line">--------------------------------- 上面是另一个element的内容</span><br><span class="line">Layer Type Self-Attention Recurrent Convolutional Self-Attention (restricted) Complexity per Layer O(n2 · d) O(n · d2) O(k · n · d2) O(r · n · d) Sequential Maximum Path Length Operations O(1) O(n) O(1) O(1) O(1) O(n) O(logk(n)) O(n/r)</span><br></pre></td></tr></table></figure>
-<h1 id="基于多模态大模型的方法">基于多模态大模型的方法</h1>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -815,6 +664,140 @@ Cache搭配使用</p>
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/06/Sequence%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E4%B8%AD%E5%A4%84%E7%90%86%E4%B8%8D%E5%AE%9A%E9%95%BF%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/12/06/Sequence%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E4%B8%AD%E5%A4%84%E7%90%86%E4%B8%8D%E5%AE%9A%E9%95%BF%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">Sequence分类问题中处理不定长数据</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-12-06 10:55:07" itemprop="dateCreated datePublished" datetime="2023-12-06T10:55:07+08:00">2023-12-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2024-08-30 09:38:18" itemprop="dateModified" datetime="2024-08-30T09:38:18+08:00">2024-08-30</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>6.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>之前写过一篇关于stanford
+alpaca的代码的分析，最近在kaggle上看到一个检测某段长文本是否是AI生成的任务<a target="_blank" rel="noopener" href="https://www.kaggle.com/c/llm-detect-ai-generated-text">LLM -
+Detect AI Generated
+Text</a>,自己也在尝试做这个任务的时候，发现斯坦福的这份代码真是常看常新。对于数据的准备部分，有很多选择，比如在创建Dataset的时候就把所有的字符串数据tokenize好，在get_item()的函数返回时就返回input_ids，也可以是像斯坦福的<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca/blob/main/train.py">这份代码</a>一样，先把数据读取进来然后再用<code>DataCollator</code>处理（padding）。</p>
+<p>我之前没有发现斯坦福这份代码这么写的真正原因，直到我自己来处理这种不定长的序列输入时才发现这样写的绝妙，因为我们都知道矩阵是每一行都需要是同样的size，所以斯坦福的写法在数据处理前期一直在用list，而不是batch。</p>
+<p>先来说说transformer的对于序列分类的官方教程的写法<a target="_blank" rel="noopener" href="https://github.com/huggingface/notebooks/blob/main/transformers_doc/en/sequence_classification.ipynb">传送门</a></p>
+<p>transformer的这个教程直接使用的是自己的数据集，已经规整为datasets了，首先它对数据集使用map函数做了截断的处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer</span><br><span class="line"></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;distilbert-base-uncased&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_function</span>(<span class="params">examples</span>):</span></span><br><span class="line">    <span class="keyword">return</span> tokenizer(examples[<span class="string">&quot;text&quot;</span>], truncation=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">tokenized_imdb = imdb.<span class="built_in">map</span>(preprocess_function, batched=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>然后重点来了，注意在上面的<code>preprocess_function</code>中并没有对序列进行padding，只是对过长的序列做了截断。接着作者使用了<code>datacollatorwithpadding</code>，给出的理由是：</p>
+<blockquote>
+<p>It's more efficient to <em>dynamically pad</em> the sentences to the
+longest length in a batch during collation, instead of padding the whole
+dataset to the maximum length.</p>
+</blockquote>
+<p>我们可以用官方的文档中看到对于datacollator的<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main_classes/data_collator">定义</a>：</p>
+<blockquote>
+<p>Data collators are objects that will form a batch by using a list of
+dataset elements as input. These elements are of the same type as the
+elements of <code>train_dataset</code> or <code>eval_dataset</code></p>
+</blockquote>
+<p>也就是data
+collators的输入是一个list，list里的每一个元素跟train_dataset中的元素是一样的。在data
+collator中你可以做一些processing，如padding，random
+masking。我们接下来可以看到斯坦福的羊驼代码就是将padding的步骤放到了data
+collator内。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> DataCollatorWithPadding</span><br><span class="line"></span><br><span class="line">data_collator = DataCollatorWithPadding(tokenizer=tokenizer)</span><br></pre></td></tr></table></figure>
+<p>在这里的教程里，作者使用了<code>DataCollatorWithPadding</code>，它会动态地pad
+inputs。我看到文档里还有<code>class transformers.DataCollatorForTokenClassification</code>这个类，maybe可以处理不定长输入，留作后续探索。</p>
+<p>transformer的这个教程还是过于简单了，在实际的case中情况会复杂一点。接下来我们看斯坦福的羊驼咋处理不定长sequence的。</p>
+<p>首先它先把Dataset定义好：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    sources: <span class="type">Sequence</span>[<span class="built_in">str</span>],</span></span></span><br><span class="line"><span class="params"><span class="function">    targets: <span class="type">Sequence</span>[<span class="built_in">str</span>],</span></span></span><br><span class="line"><span class="params"><span class="function">    tokenizer: transformers.PreTrainedTokenizer,</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) -&gt; <span class="type">Dict</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Preprocess the data by tokenizing.&quot;&quot;&quot;</span></span><br><span class="line">    examples = [s + t <span class="keyword">for</span> s, t <span class="keyword">in</span> <span class="built_in">zip</span>(sources, targets)]</span><br><span class="line">    examples_tokenized, sources_tokenized = [_tokenize_fn(strings, tokenizer) <span class="keyword">for</span> strings <span class="keyword">in</span> (examples, sources)]</span><br><span class="line">    input_ids = examples_tokenized[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">    labels = copy.deepcopy(input_ids)</span><br><span class="line">    <span class="keyword">for</span> label, source_len <span class="keyword">in</span> <span class="built_in">zip</span>(labels, sources_tokenized[<span class="string">&quot;input_ids_lens&quot;</span>]):</span><br><span class="line">        label[:source_len] = IGNORE_INDEX</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=input_ids, labels=labels)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SupervisedDataset</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Dataset for supervised fine-tuning.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path: <span class="built_in">str</span>, tokenizer: transformers.PreTrainedTokenizer</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(SupervisedDataset, self).__init__()</span><br><span class="line">        logging.warning(<span class="string">&quot;Loading data...&quot;</span>)</span><br><span class="line">        list_data_dict = utils.jload(data_path)</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Formatting inputs...&quot;</span>)</span><br><span class="line">        prompt_input, prompt_no_input = PROMPT_DICT[<span class="string">&quot;prompt_input&quot;</span>], PROMPT_DICT[<span class="string">&quot;prompt_no_input&quot;</span>]</span><br><span class="line">        sources = [</span><br><span class="line">            prompt_input.format_map(example) <span class="keyword">if</span> example.get(<span class="string">&quot;input&quot;</span>, <span class="string">&quot;&quot;</span>) != <span class="string">&quot;&quot;</span> <span class="keyword">else</span> prompt_no_input.format_map(example)</span><br><span class="line">            <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict</span><br><span class="line">        ]</span><br><span class="line">        targets = [<span class="string">f&quot;<span class="subst">&#123;example[<span class="string">&#x27;output&#x27;</span>]&#125;</span><span class="subst">&#123;tokenizer.eos_token&#125;</span>&quot;</span> <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict] <span class="comment"># 将output之后加上[EOS]</span></span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Tokenizing inputs... This may take some time...&quot;</span>)</span><br><span class="line">        data_dict = preprocess(sources, targets, tokenizer)</span><br><span class="line"></span><br><span class="line">        self.input_ids = data_dict[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">        self.labels = data_dict[<span class="string">&quot;labels&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.input_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, i</span>) -&gt; <span class="type">Dict</span>[<span class="built_in">str</span>, torch.Tensor]:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=self.input_ids[i], labels=self.labels[i])</span><br></pre></td></tr></table></figure>
+<p>玄机在：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_tokenize_fn</span>(<span class="params">strings: <span class="type">Sequence</span>[<span class="built_in">str</span>], tokenizer: transformers.PreTrainedTokenizer</span>) -&gt; <span class="type">Dict</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Tokenize a list of strings.&quot;&quot;&quot;</span></span><br><span class="line">    tokenized_list = [</span><br><span class="line">        tokenizer(</span><br><span class="line">            text,</span><br><span class="line">            return_tensors=<span class="string">&quot;pt&quot;</span>,</span><br><span class="line">            padding=<span class="string">&quot;longest&quot;</span>,</span><br><span class="line">            max_length=tokenizer.model_max_length,</span><br><span class="line">            truncation=<span class="literal">True</span>,</span><br><span class="line">        ) <span class="comment"># 这里做了循环，也就是对strings这个list里的每一个sequence单独做的tokenize，然后把这些不等长的input_ids一同放到一个list里。之所以用list，是因为list里可以存储不等长的list。一直到这一步都没有做padding</span></span><br><span class="line">        <span class="keyword">for</span> text <span class="keyword">in</span> strings</span><br><span class="line">    ]</span><br><span class="line">    input_ids = labels = [tokenized.input_ids[<span class="number">0</span>] <span class="keyword">for</span> tokenized <span class="keyword">in</span> tokenized_list]</span><br><span class="line">    input_ids_lens = labels_lens = [</span><br><span class="line">        tokenized.input_ids.ne(tokenizer.pad_token_id).<span class="built_in">sum</span>().item() <span class="keyword">for</span> tokenized <span class="keyword">in</span> tokenized_list</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dict</span>(</span><br><span class="line">        input_ids=input_ids,</span><br><span class="line">        labels=labels,</span><br><span class="line">        input_ids_lens=input_ids_lens,</span><br><span class="line">        labels_lens=labels_lens,</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>当我们调用<code>SupervisedDataset</code>实例化数据后我们来看看数据长什么样子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">train_dataset中有两个key，一个Input_ids,一个labels</span><br><span class="line">input_ids中的值长这样：</span><br><span class="line">tensor([    2, 45943,    16,    41, 15741,    14,  7448,    10,  3685,     4,</span><br><span class="line">        21062,    10,  1263,    14, 16574, 25830,     5,  2069,     4, 50118,</span><br><span class="line">        50118, 48134, 41241,    35, 50118, 31033,   130,  4965,    13,  4959,</span><br><span class="line">         2245,     4, 50118, 50118, 48134, 19121,    35,   134,     4, 43800,</span><br><span class="line">           10,  9320,  5626,     8,   146,   686,     7,   680,  2710,     9,</span><br><span class="line">        12849,     8,  8942,     4,  1437, 50118,   176,     4, 30450,  4595,</span><br><span class="line">            7,   489,   110,   809,  2171,     8,   670,     4,  1437, 50118,</span><br><span class="line">          246,     4,  2315,   615,  3581,     8,  3014,    10,  4292,  3581,</span><br><span class="line">         3078,     4,     2])</span><br><span class="line">labels中的值长这样：</span><br><span class="line">tensor([ -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,  -100,</span><br><span class="line">         -100,  -100,  -100,  -100,  -100,  -100,  -100,   134,     4, 43800,</span><br><span class="line">           10,  9320,  5626,     8,   146,   686,     7,   680,  2710,     9,</span><br><span class="line">        12849,     8,  8942,     4,  1437, 50118,   176,     4, 30450,  4595,</span><br><span class="line">            7,   489,   110,   809,  2171,     8,   670,     4,  1437, 50118,</span><br><span class="line">          246,     4,  2315,   615,  3581,     8,  3014,    10,  4292,  3581,</span><br><span class="line">         3078,     4,     2])</span><br></pre></td></tr></table></figure>
+<p>而且input_ids中每一个值的长度都是不同的，这是因为没有做padding的结果，<strong>仅仅</strong>是将所有的过长的sequence截断了。</p>
+<p>羊驼的代码将所有的padding细节都放到了collator里：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@dataclass</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataCollatorForSupervisedDataset</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Collate examples for supervised fine-tuning.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    tokenizer: transformers.PreTrainedTokenizer</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, instances: <span class="type">Sequence</span>[<span class="type">Dict</span>]</span>) -&gt; <span class="type">Dict</span>[<span class="built_in">str</span>, torch.Tensor]:</span></span><br><span class="line">        input_ids, labels = <span class="built_in">tuple</span>([instance[key] <span class="keyword">for</span> instance <span class="keyword">in</span> instances] <span class="keyword">for</span> key <span class="keyword">in</span> (<span class="string">&quot;input_ids&quot;</span>, <span class="string">&quot;labels&quot;</span>))</span><br><span class="line">        input_ids = torch.nn.utils.rnn.pad_sequence(</span><br><span class="line">            input_ids, batch_first=<span class="literal">True</span>, padding_value=self.tokenizer.pad_token_id</span><br><span class="line">        )</span><br><span class="line">        labels = torch.nn.utils.rnn.pad_sequence(labels, batch_first=<span class="literal">True</span>, padding_value=IGNORE_INDEX)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dict</span>(</span><br><span class="line">            input_ids=input_ids,</span><br><span class="line">            labels=labels,</span><br><span class="line">            attention_mask=input_ids.ne(self.tokenizer.pad_token_id), <span class="comment"># see https://pytorch.org/docs/stable/generated/torch.ne.html#torch.ne</span></span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+<p>这里作者写了一个自己的类，继承自object。这里没有继承transformer的DefaultDataCollator，暂时不清楚用意，但我觉得应该也可以。这个类实现了一个<code>__call__</code>方法，接受的是一个Sequence（可迭代对象），对象中是字典（input_ids,
+labels），我们上面在创建数据集的时候getitem每次返回一个dict，这个dict里有input_id和label。现在的collator接受的是这个字典的list，也就是有很多个数据（batch_size），我们对这个batch里的数据统一进行padding，这样就实现了在batch内部去pad，避免将所有的字符串都pad成最长的字符长度。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -840,14 +823,14 @@ Cache搭配使用</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">216k</span>
+    <span title="Symbols count total">214k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:16</span>
+    <span title="Reading time total">3:14</span>
   </span>
 </div>
 

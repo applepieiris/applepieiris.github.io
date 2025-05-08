@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,111 +205,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">pandas中count(),value_counts(),unique)区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-13 11:12:46" itemprop="dateCreated datePublished" datetime="2021-12-13T11:12:46+08:00">2021-12-13</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-12-14 10:43:59" itemprop="dateModified" datetime="2021-12-14T10:43:59+08:00">2021-12-14</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>403</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="count">count()</h1>
-<p>不管是Series还是DateFrame，两个类都有这个方法。</p>
-<p>对于DateFrame，返回的是每一列中非空的元素的个数，可以指定是以行去统计还是以列去统计。</p>
-<p>对于Series，返回的是Series中非空元素的个数。</p>
-<p>对于groupby，返回的是每一组中元素的个数，这里的个数不包含空字段。</p>
-<h1 id="value_counts">value_counts()</h1>
-<p>对于DateFrame，返回的是unique行的个数，这里的unique行指的是只要其中一个column的值不一样就算不一样的行。</p>
-<p>对于Series，返回的是每一个unique元素的个数，也就是每一个unique的元素，它会统计它在Series中出现了多少次。</p>
-<h1 id="unique">unique()</h1>
-<p>对于Series，返回的是所有unique的元素们，如果你想统计所有不一样的元素有多少个，可以统计list中元素的个数，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(df[&#x27;a&#x27;].unique().tolist())  </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -678,6 +573,150 @@ export保存为一个基础镜像。然后，把这个镜像分发给其他人�
 
 
 
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">使用PaddleVideo实现在attention_lstm模型上训练youtube-8m数据</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-25 15:44:47" itemprop="dateCreated datePublished" datetime="2021-11-25T15:44:47+08:00">2021-11-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-01-05 10:14:26" itemprop="dateModified" datetime="2022-01-05T10:14:26+08:00">2022-01-05</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="安装">安装</h1>
+<p>参照
+https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</p>
+<p>注意这里创建虚拟环境的时候要使用python=3.7，因为3.7之后的版本，paddleVideo只支持Linux系统。</p>
+<p>其他要求： <code>cuda &gt;= 10.1</code>,
+<code>cuDNN &gt;= 7.6.4</code></p>
+<p>安装完<code>paddlepaddle</code>之后，再安装<code>paddleVideo</code></p>
+<h1 id="快速开始">快速开始</h1>
+<p>这里官方教程写的不是很详细，安装完之后让直接用命令行方式启动程序，因为<code>paddleVideo</code>这个库里面有三个inference模型，分别是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Inference models that Paddle provides are listed as follows:</span><br><span class="line"></span><br><span class="line">&#123;&#x27;TSN&#x27;, &#x27;ppTSM&#x27;, &#x27;TSM&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<p>这里安装好环境之后，直接命令行是会报错的，因为还没有下载模型参数以及label，会报<code>'If you want to use your own model, Please input model_file as model path!'</code>的错误。</p>
+<p>这时候进入python环境，跑以下程序:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ppvideo <span class="keyword">import</span> PaddleVideo</span><br><span class="line">clas = PaddleVideo(model_name=<span class="string">&#x27;ppTSM&#x27;</span>,use_gpu=<span class="literal">False</span>,use_tensorrt=<span class="literal">False</span>)</span><br><span class="line">video_file=<span class="string">&#x27;data/example.avi&#x27;</span></span><br><span class="line">result=clas.predict(video_file)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+<p>当你enter第二句话的时候，程序就会开始下载<code>InferenceModel</code>，大概有90.6兆，下载完之后再执行下面几行的程序，其中<code>video_file</code>这里要注意一下，程序里是相对路径。</p>
+<p>下载的模型会放在
+<code>C:\Users\XXXX\.paddlevideo_inference\inference_model\ppTSM</code></p>
+<p>下载的label的txt在<code>'D:\\XXXXX\\anaconda_envs\\paddleVideo\\lib\\site-packages\\ppvideo\\tools\\../data/k400/Kinetics-400_label_list.txt'</code>也就是虚拟环境那个ppvideo里</p>
+<h1 id="训练attention-lstm模型">训练attention-lstm模型</h1>
+<p>前两节安装完之后，快速开始是为了测试安装正确与否。paddleVideo只有attention-lstm模型，并没有提供在youtube-8m上训练后的参数和label。所以这部分我们使用paddle框架来自己训练。</p>
+<h2 id="下载youtube-8m数据集并转换为paddlepaddle处理的格式">下载youtube-8m数据集并转换为paddlepaddle处理的格式</h2>
+<p>整个数据集包含3844个训练数据文件和3844个验证数据文件（TFRecord格式）</p>
+<p>在linux系统下用curl下载，在windows下可以利用git的bash命令行的方式下载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl data.yt8m.org/download.py | partition=2/frame/train mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/validate mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/test mirror=asia python</span><br></pre></td></tr></table></figure>
+<p>数据下载完成之后，因为paddlepaddle需要使用pickle的数据格式，所以需要用<code>https://github.com/PaddlePaddle/PaddleVideo/</code>该官方仓库里data/yt8m下的脚本<code>tf2pkl.py</code>脚本进行转换。<code>tf2pkl.py</code>文件运行时需要两个参数，分别是数据源tf文件存放路径和转化后的pkl文件存放路径。</p>
+<blockquote>
+<p>由于TFRecord文件的读取需要用到Tensorflow，用户要先安装Tensorflow，或者在安装有Tensorflow的环境中转化完数据，再拷贝到data/dataset/youtube8m/pkl目录下。为了避免和PaddlePaddle环境冲突，建议先在其他地方转化完成再将数据拷贝过来。</p>
+</blockquote>
+<p>上面在转换数据格式的时候还要注意，<code>tf2pkl.py</code>文件用的tensorflow是1.X的版本，用2.0之后版本的需要重新创建虚拟环境，如果不想麻烦，可以直接在这个paddleVideo的虚拟环境里面安装<code>tensorflow-gpu==1.14.0</code></p>
+<p>这里如果安装的是gpu版本，需要有对应的cuda版本支持，1.14.0需要10.0的cuda，我的服务器是11.2的cuda，所以这里我就直接安装的是cpu版本的tensorflow。其他的版本支持请查阅：https://www.tensorflow.org/install/source#gpu</p>
+<p><img src="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/image-20211126133025867.png"></p>
+<ul>
+<li>在linux中命令：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python tf2pkl.py ./tf/train ./pkl/train</span><br><span class="line">python tf2pkl.py ./tf/val ./pkl/val</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在windows中我的方案：</li>
+</ul>
+<p>我看到<code>tf2pkl.py</code>脚本里是用sys命令行的方式调用的，然后他整个脚本都是在linux的模式下的模式。其中有几个地方改动一下就可以适用于windows：</p>
+<ol type="1">
+<li>删掉以下几行：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># assert (len(sys.argv) == 3)</span><br><span class="line"># source_dir = sys.argv[1]</span><br><span class="line"># target_dir = sys.argv[2]</span><br></pre></td></tr></table></figure>
+<p>禁用命令行调用的模式</p>
+<ol start="2" type="1">
+<li>将record_dir
+变成你想转化的文件的文件夹的路径，比如<code>\data\dataset\youtube8m\tf</code></li>
+<li>将main函数中将outputdir路径改成你要存储pickle文件的文件夹的路径。</li>
+</ol>
+<p>完成上述步骤之后，直接在IDE中运行<code>tf2pkl.py</code>就可以开始转化文件了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_VISIBLE_DEVICES=1</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -703,14 +742,14 @@ export保存为一个基础镜像。然后，把这个镜像分发给其他人�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">216k</span>
+    <span title="Symbols count total">214k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:16</span>
+    <span title="Reading time total">3:14</span>
   </span>
 </div>
 
