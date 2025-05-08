@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,6 +205,143 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/21/decoding-strategy-in-NG-tasks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/21/decoding-strategy-in-NG-tasks/" class="post-title-link" itemprop="url">decoding strategy in NG tasks</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-04-21 10:34:48" itemprop="dateCreated datePublished" datetime="2023-04-21T10:34:48+08:00">2023-04-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-08-29 13:24:12" itemprop="dateModified" datetime="2023-08-29T13:24:12+08:00">2023-08-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在Neural Language
+Generation的任务中，如何在每一个时间步产生一个token称为decoding
+method.最常见的decoding方法就是用softmax激活函数计算概率分布之后，将概率最大的那个token列为当前的预测值（most
+likely string）。这种argmax的方式在machine
+translation等non-open-ended的任务中表现还可以，但是如果是在纯粹的开放性的任务中，比如写一首诗歌。这种方式会造成重复性的输出，并且输出的句子有时候连续性也比较差。</p>
+<p>这时候很多研究工作就对decoding strategic展开了研究，比如beam
+search，基本原理很简单，就是从取概率排名前k个token作为当前预测值。但是这还是会有一个问题，就是当我们概率分布均衡的时候，这个方法可以，但如果概率分布不均衡，也就是softmax计算出来的概率值只有几个token的概率比较大，其他概率都非常小，比如零点几，那这个时候其实我们不太需要考虑k个单词，只需要考虑概率比较大的那些tokens就够了。</p>
+<h2 id="top-pnucleus-sampling">Top-p（Nucleus Sampling）</h2>
+<p>所以这时候就有人提出了Top-p(nucleus) sampling的方法<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a></p>
+<p>具体做法就是维护一个动态的k值，这个k值随着softmax的输出概率分布决定，</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134555223.png" alt="image-20230421134555223">
+<figcaption aria-hidden="true">image-20230421134555223</figcaption>
+</figure>
+<p>作者的思路就是当概率分布比较flat的时候，我们应该把sample的池子定的大一点。但是当概率分布比较陡峭，也就是上图中的第三种情况时，我们就需要把这个sample的池子变得小一点。具体是如何操作的呢？</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134938176.png" alt="image-20230421134938176">
+<figcaption aria-hidden="true">image-20230421134938176</figcaption>
+</figure>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421134952769.png" alt="image-20230421134952769">
+<figcaption aria-hidden="true">image-20230421134952769</figcaption>
+</figure>
+<p>看公式可能会比较复杂，具体做法就是提前预设一个阈值p，然后对于某个时间步的概率分布P，我们寻找一个最小的top-p的一个token池子，这个池子里所有的token的概率值加起来要大于p，注意这里是找一个smallest
+set，也就是我们在找这个token池子时，从概率最高的token往下捋，一直到概率和大于p。找到这个池子之后，我们将原来经过softmax函数计算之后的概率分布按照上图中（3）的公式重新计算得出一个新的概率分布。最终我们得到的概率分布不属于我们之前找的token池子里的token的概率全部置为0，至于在这个token池子里的token的概率值会除以这个池子里所有token概率值的<strong>和</strong>。然后我们从这个分布中去sample我们的预测token。</p>
+<h2 id="sampling-with-temperature">Sampling with Temperature</h2>
+<p>Temperature这个概念在GPT中也有，不同的温度值，你会得到不同的结果。温度值越低，它会对自己的输出结果更自信，而温度值越高，它会降低模型的确信值，也就会返回更多的结果给你。<a target="_blank" rel="noopener" href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">Blog</a>对上面提到的<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1904.09751">The Curious Case of Neural Text
+Degeneration</a>文章进行了解答，但我发现有一点和paper中不一样的是：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144452222.png" alt="image-20230421144452222">
+<figcaption aria-hidden="true">image-20230421144452222</figcaption>
+</figure>
+<p>temperature值t并不是取值是<code>[0,1)</code>，stanford224n的课件以及博客里对t的取值是可以大于1的：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144619190.png" alt="image-20230421144619190">
+<figcaption aria-hidden="true">image-20230421144619190</figcaption>
+</figure>
+<p>在博客中我们可以看到作者对于t值大于1和小于1画出的图的区别：</p>
+<figure>
+<img src="/2023/04/21/decoding-strategy-in-NG-tasks/image-20230421144711636.png" alt="image-20230421144711636">
+<figcaption aria-hidden="true">image-20230421144711636</figcaption>
+</figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -820,170 +957,6 @@ or decoder-only <a target="_blank" rel="noopener" href="https://lilianweng.githu
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/13/TF2%E4%B8%AD%E7%9A%84custom-layer-model-training/" class="post-title-link" itemprop="url">TF2中的custom layer&model&training</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-13 16:07:54" itemprop="dateCreated datePublished" datetime="2023-02-13T16:07:54+08:00">2023-02-13</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-04-28 14:03:27" itemprop="dateModified" datetime="2023-04-28T14:03:27+08:00">2023-04-28</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/tensorflow/" itemprop="url" rel="index"><span itemprop="name">tensorflow</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在上Coursera上关于<a target="_blank" rel="noopener" href="https://www.coursera.org/specializations/tensorflow-advanced-techniques">Tensorflow的高级用法课程</a>时，老师简略介绍了custom
-layer和custom
-model的用法，但后来看到其实课程覆盖的内容比较简单，除了介绍了__init__和call两个可override的function外没有介绍其他的。偶然看到一篇博客详细介绍了在tensorflow中如何使用sub
-classing来搭建模型，写的非常好，这里贴上<a target="_blank" rel="noopener" href="https://towardsdatascience.com/model-sub-classing-and-custom-training-loop-from-scratch-in-tensorflow-2-cc1d4f10fb4e">链接</a></p>
-<p>我们知道在tensorflow中有三种搭建模型的方式： 1) sequential API
-也就是想创建一个Sequential实例，然后通过add的方式把一个layer加到模型中去，如：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line">seq_model = tf.keras.Sequential()</span><br><span class="line">seq_model.add(tf.keras.Input(shape=imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.MaxPooling2D(<span class="number">3</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">seq_model.add(tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>))</span><br><span class="line">seq_model.add(tf.keras.layers.BatchNormalization())</span><br><span class="line">seq_model.add(tf.keras.layers.Dropout(<span class="number">0.3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">seq_model.add(tf.keras.layers.GlobalMaxPooling2D())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">seq_model.add(tf.keras.layers.Dense(output_dim))</span><br></pre></td></tr></table></figure>
-sequential的方式在researcher中用的不多，随着模型变得越来越复杂，可以看到tensorflow的application模块实现的官方模型代码中，已经见不到这种形式了。
-2) Functional API 正如其名，就是用函数调用的方式来搭建模型：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># declare input shape </span></span><br><span class="line"><span class="built_in">input</span> = tf.keras.Input(shape=(imput_dim))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 1</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, strides=<span class="number">2</span>, activation=<span class="string">&quot;relu&quot;</span>)(<span class="built_in">input</span>)</span><br><span class="line">x = tf.keras.layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Block 2</span></span><br><span class="line">x = tf.keras.layers.Conv2D(<span class="number">64</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = tf.keras.layers.BatchNormalization()(x)</span><br><span class="line">x = tf.keras.layers.Dropout(<span class="number">0.3</span>)(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now that we apply global max pooling.</span></span><br><span class="line">gap = tf.keras.layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Finally, we add a classification layer.</span></span><br><span class="line">output = tf.keras.layers.Dense(output_dim)(gap)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bind all</span></span><br><span class="line">func_model = tf.keras.Model(<span class="built_in">input</span>, output)</span><br></pre></td></tr></table></figure>
-注意：这种方式最终要使用<code>tf.keras.Model()</code>来将inputs和outputs接起来。</p>
-<ol start="3" type="1">
-<li>Model sub-classing API 第三种方式是现在用的最多的方式。
-之前我没理解layer和model两种调用方式的区别，我觉得就是一系列运算，我们把输入输进来，return
-output结果的一个过程。但如果一个类它是Layer的子类，它比model的子类多了一个功能，它有state属性，也就是我们熟悉的weights。比如Dense
-layer，我们知道它做了线性运算+激活函数，其中的weights就是我们assign给每一个feature的权重，但其实我们并不只是想要这一类别的运算，比如下面的：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleQuadratic</span>(<span class="params">Layer</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, units=<span class="number">32</span>, activation=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Initializes the class and sets up the internal variables&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        <span class="built_in">super</span>(SimpleQuadratic, self).__init__()</span><br><span class="line">        self.units = units</span><br><span class="line">        self.activation = tf.keras.activations.get(activation)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span>(<span class="params">self, input_shape</span>):</span></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Create the state of the layer (weights)&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># a and b should be initialized with random normal, c (or the bias) with zeros.</span></span><br><span class="line">        <span class="comment"># remember to set these as trainable.</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        a_init = tf.random_normal_initializer()</span><br><span class="line">        b_init = tf.random_normal_initializer()</span><br><span class="line">        c_init = tf.zeros_initializer()</span><br><span class="line">        </span><br><span class="line">        self.a = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = a_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.b = tf.Variable(name = <span class="string">&quot;kernel&quot;</span>, initial_value = b_init(shape= (input_shape[-<span class="number">1</span>], self.units), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">        </span><br><span class="line">        self.c = tf.Variable(name = <span class="string">&quot;bias&quot;</span>, initial_value = c_init(shape= (self.units,), </span><br><span class="line">                                                                    dtype= <span class="string">&quot;float32&quot;</span>), trainable = <span class="literal">True</span>)</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, inputs</span>):</span> </span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;Defines the computation from inputs to outputs&#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="comment"># YOUR CODE HERE</span></span><br><span class="line">        result = tf.matmul(tf.math.square(inputs), self.a) + tf.matmul(inputs, self.b) + self.c</span><br><span class="line">        <span class="keyword">return</span> self.activation(result)</span><br></pre></td></tr></table></figure>
-上面的代码将inputs平方之后和a做乘积，之后再加上inputs和b的乘积，最终返回的是和。这样的运算是tf.keras.layer中没有的。这个时候我们自己customize
-layer就很方便。还有一个很方便的地方在于很多模型其实是按模块来的，模块内部的layer很类似。这个时候我们就可以把这些模型内的layer包起来变成一个layer的子类（Module），再定义完这些module之后我们使用Model把这些module再包起来，这就是我们最终的model。这时候我们就可以看到Model和Layer子类的区别了，虽然两者都可以实现输入进来之后实现一系列运算返回运算结果，但后者可以实现更灵活的运算，而前者往往是在把每一个模块定义好之后最终定义我们训练模型的类。
-&gt; In general, we use the Layer class to define the inner computation
-blocks and will use the Model class to define the outer model,
-practically the object that we will train. ---粘贴自博客</li>
-</ol>
-<blockquote>
-<p>You can treat any model as if it were a layer by invoking it on an
-<code>Input</code> or on the output of another layer. By calling a model
-you aren't just reusing the architecture of the model, you're also
-reusing its weights</p>
-</blockquote>
-<p>同样值得注意的是，model的子类也可以像layer那样使用functional
-API来调用，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">encoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;original_img&quot;</span>)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(encoder_input)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.MaxPooling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2D(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">encoder_output = layers.GlobalMaxPooling2D()(x)</span><br><span class="line"></span><br><span class="line">encoder = keras.Model(encoder_input, encoder_output, name=<span class="string">&quot;encoder&quot;</span>)</span><br><span class="line">encoder.summary()</span><br><span class="line"></span><br><span class="line">decoder_input = keras.Input(shape=(<span class="number">16</span>,), name=<span class="string">&quot;encoded_img&quot;</span>)</span><br><span class="line">x = layers.Reshape((<span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>))(decoder_input)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">x = layers.UpSampling2D(<span class="number">3</span>)(x)</span><br><span class="line">x = layers.Conv2DTranspose(<span class="number">16</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line">decoder_output = layers.Conv2DTranspose(<span class="number">1</span>, <span class="number">3</span>, activation=<span class="string">&quot;relu&quot;</span>)(x)</span><br><span class="line"></span><br><span class="line">decoder = keras.Model(decoder_input, decoder_output, name=<span class="string">&quot;decoder&quot;</span>)</span><br><span class="line">decoder.summary()</span><br><span class="line"></span><br><span class="line">autoencoder_input = keras.Input(shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), name=<span class="string">&quot;img&quot;</span>)</span><br><span class="line">encoded_img = encoder(autoencoder_input)</span><br><span class="line">decoded_img = decoder(encoded_img)</span><br><span class="line">autoencoder = keras.Model(autoencoder_input, decoded_img, name=<span class="string">&quot;autoencoder&quot;</span>)</span><br><span class="line">autoencoder.summary()</span><br></pre></td></tr></table></figure>
-<p>我们以sub-classing的方式定义的model是没有办法调用summary来看模型架构的，作者也给出了解决方案：<a target="_blank" rel="noopener" href="https://github.com/tensorflow/tensorflow/issues/31647#issuecomment-692586409">github
-comments</a></p>
-<p>方法就是在Model的子类中添加build_graph方法： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_graph</span>(<span class="params">self, raw_shape</span>):</span></span><br><span class="line">        x = tf.keras.layers.Input(shape=raw_shape)</span><br><span class="line">        <span class="keyword">return</span> Model(inputs=[x], outputs=self.call(x))</span><br></pre></td></tr></table></figure>
-这样我们就可以正常调用summary() <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cm.build_graph(raw_input).summary()</span><br><span class="line"><span class="comment"># 不仅如此还能使用tf.keras.utils.plot_model来生成png</span></span><br><span class="line">tf.keras.utils.plot_model(</span><br><span class="line">    model.build_graph(raw_input),                      <span class="comment"># here is the trick (for now)</span></span><br><span class="line">    to_file=<span class="string">&#x27;model.png&#x27;</span>, dpi=<span class="number">96</span>,              <span class="comment"># saving  </span></span><br><span class="line">    show_shapes=<span class="literal">True</span>, show_layer_names=<span class="literal">True</span>,  <span class="comment"># show shapes and layer name</span></span><br><span class="line">    expand_nested=<span class="literal">False</span>                       <span class="comment"># will show nested block</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>作者同样推荐了一篇博客讲tensorflow中保存模型的各种方式：<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/172D4jishSgE3N7AO6U2OKAA_0wNnrMOq#scrollTo=vnTvqAgfspGJ">博客地址</a>.非常推荐阅读</p>
-<p>总结一下就是：</p>
-<ol type="1">
-<li>对于Functional
-API创建的模型，最好的保存模型和导入模型的方式是：</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.save(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br><span class="line"><span class="keyword">del</span> model</span><br><span class="line">model = keras.models.load_model(<span class="string">&#x27;path_to_my_model.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>以上方式会将模型的架构，weights以及训练过程中的设定（也就是model.compile()）的内容全部保存。</p>
-<ol start="2" type="1">
-<li>对于sub class创建的模型，推荐的方式是用save_weights</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.save_weights(<span class="string">&#x27;path_to_my_weights&#x27;</span>, save_format=<span class="string">&#x27;tf&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>如果想要加载weights，必须要知道原来用sub
-class建立模型的code。不仅如此，还需要用原来的code先build起模型，让模型知道输入tensor的shape以及dtype，如果没有build这一步程序将会报错。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new_model = MiniInception()</span><br><span class="line">new_model.build((<span class="literal">None</span>, x_train.shape[<span class="number">1</span>:])) <span class="comment"># or .build((x_train.shape))</span></span><br><span class="line">new_model.load_weights(<span class="string">&#x27;net.h5&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="tf.function">tf.function</h1>
-<p>在我们定义custum training
-过程中时我们经常会用到这个装饰器@tf.function</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span>(<span class="params">step, x, y</span>):</span></span><br><span class="line">   <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">   input: x, y &lt;- typically batches </span></span><br><span class="line"><span class="string">   input: step &lt;- batch step</span></span><br><span class="line"><span class="string">   return: loss value</span></span><br><span class="line"><span class="string">   &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># start the scope of gradient </span></span><br><span class="line">   <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">      logits = model(x, training=<span class="literal">True</span>) <span class="comment"># forward pass</span></span><br><span class="line">      train_loss_value = loss_fn(y, logits) <span class="comment"># compute loss </span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute gradient </span></span><br><span class="line">   grads = tape.gradient(train_loss_value, model.trainable_weights)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update weights</span></span><br><span class="line">   optimizer.apply_gradients(<span class="built_in">zip</span>(grads, model.trainable_weights))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># update metrics</span></span><br><span class="line">   train_acc_metric.update_state(y, logits)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># write training loss and accuracy to the tensorboard</span></span><br><span class="line">   <span class="keyword">with</span> train_writer.as_default():</span><br><span class="line">        tf.summary.scalar(<span class="string">&#x27;loss&#x27;</span>, train_loss_value, step=step)</span><br><span class="line">        tf.summary.scalar(</span><br><span class="line">            <span class="string">&#x27;accuracy&#x27;</span>, train_acc_metric.result(), step=step</span><br><span class="line">        ) </span><br><span class="line">   <span class="keyword">return</span> train_loss_value</span><br></pre></td></tr></table></figure>
-<p>先看如果一个函数不加这个装饰器会如何：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 2</span><br><span class="line">Traced with 3</span><br></pre></td></tr></table></figure>
-<p>加上装饰器：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>输出为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>可以看到第二种加了装饰器的方式，即便是循环了5遍，我们仍然只有一行打印了2.</p>
-<p>如果我们在上面的代码中print之前加上一行：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tf.function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Traced with&quot;</span>, x)</span><br><span class="line">    <span class="comment"># add tf.print</span></span><br><span class="line">    tf.<span class="built_in">print</span>(<span class="string">&quot;Executed with&quot;</span>, x)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    f(<span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">f(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>程序的输出就变成了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Traced <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">2</span></span><br><span class="line">Traced <span class="keyword">with</span> <span class="number">3</span></span><br><span class="line">Executed <span class="keyword">with</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>可以看到<code>tf.print</code>就可以正常按<code>loop</code>运行。注意一点:
-被<code>tf.function</code>装饰的函数只能包含<code>operations</code>而不能定义<code>variable</code>比如<code>tf.Variable()</code></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1009,14 +982,14 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">210k</span>
+    <span title="Symbols count total">216k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:11</span>
+    <span title="Reading time total">3:16</span>
   </span>
 </div>
 

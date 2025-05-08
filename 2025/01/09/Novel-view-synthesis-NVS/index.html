@@ -34,8 +34,10 @@
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250114162420847.png">
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250115133036561.png">
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250115133949032.png">
+<meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250212142310347.png">
+<meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250212153512883.png">
 <meta property="article:published_time" content="2025-01-09T02:17:18.000Z">
-<meta property="article:modified_time" content="2025-01-16T06:22:26.211Z">
+<meta property="article:modified_time" content="2025-02-25T02:29:13.500Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="cv">
 <meta name="twitter:card" content="summary">
@@ -170,7 +172,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -181,7 +183,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -255,7 +257,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-01-16 14:22:26" itemprop="dateModified" datetime="2025-01-16T14:22:26+08:00">2025-01-16</time>
+        <time title="Modified: 2025-02-25 10:29:13" itemprop="dateModified" datetime="2025-02-25T10:29:13+08:00">2025-02-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -274,14 +276,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.3k</span>
+      <span>8.5k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
+      <span>8 mins.</span>
     </span>
 </div>
 
@@ -322,8 +324,8 @@ whose output is the volume density and view-dependent emitted radiance
 at that spatial location</p>
 </blockquote>
 <h2 id="llff-数据集">LLFF 数据集</h2>
-<p>在查看NeRF的github
-code时，发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a target="_blank" rel="noopener" href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
+<p>在查看NeRF的<a target="_blank" rel="noopener" href="https://github.com/yenchenlin/nerf-pytorch">github
+code(Pytorch)</a>时，也有tensorflow版本，移步<a target="_blank" rel="noopener" href="https://github.com/bmild/nerf">官方repo</a>。发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a target="_blank" rel="noopener" href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
 <p>LLFF全称为Local light Field
 Fusion，也是提出了一个NVS的算法。LLFF的主旨思想是：</p>
 <blockquote>
@@ -339,9 +341,10 @@ repo</a>提供了非常详细的安装教程，令我比较感兴趣的是，它
 <li>recover cammera poses</li>
 </ol>
 <p>这一步采用<a target="_blank" rel="noopener" href="https://github.com/colmap/colmap?tab=readme-ov-file">COLMAP</a>
-实现了一个 struture from emotion + Multi-View
-Stereo(MVS)的完整pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
+实现了一个 struture from
+emotion的pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
 6-DoF camera poses和 near/far depth bounds。</p>
+<hr>
 <p>Structure-from-Motion (SfM) <strong>is the process of reconstructing
 3D structure from its projections into a series of images. The input is
 a set of overlapping images of the same object, taken from different
@@ -384,11 +387,8 @@ that corresponding features actually map to the same scene point</p>
 <ul>
 <li>structure and motion reconstruction</li>
 </ul>
-<p>Multi-View Stereo(MVS) takes the output of SfM to compute depth
-and/or normal infomation for every pixel in an image.Fusion of the depth
-and normal maps of multiple images in 3D then produces a dense point
-cloud of the scene.</p>
-<p>实现脚本为<code>imgs2poses.py</code>,
+<hr>
+<p>LLFF中实现上述第一步骤的脚本为<code>imgs2poses.py</code>,
 看该源代码就是基于COLMAP来做的。试着运行该脚本，测试数据用repo内的<code>download_data.sh</code>下载的数据。运行完后可以看到如下输出：</p>
 <figure>
 <img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250114162420847.png" alt="image-20250114162420847">
@@ -398,7 +398,7 @@ cloud of the scene.</p>
 images，testscene下除了images这个文件夹，其他都是COLMAP生成的。具体含义参考COLMAP的<a target="_blank" rel="noopener" href="https://colmap.github.io/tutorial.html#data-structure">document</a></p>
 <p>logs文件内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Need to run COLMAP</span><br><span class="line">Features extracted</span><br><span class="line">Features matched</span><br><span class="line">Sparse map created</span><br><span class="line">Finished running COLMAP, see data/testscene/colmap_output.txt for logs</span><br><span class="line">Post-colmap</span><br><span class="line">(&#x27;Cameras&#x27;, 5)</span><br><span class="line">(&#x27;Images #&#x27;, 20)</span><br><span class="line">(&#x27;Points&#x27;, (9906, 3), &#x27;Visibility&#x27;, (9906, 20))</span><br><span class="line">(&#x27;Depth stats&#x27;, 13.732739125795911, 118.85217973695897, 30.413495856274356)</span><br><span class="line">Done with imgs2poses</span><br></pre></td></tr></table></figure>
-<p>仔细分析一下<code>imgs2poses.py</code>，一共用COLMAP执行了三条terminal命令：</p>
+<p>仔细分析一下<code>imgs2poses.py</code>，<strong>一共用COLMAP执行了三条terminal命令</strong>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># extract features</span></span><br><span class="line">feature_extractor_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;feature_extractor&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--ImageReader.single_camera&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">            <span class="comment"># &#x27;--SiftExtraction.use_gpu&#x27;, &#x27;0&#x27;,</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># matching</span></span><br><span class="line">exhaustive_matcher_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, match_type, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">    ]</span><br><span class="line"><span class="comment"># Sparse map create</span></span><br><span class="line">mapper_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;mapper&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--output_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;sparse&#x27;</span>), <span class="comment"># --export_path changed to --output_path in colmap 3.6</span></span><br><span class="line">            <span class="string">&#x27;--Mapper.num_threads&#x27;</span>, <span class="string">&#x27;16&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.init_min_tri_angle&#x27;</span>, <span class="string">&#x27;4&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.multiple_models&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.extract_colors&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
 <p>对照colmap cli的<a target="_blank" rel="noopener" href="https://colmap.github.io/cli.html">guidebook</a>,
 作者使用了前三个命令，dense部分没有继续生成。想要知道它output出来的这些.bin文件含义，需要搞明白<code>database.db</code>内有什么东西，它是feature
@@ -423,6 +423,80 @@ coordinate (0.5, 0.5)</p>
 <p>在这两张表格中，rows表示的数值是number of detected features per
 image, 如果rows=0, 那么这个image没有feature</p>
 <p>在运行命令<code>colmap exhaustive_matcher --database_path ./data/testscene/database.db</code>后，db文件内的matchs这张表会出现值（之前没有），每一行会表示一张图片和另外一张图片的匹配结果，rows的值表示match上特征点的个数。</p>
+<p>第三个命令<code>colmap mapper...</code>实现了sparse
+3D的重建，在前面两个命令产生的结果上(feature
+extraction&amp;match)。运行完第三条命令后，文件夹内的内容是这样的：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250212142310347.png" alt="image-20250212142310347">
+<figcaption aria-hidden="true">image-20250212142310347</figcaption>
+</figure>
+<p>第三条命令产生的结果放在<code>sparse</code>文件夹内。</p>
+<p>如果用LLFF
+repo内的<code>imgs2poses.py</code>，脚本运行后会发现在testscene文件夹下还会出现一个<code>poses_bounds.npy</code>的文件，查看<code>imgs2poses.py</code>中的gen_poses方法，会发现在执行完colmap的上面三条命令后又再次运行了<code>load_colmap_data()</code>和<code>save_poses()</code>。其中的<code>load_colmap_data()</code>对colmap三条命令的结果，也就是三个bin文件做了读取和处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_colmap_data</span>(<span class="params">realdir</span>):</span></span><br><span class="line">    <span class="comment"># 首先读取cameras.bin，提取内参 height, width, focal</span></span><br><span class="line">    camerasfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/cameras.bin&#x27;</span>)</span><br><span class="line">    camdata = read_model.read_cameras_binary(camerasfile)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># cam = camdata[camdata.keys()[0]]</span></span><br><span class="line">    list_of_keys = <span class="built_in">list</span>(camdata.keys())</span><br><span class="line">    cam = camdata[list_of_keys[<span class="number">0</span>]]</span><br><span class="line">    <span class="built_in">print</span>( <span class="string">&#x27;Cameras&#x27;</span>, <span class="built_in">len</span>(cam))</span><br><span class="line"></span><br><span class="line">    h, w, f = cam.height, cam.width, cam.params[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># w, h, f = factor * w, factor * h, factor * f</span></span><br><span class="line">    hwf = np.array([h,w,f]).reshape([<span class="number">3</span>,<span class="number">1</span>])</span><br><span class="line">    </span><br><span class="line">    imagesfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/images.bin&#x27;</span>)</span><br><span class="line">    imdata = read_model.read_images_binary(imagesfile)</span><br><span class="line">    </span><br><span class="line">    w2c_mats = []</span><br><span class="line">    bottom = np.array([<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1.</span>]).reshape([<span class="number">1</span>,<span class="number">4</span>])</span><br><span class="line">    </span><br><span class="line">    names = [imdata[k].name <span class="keyword">for</span> k <span class="keyword">in</span> imdata]</span><br><span class="line">    <span class="built_in">print</span>( <span class="string">&#x27;Images #&#x27;</span>, <span class="built_in">len</span>(names))</span><br><span class="line">    perm = np.argsort(names)</span><br><span class="line">    <span class="comment"># 这里 im.qvec2rotmat() 是从四元数计算出 3x3 旋转矩阵，im.tvec 是 3x1 平移向量。这两者合并成 4x4 的 world-to-camera 变换矩阵，并存入 w2c_mats</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> imdata:</span><br><span class="line">        im = imdata[k]</span><br><span class="line">        R = im.qvec2rotmat()</span><br><span class="line">        t = im.tvec.reshape([<span class="number">3</span>,<span class="number">1</span>])</span><br><span class="line">        m = np.concatenate([np.concatenate([R, t], <span class="number">1</span>), bottom], <span class="number">0</span>)</span><br><span class="line">        w2c_mats.append(m)</span><br><span class="line">    </span><br><span class="line">    w2c_mats = np.stack(w2c_mats, <span class="number">0</span>)</span><br><span class="line">    c2w_mats = np.linalg.inv(w2c_mats)</span><br><span class="line">    </span><br><span class="line">    poses = c2w_mats[:, :<span class="number">3</span>, :<span class="number">4</span>].transpose([<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>]) <span class="comment"># # 取3x4部分（旋转 + 平移）</span></span><br><span class="line">    poses = np.concatenate([poses, np.tile(hwf[..., np.newaxis], [<span class="number">1</span>,<span class="number">1</span>,poses.shape[-<span class="number">1</span>]])], <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    points3dfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/points3D.bin&#x27;</span>)</span><br><span class="line">    pts3d = read_model.read_points3d_binary(points3dfile)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># must switch to [-u, r, -t] from [r, -u, t], NOT [r, u, -t]</span></span><br><span class="line">    <span class="comment"># 此时 poses.shape = (3,5,N)，但它的坐标轴方向仍然是 COLMAP 的 [right, down, forwards]，我们需要转换成 [down, right, backwards]</span></span><br><span class="line">    poses = np.concatenate([poses[:, <span class="number">1</span>:<span class="number">2</span>, :], poses[:, <span class="number">0</span>:<span class="number">1</span>, :], -poses[:, <span class="number">2</span>:<span class="number">3</span>, :], poses[:, <span class="number">3</span>:<span class="number">4</span>, :], poses[:, <span class="number">4</span>:<span class="number">5</span>, :]], <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> poses, pts3d, perm</span><br></pre></td></tr></table></figure>
+<p>这里readme中也对<code>pose_bounds.npy</code>的内容进行了解释。这个文件很重要，可以看到nerf中导入LLFF数据集也是从该文件中导入的数据，导入方式只有三行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">poses_arr = np.load(os.path.join(basedir, <span class="string">&#x27;poses_bounds.npy&#x27;</span>))</span><br><span class="line">poses = poses_arr[:, :-<span class="number">2</span>].reshape([-<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]).transpose([<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>])</span><br><span class="line">bds = poses_arr[:, -<span class="number">2</span>:].transpose([<span class="number">1</span>,<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我本来也是先看的nerf的代码，看到这里导入LLFF数据集的方式没看懂，主要是不知道pose_bounds.npy内存储的内容的具体含义，所以才补充了LLFF的上面的诸多知识空白。LLFF的作者在readme中对这个文件的含义进行了解释：</p>
+</blockquote>
+<p><strong><em>This file stores a numpy array of size Nx17 (where N is
+the number of input images).Each row of length 17 gets reshaped into a
+3x5 pose matrix and 2 depth values that bound the closest and farthest
+scene content from that point of view.</em></strong></p>
+<p>这里有一个比较重要的概念”相机的姿态“(cammera
+poses)，可以参考阅读：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://yunyang1994.github.io/2019/12/27/%E4%BB%80%E4%B9%88%E6%98%AF%E7%9B%B8%E6%9C%BA%E7%9A%84%E4%BD%8D%E5%A7%BF/">什么是相机的位姿
+？</a></li>
+</ul>
+<blockquote>
+<p>其中 <code>T_&#123;cw&#125;</code>
+为该点从世界坐标系变换到相机坐标系的变换矩阵， <code>T_&#123;wc&#125;</code>
+为该点从相机坐标系变换到世界坐标系的变换矩阵。<strong>它们二者都可以用来表示相机的位姿，前者称为相机的外参</strong>。</p>
+<p>实践当中使用 <code>T_&#123;cw&#125;</code>
+来表示相机位姿更加常见。然而在可视化程序中使用 <code>T_&#123;wc&#125;</code>
+来表示相机位姿更为直观，因为此时它的平移向量即为相机原点在世界坐标系中的坐标。视觉
+Slam 十四讲中的第五讲的 joinMap 使用的就是 <code>T_&#123;wc&#125;</code>
+来表示相机位姿进行点云拼接。</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.mkari.de/posts/cam-transform/">Camera
+Conventions, Transforms, and Conversions</a></li>
+</ul>
+<p><code>poses = poses_arr[:, :-2].reshape([-1, 3, 5]).transpose([1,2,0])</code>
+取前15个数，去掉最后2个near和far，并reshape成（N，3，5）的矩阵：</p>
+<p>┌ ┐ │ R11 R12 R13 t1 hwf1 │ │ R21 R22 R23 t2 hwf2 │ │ R31 R32 R33 t3
+hwf3 │ └ ┘</p>
+<p>其中R部分是旋转矩阵，t是平移向量。</p>
+<p><strong>最终
+<code>poses.shape = (3, 5, N)</code>，其中</strong>：</p>
+<ul>
+<li><code>poses[:, :4, :]</code> → <code>3x4</code> 的
+<strong>相机外参</strong> (<code>R|t</code>)</li>
+<li><code>poses[:, 4:5, :]</code> → <code>3x1</code> 的
+<strong>相机内参</strong> <code>[h, w, f]</code></li>
+</ul>
+<p><code>bds = poses_arr[:, -2:].transpose([1,0])</code>：取出
+<strong>最后两列</strong>，即 <code>near</code> 和 <code>far</code>
+深度边界，形状是 <code>(N, 2)</code>。</p>
+<p><strong><code>.transpose([1,0])</code></strong>：交换轴顺序，使
+<code>bds.shape = (2, N)</code>：</p>
+<ul>
+<li><strong>第一维 (2)</strong>：表示 <strong>最近 (<code>near</code>)
+和 最远 (<code>far</code>) 深度</strong></li>
+<li><strong>第二维 (N)</strong>：对应 <strong>N 张图像</strong></li>
+</ul>
+<ol start="2" type="1">
+<li>Generate MPIs</li>
+</ol>
+<p>脚本为<code>imgs2mpi2.py</code>。这一步是采用训练好的tensorflow模型对第一步骤的结果进行MPI的生成。这一步实现的结果如下：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250212153512883.png" alt="image-20250212153512883">
+<figcaption aria-hidden="true">image-20250212153512883</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>Render novel views</li>
+</ol>
 
     </div>
 
@@ -458,6 +532,9 @@ image, 如果rows=0, 那么这个image没有feature</p>
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2025/02/25/3D-Representations/" rel="next" title="3D Representations">
+                  3D Representations <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -490,14 +567,14 @@ image, 如果rows=0, 那么这个image没有feature</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">210k</span>
+    <span title="Symbols count total">216k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:11</span>
+    <span title="Reading time total">3:16</span>
   </span>
 </div>
 

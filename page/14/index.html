@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,6 +205,125 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">python OS 文件/目录常用方法总结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-30 10:15:13" itemprop="dateCreated datePublished" datetime="2021-12-30T10:15:13+08:00">2021-12-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:25:00" itemprop="dateModified" datetime="2023-02-08T11:25:00+08:00">2023-02-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs(path[, mode]) </span><br><span class="line">递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。</span><br><span class="line"></span><br><span class="line">os.walk(top[, topdown=<span class="literal">True</span>[, onerror=<span class="literal">None</span>[, followlinks=<span class="literal">False</span>]]])</span><br><span class="line">输出在文件夹中的文件名通过在树中游走，向上或者向下。返回的是一个三元组(root,dirs,files),是一个生成器类型，需要用<span class="keyword">for</span>遍历读取</span><br><span class="line"></span><br><span class="line">os.chdir(path)</span><br><span class="line">改变当前工作目录</span><br><span class="line">	</span><br><span class="line">os.listdir(path)</span><br><span class="line">返回path指定的文件夹包含的文件或文件夹的名字的列表。</span><br></pre></td></tr></table></figure>
+<p>例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> dirs:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">        </span><br><span class="line">path = <span class="string">&quot;/var/www/html/&quot;</span></span><br><span class="line">dirs = os.listdir( path )</span><br><span class="line"><span class="comment"># 输出所有文件和文件夹</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> dirs:</span><br><span class="line">   <span class="built_in">print</span> (file)</span><br></pre></td></tr></table></figure>
+<p><code>os.walk</code>和<code>os.listdir</code>两个函数的区别在于前者会遍历到子文件夹中的子文件，而后者只是返回你传入的path中的文件夹名字和文件名字。</p>
+<p><code>os</code>库中有一个<code>path</code>的模块，专门用于处理文件<code>path</code>相关的属性信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">os.path.abspath(path)</span><br><span class="line">返回绝对路径</span><br><span class="line"></span><br><span class="line">os.path.basename(path)</span><br><span class="line">返回文件名</span><br><span class="line"></span><br><span class="line">os.path.exists(path)</span><br><span class="line">如果路径 path 存在，返回 True；如果路径 path 不存在，返回 False。</span><br><span class="line"></span><br><span class="line">os.path.join(path1[, path2[, ...]])</span><br><span class="line">把目录和文件名合成一个路径</span><br><span class="line"></span><br><span class="line">os.path.split(path)</span><br><span class="line">把路径分割成 dirname 和 basename，返回一个元组</span><br><span class="line"></span><br><span class="line">os.path.splitext(path)</span><br><span class="line">分割路径，返回路径名和文件扩展名的元组</span><br><span class="line"></span><br><span class="line">os.path.walk(path, visit, arg)</span><br><span class="line">遍历path，进入每个目录都调用visit函数，visit函数必须有3个参数(arg, dirname, names)，dirname表示当前目录的目录名，names代表当前目录下的所有文件名，args则为walk的第三个参数</span><br></pre></td></tr></table></figure>
+<p>例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>( os.path.basename(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )   <span class="comment"># 返回文件名</span></span><br><span class="line"><span class="built_in">print</span>( os.path.dirname(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )    <span class="comment"># 返回目录路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.split(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )      <span class="comment"># 分割文件名与路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.join(<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;test&#x27;</span>,<span class="string">&#x27;runoob.txt&#x27;</span>) )  <span class="comment"># 将目录和文件名合成一个路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.splitext(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">runoob.txt</span><br><span class="line">/root</span><br><span class="line">(&#x27;/root&#x27;, &#x27;runoob.txt&#x27;)</span><br><span class="line">root/test/runoob.txt</span><br><span class="line">(&#x27;/root/run/test&#x27;, &#x27;.txt&#x27;)</span><br></pre></td></tr></table></figure>
+<p>上面的split和splitext，前者分割出了文件名和路径，而后者可以分割出路径名和扩展名，如果想要获得文件的扩展名，可以用splitext，传入文件的path就可以了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.mknod(filename) 创建</span><br></pre></td></tr></table></figure>
+<h1 id="复制文件和删除文件移动文件">复制文件和删除文件,移动文件</h1>
+<p>如果是删除一个目录，可以使用以下两种方式:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="comment"># method 1</span></span><br><span class="line"><span class="keyword">if</span> os.path.exists(root_dir):</span><br><span class="line">  shutil.rmtree(root_dir) <span class="comment"># 这里不可以使用os.removedirs(),removedirs只可以删除非空的文件夹，rmdir也是</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># method 2</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(os.listdir(root_dir)) &gt; <span class="number">0</span>:</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.scandir(root_dir):</span><br><span class="line">    os.remove(file.path)</span><br></pre></td></tr></table></figure>
+<p>如果想复制一个文件到另外一个文件夹，参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35725217" class="uri">https://zhuanlan.zhihu.com/p/35725217</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copyfile(source_file, destination_file)</span><br></pre></td></tr></table></figure>
+<p>记住这里第二个参数一定要是可写入的文件名字，而不是目录。</p>
+<h2 id="移动文件">移动文件</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line">file_source = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line">file_destination = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line"> </span><br><span class="line">get_files = os.listdir(file_source)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> get_files:</span><br><span class="line">    shutil.move(file_source + g, file_destination)</span><br></pre></td></tr></table></figure>
+<h1 id="读写csv文件">读写csv文件</h1>
+<p>第一个方式是用pandas，具体不介绍。</p>
+<p>这里总结一下csv库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">     csv_reader = csv.reader(csvfile)</span><br><span class="line">     <span class="keyword">for</span> row <span class="keyword">in</span> csv_reader:</span><br><span class="line">        <span class="built_in">print</span>(row[<span class="number">1</span>]) <span class="comment"># 用列表的index取值</span></span><br><span class="line"><span class="comment"># 写csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    csv_writer = csv.writer(csvfile)</span><br><span class="line">    spamwriter.writerow([<span class="string">&#x27;Spam&#x27;</span>, <span class="string">&#x27;Lovely Spam&#x27;</span>, <span class="string">&#x27;Wonderful Spam&#x27;</span>]) <span class="comment"># writerow接受一个list，所有值都会写在一行里</span></span><br><span class="line">    spamwriter.writerows([[],[],[]]) <span class="comment"># writerows写入多行，每一行是一个列表，传进去的是列表的列表</span></span><br></pre></td></tr></table></figure>
+<p>除了写入list，还可以写字典类型的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my data rows as dictionary objects </span></span><br><span class="line">mydict =[&#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.0&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Nikhil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sanchit&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;IT&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.3&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Aditya&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;SE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.5&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sagar&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;1&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;MCE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;7.8&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Prateek&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;3&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;EP&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sahil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># field names </span></span><br><span class="line">fields = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;branch&#x27;</span>, <span class="string">&#x27;year&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># name of csv file </span></span><br><span class="line">filename = <span class="string">&quot;university_records.csv&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># writing to csv file </span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile: </span><br><span class="line">    <span class="comment"># creating a csv dict writer object </span></span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames = fields) </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing headers (field names) </span></span><br><span class="line">    writer.writeheader() </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing data rows </span></span><br><span class="line">    writer.writerows(mydict)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -461,111 +580,6 @@ array, Series, DataFrame/dict-like</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">pandas中count(),value_counts(),unique)区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-13 11:12:46" itemprop="dateCreated datePublished" datetime="2021-12-13T11:12:46+08:00">2021-12-13</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-12-14 10:43:59" itemprop="dateModified" datetime="2021-12-14T10:43:59+08:00">2021-12-14</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>403</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="count">count()</h1>
-<p>不管是Series还是DateFrame，两个类都有这个方法。</p>
-<p>对于DateFrame，返回的是每一列中非空的元素的个数，可以指定是以行去统计还是以列去统计。</p>
-<p>对于Series，返回的是Series中非空元素的个数。</p>
-<p>对于groupby，返回的是每一组中元素的个数，这里的个数不包含空字段。</p>
-<h1 id="value_counts">value_counts()</h1>
-<p>对于DateFrame，返回的是unique行的个数，这里的unique行指的是只要其中一个column的值不一样就算不一样的行。</p>
-<p>对于Series，返回的是每一个unique元素的个数，也就是每一个unique的元素，它会统计它在Series中出现了多少次。</p>
-<h1 id="unique">unique()</h1>
-<p>对于Series，返回的是所有unique的元素们，如果你想统计所有不一样的元素有多少个，可以统计list中元素的个数，如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(df[&#x27;a&#x27;].unique().tolist())  </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -591,14 +605,14 @@ array, Series, DataFrame/dict-like</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">210k</span>
+    <span title="Symbols count total">216k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:11</span>
+    <span title="Reading time total">3:16</span>
   </span>
 </div>
 

@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,6 +205,103 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/11/python-%E5%AF%B9Counter%E5%86%85%E5%AE%B9%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/11/python-%E5%AF%B9Counter%E5%86%85%E5%AE%B9%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">python对Counter内容进行排序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-11 16:49:54" itemprop="dateCreated datePublished" datetime="2022-08-11T16:49:54+08:00">2022-08-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-04-28 14:03:36" itemprop="dateModified" datetime="2023-04-28T14:03:36+08:00">2023-04-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>454</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="对counter中的内容进行排序">对Counter中的内容进行排序</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line">x = Counter(&#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">5</span>, <span class="string">&#x27;b&#x27;</span>:<span class="number">3</span>, <span class="string">&#x27;c&#x27;</span>:<span class="number">7</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">x.most_common() <span class="comment"># [(&#x27;c&#x27;, 7), (&#x27;a&#x27;, 5), (&#x27;b&#x27;, 3)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"><span class="built_in">sorted</span>(x, key=x.get, reverse=<span class="literal">True</span>) <span class="comment"># [&#x27;c&#x27;, &#x27;a&#x27;, &#x27;b&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line"><span class="built_in">sorted</span>(x.items(), key=<span class="keyword">lambda</span> pair: pair[<span class="number">1</span>], reverse=<span class="literal">True</span>) <span class="comment"># [(&#x27;c&#x27;, 7), (&#x27;a&#x27;, 5), (&#x27;b&#x27;, 3)]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>一共三种方法，其中第二种方法中传入<code>key=x.get</code>最终返回的是所有的key，而其他两种方法返回的都是排完序之后的list</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1234,108 +1331,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/29/sklearn%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/29/sklearn%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">sklearn总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-03-29 14:04:40 / Modified: 14:11:15" itemprop="dateCreated datePublished" datetime="2022-03-29T14:04:40+08:00">2022-03-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/sklearn/" itemprop="url" rel="index"><span itemprop="name">sklearn</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.5k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="model">model</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier <span class="comment"># 随机森林</span></span><br><span class="line"><span class="comment"># RandomForestClassifier随机森林：n_estimators 森林中树的数量(default=100), max_features 寻找最优划分时考虑的最大数目的特征,</span></span><br><span class="line">rf_clf_model = RandomForestClassifier(n_estimators=<span class="number">150</span>, max_depth=<span class="number">7</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="metric">metric</h1>
-<h2 id="accuracyprecisionrcall-f1_score">accuracy,precision,rcall,
-f1_score</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, f1_score,precision_score,recall_score</span><br></pre></td></tr></table></figure>
-<h1 id="model_selection">model_selection</h1>
-<h2 id="交叉验证-cross_val_score">交叉验证 cross_val_score</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.model_selection import cross_val_score</span><br></pre></td></tr></table></figure>
-<p>cross_val_score交叉验证
-首个参数为estimator(也就是要执行fit的model),cv
-折数，默认是5折验证，返回的cv长度的score</p>
-<p>参考 https://blog.csdn.net/qq_36523839/article/details/80707678</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets	<span class="comment">#自带数据集</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split,cross_val_score	<span class="comment">#划分数据 交叉验证</span></span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier  <span class="comment">#一个简单的模型，只有K一个参数，类似K-means</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">iris = datasets.load_iris()		<span class="comment">#加载sklearn自带的数据集</span></span><br><span class="line">X = iris.data 			<span class="comment">#这是数据</span></span><br><span class="line">y = iris.target 		<span class="comment">#这是每个数据所对应的标签</span></span><br><span class="line">train_X,test_X,train_y,test_y = train_test_split(X,y,test_size=<span class="number">1</span>/<span class="number">3</span>,random_state=<span class="number">3</span>)	<span class="comment">#这里划分数据以1/3的来划分 训练集训练结果 测试集测试结果</span></span><br><span class="line">k_range = <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">31</span>)</span><br><span class="line">cv_scores = []		<span class="comment">#用来放每个模型的结果值</span></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> k_range:</span><br><span class="line">    knn = KNeighborsClassifier(n)   <span class="comment">#knn模型，这里一个超参数可以做预测，当多个超参数时需要使用另一种方法GridSearchCV</span></span><br><span class="line">    scores = cross_val_score(knn,train_X,train_y,cv=<span class="number">10</span>,scoring=<span class="string">&#x27;accuracy&#x27;</span>)  <span class="comment">#cv：选择每次测试折数  accuracy：评价指标是准确度,可以省略使用默认值，具体使用参考下面。</span></span><br><span class="line">    cv_scores.append(scores.mean())</span><br><span class="line">plt.plot(k_range,cv_scores)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;K&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Accuracy&#x27;</span>)		<span class="comment">#通过图像选择最好的参数</span></span><br><span class="line">plt.show()</span><br><span class="line">best_knn = KNeighborsClassifier(n_neighbors=<span class="number">3</span>)	<span class="comment"># 选择最优的K=3传入模型</span></span><br><span class="line">best_knn.fit(train_X,train_y)			<span class="comment">#训练模型</span></span><br><span class="line"><span class="built_in">print</span>(best_knn.score(test_X,test_y))	<span class="comment">#看看评分</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -1361,14 +1356,14 @@ f1_score</h2>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">210k</span>
+    <span title="Symbols count total">216k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:11</span>
+    <span title="Reading time total">3:16</span>
   </span>
 </div>
 

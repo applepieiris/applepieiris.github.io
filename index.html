@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,6 +214,159 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/25/3D-Representations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/25/3D-Representations/" class="post-title-link" itemprop="url">3D Representations</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-02-25 16:04:21" itemprop="dateCreated datePublished" datetime="2025-02-25T16:04:21+08:00">2025-02-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2025-02-26 14:49:42" itemprop="dateModified" datetime="2025-02-26T14:49:42+08:00">2025-02-26</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/cv/" itemprop="url" rel="index"><span itemprop="name">cv</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>3D 视觉中有多个topic，诸如struture form motion, 3D object pose
+estimation, 3D
+姿态的估计等等，这些topic都建立在能够表示3D数据的基础上，不同的表示方式需要使用不同的处理方式。<a target="_blank" rel="noopener" href="https://cs231n.stanford.edu/schedule.html">cs231n</a>课程中对3D视觉部分只放了一讲:
+3D shape
+representations。我就按照这个lecture的脉络把相关知识点记录下来，就当自己也把这部分的知识学习一遍。相关的review推荐：<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2410.06475">3D Representation Methods: A
+Survey</a></p>
+<h1 id="depth-map">Depth Map</h1>
+<p>深度估计。对于一张图片来说，depth
+map是一个和静态图片一样长宽的，记录了那一个pixel相对于camera的距离。一个静态有颜色的图片shape是：
+3*H*W</p>
+<p>, 那么一个depth map的shape就是： 1*H*W。</p>
+<p>一个2.5D的 RGB-D Image： <code>RGB image + Depth map</code></p>
+<h1 id="voxels-体素">Voxels 体素</h1>
+<p>关于体素的解释：</p>
+<ul>
+<li>https://en.wikipedia.org/wiki/Voxel</li>
+</ul>
+<blockquote>
+<p>Voxel grid representation is a method for modeling 3D objects where
+the space is divided into a regular grid of cubes, known as voxels
+(volume elements). Each voxel in the grid can store information such as
+color, density, or material properties, allowing for a detailed
+volumetric representation of the object.</p>
+</blockquote>
+<p>那么如何从一张静态图片生成一个体素呢？lecture推荐了Choy的一篇文章：3D-R2N2:
+A Unified Approach for Single and Multi-view 3D Object
+Reconstruction。在3D
+Reconstruction这个topic下也有好心的网友整理了一系列的<a target="_blank" rel="noopener" href="https://github.com/bluestyle97/awesome-3d-reconstruction-papers?tab=readme-ov-file">paper</a>，3D-R2N2也在其中,
+该仓库作者将其分类为multi-view。</p>
+<figure>
+<img src="/2025/02/25/3D-Representations/image-20250226100747562.png" alt="image-20250226100747562">
+<figcaption aria-hidden="true">image-20250226100747562</figcaption>
+</figure>
+<p>这篇文章所做的就是：输入一张图片，该网络会生成这张图片中object的3D
+voxel。</p>
+<figure>
+<img src="/2025/02/25/3D-Representations/image-20250226100921435.png" alt="image-20250226100921435">
+<figcaption aria-hidden="true">image-20250226100921435</figcaption>
+</figure>
+<p>其中loss采用的是：per-voxel
+cross-entropy，这部分chatgpt的解释为：</p>
+<p>文章中使用的 <strong>per-voxel cross-entropy loss</strong>
+是一个针对每个体素的交叉熵损失，常用于
+<strong>二分类问题</strong>，即每个体素是否被占据。</p>
+<figure>
+<img src="/2025/02/25/3D-Representations/image-20250226101227750.png" alt="image-20250226101227750">
+<figcaption aria-hidden="true">image-20250226101227750</figcaption>
+</figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/chrischoy/3D-R2N2/blob/master/lib/layers.py#L578">3D-R2N2</a>官方仓库代码对loss的写法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SoftmaxWithLoss3D</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Softmax with loss (n_batch, n_vox, n_label, n_vox, n_vox)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, <span class="built_in">input</span></span>):</span></span><br><span class="line">        self.<span class="built_in">input</span> = <span class="built_in">input</span></span><br><span class="line">        self.exp_x = tensor.exp(self.<span class="built_in">input</span>)</span><br><span class="line">        self.sum_exp_x = tensor.<span class="built_in">sum</span>(self.exp_x, axis=<span class="number">2</span>, keepdims=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prediction</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.exp_x / self.sum_exp_x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error</span>(<span class="params">self, y, threshold=<span class="number">0.5</span></span>):</span></span><br><span class="line">        <span class="keyword">return</span> tensor.mean(tensor.eq(tensor.ge(self.prediction(), threshold), y))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loss</span>(<span class="params">self, y</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        y must be a tensor that has the same dimensions as the input. For each</span></span><br><span class="line"><span class="string">        channel, only one element is one indicating the ground truth prediction</span></span><br><span class="line"><span class="string">        label.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> tensor.mean(</span><br><span class="line">            tensor.<span class="built_in">sum</span>(-y * self.<span class="built_in">input</span>, axis=<span class="number">2</span>, keepdims=<span class="literal">True</span>) + tensor.log(self.sum_exp_x))</span><br></pre></td></tr></table></figure>
+<p>prediction那里看到作者用的是softmax，并没有用sigmoid，毕竟是一个二分类问题，这里用softmax和sigmoid等价。</p>
+<h1 id="pointcloud">Pointcloud</h1>
+<p>点云很好理解，就是将上面的voxels换成了点。依旧是两个问题：1.
+如何生成一个点云的3D图 2. 如何处理点云表示的3D图</p>
+<p>我们先解决第一个问题，<a target="_blank" rel="noopener" href="http://arxiv.org/abs/1612.00603">A
+Point Set Generation Network for 3D Object Reconstruction from a Single
+Image</a> 这篇文章是第一个用deep learning的方式用来生成point set。</p>
+<h1 id="mesh">Mesh</h1>
+<h1 id="implicit-surface">Implicit Surface</h1>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/09/Novel-view-synthesis-NVS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -245,7 +398,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-01-16 14:22:26" itemprop="dateModified" datetime="2025-01-16T14:22:26+08:00">2025-01-16</time>
+        <time title="Modified: 2025-02-25 10:29:13" itemprop="dateModified" datetime="2025-02-25T10:29:13+08:00">2025-02-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -264,14 +417,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.3k</span>
+      <span>8.5k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
+      <span>8 mins.</span>
     </span>
 </div>
 
@@ -312,8 +465,8 @@ whose output is the volume density and view-dependent emitted radiance
 at that spatial location</p>
 </blockquote>
 <h2 id="llff-数据集">LLFF 数据集</h2>
-<p>在查看NeRF的github
-code时，发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a target="_blank" rel="noopener" href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
+<p>在查看NeRF的<a target="_blank" rel="noopener" href="https://github.com/yenchenlin/nerf-pytorch">github
+code(Pytorch)</a>时，也有tensorflow版本，移步<a target="_blank" rel="noopener" href="https://github.com/bmild/nerf">官方repo</a>。发现作者使用了两个数据集，其中一个就是LLFF，本着学习的原则，先把<a target="_blank" rel="noopener" href="https://github.com/Fyusion/LLFF">LLFF数据集</a>搞清楚。</p>
 <p>LLFF全称为Local light Field
 Fusion，也是提出了一个NVS的算法。LLFF的主旨思想是：</p>
 <blockquote>
@@ -329,9 +482,10 @@ repo</a>提供了非常详细的安装教程，令我比较感兴趣的是，它
 <li>recover cammera poses</li>
 </ol>
 <p>这一步采用<a target="_blank" rel="noopener" href="https://github.com/colmap/colmap?tab=readme-ov-file">COLMAP</a>
-实现了一个 struture from emotion + Multi-View
-Stereo(MVS)的完整pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
+实现了一个 struture from
+emotion的pipeline。这一步的输入是一系列的静态图像，输出的是这个场景下的
 6-DoF camera poses和 near/far depth bounds。</p>
+<hr>
 <p>Structure-from-Motion (SfM) <strong>is the process of reconstructing
 3D structure from its projections into a series of images. The input is
 a set of overlapping images of the same object, taken from different
@@ -374,11 +528,8 @@ that corresponding features actually map to the same scene point</p>
 <ul>
 <li>structure and motion reconstruction</li>
 </ul>
-<p>Multi-View Stereo(MVS) takes the output of SfM to compute depth
-and/or normal infomation for every pixel in an image.Fusion of the depth
-and normal maps of multiple images in 3D then produces a dense point
-cloud of the scene.</p>
-<p>实现脚本为<code>imgs2poses.py</code>,
+<hr>
+<p>LLFF中实现上述第一步骤的脚本为<code>imgs2poses.py</code>,
 看该源代码就是基于COLMAP来做的。试着运行该脚本，测试数据用repo内的<code>download_data.sh</code>下载的数据。运行完后可以看到如下输出：</p>
 <figure>
 <img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250114162420847.png" alt="image-20250114162420847">
@@ -388,7 +539,7 @@ cloud of the scene.</p>
 images，testscene下除了images这个文件夹，其他都是COLMAP生成的。具体含义参考COLMAP的<a target="_blank" rel="noopener" href="https://colmap.github.io/tutorial.html#data-structure">document</a></p>
 <p>logs文件内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Need to run COLMAP</span><br><span class="line">Features extracted</span><br><span class="line">Features matched</span><br><span class="line">Sparse map created</span><br><span class="line">Finished running COLMAP, see data/testscene/colmap_output.txt for logs</span><br><span class="line">Post-colmap</span><br><span class="line">(&#x27;Cameras&#x27;, 5)</span><br><span class="line">(&#x27;Images #&#x27;, 20)</span><br><span class="line">(&#x27;Points&#x27;, (9906, 3), &#x27;Visibility&#x27;, (9906, 20))</span><br><span class="line">(&#x27;Depth stats&#x27;, 13.732739125795911, 118.85217973695897, 30.413495856274356)</span><br><span class="line">Done with imgs2poses</span><br></pre></td></tr></table></figure>
-<p>仔细分析一下<code>imgs2poses.py</code>，一共用COLMAP执行了三条terminal命令：</p>
+<p>仔细分析一下<code>imgs2poses.py</code>，<strong>一共用COLMAP执行了三条terminal命令</strong>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># extract features</span></span><br><span class="line">feature_extractor_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;feature_extractor&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--ImageReader.single_camera&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">            <span class="comment"># &#x27;--SiftExtraction.use_gpu&#x27;, &#x27;0&#x27;,</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># matching</span></span><br><span class="line">exhaustive_matcher_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, match_type, </span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>), </span><br><span class="line">    ]</span><br><span class="line"><span class="comment"># Sparse map create</span></span><br><span class="line">mapper_args = [</span><br><span class="line">        <span class="string">&#x27;colmap&#x27;</span>, <span class="string">&#x27;mapper&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--database_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;database.db&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--image_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;images&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;--output_path&#x27;</span>, os.path.join(basedir, <span class="string">&#x27;sparse&#x27;</span>), <span class="comment"># --export_path changed to --output_path in colmap 3.6</span></span><br><span class="line">            <span class="string">&#x27;--Mapper.num_threads&#x27;</span>, <span class="string">&#x27;16&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.init_min_tri_angle&#x27;</span>, <span class="string">&#x27;4&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.multiple_models&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;--Mapper.extract_colors&#x27;</span>, <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
 <p>对照colmap cli的<a target="_blank" rel="noopener" href="https://colmap.github.io/cli.html">guidebook</a>,
 作者使用了前三个命令，dense部分没有继续生成。想要知道它output出来的这些.bin文件含义，需要搞明白<code>database.db</code>内有什么东西，它是feature
@@ -413,6 +564,80 @@ coordinate (0.5, 0.5)</p>
 <p>在这两张表格中，rows表示的数值是number of detected features per
 image, 如果rows=0, 那么这个image没有feature</p>
 <p>在运行命令<code>colmap exhaustive_matcher --database_path ./data/testscene/database.db</code>后，db文件内的matchs这张表会出现值（之前没有），每一行会表示一张图片和另外一张图片的匹配结果，rows的值表示match上特征点的个数。</p>
+<p>第三个命令<code>colmap mapper...</code>实现了sparse
+3D的重建，在前面两个命令产生的结果上(feature
+extraction&amp;match)。运行完第三条命令后，文件夹内的内容是这样的：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250212142310347.png" alt="image-20250212142310347">
+<figcaption aria-hidden="true">image-20250212142310347</figcaption>
+</figure>
+<p>第三条命令产生的结果放在<code>sparse</code>文件夹内。</p>
+<p>如果用LLFF
+repo内的<code>imgs2poses.py</code>，脚本运行后会发现在testscene文件夹下还会出现一个<code>poses_bounds.npy</code>的文件，查看<code>imgs2poses.py</code>中的gen_poses方法，会发现在执行完colmap的上面三条命令后又再次运行了<code>load_colmap_data()</code>和<code>save_poses()</code>。其中的<code>load_colmap_data()</code>对colmap三条命令的结果，也就是三个bin文件做了读取和处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_colmap_data</span>(<span class="params">realdir</span>):</span></span><br><span class="line">    <span class="comment"># 首先读取cameras.bin，提取内参 height, width, focal</span></span><br><span class="line">    camerasfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/cameras.bin&#x27;</span>)</span><br><span class="line">    camdata = read_model.read_cameras_binary(camerasfile)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># cam = camdata[camdata.keys()[0]]</span></span><br><span class="line">    list_of_keys = <span class="built_in">list</span>(camdata.keys())</span><br><span class="line">    cam = camdata[list_of_keys[<span class="number">0</span>]]</span><br><span class="line">    <span class="built_in">print</span>( <span class="string">&#x27;Cameras&#x27;</span>, <span class="built_in">len</span>(cam))</span><br><span class="line"></span><br><span class="line">    h, w, f = cam.height, cam.width, cam.params[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># w, h, f = factor * w, factor * h, factor * f</span></span><br><span class="line">    hwf = np.array([h,w,f]).reshape([<span class="number">3</span>,<span class="number">1</span>])</span><br><span class="line">    </span><br><span class="line">    imagesfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/images.bin&#x27;</span>)</span><br><span class="line">    imdata = read_model.read_images_binary(imagesfile)</span><br><span class="line">    </span><br><span class="line">    w2c_mats = []</span><br><span class="line">    bottom = np.array([<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1.</span>]).reshape([<span class="number">1</span>,<span class="number">4</span>])</span><br><span class="line">    </span><br><span class="line">    names = [imdata[k].name <span class="keyword">for</span> k <span class="keyword">in</span> imdata]</span><br><span class="line">    <span class="built_in">print</span>( <span class="string">&#x27;Images #&#x27;</span>, <span class="built_in">len</span>(names))</span><br><span class="line">    perm = np.argsort(names)</span><br><span class="line">    <span class="comment"># 这里 im.qvec2rotmat() 是从四元数计算出 3x3 旋转矩阵，im.tvec 是 3x1 平移向量。这两者合并成 4x4 的 world-to-camera 变换矩阵，并存入 w2c_mats</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> imdata:</span><br><span class="line">        im = imdata[k]</span><br><span class="line">        R = im.qvec2rotmat()</span><br><span class="line">        t = im.tvec.reshape([<span class="number">3</span>,<span class="number">1</span>])</span><br><span class="line">        m = np.concatenate([np.concatenate([R, t], <span class="number">1</span>), bottom], <span class="number">0</span>)</span><br><span class="line">        w2c_mats.append(m)</span><br><span class="line">    </span><br><span class="line">    w2c_mats = np.stack(w2c_mats, <span class="number">0</span>)</span><br><span class="line">    c2w_mats = np.linalg.inv(w2c_mats)</span><br><span class="line">    </span><br><span class="line">    poses = c2w_mats[:, :<span class="number">3</span>, :<span class="number">4</span>].transpose([<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>]) <span class="comment"># # 取3x4部分（旋转 + 平移）</span></span><br><span class="line">    poses = np.concatenate([poses, np.tile(hwf[..., np.newaxis], [<span class="number">1</span>,<span class="number">1</span>,poses.shape[-<span class="number">1</span>]])], <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    points3dfile = os.path.join(realdir, <span class="string">&#x27;sparse/0/points3D.bin&#x27;</span>)</span><br><span class="line">    pts3d = read_model.read_points3d_binary(points3dfile)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># must switch to [-u, r, -t] from [r, -u, t], NOT [r, u, -t]</span></span><br><span class="line">    <span class="comment"># 此时 poses.shape = (3,5,N)，但它的坐标轴方向仍然是 COLMAP 的 [right, down, forwards]，我们需要转换成 [down, right, backwards]</span></span><br><span class="line">    poses = np.concatenate([poses[:, <span class="number">1</span>:<span class="number">2</span>, :], poses[:, <span class="number">0</span>:<span class="number">1</span>, :], -poses[:, <span class="number">2</span>:<span class="number">3</span>, :], poses[:, <span class="number">3</span>:<span class="number">4</span>, :], poses[:, <span class="number">4</span>:<span class="number">5</span>, :]], <span class="number">1</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> poses, pts3d, perm</span><br></pre></td></tr></table></figure>
+<p>这里readme中也对<code>pose_bounds.npy</code>的内容进行了解释。这个文件很重要，可以看到nerf中导入LLFF数据集也是从该文件中导入的数据，导入方式只有三行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">poses_arr = np.load(os.path.join(basedir, <span class="string">&#x27;poses_bounds.npy&#x27;</span>))</span><br><span class="line">poses = poses_arr[:, :-<span class="number">2</span>].reshape([-<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]).transpose([<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>])</span><br><span class="line">bds = poses_arr[:, -<span class="number">2</span>:].transpose([<span class="number">1</span>,<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我本来也是先看的nerf的代码，看到这里导入LLFF数据集的方式没看懂，主要是不知道pose_bounds.npy内存储的内容的具体含义，所以才补充了LLFF的上面的诸多知识空白。LLFF的作者在readme中对这个文件的含义进行了解释：</p>
+</blockquote>
+<p><strong><em>This file stores a numpy array of size Nx17 (where N is
+the number of input images).Each row of length 17 gets reshaped into a
+3x5 pose matrix and 2 depth values that bound the closest and farthest
+scene content from that point of view.</em></strong></p>
+<p>这里有一个比较重要的概念”相机的姿态“(cammera
+poses)，可以参考阅读：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://yunyang1994.github.io/2019/12/27/%E4%BB%80%E4%B9%88%E6%98%AF%E7%9B%B8%E6%9C%BA%E7%9A%84%E4%BD%8D%E5%A7%BF/">什么是相机的位姿
+？</a></li>
+</ul>
+<blockquote>
+<p>其中 <code>T_&#123;cw&#125;</code>
+为该点从世界坐标系变换到相机坐标系的变换矩阵， <code>T_&#123;wc&#125;</code>
+为该点从相机坐标系变换到世界坐标系的变换矩阵。<strong>它们二者都可以用来表示相机的位姿，前者称为相机的外参</strong>。</p>
+<p>实践当中使用 <code>T_&#123;cw&#125;</code>
+来表示相机位姿更加常见。然而在可视化程序中使用 <code>T_&#123;wc&#125;</code>
+来表示相机位姿更为直观，因为此时它的平移向量即为相机原点在世界坐标系中的坐标。视觉
+Slam 十四讲中的第五讲的 joinMap 使用的就是 <code>T_&#123;wc&#125;</code>
+来表示相机位姿进行点云拼接。</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.mkari.de/posts/cam-transform/">Camera
+Conventions, Transforms, and Conversions</a></li>
+</ul>
+<p><code>poses = poses_arr[:, :-2].reshape([-1, 3, 5]).transpose([1,2,0])</code>
+取前15个数，去掉最后2个near和far，并reshape成（N，3，5）的矩阵：</p>
+<p>┌ ┐ │ R11 R12 R13 t1 hwf1 │ │ R21 R22 R23 t2 hwf2 │ │ R31 R32 R33 t3
+hwf3 │ └ ┘</p>
+<p>其中R部分是旋转矩阵，t是平移向量。</p>
+<p><strong>最终
+<code>poses.shape = (3, 5, N)</code>，其中</strong>：</p>
+<ul>
+<li><code>poses[:, :4, :]</code> → <code>3x4</code> 的
+<strong>相机外参</strong> (<code>R|t</code>)</li>
+<li><code>poses[:, 4:5, :]</code> → <code>3x1</code> 的
+<strong>相机内参</strong> <code>[h, w, f]</code></li>
+</ul>
+<p><code>bds = poses_arr[:, -2:].transpose([1,0])</code>：取出
+<strong>最后两列</strong>，即 <code>near</code> 和 <code>far</code>
+深度边界，形状是 <code>(N, 2)</code>。</p>
+<p><strong><code>.transpose([1,0])</code></strong>：交换轴顺序，使
+<code>bds.shape = (2, N)</code>：</p>
+<ul>
+<li><strong>第一维 (2)</strong>：表示 <strong>最近 (<code>near</code>)
+和 最远 (<code>far</code>) 深度</strong></li>
+<li><strong>第二维 (N)</strong>：对应 <strong>N 张图像</strong></li>
+</ul>
+<ol start="2" type="1">
+<li>Generate MPIs</li>
+</ol>
+<p>脚本为<code>imgs2mpi2.py</code>。这一步是采用训练好的tensorflow模型对第一步骤的结果进行MPI的生成。这一步实现的结果如下：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250212153512883.png" alt="image-20250212153512883">
+<figcaption aria-hidden="true">image-20250212153512883</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>Render novel views</li>
+</ol>
 
       
     </div>
@@ -605,157 +830,6 @@ Density的理解就是可以求导并利用梯度下降去一点点降低loss的
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">RAG中PDF的解析</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-06-27 13:17:26" itemprop="dateCreated datePublished" datetime="2024-06-27T13:17:26+08:00">2024-06-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2024-08-30 09:38:12" itemprop="dateModified" datetime="2024-08-30T09:38:12+08:00">2024-08-30</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.4k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>今天新开一篇文章。前段时间一直忙于项目周期中琐碎的事情，没有好好总结和思考技术核心的东西。探索RAG的应用也有一段时间了，市面上的应用也看的不少，很多的应用包括langchain-chatchat，Dify,
-都是整体搭建了一个最basic版本的RAG框架，至于很多细节点，并没有提供更精细化的实现，今天要写的这部分：PDF上传到知识库之后如何parse和chunking，直接影响后续retrival的表现，目前还没有很全面的review来总结这部分内容。这里就对我看到的一些技术做一些整理。</p>
-<p>解析PDF文档的难点主要在于如何精确地捕捉页面的整体布局，并将包括<code>表格</code>，<code>标题</code>,
-段落以及图片在内的内容转译为文档的文字形式。这一过程涉及到多个技术点，布局的检测，图片中文字的抽取，表格中行与列的识别（如何正确将PDF中的表格识别成可用结构化形式表示的表格，也就是能还原出原表格来）。</p>
-<p>目前解析PDF文档主要有三种主流方式：</p>
-<ol type="1">
-<li>基于规则的方法：这种方法根据文档的组织特性来确定每个部分的样式和内容，代表库：<a target="_blank" rel="noopener" href="https://pypi.org/project/pypdf/">pypdf</a>，
-这种方法的适用性比较差，很难通过预设的规则覆盖所有PDF的情形。</li>
-<li>基于深度学习模型的方法：一个流行的解决方案是结合了物体检测和OCR模型，代表
-Chatdoc</li>
-<li>基于多模态大模型的方法：通过这种方法可以解析PDF中复杂结构或者提取关键信息</li>
-</ol>
-<h1 id="基于规则的方法">基于规则的方法</h1>
-<p>基于规则的PDF处理库真的太多了，每一次看到一个应用使用的新的PDF解析器，都要重新看看怎么处理的。比如langchain-chatchat用的是pyMuPDF中的fitz包，见<a target="_blank" rel="noopener" href="https://github.com/chatchat-space/Langchain-Chatchat/blob/master/libs/chatchat-server/chatchat/server/file_rag/document_loaders/mypdfloader.py">langchain-chatchat源代码</a>，这一段处理特别粗糙，我贴上来：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fitz  <span class="comment"># pyMuPDF里面的fitz包，不要与pip install fitz混淆</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">ocr = get_ocr()</span><br><span class="line">doc = fitz.<span class="built_in">open</span>(filepath)</span><br><span class="line">resp = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">b_unit = tqdm.tqdm(</span><br><span class="line">    total=doc.page_count, desc=<span class="string">&quot;RapidOCRPDFLoader context page index: 0&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">for</span> i, page <span class="keyword">in</span> <span class="built_in">enumerate</span>(doc):</span><br><span class="line">    b_unit.set_description(</span><br><span class="line">        <span class="string">&quot;RapidOCRPDFLoader context page index: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">    )</span><br><span class="line">    b_unit.refresh()</span><br><span class="line">    text = page.get_text(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    resp += text + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    img_list = page.get_image_info(xrefs=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> img <span class="keyword">in</span> img_list:</span><br><span class="line">        <span class="keyword">if</span> xref := img.get(<span class="string">&quot;xref&quot;</span>):</span><br><span class="line">                bbox = img[<span class="string">&quot;bbox&quot;</span>]</span><br><span class="line">                <span class="comment"># 检查图片尺寸是否超过设定的阈值</span></span><br><span class="line">                <span class="keyword">if</span> (bbox[<span class="number">2</span>] - bbox[<span class="number">0</span>]) / (page.rect.width) &lt; PDF_OCR_THRESHOLD[</span><br><span class="line">                    <span class="number">0</span></span><br><span class="line">                ] <span class="keyword">or</span> (bbox[<span class="number">3</span>] - bbox[<span class="number">1</span>]) / (</span><br><span class="line">                    page.rect.height</span><br><span class="line">                ) &lt; PDF_OCR_THRESHOLD[<span class="number">1</span>]:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                    pix = fitz.Pixmap(doc, xref)</span><br><span class="line">                    samples = pix.samples</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">int</span>(page.rotation) != <span class="number">0</span>:  <span class="comment"># 如果Page有旋转角度，则旋转图片</span></span><br><span class="line">                        img_array = np.frombuffer(</span><br><span class="line">                            pix.samples, dtype=np.uint8</span><br><span class="line">                        ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line">                        tmp_img = Image.fromarray(img_array)</span><br><span class="line">                        ori_img = cv2.cvtColor(np.array(tmp_img), cv2.COLOR_RGB2BGR)</span><br><span class="line">                        rot_img = rotate_img(img=ori_img, angle=<span class="number">360</span> - page.rotation)</span><br><span class="line">                        img_array = cv2.cvtColor(rot_img, cv2.COLOR_RGB2BGR)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            img_array = np.frombuffer(</span><br><span class="line">                                pix.samples, dtype=np.uint8</span><br><span class="line">                            ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">                            result, _ = ocr(img_array)</span><br><span class="line">                            <span class="keyword">if</span> result:</span><br><span class="line">                                ocr_result = [line[<span class="number">1</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">                                resp += <span class="string">&quot;\n&quot;</span>.join(ocr_result)</span><br></pre></td></tr></table></figure>
-<p>注意它对PDF中图片的处理，是将某一页中所有的图片存入一个img_list，然后遍历这个list，用ocr算法抠出里面的文字，将这些文字都放到该页text的末尾，很大程度上丧失了图片在PDF中应该表达的语义，不仅如此，我觉得还影响了retrival的performance，加入了噪声。</p>
-<p>再来看看<a target="_blank" rel="noopener" href="https://github.com/langgenius/dify/blob/main/api/core/rag/extractor/pdf_extractor.py">Dify</a>怎么处理的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pypdfium2</span><br><span class="line">    <span class="keyword">with</span> blob.as_bytes_io() <span class="keyword">as</span> file_path:</span><br><span class="line">        pdf_reader = pypdfium2.PdfDocument(file_path, autoclose=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> page_number, page <span class="keyword">in</span> <span class="built_in">enumerate</span>(pdf_reader):</span><br><span class="line">                text_page = page.get_textpage()</span><br><span class="line">                content = text_page.get_text_range()</span><br><span class="line">                text_page.close()</span><br><span class="line">                page.close()</span><br><span class="line">                metadata = &#123;<span class="string">&quot;source&quot;</span>: blob.source, <span class="string">&quot;page&quot;</span>: page_number&#125;</span><br><span class="line">                <span class="keyword">yield</span> Document(page_content=content, metadata=metadata)</span><br><span class="line">                <span class="keyword">finally</span>:</span><br><span class="line">                    pdf_reader.close()</span><br></pre></td></tr></table></figure>
-<p>换了一个pypdfium2的库，<strong>图片完全舍弃</strong>。我也去搜了有没有对两者的比较，见<a target="_blank" rel="noopener" href="https://www.reddit.com/r/learnpython/comments/1796l3g/pypdf_or_pymupdf/">pypdf
-or pymupdf?</a>，更有作者做了一个repo用于比较各种library的效果：<a target="_blank" rel="noopener" href="https://github.com/py-pdf/benchmarks">传送门</a>。结论是如果单论文本抽取的质量，pypdfium2是第一</p>
-<blockquote>
-<p>对于RAG中PDF的处理，我觉得最理想的目标应该是，query能够link到PDF中的图片，不仅如此，这张图片也应该作为reference，目前市面上的reference只能link到相应文件的纯文本。远远不够精细，不过做起来确实有点困难，也需要一点耐心。</p>
-</blockquote>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628100839214.png" alt="image-20240628100839214">
-<figcaption aria-hidden="true">image-20240628100839214</figcaption>
-</figure>
-<p>更多其他工具的比较可参考<a target="_blank" rel="noopener" href="https://ad-publications.cs.uni-freiburg.de/benchmark.pdf">A
-Benchmark and Evaluation for Text Extraction from PDF</a></p>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628101040870.png" alt="image-20240628101040870">
-<figcaption aria-hidden="true">image-20240628101040870</figcaption>
-</figure>
-<p>基于规则的方法有一个最大的缺点就是：它会将每一行视为由换行符“”分隔的序列，如果那一行确实是以句号为结尾，影响还稍微小一点，但是如果下一行还在表述这句话，语义上就完全断掉了。要知道在chunking的阶段，大部分的做法是以<code>\n</code>作分隔符的。</p>
-<h1 id="基于深度学习模型的方法">基于深度学习模型的方法</h1>
-<p>这种方法的又是是它能准确识别整个文档的布局，包括表格和段落。它甚至能理解表格内的结构。这意味着解析出来的表格能完整的解析成表格原本的样子。局限性就在于对象检测和OCR的识别两个阶段可能会耗时。这时候可以考虑采用GPU加速或者多进程和多线程的方式进行处理。</p>
-<p>这里有几个开源的代表框架：</p>
-<ul>
-<li>Unstructured：它是langchain官方推荐的方式。在启用infer_table_structure=True的hi_res策略下，表格的识别效果良好。fast策略下表现不佳</li>
-<li>Layout-parser：如果需要识别复杂结构的PDF，建议使用最大的模型，虽然可能会稍慢一点</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/PaddleOCR/blob/main/ppstructure/README_ch.md">PP-StructureV2</a>：
-采用多种模型组合进行文档的分析，性能优于平均水平。这是百度的飞桨出品的文档智能模型。</li>
-</ul>
-<p>另外有一些闭源付费的工具诸如ChatDoc和LLama Parse,
-这些在现实的落地中存在一定阻碍，毕竟调用API是一定会存在数据上传到别人服务器的风险的，如果是处理非敏感数据，付费API可以做考虑。</p>
-<p>这里对Unstructured处理PDF做一些探索。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.unstructured.io/open-source/core-functionality/partitioning#partition-pdf">Unstructured</a>对PDF的处理首先是对layout进行检测(detectron2模型)，然后使用tesseract实现OCR的功能，用table
-transformer处理table。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unstructured.partition.pdf <span class="keyword">import</span> partition_pdf</span><br><span class="line"><span class="comment"># Get elements</span></span><br><span class="line">raw_pdf_elements = partition_pdf(</span><br><span class="line">    filename=test_file,</span><br><span class="line">    <span class="comment"># Using pdf format to find embedded image blocks</span></span><br><span class="line">    extract_images_in_pdf=<span class="literal">True</span>,</span><br><span class="line">    <span class="comment"># Use layout model (YOLOX) to get bounding boxes (for tables) and find titles</span></span><br><span class="line">    <span class="comment"># Titles are any sub-section of the document</span></span><br><span class="line">    infer_table_structure=<span class="literal">True</span>,</span><br><span class="line">    <span class="comment"># Post processing to aggregate text once we have the title</span></span><br><span class="line">    chunking_strategy=<span class="string">&quot;by_title&quot;</span>,</span><br><span class="line">    <span class="comment"># Chunking params to aggregate text blocks</span></span><br><span class="line">    <span class="comment"># Attempt to create a new chunk 3800 chars</span></span><br><span class="line">    <span class="comment"># Attempt to keep chunks &gt; 2000 chars</span></span><br><span class="line">    <span class="comment"># Hard max on chunks</span></span><br><span class="line">    max_characters=<span class="number">4000</span>,</span><br><span class="line">    new_after_n_chars=<span class="number">3800</span>,</span><br><span class="line">    combine_text_under_n_chars=<span class="number">2000</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">tables = [el <span class="keyword">for</span> el <span class="keyword">in</span> raw_pdf_elements <span class="keyword">if</span> el.category == <span class="string">&#x27;Table&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(tables[<span class="number">0</span>].text)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(tables[<span class="number">0</span>].metadata.text_as_html)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>上述的第二个输出：将表格转化为html格式，如果将其保存为html，它可以在浏览器中打开，打开后还是一个完整的表格。unstructured的好处就在于它保证了一个表格的完整性。官方给出的<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1BJYYyrPVe0_9EGyXqeNyzmVZDrCRZwsg">示例代码</a>中就是将每一个element的text去做embedding，对于表格来说就是将表格的text去做embedding。但是我测试了两个例子发现，它把表格的标题以及表格的注解给弄到其他element里去了，这些文本本应该和表格一起，比如下面的表格：</p>
-<figure>
-<img src="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/image-20240628160939056.png" alt="image-20240628160939056">
-<figcaption aria-hidden="true">image-20240628160939056</figcaption>
-</figure>
-<p>它抽取出来的表格element就只包含纯表格那部分，上面关于Table1的介绍都包含在了上面一个element里</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">3.5 Positional Encoding</span><br><span class="line"></span><br><span class="line">Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some information about the relative or absolute position of the</span><br><span class="line"></span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.</span><br><span class="line">--------------------------------- 上面是另一个element的内容</span><br><span class="line">Layer Type Self-Attention Recurrent Convolutional Self-Attention (restricted) Complexity per Layer O(n2 · d) O(n · d2) O(k · n · d2) O(r · n · d) Sequential Maximum Path Length Operations O(1) O(n) O(1) O(1) O(1) O(n) O(logk(n)) O(n/r)</span><br></pre></td></tr></table></figure>
-<h1 id="基于多模态大模型的方法">基于多模态大模型的方法</h1>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -781,14 +855,14 @@ transformer处理table。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">210k</span>
+    <span title="Symbols count total">216k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:11</span>
+    <span title="Reading time total">3:16</span>
   </span>
 </div>
 
