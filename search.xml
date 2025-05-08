@@ -321,6 +321,7 @@ Density的理解就是可以求导并利用梯度下降去一点点降低loss的
 <li>基于深度学习模型的方法：一个流行的解决方案是结合了物体检测和OCR模型，代表
 Chatdoc</li>
 <li>基于多模态大模型的方法：通过这种方法可以解析PDF中复杂结构或者提取关键信息</li>
+<li><span id="more"></span></li>
 </ol>
 <h1 id="基于规则的方法">基于规则的方法</h1>
 <p>基于规则的PDF处理库真的太多了，每一次看到一个应用使用的新的PDF解析器，都要重新看看怎么处理的。比如langchain-chatchat用的是pyMuPDF中的fitz包，见<a href="https://github.com/chatchat-space/Langchain-Chatchat/blob/master/libs/chatchat-server/chatchat/server/file_rag/document_loaders/mypdfloader.py">langchain-chatchat源代码</a>，这一段处理特别粗糙，我贴上来：</p>
@@ -499,6 +500,7 @@ pretraining，并且发布了在instruction数据上的微调模型</li>
 <p>研究思路很简单，在别人模型上继续预训练，并参照alpaca对预训练的模型进行instruction
 finetune让其具备follow instructions的能力。我们首先从这个Chinese
 LLaMA代码仓库看起。</p>
+<span id="more"></span>
 <h1 id="chinese-llama">Chinese LLaMA</h1>
 <p>作者自述做这份工作的原因是原生llama模型的词汇表中仅包含1000+个中文字符，所以首要任务是要扩充llama的词表。他们首先训练了一个中文的tokenizer，然后将其与llama的tokenizer进行融合，融合后的tokenizer拥有49953个token,
 那么输入的词汇表数就从32000扩充到了49953。作者的实验还发现用新的融合后的tokenizer去tokenize序列要比旧的tokenizer编码后的序列要短。那很自然的就减少了很多计算量。</p>
@@ -728,6 +730,7 @@ Knowledge and Large Language Models: A Survey and Taxonomy of Methods,
 Benchmarks, and Applications</a>, 该综述的第三章详细介绍了retrieval
 augmentation的方法。我这篇博客会首先理顺一些理论，然后再介绍吴恩达课程里的知识（个人认为吴大佬出的关于LLM的一系列shot
 course可食用性不够高，比如上面说的这个RAG相关的课怎么看都觉得是在推广LlamaIndex这个框架，对于原理一句话带过，很多细节不清楚）。</p>
+<span id="more"></span>
 <p>3.2节提到的两个工作值得注意：</p>
 <ol type="1">
 <li>Query2doc</li>
@@ -1345,57 +1348,6 @@ token数。</p>
       </tags>
   </entry>
   <entry>
-    <title>llm赋能的全自动Agents</title>
-    <url>/2023/07/13/llm%E8%B5%8B%E8%83%BD%E7%9A%84%E5%85%A8%E8%87%AA%E5%8A%A8Agents/</url>
-    <content><![CDATA[<p>这篇文章来源于liianwen的<a href="https://lilianweng.github.io/posts/2023-06-23-agent/">blog</a>,初看这篇博客时感觉太多新技术看不懂，再者今天突然看到新智元公众号发了一篇<a href="https://mp.weixin.qq.com/s/6gu_m739yOKhRBl_2rvWhg">文章</a>，乍一看特别熟悉，对比了下确实是完全照搬翻译，让人读起来一头雾水，不仅如此，跟原博客相比缺失了很多内容。</p>
-<p>强烈建议先食用<a href="https://blog.salesforceairesearch.com/large-action-models/">blog</a>,
-很通俗的讲解了LLM发展到现在成为Agents的原因，这里引用博客中的一句话：</p>
-<blockquote>
-<p>Recent months have seen the emergence of a powerful new trend in
-which large language models are augmented to become “agents”—software
-entities capable of performing tasks on their own, ultimately in the
-service of a goal, rather than simply responding to queries from human
-users</p>
-</blockquote>
-<p>也就是研究人员已经不满足于让LLM仅仅是根据query回答问题，更希望它能帮我们完成一些任务，成为我们工作生活的“助手”，就好像你有一个秘书一样，你让他去定一个航班，秘书可能会进行一系列的操作，比如他要考量你的时间安排，还要考虑航班的情况等等，你最终就是拿到了秘书给你的机票，但其实秘书在中间做了超级多事情。那我们现在就希望能把LLM培养成这样的角色，他不仅能接受命令还能自己做决策，然后把任务完成了。刚刚提到的博客里还讲了一个购买车的例子。</p>
-<p>那我们知道我们的终极目标是要实现一个高级别的私人助理，那么实现这个目标需要哪些技术呢，这时候才到了lilian
-wen的这篇博客部分。引言就是现在一些agents的雏形比如autoGPT,
-GPT-engineer和BabyAGI出现了。</p>
-<p>lilian的博客认为agents是以LLM作为大脑，配置三个主要的components：planing，memory和tool。Planning主要是将复杂任务拆分，不仅如此它还要负责自我反省，吸取以往错误的教训，从而能够产生更好的结果。</p>
-<figure>
-<img src="https://lilianweng.github.io/posts/2023-06-23-agent/agent-overview.png" alt="overview of a llm-powered autonomous agent system">
-<figcaption aria-hidden="true">overview of a llm-powered autonomous
-agent system</figcaption>
-</figure>
-<p>Memory包含短期记忆和长期记忆，前者可以理解成in-context
-learning中应用的记忆，后者主要是应用外部的向量数据库或者本地知识库抽取的知识。Tool就是agent可以拥有调用各个外部API的能力，就像你的武器库一样，不同的武器适合不同的作战场景，这些API就可以弥补预训练完的模型所欠缺的能力，比如对于当下实时信息的获取。</p>
-<h1 id="component-1-planning">Component 1： Planning</h1>
-<p>拆解任务有两种主流办法：1. CoT chain of thought 2. Tree of
-Thoughts</p>
-<p>前者被讲烂了，后者是对CoT的扩展，将任务拆解成一个子任务树，然后采用宽度优先搜索或者广度优先搜索的方式去决定接下去先解决哪个子任务。</p>
-<p>planning这个子模块还有一个更重要的功能就是自我反思，人都是需要从错误中进步的，大语言模型也是一样。思想有点类似于增强学习。首先讲到的是<code>ReAct</code>,
-说实话lilian博客里写的这一段我没看懂，所以还是找原文<a href="https://arxiv.org/pdf/2210.03629.pdf">paper</a>来看了下。</p>
-<figure>
-<img src="/2023/07/13/llm%E8%B5%8B%E8%83%BD%E7%9A%84%E5%85%A8%E8%87%AA%E5%8A%A8Agents/image-20230713145032112.png" alt="comparison results">
-<figcaption aria-hidden="true">comparison results</figcaption>
-</figure>
-<p>从上面的例子就可以理解作者提出的办法就是将thought和action结合起来了，也就是单纯的思考比如chain
-of
-thought并不能很好的回答问题，受制于预训练模型自己模型内存储的知识，而如果只有action呢？就是不停的去搜索，如果搜索不到正确的答案那也是白搭。其实我理解就是作者提出我们要做一个通用的人工智能，你要告诉他在行动的时候也要思考，思考清楚之后再去考虑下一步已经采取什么样的行动，同时每一次行动也会从环境中得到反馈，比如作者举的第二个例子，你去countertop（台面）的时候，你看到了苹果，面包，胡椒粉瓶子和一个花瓶，既然我们要把胡椒粉瓶子放到抽屉里，那就可以拿走胡椒粉瓶子啦！其实这也好理解，一个优秀的人其实也是要边做边思考的，所以就形成了作者提出的prompt新范式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Thought: ...</span><br><span class="line">Action: ...</span><br><span class="line">Observation: ...</span><br><span class="line">... (Repeated many times)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://react-lm.github.io/files/diagram.png" alt="frames">
-<figcaption aria-hidden="true">frames</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>nlp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>训练一个information retrival</title>
     <url>/2023/06/30/%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAinformation-retrival/</url>
     <content><![CDATA[<p>近期中文大语言模型出现了好多产品，独领风骚的chatglm-6B确实表现很不错，所以大家就纷纷下场想做一个自己领域的大语言模型，最近看到一篇<a href="http://arxiv.org/abs/2305.15062">Lawyer LLaMA Technical
@@ -1656,41 +1608,6 @@ learning是可以促进大语言模型解决特定问题（因为我们让LLM以
       </categories>
       <tags>
         <tag>nlp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>prompt engineering</title>
-    <url>/2023/05/19/prompt-engineering/</url>
-    <content><![CDATA[<p>在LLM兴起之后，很多工作都在如果更好的设计prompt的形式上下了很多苦功夫，设计提示词的这个学问就是prompt
-engineering。我之前一直觉得这是一个静态的过程，建议刚接触的同学先学习吴恩达和openai合作制作的prompt
-engineering的知道<a href="https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/">课程</a>,另外也有中国热心的网友也翻译了自己的中文版本，还加入了一些自己的思考，推荐<a href="https://github.com/LC1332/Prophet-Andrew-Ng/blob/main/content/2.%20%E6%8F%90%E7%A4%BA%E5%8E%9F%E5%88%99%20Guidelines.ipynb">骆驼</a>。</p>
-<p>我是从斯坦福的羊驼模型开始接触instruction tuning的，instruction
-tuning提供给了用户一种在特定数据集上低成本finetune模型的可能性，后来又接触到了斯坦福新出的paper：Demonstrate-Search-Predict:
-Composing retrieval and language models for knowledge-intensive
-NLP，这是一篇用信息抽取技术retrieval
-models来扩充query，从而使得LM能够得到更多context的技术，这才让我了解到其实除了最基础的我们知道的那些prompting的方式，比如zero-shot,few-shot,chain-of-thought方式，还有一些方式在这些方式上进行了创新。</p>
-<p>lilian weng的<a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">博客</a>在chiin-of-thought章节之后就介绍了自动prompt
-design和augmented language
-models。这些对于我来说都是新东西，新技术发展的很快，我学习的过程其实也是在织自己知识结构中的这个网，从接触GPT以来写了好几篇博客，零零散散的，很多博客都是只局限于其中的技术，时不时我需要停下里思考这些技术之间的关联，从而把整个逻辑理顺。技术的发展或者一个模型一个方法的出现都是有路径可循的，我希望能把这些路径穿起来，摸清楚发展脉络。</p>
-<h1 id="augmented-language-models">Augmented Language Models</h1>
-<p>本节参考<a href="Augmented%20Language%20Models:%20a%20Survey">review</a>，我之前理解augmented
-llm有点狭隘，最基本的方法是从一个知识库或者搜索引擎中搜索query相关的内容，将这些内容加到prompt里，从而一定程度上解决大模型的幻觉问题，这种思路的典型应用见<a href="http://arxiv.org/abs/2203.05115">Internet-augmented language
-models through few-shot prompting for open-domain question
-answering</a>.
-但上面提到的这篇review把问题更细化一点，从更高的维度去分析现在的这些方法，第一个就是reasoning，也就是把复杂问题如何细化成LLM可以解决的简单问题，第二个是Tools，也就是我们上面介绍的应用的场景，tool帮我们抽取相关信息（document
-retriever）。关于更具体地解释可以阅读review地1.2节。</p>
-<h1 id="useful-links">Useful Links</h1>
-<ul>
-<li><a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/#augmented-language-models">Prompt
-engineering blog by Lilian Weng</a></li>
-<li></li>
-</ul>
-]]></content>
-      <categories>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
       </tags>
   </entry>
   <entry>
@@ -2405,6 +2322,7 @@ class建立模型的code。不仅如此，还需要用原来的code先build起�
 <p>在整理这篇博客的过程中，我也去搜了有没有<code>image classification</code>这个单任务上的<code>review</code>文章，文章都挺多的，筛选之后推荐这篇<a href="https://www.mdpi.com/2072-4292/13/22/4712">Review of Image
 Classification Algorithms Based on Convolutional Neural
 Networks</a>.这篇文章主要是介绍基于CNN的一些模型，共有三个章节。重点是第二章节梳理了<code>CNN-based</code>的一些模型，包括本文想要<code>cover</code>的<code>VGG</code>，<code>inception</code>，<code>resnet</code>，<code>mobilenet</code>。重点关注图像分类算法的小伙伴可以通读一下这篇文章。</p>
+<span id="more"></span>
 <figure>
 <img src="/2023/02/06/image-classification-models%E6%80%BB%E7%BB%93/image-20230207094857739-16757345394748.png" alt="Review of Image Classification Algorithms Based on Convolutional Neural Networks第二章节目录">
 <figcaption aria-hidden="true">Review of Image Classification Algorithms
@@ -2648,6 +2566,7 @@ layer，后面的过程和fast RCNN一致。 这篇Faster-RCNN的方法作者中
 kaiming和Girshick，这里致敬下sun jian，感谢为computer
 vision领域贡献的灵感和创造。</p></li>
 </ol>
+<span id="more"></span>
 <h1 id="mask-rcnn">Mask-RCNN</h1>
 <p>Mask-RCNN是Region-based CNN系列中的一个算法，用于解决instance
 segmentation的问题，instance segmentation的难点在于我们不仅要做object
@@ -3416,27 +3335,6 @@ map中每一个pixel的值就是0~1之间的值。</p>
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图像的读取方式</title>
-    <url>/2022/06/21/%E5%9B%BE%E5%83%8F%E7%9A%84%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="pil">PIL</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&quot;1.jpg&quot;</span>)</span><br><span class="line">img.load()</span><br><span class="line"></span><br><span class="line">array = np.asarrary(img)</span><br><span class="line"></span><br><span class="line">img.show() <span class="comment"># view the picture</span></span><br><span class="line"></span><br><span class="line">img.save(<span class="string">&quot;./new_img.jpg&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>PIL.Image包有很多其他的功能，比如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从array生成图片convert it to a Pillow image</span></span><br><span class="line">Image.fromarray(data,<span class="string">&#x27;RGB&#x27;</span>) <span class="comment"># 如果mode=&#x27;L&#x27;,那么只有一个通道</span></span><br></pre></td></tr></table></figure>
-<h1 id="cv2">cv2</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">&quot;./1.jpg&quot;</span>) <span class="comment"># 返回的img的channel顺序是BGR</span></span><br><span class="line"></span><br><span class="line">grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) <span class="comment"># 转化为灰度图的模式</span></span><br><span class="line">rgb_img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB) <span class="comment"># 转化为RGB的模式</span></span><br></pre></td></tr></table></figure>
-<p><code>cv2</code>一个有用的method是resize</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">img = cv2.resize(raw_img,(width,height))</span><br></pre></td></tr></table></figure>
-<h1 id="tensorflow">tensorflow</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">img = tf.keras.preprocessing.image.load_img(<span class="string">&quot;./i.jpg&quot;</span>,target_size=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>)) <span class="comment"># Loads an image into PIL format</span></span><br><span class="line">img = tf.keras.preprocessing.image.img_to_array(img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从array转化成PIL image 实例</span></span><br><span class="line">img = tf.keras.preprocessing.image.array_to_img(array) <span class="comment"># array是3D numpy array</span></span><br><span class="line"></span><br><span class="line">tf.keras.utils.save_img(path,array)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>cv</tag>
       </tags>
   </entry>
   <entry>
@@ -4280,357 +4178,10 @@ map中每一个pixel的值就是0~1之间的值。</p>
 [3]. https://www.jianshu.com/p/152e081fec1b</p>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sklearn总结</title>
-    <url>/2022/03/29/sklearn%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="model">model</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier <span class="comment"># 随机森林</span></span><br><span class="line"><span class="comment"># RandomForestClassifier随机森林：n_estimators 森林中树的数量(default=100), max_features 寻找最优划分时考虑的最大数目的特征,</span></span><br><span class="line">rf_clf_model = RandomForestClassifier(n_estimators=<span class="number">150</span>, max_depth=<span class="number">7</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="metric">metric</h1>
-<h2 id="accuracyprecisionrcall-f1_score">accuracy,precision,rcall,
-f1_score</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, f1_score,precision_score,recall_score</span><br></pre></td></tr></table></figure>
-<h1 id="model_selection">model_selection</h1>
-<h2 id="交叉验证-cross_val_score">交叉验证 cross_val_score</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.model_selection import cross_val_score</span><br></pre></td></tr></table></figure>
-<p>cross_val_score交叉验证
-首个参数为estimator(也就是要执行fit的model),cv
-折数，默认是5折验证，返回的cv长度的score</p>
-<p>参考 https://blog.csdn.net/qq_36523839/article/details/80707678</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets	<span class="comment">#自带数据集</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split,cross_val_score	<span class="comment">#划分数据 交叉验证</span></span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier  <span class="comment">#一个简单的模型，只有K一个参数，类似K-means</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">iris = datasets.load_iris()		<span class="comment">#加载sklearn自带的数据集</span></span><br><span class="line">X = iris.data 			<span class="comment">#这是数据</span></span><br><span class="line">y = iris.target 		<span class="comment">#这是每个数据所对应的标签</span></span><br><span class="line">train_X,test_X,train_y,test_y = train_test_split(X,y,test_size=<span class="number">1</span>/<span class="number">3</span>,random_state=<span class="number">3</span>)	<span class="comment">#这里划分数据以1/3的来划分 训练集训练结果 测试集测试结果</span></span><br><span class="line">k_range = <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">31</span>)</span><br><span class="line">cv_scores = []		<span class="comment">#用来放每个模型的结果值</span></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> k_range:</span><br><span class="line">    knn = KNeighborsClassifier(n)   <span class="comment">#knn模型，这里一个超参数可以做预测，当多个超参数时需要使用另一种方法GridSearchCV</span></span><br><span class="line">    scores = cross_val_score(knn,train_X,train_y,cv=<span class="number">10</span>,scoring=<span class="string">&#x27;accuracy&#x27;</span>)  <span class="comment">#cv：选择每次测试折数  accuracy：评价指标是准确度,可以省略使用默认值，具体使用参考下面。</span></span><br><span class="line">    cv_scores.append(scores.mean())</span><br><span class="line">plt.plot(k_range,cv_scores)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;K&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Accuracy&#x27;</span>)		<span class="comment">#通过图像选择最好的参数</span></span><br><span class="line">plt.show()</span><br><span class="line">best_knn = KNeighborsClassifier(n_neighbors=<span class="number">3</span>)	<span class="comment"># 选择最优的K=3传入模型</span></span><br><span class="line">best_knn.fit(train_X,train_y)			<span class="comment">#训练模型</span></span><br><span class="line"><span class="built_in">print</span>(best_knn.score(test_X,test_y))	<span class="comment">#看看评分</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>sklearn</category>
-      </categories>
-      <tags>
-        <tag>sklearn</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>numpy基础总结</title>
-    <url>/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="numpy.linalg.norm">numpy.linalg.norm</h1>
-<p><code>linalg.norm(x,ord=None,axis=None,keepdims=False)</code></p>
-<p>其中x可以传入array，也可以是matrix。</p>
-<p>ord参数针对x是array还是matrix是不一样的计算：</p>
-<table>
-<thead>
-<tr class="header">
-<th>ord</th>
-<th>norm for matrices</th>
-<th>norm for vectors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>None</td>
-<td>Frobenius norm</td>
-<td>2-norm</td>
-</tr>
-<tr class="even">
-<td>‘fro’</td>
-<td>Frobenius norm</td>
-<td>–</td>
-</tr>
-<tr class="odd">
-<td>‘nuc’</td>
-<td>nuclear norm</td>
-<td>–</td>
-</tr>
-<tr class="even">
-<td>inf</td>
-<td>max(sum(abs(x), axis=1))</td>
-<td>max(abs(x))</td>
-</tr>
-<tr class="odd">
-<td>-inf</td>
-<td>min(sum(abs(x), axis=1))</td>
-<td>min(abs(x))</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>–</td>
-<td>sum(x != 0)</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>max(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="even">
-<td>-1</td>
-<td>min(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2-norm (largest sing. value)</td>
-<td>L2范数</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>smallest singular value</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>–</td>
-<td>sum(abs(x)<strong>ord)</strong>(1./ord)</td>
-</tr>
-</tbody>
-</table>
-<p>如果传入axis这个参数，axis=0表示每一列为向量，以每一列的向量为基础计算。然后就转化为了向量运算。</p>
-<p>其中keepdims如果是True，那么规范化的轴将作为尺寸1留在结果中，使用此选项，结果将针对原始
-x 正确广播。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = np.arange(<span class="number">9</span>) - <span class="number">4</span></span><br><span class="line">b = a.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">Out[<span class="number">7</span>]: array([-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>])</span><br><span class="line">b</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">array([[-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>],</span><br><span class="line">       [-<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>)</span><br><span class="line">Out[<span class="number">9</span>]: array([<span class="number">5.38516481</span>, <span class="number">1.41421356</span>, <span class="number">5.38516481</span>])</span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>,keepdims=<span class="literal">True</span>)</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">array([[<span class="number">5.38516481</span>],</span><br><span class="line">       [<span class="number">1.41421356</span>],</span><br><span class="line">       [<span class="number">5.38516481</span>]])</span><br></pre></td></tr></table></figure>
-<p>从以上结果看出：如果keepdims等于True，那么输出的矩阵将会是3乘以1的矩阵，输入矩阵是3乘以3。如果用Input/
-norm(input)是不会报错的。</p>
-]]></content>
-      <categories>
-        <category>numpy</category>
-      </categories>
-      <tags>
-        <tag>numpy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql常用命令</title>
-    <url>/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="select">select</h1>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT * FROM table_name; # 选取所有内容</span><br><span class="line"></span><br><span class="line">SELECT DISTINCT column_name,column_name</span><br><span class="line">FROM table_name; # 一个列可能包含不同的值，该句可以列出不同的值</span><br><span class="line"></span><br><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE column_name operator value; # OPERATOR部分可以是: =,&gt;,&lt;,between,in,like</span><br><span class="line"># WHERE后可以跟逻辑符号 and,or,not</span><br></pre></td></tr></table></figure>
-<p>mysql语句对大小写不敏感，select == SELECT</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from emp where not sal &gt; 1500;</span><br><span class="line"></span><br><span class="line">Select * from emp where comm is null;</span><br><span class="line"></span><br><span class="line">Select * from emp where sal in (5000,3000,1500);</span><br><span class="line"></span><br><span class="line">SELECT * FROM Websites WHERE alexa &gt; 15 AND (country=&#x27;CN&#x27; OR country=&#x27;USA&#x27;); # AND和OR可以结合使用</span><br></pre></td></tr></table></figure>
-<p>Like模糊查询</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Select * from emp where ename like &#x27;M%&#x27;;</span><br></pre></td></tr></table></figure>
-<p>查询 EMP 表中 Ename 列中有 M 的值，M 为要查询内容中的模糊信息。</p>
-<ul>
-<li><strong>%</strong> 表示多个字值，**_** 下划线表示一个字符；</li>
-<li><strong>M%</strong> :
-为能配符，正则表达式，表示的意思为模糊查询信息为 M 开头的。</li>
-<li><strong>%M%</strong> : 表示查询包含M的所有内容。</li>
-<li><strong>%M_</strong> : 表示查询以M在倒数第二位的所有内容。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">ORDER BY column_name,column_name ASC|DESC; # 默认是升序</span><br><span class="line"></span><br><span class="line">INSERT INTO table_name (column1,column2,column3,...)</span><br><span class="line">VALUES (value1,value2,value3,...); # 这种方式可以向table_name表格中插入一行，可以只向某一列插入，其他自动</span><br><span class="line"></span><br><span class="line">UPDATE table_name</span><br><span class="line">SET column1=value1,column2=value2,...</span><br><span class="line">WHERE some_column=some_value; # 用于更新某条记录 </span><br><span class="line"># 比如：</span><br><span class="line">UPDATE Websites </span><br><span class="line">SET alexa=&#x27;5000&#x27;, country=&#x27;USA&#x27; </span><br><span class="line">WHERE name=&#x27;菜鸟教程&#x27;;</span><br><span class="line"></span><br><span class="line">DELETE FROM table_name</span><br><span class="line">WHERE some_column=some_value; # 删除某一行记录</span><br></pre></td></tr></table></figure>
-<h1 id="高级用法">高级用法</h1>
-<h2 id="join">join</h2>
-<figure>
-<img src="/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/sql-join.png" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># QL INNER JOIN（简单的 JOIN）。 SQL INNER JOIN 从多个表中返回满足 JOIN 条件的所有行。</span><br><span class="line">SELECT Websites.id, Websites.name, access_log.count, access_log.date</span><br><span class="line">FROM Websites</span><br><span class="line">INNER JOIN access_log</span><br><span class="line">ON Websites.id=access_log.site_id;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>INNER JOIN</strong>：如果表中有至少一个匹配，则返回行</li>
-<li><strong>LEFT
-JOIN</strong>：即使右表中没有匹配，也从左表返回所有的行</li>
-<li><strong>RIGHT
-JOIN</strong>：即使左表中没有匹配，也从右表返回所有的行</li>
-<li><strong>FULL JOIN</strong>：只要其中一个表中存在匹配，则返回行</li>
-</ul>
-<h2 id="union">union</h2>
-<p>UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
-<p>请注意，UNION 内部的每个 SELECT
-语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT
-语句中的列的顺序必须相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION</span><br><span class="line">SELECT column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>默认地，UNION
-操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。</p>
-<h3 id="sql-union-all-语法">SQL UNION ALL 语法</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT *column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>UNION 结果集中的列名总是等于 UNION 中第一个
-SELECT 语句中的列名。</p>
-<p>前者只会列出选出的值中不同的一些数据条，后者是所有的都返回。</p>
-<h2 id="count">Count</h2>
-<p>COUNT() 函数返回匹配指定条件的行数。</p>
-<hr>
-<h3 id="sql-countcolumn_name-语法">SQL COUNT(column_name) 语法</h3>
-<p>COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT COUNT(column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-count-语法">SQL COUNT(*) 语法</h3>
-<p>COUNT(*) 函数返回表中的记录数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT COUNT(*) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-countdistinct-column_name-语法">SQL COUNT(DISTINCT
-column_name) 语法</h3>
-<p>COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>COUNT(DISTINCT) 适用于 ORACLE 和 Microsoft SQL
-Server，但是无法用于 Microsoft Access。</p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pandas遇到的问题汇总</title>
-    <url>/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="join">join()</h1>
-<p>Examples</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; df = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;, &#x27;K3&#x27;, &#x27;K4&#x27;, &#x27;K5&#x27;],</span><br><span class="line">...                    &#x27;A&#x27;: [&#x27;A0&#x27;, &#x27;A1&#x27;, &#x27;A2&#x27;, &#x27;A3&#x27;, &#x27;A4&#x27;, &#x27;A5&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">  key   A</span><br><span class="line">0  K0  A0</span><br><span class="line">1  K1  A1</span><br><span class="line">2  K2  A2</span><br><span class="line">3  K3  A3</span><br><span class="line">4  K4  A4</span><br><span class="line">5  K5  A5</span><br><span class="line">&gt;&gt;&gt; other = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;],</span><br><span class="line">...                       &#x27;B&#x27;: [&#x27;B0&#x27;, &#x27;B1&#x27;, &#x27;B2&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; other</span><br><span class="line">  key   B</span><br><span class="line">0  K0  B0</span><br><span class="line">1  K1  B1</span><br><span class="line">2  K2  B2</span><br></pre></td></tr></table></figure>
-<p>Join DataFrames using their indexes.</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; df.join(other, lsuffix=&#x27;_caller&#x27;, rsuffix=&#x27;_other&#x27;)</span><br><span class="line">  key_caller   A key_other    B</span><br><span class="line">0         K0  A0        K0   B0</span><br><span class="line">1         K1  A1        K1   B1</span><br><span class="line">2         K2  A2        K2   B2</span><br><span class="line">3         K3  A3       NaN  NaN</span><br><span class="line">4         K4  A4       NaN  NaN</span><br><span class="line">5         K5  A5       NaN  NaN</span><br></pre></td></tr></table></figure>
-<p>如果不想以现有index为基础去Join，比如上面的例子想用key这个index去Join，可以：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt; df.join(other.set_index(&#x27;key&#x27;), on=&#x27;key&#x27;)</span><br><span class="line">  key   A    B</span><br><span class="line">0  K0  A0   B0</span><br><span class="line">1  K1  A1   B1</span><br><span class="line">2  K2  A2   B2</span><br><span class="line">3  K3  A3  NaN</span><br><span class="line">4  K4  A4  NaN</span><br><span class="line">5  K5  A5  NaN</span><br></pre></td></tr></table></figure>
-<h1 id="merge">merge()</h1>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;&#x27;lkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [1, 2, 3, 5]&#125;)</span><br><span class="line">df2 = pd.DataFrame(&#123;&#x27;rkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [5, 6, 7, 8]&#125;)</span><br><span class="line">df1</span><br><span class="line">    lkey value</span><br><span class="line">0   foo      1</span><br><span class="line">1   bar      2</span><br><span class="line">2   baz      3</span><br><span class="line">3   foo      5</span><br><span class="line">df2</span><br><span class="line">    rkey value</span><br><span class="line">0   foo      5</span><br><span class="line">1   bar      6</span><br><span class="line">2   baz      7</span><br><span class="line">3   foo      8</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="选择多列">选择多列</h1>
-<p>有时候需要选择DataFrame中的多个列组成一个新的DataFrame，这时候要用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">df[[&#x27;column1&#x27;,&#x27;column2&#x27;]] # 注意这里是双层中括号！</span><br></pre></td></tr></table></figure>
-<h1 id="drop-满足条件的行">drop 满足条件的行</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df_clear = df.drop(df[df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>].index)</span><br><span class="line"><span class="comment"># 也可以使用多个条件</span></span><br><span class="line">df_clear = df.drop(df[(df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>) | (df[<span class="string">&#x27;x&#x27;</span>]&gt;<span class="number">10</span>)].index) <span class="comment">#删除x小于0.01或大于10的行</span></span><br></pre></td></tr></table></figure>
-<h1 id="dropna-丢掉某一列中有空的行">dropna 丢掉某一列中有空的行</h1>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.dropna(subset=[<span class="string">&#x27;column_name&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="applyapplymapmap">apply，applymap，map</h1>
-<h2 id="apply">apply</h2>
-<p>官方解释是 apply a function along an axis of the dataframe.</p>
-<p>apply内函数的是Series，也就是在Series上做函数操作。index可以是dataframe的index，也可以是dataframe的columns(axis=1)。axis=0时，apply
-the function to each
-column，也就是每一列为一个整体去实施函数。axis=1时，每一行作为一个整体去实施函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="applymap">applymap</h2>
-<p>官方解释是 apply a function to a dataframe
-elementwise.和apply不一样的是对dataframe中每一个元素分别作函数。</p>
-<p>applymap允许实施一个函数，这个函数接受和返回的都是一个标量。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">df.applymap(<span class="keyword">lambda</span> x: <span class="built_in">len</span>(<span class="built_in">str</span>(x)))</span><br></pre></td></tr></table></figure>
-<h2 id="map">map</h2>
-<p>map调用的对象只能是Series，而上面两个方法的调用对象是Dataframe。</p>
-]]></content>
-      <categories>
-        <category>pandas</category>
-      </categories>
-      <tags>
-        <tag>pandas</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux命令</title>
-    <url>/2022/03/15/linux%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="tar-压缩以及解压">tar 压缩以及解压</h1>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.txt   //压缩 a.c文件为test.tar.gz</span><br><span class="line">tar -xzvf test.tar.gz // 解压</span><br><span class="line">tar -tzvf test.tar.gz //列出压缩文件的内容</span><br></pre></td></tr></table></figure>
-<h1 id="linux中环境变量">linux中环境变量</h1>
-<p>参考https://www.cjavapy.com/article/2250/</p>
-<h2 id="介绍">1、介绍</h2>
-<p>Linux中环境变量包括系统级和用户级</p>
-<p>1）系统级</p>
-<p><strong>/etc/environment</strong>：系统在登录时读取的第一个文件，用于为所有进程设置环境变量。系统使用此文件时并不是执行此文件中的命令，而是根据<code>KEY=VALUE</code>模式的代码，对<code>KEY</code>赋值以<code>VALUE</code>，因此文件中如果要定义<code>PATH</code>环境变量，只需加入类似如<code>PATH=$PATH:/xxx/bin</code>的代码即可。</p>
-<p><strong>/etc/profile</strong>：是系统登录时执行的第二个文件，可以用于设定针对全系统所有用户的环境变量。该文件一般是调用<code>/etc/bash.bashrc</code>文件。</p>
-<p><strong>/etc/bash.bashrc</strong>：系统级的<code>bashrc</code>文件，为每一个运行bash
-shell的用户执行此文件。此文件会在用户每次打开shell时执行一次。</p>
-<p><strong>注意</strong>：<code>/etc/environment</code>是设置整个系统的环境，而<code>/etc/profile</code>是设置所有用户的环境，前者与登录用户无关，后者与登录用户有关。
-这两个文件修改后一般都要重启系统才能生效。</p>
-<p>2）用户级</p>
-<p><strong>~/.profile:</strong>
-是对应当前登录用户的<code>profile</code>文件，用于定制当前用户的个人工作环境。</p>
-<p>每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下，会设置一些环境变量，执行用户的<code>.bashrc</code>文件。</p>
-<p><strong>~/.bashrc</strong>:
-是对应当前登录用户的bash初始化文件，当用户每次打开shell时，系统都会执行此文件一次。通常设置环境变量修改这个文件。</p>
-<p>上述配置文件执行先后顺序如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/etc/enviroment `–&gt; `/etc/profile` –&gt; `~/.profile` –&gt; `/etc/bash.bashrc `–&gt; `~/.bashrc</span><br></pre></td></tr></table></figure>
-<h2 id="环境变量的作用">2、环境变量的作用</h2>
-<p>环境变量相当于给系统或用户应用程序设置的一些参数，具体起什么作用这当然和具体的环境变量相关。比如<code>PATH</code>，是告诉系统，当要求系统运行一个程序而没有告诉它程序所在的完整路径时，系统除了在当前目录下面寻找此程序外，还应到哪些目录下去寻找；再如tc或vc++中，<code>set include=path1;path2</code>;
-是告诉编译程序到哪里去找.h类型的文件；当然不仅仅是指定什么路径，还有其它的作用的，如<code>set dircmd=/4</code>
-设置一个环境变量的作用是在使用dir命令时会把<code>/4</code>作为缺省的参数添加到你的dir命令之后，就像你的每个命令都加了/4参数，它实际上是给命令解释程序<code>command</code>设置的一个环境变量，并且是给<code>dir</code>这个内部命令。</p>
-<h2 id="配置环境变量的方法">3、配置环境变量的方法</h2>
-<p>1）临时环境变量</p>
-<p>linux下设定环境变量时，如果只是临时用一下，可以直接在shell下用<code>set</code>或<code>export</code>命令设定环境变量。但是只能在当前shell环境下可以用，切换或关闭重新进入就会失效。具体配置方法，如下，</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#终端输入：</span><br><span class="line">export MYSQLPATH=/home/mysql  #MYSQLPATH设置为该路径</span><br><span class="line">#终端查看一个特定环境变量包含的内容，比如，MYSQLPATH，PATH</span><br><span class="line">echo $PATH</span><br><span class="line">echo $MYSQLPATH</span><br></pre></td></tr></table></figure>
-<p>2）永久环境变量</p>
-<p>设置的环境变量，需要经常使用的，而不是临时使用，把上面的设置环境变量命令写到上面提到的相应配置文件中即可，则可以每次开机或打开shell时自动设置，</p>
-<p><strong>例如，</strong></p>
-<p>只需要当前用户生效的环境变量：</p>
-<p>终端中输入：<code>sudo vi ~/.bashrc</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source ~/.bashrc</code>
-，使其立即生效，或者重启电脑即可。</p>
-<p>设置所有用户生效的环境变更：</p>
-<p>终端中输入：<code>sudo vi /etc/profile</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source /etc/profile</code>
-，使其立即生效，或者重启电脑即可。</p>
-<h1 id="查看linux版本信息">查看linux版本信息</h1>
-<p><a href="https://blog.csdn.net/lu_embedded/article/details/44350445" class="uri">https://blog.csdn.net/lu_embedded/article/details/44350445</a></p>
-<h1 id="查看进程">查看进程</h1>
-<p><a href="https://blog.csdn.net/lechengyuyuan/article/details/16337233" class="uri">https://blog.csdn.net/lechengyuyuan/article/details/16337233</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -ef # 查看所有本机进程</span><br><span class="line">ps -ef |grep python # 查看python进程</span><br><span class="line"></span><br><span class="line">kill -9 pid # 杀死某个进程</span><br></pre></td></tr></table></figure>
-<p><a href="https://blog.csdn.net/li528405176/article/details/83379164" class="uri">https://blog.csdn.net/li528405176/article/details/83379164</a></p>
-<h1 id="将程序留在后台运行">将程序留在后台运行</h1>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup python -u test.py &gt; out.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-<p>参考 <a href="https://www.jianshu.com/p/4041c4e6e1b0" class="uri">https://www.jianshu.com/p/4041c4e6e1b0</a></p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git常用命令总结</title>
-    <url>/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>github官网给出的教程挺通俗易懂的，移步[https://docs.github.com/cn/get-started/using-git]</p>
-<p>本地配置ssh和github，参考官方文档[https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/about-ssh]</p>
-<h1 id="远程仓库使用">远程仓库使用</h1>
-<p>在本地设置推送到远程仓库的用户名:[https://docs.github.com/cn/get-started/getting-started-with-git/setting-your-username-in-git]</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;your name&quot;</span><br></pre></td></tr></table></figure>
-<p>远程URL是 Git 一种指示“您的代码存储位置”的绝佳方式，您只能推送到两类
-URL 地址：</p>
-<ul>
-<li>HTTPS URL，如 <code>https://github.com/user/repo.git</code></li>
-<li>SSH URL，如 <code>git@github.com:user/repo.git</code></li>
-</ul>
-<p>Git 将远程 URL 与名称相关联，您的默认远程通常名为
-<code>origin</code></p>
-<p>创建远程仓库，并将其命名为master</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add master &lt;REMOTE_URL&gt; </span><br></pre></td></tr></table></figure>
-<p>如果后面想更改url，使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote set-url origin &lt;new_url&gt;</span><br></pre></td></tr></table></figure>
-<p>查看远程仓库设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-<p>重命名远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote rename origin destination</span><br></pre></td></tr></table></figure>
-<p>删除远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote rm destination</span><br></pre></td></tr></table></figure>
-<p>推送提交至远程仓库，</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt; </span><br></pre></td></tr></table></figure>
-<p>拉取某远程仓库距离上一次抓取之后的工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git fetch &lt;remote_name&gt;</span><br><span class="line">必须注意 git fetch 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</span><br></pre></td></tr></table></figure>
-<p>显示某远程仓库的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote show &lt;remote_name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="忽略文件">忽略文件</h1>
-<p><a href="https://docs.github.com/cn/get-started/getting-started-with-git/ignoring-files">见文档</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">touch .gitignore #该命令在项目根目录会创建一个.gitignore文件,然后往该文件中填东西</span><br></pre></td></tr></table></figure>
-<p>如果有些我们不需要跟踪的文件已经提交到了暂存区，那么使用下面的命令来删除暂存区的该文件，再将该文件写入.gitignore文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm --cached FILENAME 该命令直接将暂存区的那个版本删除了</span><br><span class="line">或者 git restore --staged &lt;file&gt; 该命令会用暂存区的代码覆盖掉工作区的代码</span><br></pre></td></tr></table></figure>
-<h1 id="在自己的project中添加别人的project">在自己的project中添加别人的project</h1>
-<p><a href="https://devconnected.com/how-to-add-and-update-git-submodules/" class="uri">https://devconnected.com/how-to-add-and-update-git-submodules/</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git submodule add &lt;remote_url&gt; &lt;destination_folder&gt;</span><br><span class="line"></span><br><span class="line">git commit -m &quot;Added the submodule to the project.&quot;</span><br><span class="line"></span><br><span class="line">git push</span><br><span class="line"></span><br><span class="line">git submodule update --init --recursive # 如果想要拉取别人仓库里的submodule到本地</span><br></pre></td></tr></table></figure>
-<h1 id="分支">分支</h1>
-<p>创建分支：当执行git init时，默认创建名字是master的分支</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git branch &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>切换到某分支:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>分支切换会改变你工作目录中的文件。在切换分支时，一定要注意你工作目录里的文件会被改变。
-如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
-如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
-</blockquote>
-<p>上面两条命令可以使用一条命令搞定：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout -b &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>在一条分支上，比如hotfix修改一些文件提交后，需要回到master分支并将hotfix上的分支的修改合并到master</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git merge hotfix</span><br></pre></td></tr></table></figure>
-<p>这是一个Fast-forward。合并完之后master会和hotfix指向同一个位置，这时可以删除hotfix这个分支：<code>git branch -d hotfix</code></p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -4663,7 +4214,7 @@ URL 地址：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># my data rows as dictionary objects </span></span><br><span class="line">mydict =[&#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.0&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Nikhil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sanchit&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;IT&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.3&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Aditya&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;SE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.5&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sagar&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;1&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;MCE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;7.8&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Prateek&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;3&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;EP&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sahil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># field names </span></span><br><span class="line">fields = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;branch&#x27;</span>, <span class="string">&#x27;year&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># name of csv file </span></span><br><span class="line">filename = <span class="string">&quot;university_records.csv&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># writing to csv file </span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile: </span><br><span class="line">    <span class="comment"># creating a csv dict writer object </span></span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames = fields) </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing headers (field names) </span></span><br><span class="line">    writer.writeheader() </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing data rows </span></span><br><span class="line">    writer.writerows(mydict)</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
@@ -4781,186 +4332,6 @@ array, Series, DataFrame/dict-like</p>
       </tags>
   </entry>
   <entry>
-    <title>在linux上配置GPU深度学习环境</title>
-    <url>/2021/12/03/%E5%9C%A8linux%E4%B8%8A%E9%85%8D%E7%BD%AEGPU%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="配置云服务器">配置云服务器</h1>
-<p>系统 ： ubuntu 18.04</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 更新所有环境</span><br><span class="line">sudo apt update </span><br><span class="line"></span><br><span class="line"># 安装开发所需的基本包</span><br><span class="line">sudo apt install build-essential</span><br><span class="line"></span><br><span class="line"># 安装cuda.这里会连同显卡驱动一起安装</span><br><span class="line">wget https://developer.download.nvidia.com/compute/cuda/11.5.1/local_installers/cuda_11.5.1_495.29.05_linux.run</span><br><span class="line">sudo sh cuda_11.5.1_495.29.05_linux.run</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 去anaconda官方复制miniconda的下载链接</span><br><span class="line">wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line"># 进入conda环境</span><br><span class="line">bash</span><br><span class="line"></span><br><span class="line">之后就继续用pip安装所需要的包</span><br><span class="line">apt-get install python3.8</span><br></pre></td></tr></table></figure>
-<p>这里需要知道，如果我们在云端配置的环境，需要将云端的jupyter
-notebook的运行端口映射到本地来，可以这样做：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -L8888:localhost:8888 ubuntu@100.20.65.33</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果使用aws配置远端服务器，在本地连接时使用:</p>
-<p>$ chomd 400 Downloads/d2l.pem</p>
-<p>$ ssh -i Downloads/d2l.pem ubuntu@54.245.23.40</p>
-<p>以上两条命令中将密钥path和ip地址都替换成自己的。</p>
-</blockquote>
-<h1 id="docker中的tensorflow-gpu配置">docker中的tensorflow-gpu配置</h1>
-<p>首先在宿主机（本机）安装好<code>NVIDIA GPU</code>的驱动程序，然后对于每一个容器都要各自安装对应版本的<code>cuda</code>和<code>cudnn</code>。</p>
-<h2 id="下载tensorflow-docker镜像">下载TensorFlow Docker镜像</h2>
-<p>官方 TensorFlow Docker 映像位于 <a href="https://hub.docker.com/r/tensorflow/tensorflow/">tensorflow/tensorflow</a>
-Docker Hub 代码库中。映像版本按照以下格式进行<a href="https://hub.docker.com/r/tensorflow/tensorflow/tags/">标记</a>：</p>
-<table>
-<colgroup>
-<col style="width: 15%">
-<col style="width: 84%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">标记</th>
-<th style="text-align: left;">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>latest</code></td>
-<td style="text-align: left;">TensorFlow CPU
-二进制映像的最新版本。（默认版本）</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>nightly</code></td>
-<td style="text-align: left;">TensorFlow 映像的每夜版。（不稳定）</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><em><code>version</code></em></td>
-<td style="text-align: left;">指定 TensorFlow
-二进制映像的版本，例如：2.1.0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>devel</code></td>
-<td style="text-align: left;">TensorFlow <code>master</code>
-开发环境的每夜版。包含 TensorFlow 源代码。</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>custom-op</code></td>
-<td style="text-align: left;">用于开发 TF
-自定义操作的特殊实验性映像。详见<a href="https://github.com/tensorflow/custom-op">此处</a>。</td>
-</tr>
-</tbody>
-</table>
-<p>每个基本标记都有会添加或更改功能的变体：</p>
-<table>
-<colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">标记变体</th>
-<th style="text-align: left;">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>tag-gpu</code></td>
-<td style="text-align: left;">支持 GPU 的指定标记版本。（<a href="https://www.tensorflow.org/install/docker?hl=zh_cn#gpu_support">详见下文</a>）</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>tag-jupyter</code></td>
-<td style="text-align: left;">针对 Jupyter 的指定标记版本（包含
-TensorFlow 教程笔记本）</td>
-</tr>
-</tbody>
-</table>
-<p>您可以一次使用多个变体。例如，以下命令会将 TensorFlow
-版本映像下载到计算机上：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull tensorflow/tensorflow                     # latest stable release</span><br><span class="line">docker pull tensorflow/tensorflow:devel-gpu           # nightly dev release w/ GPU support</span><br><span class="line">docker pull tensorflow/tensorflow:latest-gpu-jupyter  # latest release w/ GPU support and Jupyter</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意如果要用gpu版本的tensorflow，需要pull带有gpu tag的镜像.
-<code>docker pull tensorflow/tensorflow:latest-gpu</code>。如果不带gpu标签，会默认下载CPU版本的tensorflow。</p>
-</blockquote>
-<h3 id="验证tensorflow-gpu">验证tensorflow gpu</h3>
-<p>查看是否有GPU：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">gpu_device_name = tf.test.gpu_device_name()</span><br><span class="line"><span class="built_in">print</span>(gpu_device_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># GPU是否可用,返回True或者False</span></span><br><span class="line">tf.test.is_gpu_available()</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tensorflow.python.client <span class="keyword">import</span> device_lib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有的本地机器设备</span></span><br><span class="line">local_device_protos = device_lib.list_local_devices()</span><br><span class="line"><span class="comment"># 打印</span></span><br><span class="line"><span class="comment">#     print(local_device_protos)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只打印GPU设备</span></span><br><span class="line">[<span class="built_in">print</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> local_device_protos <span class="keyword">if</span> x.device_type == <span class="string">&#x27;GPU&#x27;</span>]</span><br></pre></td></tr></table></figure>
-<h2 id="docker中安装多种cuda版本并切换">docker中安装多种cuda版本并切换</h2>
-<p>去<code>cuda</code>官网下载所需版本，以<code>.run</code>结尾。楼主系统为<code>linux</code>。</p>
-<p>进入到放置 <code>cuda_9.0.176_384.81_linux.run</code> 的目录：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo chmod +x cuda_9.0.176_384.81_linux.run # 为 cuda_9.0.176_384.81_linux.run 添加可执行权限</span><br><span class="line">./cuda_9.0.176_384.81_linux.run # 安装 cuda_9.0.176_384.81_linux.run</span><br></pre></td></tr></table></figure>
-<p>在安装过程中截取其中比较重要的几个选择：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Do you accept the previously read EULA?</span><br><span class="line">accept/decline/quit: accept</span><br><span class="line"></span><br><span class="line">Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 384.81?</span><br><span class="line">(y)es/(n)o/(q)uit: n # 如果在这之前已经安装好更高版本的显卡驱动就不需要再重复安装，如果需要重复安装就选择 yes,此外还需要关闭图形界面。</span><br><span class="line"></span><br><span class="line">Install the CUDA 9.0 Toolkit?</span><br><span class="line">(y)es/(n)o/(q)uit: y</span><br><span class="line"></span><br><span class="line">Enter Toolkit Location</span><br><span class="line"> [ default is /usr/local/cuda-9.0 ]: # 一般选择默认即可，也可以选择安装在其他目录，在需要用的时候指向该目录或者使用软连接 link 到 /usr/local/cuda。</span><br><span class="line"></span><br><span class="line">/usr/local/cuda-9.0 is not writable.</span><br><span class="line">Do you wish to run the installation with &#x27;sudo&#x27;?</span><br><span class="line">(y)es/(n)o: y</span><br><span class="line"></span><br><span class="line">Please enter your password: </span><br><span class="line">Do you want to install a symbolic link at /usr/local/cuda? # 是否将安装目录通过软连接的方式 link 到 /usr/local/cuda，yes or no 都可以，取决于你是否使用 /usr/local/cuda 为默认的 cuda 目录。</span><br><span class="line">(y)es/(n)o/(q)uit: n</span><br><span class="line"></span><br><span class="line">Install the CUDA 9.0 Samples?</span><br><span class="line">(y)es/(n)o/(q)uit: n</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>选择的汇总： <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Driver:   Not Selected</span><br><span class="line">Toolkit:  Installed in /usr/local/cuda-9.0</span><br><span class="line">Samples:  Not Selected</span><br><span class="line"></span><br><span class="line">Please make sure that</span><br><span class="line"> -   PATH includes /usr/local/cuda-9.0/bin</span><br><span class="line"> -   LD_LIBRARY_PATH includes /usr/local/cuda-9.0/lib64, or, add /usr/local/cuda-9.0/lib64 to /etc/ld.so.conf and run ldconfig as root</span><br><span class="line"></span><br><span class="line">To uninstall the CUDA Toolkit, run the uninstall script in /usr/local/cuda-9.0/bin</span><br><span class="line"></span><br><span class="line">Please see CUDA_Installation_Guide_Linux.pdf in /usr/local/cuda-9.0/doc/pdf for detailed information on setting up CUDA.</span><br><span class="line"></span><br><span class="line">***WARNING: Incomplete installation! This installation did not install the CUDA Driver. A driver of version at least 384.00 is required for CUDA 9.0 functionality to work.</span><br><span class="line">To install the driver using this installer, run the following command, replacing &lt;CudaInstaller&gt; with the name of this run file:</span><br><span class="line">    sudo &lt;CudaInstaller&gt;.run -silent -driver</span><br></pre></td></tr></table></figure> 安装完成后可以在 <code>/usr/local</code>
-目录下看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cuda-11.1 # 之前安装的cuda-11.1 </span><br><span class="line">cuda-9.0 # 刚刚安装的cuda-9.0 </span><br><span class="line">cuda # cuda-10.0 的软连接</span><br></pre></td></tr></table></figure>
-<p>多版本切换：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#在切换cuda版本时</span><br><span class="line">rm -rf /usr/local/cuda#删除之前创建的软链接</span><br><span class="line">sudo ln -s /usr/local/cuda-8.0/ /usr/local/cuda/</span><br><span class="line">nvcc --version #查看当前 cuda 版本</span><br><span class="line"></span><br><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2016 NVIDIA Corporation</span><br><span class="line">Built on Mon_Jan_23_12:24:11_CST_2017</span><br><span class="line">Cuda compilation tools, release 8.0, V8.0.62</span><br><span class="line"></span><br><span class="line">#cuda8.0 切换到 cuda9.0 </span><br><span class="line">rm -rf /usr/local/cuda</span><br><span class="line">sudo ln -s /usr/local/cuda-9.0/ /usr/local/cuda/</span><br><span class="line">nvcc --version</span><br></pre></td></tr></table></figure>
-<p>上面的前提是<code>linux</code>系统的环境变量中<code>(~./bashrc文件)</code>，<code>cuda</code>的路径是<code>/usr/local/cuda</code></p>
-<h2 id="tensorflow_decision_forests使用">tensorflow_decision_forests使用</h2>
-<p>我一开始pull了tensorflow-gpu版本的docker环境，想用一下tensorflow的tensorflow_decision_forests库，该库是随机森林的集合库，内有很多算法可以用。官方使用document在[https://www.tensorflow.org/decision_forests/tutorials/beginner_colab?hl=zh_cn]。</p>
-<p>我一开始没注意，后来发现我在docker环境中直接用pip安装该库时，帮我又安装了cpu版本的tensorflow，这样就和我的gpu版本冲突了，然后去网上搜了一下，发现该库现在还有很多使用限制：1.
-仅仅支持linux，不支持windows和mac 2. 仅支持cpu
-，还没有gpu版本，见[https://github.com/tensorflow/decision-forests/issues/38].作者的意思是用gpu训练会更复杂，更详细的我就没看了。</p>
-<p>然后我的做法是在该tensorflow-gpu的docker环境中使用<strong>virtualenv</strong>创建一个tensorfow的cpu虚拟环境，然后再用pip安装TF-DF这个包。避免污染docker主环境中的tensorflow-gpu。</p>
-<blockquote>
-<p>之所以不用miniconda，是因为conda会默认替代掉我容器自带的python以及安装好的tensorflow-gpu。我只是想用一下TFDF这个库，不想太折腾。</p>
-</blockquote>
-<p>此处贴virtualenv的命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install virtualenv</span><br><span class="line"></span><br><span class="line">virtualenv venv # 在项目目录中执行，会创建一个名称为venv的虚拟环境，venv文件夹下包含python和pip</span><br><span class="line"></span><br><span class="line">source venv/bin/activate # 激活环境</span><br><span class="line"></span><br><span class="line">激活完了之后就pip安装tensorflow就行了</span><br></pre></td></tr></table></figure>
-<h1 id="本地机器vscode配置使用远程服务器中运行的容器">本地机器vscode配置使用远程服务器中运行的容器</h1>
-<p>参考 [https://zhuanlan.zhihu.com/p/80099904]</p>
-<p>其中有几个地方需要注意一下的是：</p>
-<ol type="1">
-<li><p>如果遇到在本地机器vscode中使用插件remote
-ssh连接不上容器的问题时，需要<code>vim /etc/ssh/sshd_config    ,将PermitRootLogin的值改为yes（去掉前面的#号）</code></p></li>
-<li><p>远程容器里面还需要有python插件，才能在本地机器vscode中debug代码</p></li>
-<li><p>上面博主服务器端口映射的是容器的22端口，我没有尝试过用其他端口映射。22端口是ssh登陆的默认端口。</p></li>
-</ol>
-<h1 id="cudnn深度学习库的安装和验证">cudnn深度学习库的安装和验证</h1>
-<p>参考[https://blog.csdn.net/caicaiatnbu/article/details/87626491]</p>
-<p>注意点：</p>
-<ol type="1">
-<li>下载对应的linux版本的cudnn</li>
-</ol>
-<h1 id="conda安装cuda和cudnn">conda安装cuda和cudnn</h1>
-<p>如果使用的是conda的环境，可以单独使用conda install
-cuda来在虚拟环境中安装不同于本机版本的cuda和cudnn，而不需要使用我上面提到的那种方式(每次换cuda版本需要更换/usr/local/cuda的软链接的方式)。</p>
-<p>conda创建了虚拟环境后，激活进入虚拟环境</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda install cudatoolkit=10.2</span><br></pre></td></tr></table></figure>
-<p>以上命令安装了10.2版本的cuda，然后可以使用<code>cuda search cudnn</code>找一下合适版本的cudnn，然后还是用<code>cuda install cudnn=版本号</code>来安装</p>
-<blockquote>
-<p>注意：这里用conda安装的cuda和cudnn，是无法像在本机使用nvcc
--V来检查版本的，所以即使你在虚拟环境激活的情况下使用 nvcc
--V的命令会返回无此命令或者是返回的还是本机cuda的版本号！</p>
-</blockquote>
-<p>那可能有人会问，如果想在conda虚拟环境下测试cuda和cudnn是否安装成功怎么办？</p>
-<p>目前的办法是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># In[]:</span><br><span class="line">import torch</span><br><span class="line"># cpu</span><br><span class="line">print(torch.__version__)</span><br><span class="line"># gpu</span><br><span class="line">print(torch.cuda.is_available())</span><br><span class="line"></span><br><span class="line"># In[]:</span><br><span class="line">import tensorflow as tf</span><br><span class="line"># cpu</span><br><span class="line">print(tf.__version__)</span><br><span class="line"># v1 to test gpu</span><br><span class="line">print(tf.test.is_gpu_available())</span><br><span class="line"># v2 to test gpu</span><br><span class="line">print(tf.config.list_physical_devices(&#x27;GPU&#x27;))</span><br></pre></td></tr></table></figure>
-<p>参考[https://blog.csdn.net/qq_37774098/article/details/109895048]</p>
-<h1 id="docker拉取的pytorch-gpu版找不到cuda和cudnn的位置为何">docker拉取的pytorch-gpu版找不到cuda和cudnn的位置，为何？</h1>
-<p>参考 https://blog.csdn.net/ljp1919/article/details/106209358</p>
-<h1 id="tensorflow和pytorch验证gpu是否可用">tensorflow和pytorch验证GPU是否可用</h1>
-<h2 id="tensorflow">tensorflow</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"> </span><br><span class="line">gpu_device_name = tf.test.gpu_device_name()</span><br><span class="line"><span class="built_in">print</span>(gpu_device_name)</span><br><span class="line"><span class="comment"># 查看是否可用</span></span><br><span class="line">tf.test.is_gpu_available()</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tensorflow.python.client <span class="keyword">import</span> device_lib</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 列出所有的本地机器设备</span></span><br><span class="line">local_device_protos = device_lib.list_local_devices()</span><br><span class="line"><span class="comment"># 打印</span></span><br><span class="line"><span class="comment"># print(local_device_protos)</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 只打印GPU设备</span></span><br><span class="line">[<span class="built_in">print</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> local_device_protos <span class="keyword">if</span> x.device_type == <span class="string">&#x27;GPU&#x27;</span>]</span><br></pre></td></tr></table></figure>
-<h2 id="pytorch">pytorch</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">flag = torch.cuda.is_available()</span><br><span class="line"><span class="keyword">if</span> flag:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;CUDA可使用&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;CUDA不可用&quot;</span>)</span><br><span class="line"></span><br><span class="line">ngpu= <span class="number">1</span></span><br><span class="line"><span class="comment"># Decide which device we want to run on</span></span><br><span class="line">device = torch.device(<span class="string">&quot;cuda:0&quot;</span> <span class="keyword">if</span> (torch.cuda.is_available() <span class="keyword">and</span> ngpu &gt; <span class="number">0</span>) <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;驱动为：&quot;</span>,device)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;GPU型号： &quot;</span>,torch.cuda.get_device_name(<span class="number">0</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> 	torch</span><br><span class="line"><span class="keyword">import</span>  time</span><br><span class="line"><span class="built_in">print</span>(torch.__version__)</span><br><span class="line"><span class="built_in">print</span>(torch.cuda.is_available())</span><br><span class="line"><span class="comment"># print(&#x27;hello, world.&#x27;)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = torch.randn(<span class="number">10000</span>, <span class="number">1000</span>)</span><br><span class="line">b = torch.randn(<span class="number">1000</span>, <span class="number">2000</span>)</span><br><span class="line"></span><br><span class="line">t0 = time.time()</span><br><span class="line">c = torch.matmul(a, b)</span><br><span class="line">t1 = time.time()</span><br><span class="line"><span class="built_in">print</span>(a.device, t1 - t0, c.norm(<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">device = torch.device(<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">a = a.to(device)</span><br><span class="line">b = b.to(device)</span><br><span class="line"></span><br><span class="line">t0 = time.time()</span><br><span class="line">c = torch.matmul(a, b)</span><br><span class="line">t2 = time.time()</span><br><span class="line"><span class="built_in">print</span>(a.device, t2 - t0, c.norm(<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">t0 = time.time()</span><br><span class="line">c = torch.matmul(a, b)</span><br><span class="line">t2 = time.time()</span><br><span class="line"><span class="built_in">print</span>(a.device, t2 - t0, c.norm(<span class="number">2</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="附录docker使用">附录：docker使用</h1>
-<p>创建容器：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --gpus all -d -v /:/host -p 3333:22 tensorflow/tensorflow:2.4.0-gpu tail -f /var/log/dpkg.log # 创建容器并启动</span><br><span class="line">docker create --name postgres nginx:latest # 创建容器并不启动</span><br><span class="line"></span><br><span class="line">docker start # 启动一个或多个已经被停止的容器</span><br><span class="line"></span><br><span class="line">docker stop # 停止一个运行中的容器</span><br><span class="line"></span><br><span class="line">docker restart # 重启容器</span><br></pre></td></tr></table></figure>
-<p>进入容器：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it [container_id] /bin/bash</span><br><span class="line"></span><br><span class="line">docker inpect # 获取容器/镜像的元数据</span><br></pre></td></tr></table></figure>
-<p>停止容器运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker kill -s KILL [container_id]</span><br><span class="line">或者 docker stop [container_id]</span><br></pre></td></tr></table></figure>
-<p>删除一个或多个容器</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker rm -f db01 db02 # 强制删除，容器可以是在运行着的状态</span><br><span class="line">或者 docker rm db01</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>docker save 与 docker export
-区别参考:[https://jingsam.github.io/2017/08/26/docker-save-and-docker-export.html]</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker save -o images.tar postgres:9.6 # 打包postgres镜像</span><br><span class="line">docker load -9 images.tar # 载入镜像</span><br></pre></td></tr></table></figure>
-<p>docker
-save的应用场景是，如果你的应用是使用docker-compose.yml编排的多个镜像组合，但你要部署的客户服务器并不能连外网。这时，你可以使用docker
-save将用到的镜像打个包，然后拷贝到客户服务器上使用docker load载入。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker export -o postgres-export.tar postgres # 将容器postgres打包成一个tar</span><br><span class="line">docker import postgres-export.tar postgres:latest # 这是将tar包import成一个镜像，镜像和tag名字自定义</span><br></pre></td></tr></table></figure>
-<p>docker
-export的应用场景主要用来制作基础镜像，比如你从一个ubuntu镜像启动一个容器，然后安装一些软件和进行一些设置后，使用docker
-export保存为一个基础镜像。然后，把这个镜像分发给其他人使用，比如作为基础的开发环境。</p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>命令行运行python脚本时传入参数的三种方式</title>
     <url>/2021/11/26/%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8Cpython%E8%84%9A%E6%9C%AC%E6%97%B6%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="sys.argv">sys.argv</h1>
@@ -4975,7 +4346,7 @@ export保存为一个基础镜像。然后，把这个镜像分发给其他人�
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=<span class="string">&#x27;Process some integers.&#x27;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&#x27;integers&#x27;</span>, metavar=<span class="string">&#x27;N&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">int</span>, nargs=<span class="string">&#x27;+&#x27;</span>,</span><br><span class="line">                    <span class="built_in">help</span>=<span class="string">&#x27;an integer for the accumulator&#x27;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&#x27;--sum&#x27;</span>, dest=<span class="string">&#x27;accumulate&#x27;</span>, action=<span class="string">&#x27;store_const&#x27;</span>,</span><br><span class="line">                    const=<span class="built_in">sum</span>, default=<span class="built_in">max</span>,</span><br><span class="line">                    <span class="built_in">help</span>=<span class="string">&#x27;sum the integers (default: find the max)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">args = parser.parse_args()</span><br><span class="line"><span class="built_in">print</span>(args.accumulate(args.integers))</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
@@ -5194,38 +4565,6 @@ nonaggregated column...解决方案</h1>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sql_mode = STRICT_TRANS_TABLES, NO_ZERO_IN_DATE, NO_ZERO_DATE, ERROR_FOR_DIVISION_BY_ZERO,      NO_AUTO_CREATE_USER, NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure>
 <p>保存退出重启mysql</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo service mysqld restart #对于linux是mysql</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>其他技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Anaconda使用</title>
-    <url>/2021/11/05/Anaconda%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>Anaconda 安装包可以到 <a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" class="uri">https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/</a>
-下载。</p>
-<p>TUNA 还提供了 Anaconda
-仓库与第三方源（conda-forge、msys2、pytorch等，查看完整列表）的镜像，各系统都可以通过修改用户目录下的
-.condarc 文件。Windows 用户无法直接创建名为 .condarc 的文件，可先执行
-conda config --set show_channel_urls yes 生成该文件之后再修改。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">channel_alias: https://mirrors.tuna.tsinghua.edu.cn/anaconda</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
-<p>一般表示 conda
-应用程序的配置文件，在用户的家目录（windows：C:\users\username\，linux：/home/username/）。但对于.condarc配置文件，是一种可选的（optional）运行期配置文件，其默认情况下是不存在的，但当用户第一次运行
-conda config命令时，将会在用户的家目录创建该文件。</p>
-<h3 id="换国内源">换国内源</h3>
-<ul>
-<li>查看现在的源地址：<code>conda config --show-sources</code></li>
-<li>设置搜索时显示通道地址
-<code>conda config --set show_channel_urls yes</code></li>
-<li>添加镜像源
-<code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</code></li>
-</ul>
-<h1 id="虚拟环境">虚拟环境</h1>
-<p>常用命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda list 查看安装了那些包</span><br><span class="line"></span><br><span class="line">conda env list或者conda info -e 查看当前存在哪些虚拟环境</span><br><span class="line"></span><br><span class="line">conda update conda 更新当前conda</span><br><span class="line"></span><br><span class="line">conda create -n env_name python=3.6 创建虚拟环境</span><br><span class="line"></span><br><span class="line">activate env_name 激活某虚拟环境</span><br><span class="line"></span><br><span class="line">python --version 检查当前python版本</span><br><span class="line"></span><br><span class="line">conda install -n env_name [package] 安装某个包至某一个虚拟环境下</span><br><span class="line"></span><br><span class="line">deactivate 关闭当前虚拟环境</span><br><span class="line"></span><br><span class="line">conda remove -n env_name --all 删除某虚拟环境</span><br><span class="line"></span><br><span class="line">conda remove package_name 删除某个包</span><br><span class="line">pip unistall package_name</span><br><span class="line"></span><br><span class="line">conda env export &gt; requirements.yaml 将当前环境下安装的包保存为yaml文件</span><br><span class="line">conda env update -f=/path/requirements.yaml</span><br><span class="line"></span><br><span class="line">(如果不要conda，用pip的时候导出的是txt文件)</span><br><span class="line">pip freeze &gt; requirements.txt</span><br><span class="line">pip install -r /path/requirements.txt</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>其他</category>

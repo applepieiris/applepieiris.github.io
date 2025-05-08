@@ -161,18 +161,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -219,7 +219,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/26/%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8Cpython%E8%84%9A%E6%9C%AC%E6%97%B6%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -232,7 +232,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/numpy%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">numpy基础总结</a>
+          <a href="/2021/11/26/%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8Cpython%E8%84%9A%E6%9C%AC%E6%97%B6%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">命令行运行python脚本时传入参数的三种方式</a>
         </h2>
 
         <div class="post-meta-container">
@@ -242,17 +242,23 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-03-27 16:41:11 / Modified: 16:54:03" itemprop="dateCreated datePublished" datetime="2022-03-27T16:41:11+08:00">2022-03-27</time>
+      <time title="Created: 2021-11-26 15:50:39" itemprop="dateCreated datePublished" datetime="2021-11-26T15:50:39+08:00">2021-11-26</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2025-05-08 13:20:40" itemprop="dateModified" datetime="2025-05-08T13:20:40+08:00">2025-05-08</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/numpy/" itemprop="url" rel="index"><span itemprop="name">numpy</span></a>
+          <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
         </span>
     </span>
 
@@ -263,7 +269,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>930</span>
+      <span>782</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -281,82 +287,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="numpy.linalg.norm">numpy.linalg.norm</h1>
-<p><code>linalg.norm(x,ord=None,axis=None,keepdims=False)</code></p>
-<p>其中x可以传入array，也可以是matrix。</p>
-<p>ord参数针对x是array还是matrix是不一样的计算：</p>
-<table>
-<thead>
-<tr class="header">
-<th>ord</th>
-<th>norm for matrices</th>
-<th>norm for vectors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>None</td>
-<td>Frobenius norm</td>
-<td>2-norm</td>
-</tr>
-<tr class="even">
-<td>‘fro’</td>
-<td>Frobenius norm</td>
-<td>–</td>
-</tr>
-<tr class="odd">
-<td>‘nuc’</td>
-<td>nuclear norm</td>
-<td>–</td>
-</tr>
-<tr class="even">
-<td>inf</td>
-<td>max(sum(abs(x), axis=1))</td>
-<td>max(abs(x))</td>
-</tr>
-<tr class="odd">
-<td>-inf</td>
-<td>min(sum(abs(x), axis=1))</td>
-<td>min(abs(x))</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>–</td>
-<td>sum(x != 0)</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>max(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="even">
-<td>-1</td>
-<td>min(sum(abs(x), axis=0))</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2-norm (largest sing. value)</td>
-<td>L2范数</td>
-</tr>
-<tr class="even">
-<td>-2</td>
-<td>smallest singular value</td>
-<td>as below</td>
-</tr>
-<tr class="odd">
-<td>other</td>
-<td>–</td>
-<td>sum(abs(x)<strong>ord)</strong>(1./ord)</td>
-</tr>
-</tbody>
-</table>
-<p>如果传入axis这个参数，axis=0表示每一列为向量，以每一列的向量为基础计算。然后就转化为了向量运算。</p>
-<p>其中keepdims如果是True，那么规范化的轴将作为尺寸1留在结果中，使用此选项，结果将针对原始
-x 正确广播。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">9</span>) - <span class="number">4</span></span><br><span class="line">b = a.reshape((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">Out[<span class="number">7</span>]: array([-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>])</span><br><span class="line">b</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">array([[-<span class="number">4</span>, -<span class="number">3</span>, -<span class="number">2</span>],</span><br><span class="line">       [-<span class="number">1</span>,  <span class="number">0</span>,  <span class="number">1</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>)</span><br><span class="line">Out[<span class="number">9</span>]: array([<span class="number">5.38516481</span>, <span class="number">1.41421356</span>, <span class="number">5.38516481</span>])</span><br><span class="line">LA.norm(b,axis=<span class="number">1</span>,keepdims=<span class="literal">True</span>)</span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line">array([[<span class="number">5.38516481</span>],</span><br><span class="line">       [<span class="number">1.41421356</span>],</span><br><span class="line">       [<span class="number">5.38516481</span>]])</span><br></pre></td></tr></table></figure>
-<p>从以上结果看出：如果keepdims等于True，那么输出的矩阵将会是3乘以1的矩阵，输入矩阵是3乘以3。如果用Input/
-norm(input)是不会报错的。</p>
+          <h1 id="sys.argv">sys.argv</h1>
+<p>sys模块是很常用的模块，
+它封装了与python解释器相关的数据，例如sys.modules里面有已经加载了的所有模块信息，sys.path里面是PYTHONPATH的内容，而sys.argv则封装了传入的参数数据。
+使用sys.argv接收上面第一个命令中包含的参数方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">print(sys.argv[0],sys.argv[1],sys.argv[2])</span><br></pre></td></tr></table></figure>
+<p>其中<code>sys.argv[0]</code>是该脚本的名称，<code>sys.argv[1]</code>才是第一个参数，<code>sys.argv</code>是一个列表</p>
+<p>用这种方式，命令行调用方式为：</p>
+<p><code>python script.py parameter1 parameter2</code></p>
+<h1 id="argparse">argparse</h1>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=<span class="string">&#x27;Process some integers.&#x27;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&#x27;integers&#x27;</span>, metavar=<span class="string">&#x27;N&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">int</span>, nargs=<span class="string">&#x27;+&#x27;</span>,</span><br><span class="line">                    <span class="built_in">help</span>=<span class="string">&#x27;an integer for the accumulator&#x27;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&#x27;--sum&#x27;</span>, dest=<span class="string">&#x27;accumulate&#x27;</span>, action=<span class="string">&#x27;store_const&#x27;</span>,</span><br><span class="line">                    const=<span class="built_in">sum</span>, default=<span class="built_in">max</span>,</span><br><span class="line">                    <span class="built_in">help</span>=<span class="string">&#x27;sum the integers (default: find the max)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">args = parser.parse_args()</span><br><span class="line"><span class="built_in">print</span>(args.accumulate(args.integers))</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -383,7 +323,7 @@ norm(input)是不会报错的。</p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -396,7 +336,7 @@ norm(input)是不会报错的。</p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">mysql常用命令</a>
+          <a href="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">使用PaddleVideo实现在attention_lstm模型上训练youtube-8m数据</a>
         </h2>
 
         <div class="post-meta-container">
@@ -407,14 +347,158 @@ norm(input)是不会报错的。</p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-17 22:38:15" itemprop="dateCreated datePublished" datetime="2022-03-17T22:38:15+08:00">2022-03-17</time>
+      <time title="Created: 2021-11-25 15:44:47" itemprop="dateCreated datePublished" datetime="2021-11-25T15:44:47+08:00">2021-11-25</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:23" itemprop="dateModified" datetime="2023-02-08T11:29:23+08:00">2023-02-08</time>
+        <time title="Modified: 2022-01-05 10:14:26" itemprop="dateModified" datetime="2022-01-05T10:14:26+08:00">2022-01-05</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="安装">安装</h1>
+<p>参照
+https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</p>
+<p>注意这里创建虚拟环境的时候要使用python=3.7，因为3.7之后的版本，paddleVideo只支持Linux系统。</p>
+<p>其他要求： <code>cuda &gt;= 10.1</code>,
+<code>cuDNN &gt;= 7.6.4</code></p>
+<p>安装完<code>paddlepaddle</code>之后，再安装<code>paddleVideo</code></p>
+<h1 id="快速开始">快速开始</h1>
+<p>这里官方教程写的不是很详细，安装完之后让直接用命令行方式启动程序，因为<code>paddleVideo</code>这个库里面有三个inference模型，分别是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Inference models that Paddle provides are listed as follows:</span><br><span class="line"></span><br><span class="line">&#123;&#x27;TSN&#x27;, &#x27;ppTSM&#x27;, &#x27;TSM&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<p>这里安装好环境之后，直接命令行是会报错的，因为还没有下载模型参数以及label，会报<code>'If you want to use your own model, Please input model_file as model path!'</code>的错误。</p>
+<p>这时候进入python环境，跑以下程序:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ppvideo <span class="keyword">import</span> PaddleVideo</span><br><span class="line">clas = PaddleVideo(model_name=<span class="string">&#x27;ppTSM&#x27;</span>,use_gpu=<span class="literal">False</span>,use_tensorrt=<span class="literal">False</span>)</span><br><span class="line">video_file=<span class="string">&#x27;data/example.avi&#x27;</span></span><br><span class="line">result=clas.predict(video_file)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+<p>当你enter第二句话的时候，程序就会开始下载<code>InferenceModel</code>，大概有90.6兆，下载完之后再执行下面几行的程序，其中<code>video_file</code>这里要注意一下，程序里是相对路径。</p>
+<p>下载的模型会放在
+<code>C:\Users\XXXX\.paddlevideo_inference\inference_model\ppTSM</code></p>
+<p>下载的label的txt在<code>'D:\\XXXXX\\anaconda_envs\\paddleVideo\\lib\\site-packages\\ppvideo\\tools\\../data/k400/Kinetics-400_label_list.txt'</code>也就是虚拟环境那个ppvideo里</p>
+<h1 id="训练attention-lstm模型">训练attention-lstm模型</h1>
+<p>前两节安装完之后，快速开始是为了测试安装正确与否。paddleVideo只有attention-lstm模型，并没有提供在youtube-8m上训练后的参数和label。所以这部分我们使用paddle框架来自己训练。</p>
+<h2 id="下载youtube-8m数据集并转换为paddlepaddle处理的格式">下载youtube-8m数据集并转换为paddlepaddle处理的格式</h2>
+<p>整个数据集包含3844个训练数据文件和3844个验证数据文件（TFRecord格式）</p>
+<p>在linux系统下用curl下载，在windows下可以利用git的bash命令行的方式下载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl data.yt8m.org/download.py | partition=2/frame/train mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/validate mirror=asia python</span><br><span class="line"></span><br><span class="line">curl data.yt8m.org/download.py | partition=2/frame/test mirror=asia python</span><br></pre></td></tr></table></figure>
+<p>数据下载完成之后，因为paddlepaddle需要使用pickle的数据格式，所以需要用<code>https://github.com/PaddlePaddle/PaddleVideo/</code>该官方仓库里data/yt8m下的脚本<code>tf2pkl.py</code>脚本进行转换。<code>tf2pkl.py</code>文件运行时需要两个参数，分别是数据源tf文件存放路径和转化后的pkl文件存放路径。</p>
+<blockquote>
+<p>由于TFRecord文件的读取需要用到Tensorflow，用户要先安装Tensorflow，或者在安装有Tensorflow的环境中转化完数据，再拷贝到data/dataset/youtube8m/pkl目录下。为了避免和PaddlePaddle环境冲突，建议先在其他地方转化完成再将数据拷贝过来。</p>
+</blockquote>
+<p>上面在转换数据格式的时候还要注意，<code>tf2pkl.py</code>文件用的tensorflow是1.X的版本，用2.0之后版本的需要重新创建虚拟环境，如果不想麻烦，可以直接在这个paddleVideo的虚拟环境里面安装<code>tensorflow-gpu==1.14.0</code></p>
+<p>这里如果安装的是gpu版本，需要有对应的cuda版本支持，1.14.0需要10.0的cuda，我的服务器是11.2的cuda，所以这里我就直接安装的是cpu版本的tensorflow。其他的版本支持请查阅：https://www.tensorflow.org/install/source#gpu</p>
+<p><img src="/2021/11/25/%E4%BD%BF%E7%94%A8PaddleVideo%E5%AE%9E%E7%8E%B0%E5%9C%A8attention-lstm%E6%A8%A1%E5%9E%8B%E4%B8%8A%E8%AE%AD%E7%BB%83youtube-8m%E6%95%B0%E6%8D%AE/image-20211126133025867.png"></p>
+<ul>
+<li>在linux中命令：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python tf2pkl.py ./tf/train ./pkl/train</span><br><span class="line">python tf2pkl.py ./tf/val ./pkl/val</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在windows中我的方案：</li>
+</ul>
+<p>我看到<code>tf2pkl.py</code>脚本里是用sys命令行的方式调用的，然后他整个脚本都是在linux的模式下的模式。其中有几个地方改动一下就可以适用于windows：</p>
+<ol type="1">
+<li>删掉以下几行：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># assert (len(sys.argv) == 3)</span><br><span class="line"># source_dir = sys.argv[1]</span><br><span class="line"># target_dir = sys.argv[2]</span><br></pre></td></tr></table></figure>
+<p>禁用命令行调用的模式</p>
+<ol start="2" type="1">
+<li>将record_dir
+变成你想转化的文件的文件夹的路径，比如<code>\data\dataset\youtube8m\tf</code></li>
+<li>将main函数中将outputdir路径改成你要存储pickle文件的文件夹的路径。</li>
+</ol>
+<p>完成上述步骤之后，直接在IDE中运行<code>tf2pkl.py</code>就可以开始转化文件了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_VISIBLE_DEVICES=1</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">hexo图片插入问题：在主页和文章详情页同时显示图片</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-17 14:45:04" itemprop="dateCreated datePublished" datetime="2021-11-17T14:45:04+08:00">2021-11-17</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-02-08 11:34:02" itemprop="dateModified" datetime="2023-02-08T11:34:02+08:00">2023-02-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -433,14 +517,14 @@ norm(input)是不会报错的。</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.2k</span>
+      <span>1.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>1 mins.</span>
     </span>
 </div>
 
@@ -451,188 +535,40 @@ norm(input)是不会报错的。</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="select">select</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table_name; # 选取所有内容</span><br><span class="line"></span><br><span class="line">SELECT DISTINCT column_name,column_name</span><br><span class="line">FROM table_name; # 一个列可能包含不同的值，该句可以列出不同的值</span><br><span class="line"></span><br><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE column_name operator value; # OPERATOR部分可以是: =,&gt;,&lt;,between,in,like</span><br><span class="line"># WHERE后可以跟逻辑符号 and,or,not</span><br></pre></td></tr></table></figure>
-<p>mysql语句对大小写不敏感，select == SELECT</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where not sal &gt; 1500;</span><br><span class="line"></span><br><span class="line">Select * from emp where comm is null;</span><br><span class="line"></span><br><span class="line">Select * from emp where sal in (5000,3000,1500);</span><br><span class="line"></span><br><span class="line">SELECT * FROM Websites WHERE alexa &gt; 15 AND (country=&#x27;CN&#x27; OR country=&#x27;USA&#x27;); # AND和OR可以结合使用</span><br></pre></td></tr></table></figure>
-<p>Like模糊查询</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from emp where ename like &#x27;M%&#x27;;</span><br></pre></td></tr></table></figure>
-<p>查询 EMP 表中 Ename 列中有 M 的值，M 为要查询内容中的模糊信息。</p>
-<ul>
-<li><strong>%</strong> 表示多个字值，**_** 下划线表示一个字符；</li>
-<li><strong>M%</strong> :
-为能配符，正则表达式，表示的意思为模糊查询信息为 M 开头的。</li>
-<li><strong>%M%</strong> : 表示查询包含M的所有内容。</li>
-<li><strong>%M_</strong> : 表示查询以M在倒数第二位的所有内容。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name,column_name</span><br><span class="line">FROM table_name</span><br><span class="line">ORDER BY column_name,column_name ASC|DESC; # 默认是升序</span><br><span class="line"></span><br><span class="line">INSERT INTO table_name (column1,column2,column3,...)</span><br><span class="line">VALUES (value1,value2,value3,...); # 这种方式可以向table_name表格中插入一行，可以只向某一列插入，其他自动</span><br><span class="line"></span><br><span class="line">UPDATE table_name</span><br><span class="line">SET column1=value1,column2=value2,...</span><br><span class="line">WHERE some_column=some_value; # 用于更新某条记录 </span><br><span class="line"># 比如：</span><br><span class="line">UPDATE Websites </span><br><span class="line">SET alexa=&#x27;5000&#x27;, country=&#x27;USA&#x27; </span><br><span class="line">WHERE name=&#x27;菜鸟教程&#x27;;</span><br><span class="line"></span><br><span class="line">DELETE FROM table_name</span><br><span class="line">WHERE some_column=some_value; # 删除某一行记录</span><br></pre></td></tr></table></figure>
-<h1 id="高级用法">高级用法</h1>
-<h2 id="join">join</h2>
-<figure>
-<img src="/2022/03/17/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/sql-join.png" alt="img">
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># QL INNER JOIN（简单的 JOIN）。 SQL INNER JOIN 从多个表中返回满足 JOIN 条件的所有行。</span><br><span class="line">SELECT Websites.id, Websites.name, access_log.count, access_log.date</span><br><span class="line">FROM Websites</span><br><span class="line">INNER JOIN access_log</span><br><span class="line">ON Websites.id=access_log.site_id;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>INNER JOIN</strong>：如果表中有至少一个匹配，则返回行</li>
-<li><strong>LEFT
-JOIN</strong>：即使右表中没有匹配，也从左表返回所有的行</li>
-<li><strong>RIGHT
-JOIN</strong>：即使左表中没有匹配，也从右表返回所有的行</li>
-<li><strong>FULL JOIN</strong>：只要其中一个表中存在匹配，则返回行</li>
-</ul>
-<h2 id="union">union</h2>
-<p>UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
-<p>请注意，UNION 内部的每个 SELECT
-语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每个 SELECT
-语句中的列的顺序必须相同。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION</span><br><span class="line">SELECT column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>默认地，UNION
-操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。</p>
-<h3 id="sql-union-all-语法">SQL UNION ALL 语法</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table1</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT *column_name(s) FROM table2;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>UNION 结果集中的列名总是等于 UNION 中第一个
-SELECT 语句中的列名。</p>
-<p>前者只会列出选出的值中不同的一些数据条，后者是所有的都返回。</p>
-<h2 id="count">Count</h2>
-<p>COUNT() 函数返回匹配指定条件的行数。</p>
-<hr>
-<h3 id="sql-countcolumn_name-语法">SQL COUNT(column_name) 语法</h3>
-<p>COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-count-语法">SQL COUNT(*) 语法</h3>
-<p>COUNT(*) 函数返回表中的记录数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(*) FROM table_name;</span><br></pre></td></tr></table></figure>
-<h3 id="sql-countdistinct-column_name-语法">SQL COUNT(DISTINCT
-column_name) 语法</h3>
-<p>COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(DISTINCT column_name) FROM table_name;</span><br></pre></td></tr></table></figure>
-<p><strong>注释：</strong>COUNT(DISTINCT) 适用于 ORACLE 和 Microsoft SQL
-Server，但是无法用于 Microsoft Access。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/17/pandas%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">pandas遇到的问题汇总</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-17 20:09:52" itemprop="dateCreated datePublished" datetime="2022-03-17T20:09:52+08:00">2022-03-17</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-05-13 10:10:43" itemprop="dateModified" datetime="2022-05-13T10:10:43+08:00">2022-05-13</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.1k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="join">join()</h1>
-<p>Examples</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;, &#x27;K3&#x27;, &#x27;K4&#x27;, &#x27;K5&#x27;],</span><br><span class="line">...                    &#x27;A&#x27;: [&#x27;A0&#x27;, &#x27;A1&#x27;, &#x27;A2&#x27;, &#x27;A3&#x27;, &#x27;A4&#x27;, &#x27;A5&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">  key   A</span><br><span class="line">0  K0  A0</span><br><span class="line">1  K1  A1</span><br><span class="line">2  K2  A2</span><br><span class="line">3  K3  A3</span><br><span class="line">4  K4  A4</span><br><span class="line">5  K5  A5</span><br><span class="line">&gt;&gt;&gt; other = pd.DataFrame(&#123;&#x27;key&#x27;: [&#x27;K0&#x27;, &#x27;K1&#x27;, &#x27;K2&#x27;],</span><br><span class="line">...                       &#x27;B&#x27;: [&#x27;B0&#x27;, &#x27;B1&#x27;, &#x27;B2&#x27;]&#125;)</span><br><span class="line">&gt;&gt;&gt; other</span><br><span class="line">  key   B</span><br><span class="line">0  K0  B0</span><br><span class="line">1  K1  B1</span><br><span class="line">2  K2  B2</span><br></pre></td></tr></table></figure>
-<p>Join DataFrames using their indexes.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df.join(other, lsuffix=&#x27;_caller&#x27;, rsuffix=&#x27;_other&#x27;)</span><br><span class="line">  key_caller   A key_other    B</span><br><span class="line">0         K0  A0        K0   B0</span><br><span class="line">1         K1  A1        K1   B1</span><br><span class="line">2         K2  A2        K2   B2</span><br><span class="line">3         K3  A3       NaN  NaN</span><br><span class="line">4         K4  A4       NaN  NaN</span><br><span class="line">5         K5  A5       NaN  NaN</span><br></pre></td></tr></table></figure>
-<p>如果不想以现有index为基础去Join，比如上面的例子想用key这个index去Join，可以：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; df.join(other.set_index(&#x27;key&#x27;), on=&#x27;key&#x27;)</span><br><span class="line">  key   A    B</span><br><span class="line">0  K0  A0   B0</span><br><span class="line">1  K1  A1   B1</span><br><span class="line">2  K2  A2   B2</span><br><span class="line">3  K3  A3  NaN</span><br><span class="line">4  K4  A4  NaN</span><br><span class="line">5  K5  A5  NaN</span><br></pre></td></tr></table></figure>
-<h1 id="merge">merge()</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">df1 = pd.DataFrame(&#123;&#x27;lkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [1, 2, 3, 5]&#125;)</span><br><span class="line">df2 = pd.DataFrame(&#123;&#x27;rkey&#x27;: [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;baz&#x27;, &#x27;foo&#x27;],</span><br><span class="line">                    &#x27;value&#x27;: [5, 6, 7, 8]&#125;)</span><br><span class="line">df1</span><br><span class="line">    lkey value</span><br><span class="line">0   foo      1</span><br><span class="line">1   bar      2</span><br><span class="line">2   baz      3</span><br><span class="line">3   foo      5</span><br><span class="line">df2</span><br><span class="line">    rkey value</span><br><span class="line">0   foo      5</span><br><span class="line">1   bar      6</span><br><span class="line">2   baz      7</span><br><span class="line">3   foo      8</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="选择多列">选择多列</h1>
-<p>有时候需要选择DataFrame中的多个列组成一个新的DataFrame，这时候要用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[[&#x27;column1&#x27;,&#x27;column2&#x27;]] # 注意这里是双层中括号！</span><br></pre></td></tr></table></figure>
-<h1 id="drop-满足条件的行">drop 满足条件的行</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_clear = df.drop(df[df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>].index)</span><br><span class="line"><span class="comment"># 也可以使用多个条件</span></span><br><span class="line">df_clear = df.drop(df[(df[<span class="string">&#x27;x&#x27;</span>]&lt;<span class="number">0.01</span>) | (df[<span class="string">&#x27;x&#x27;</span>]&gt;<span class="number">10</span>)].index) <span class="comment">#删除x小于0.01或大于10的行</span></span><br></pre></td></tr></table></figure>
-<h1 id="dropna-丢掉某一列中有空的行">dropna 丢掉某一列中有空的行</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.dropna(subset=[<span class="string">&#x27;column_name&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="applyapplymapmap">apply，applymap，map</h1>
-<h2 id="apply">apply</h2>
-<p>官方解释是 apply a function along an axis of the dataframe.</p>
-<p>apply内函数的是Series，也就是在Series上做函数操作。index可以是dataframe的index，也可以是dataframe的columns(axis=1)。axis=0时，apply
-the function to each
-column，也就是每一列为一个整体去实施函数。axis=1时，每一行作为一个整体去实施函数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">0</span>)</span><br><span class="line">df.apply(np.<span class="built_in">sum</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="applymap">applymap</h2>
-<p>官方解释是 apply a function to a dataframe
-elementwise.和apply不一样的是对dataframe中每一个元素分别作函数。</p>
-<p>applymap允许实施一个函数，这个函数接受和返回的都是一个标量。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.applymap(<span class="keyword">lambda</span> x: <span class="built_in">len</span>(<span class="built_in">str</span>(x)))</span><br></pre></td></tr></table></figure>
-<h2 id="map">map</h2>
-<p>map调用的对象只能是Series，而上面两个方法的调用对象是Dataframe。</p>
+          <h1 id="设置静态文件根目录">设置静态文件根目录</h1>
+<p><code>_config.yml</code>中有个<code>url</code>和<code>root</code>参数
+如果你部署的地址是<code>http://yoursite.com/child</code>，需要设置下面两个参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: &#x27;http://yoursite.com/child&#x27; // 部署的域名</span><br><span class="line">root: &#x27;/child/&#x27; // 部署的根目录</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<h1 id="设置资源文件夹">设置资源文件夹</h1>
+<p>资源（Asset）代表 source
+文件夹中除了文章以外的所有文件，例如图片、CSS、JS
+文件等。比方说，如果你的Hexo项目中只有少量图片，那最简单的方法就是将它们放在
+<code>source/images</code> 文件夹中。然后通过类似于
+<code>![](/images/image.jpg)</code> 的方法访问它们。</p>
+<p>&lt; !--more--&gt;</p>
+<p>文章资源文件夹
+对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过<strong>将
+<code>config.yml</code> 文件中的 <code>post_asset_folder</code> 选项设为
+true 来打开</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">post_asset_folder: true</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<p>当资源文件管理功能打开后，Hexo将会在你<strong>每一次通过
+<code>hexo new [layout] &lt;title&gt;</code>
+命令创建新文章时自动创建一个文件夹</strong>。这个资源文件夹将会有与这个
+<code>markdown</code>
+文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。</p>
+<p>相对路径引用的标签插件 通过常规的 markdown
+语法和相对路径来引用图片和其它资源可能会导致它们在存档页或者主页上显示不正确。在Hexo
+2时代，社区创建了很多插件来解决这个问题。但是，随着Hexo 3
+的发布，许多新的标签插件被加入到了核心代码中。这使得你可以更简单地在文章中引用你的资源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path slug %&#125;</span><br><span class="line">&#123;% asset_img slug [title] %&#125;</span><br><span class="line">&#123;% asset_link slug [title] %&#125;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+<p>比如说：当你打开文章资源文件夹功能后，你把一个
+<code>example.jpg</code>
+图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法
+<code>![](/example.jpg)</code> ，它将 不会
+出现在首页上。（但是它会在文章中按你期待的方式工作）</p>
+<p>正确的引用图片方式是使用下列的标签插件而不是 markdown ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img example.jpg avatar %&#125;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p><strong>通过这种方式，图片将会同时出现在文章和主页以及归档页中。通过<code>&#123;% asset_img 图片名称 图片说明 %&#125;</code></strong></p>
 
       
     </div>
@@ -652,7 +588,7 @@ elementwise.和apply不一样的是对dataframe中每一个元素分别作函数
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 </div>
@@ -676,14 +612,14 @@ elementwise.和apply不一样的是对dataframe中每一个元素分别作函数
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">214k</span>
+    <span title="Symbols count total">189k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:14</span>
+    <span title="Reading time total">2:51</span>
   </span>
 </div>
 

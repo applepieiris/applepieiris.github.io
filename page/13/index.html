@@ -161,18 +161,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -219,7 +219,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/15/linux%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -232,7 +232,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/15/linux%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux命令</a>
+          <a href="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/" class="post-title-link" itemprop="url">Sigmoid和Softmax使用区别（Tensorflow）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -243,14 +243,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2022-03-15 16:56:38" itemprop="dateCreated datePublished" datetime="2022-03-15T16:56:38+08:00">2022-03-15</time>
+      <time title="Created: 2021-11-17 10:09:01" itemprop="dateCreated datePublished" datetime="2021-11-17T10:09:01+08:00">2021-11-17</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:29:17" itemprop="dateModified" datetime="2023-02-08T11:29:17+08:00">2023-02-08</time>
+        <time title="Modified: 2022-11-30 10:26:23" itemprop="dateModified" datetime="2022-11-30T10:26:23+08:00">2022-11-30</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
         </span>
     </span>
 
@@ -269,14 +269,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.3k</span>
+      <span>3.4k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -287,203 +287,66 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="tar-压缩以及解压">tar 压缩以及解压</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.txt   //压缩 a.c文件为test.tar.gz</span><br><span class="line">tar -xzvf test.tar.gz // 解压</span><br><span class="line">tar -tzvf test.tar.gz //列出压缩文件的内容</span><br></pre></td></tr></table></figure>
-<h1 id="linux中环境变量">linux中环境变量</h1>
-<p>参考https://www.cjavapy.com/article/2250/</p>
-<h2 id="介绍">1、介绍</h2>
-<p>Linux中环境变量包括系统级和用户级</p>
-<p>1）系统级</p>
-<p><strong>/etc/environment</strong>：系统在登录时读取的第一个文件，用于为所有进程设置环境变量。系统使用此文件时并不是执行此文件中的命令，而是根据<code>KEY=VALUE</code>模式的代码，对<code>KEY</code>赋值以<code>VALUE</code>，因此文件中如果要定义<code>PATH</code>环境变量，只需加入类似如<code>PATH=$PATH:/xxx/bin</code>的代码即可。</p>
-<p><strong>/etc/profile</strong>：是系统登录时执行的第二个文件，可以用于设定针对全系统所有用户的环境变量。该文件一般是调用<code>/etc/bash.bashrc</code>文件。</p>
-<p><strong>/etc/bash.bashrc</strong>：系统级的<code>bashrc</code>文件，为每一个运行bash
-shell的用户执行此文件。此文件会在用户每次打开shell时执行一次。</p>
-<p><strong>注意</strong>：<code>/etc/environment</code>是设置整个系统的环境，而<code>/etc/profile</code>是设置所有用户的环境，前者与登录用户无关，后者与登录用户有关。
-这两个文件修改后一般都要重启系统才能生效。</p>
-<p>2）用户级</p>
-<p><strong>~/.profile:</strong>
-是对应当前登录用户的<code>profile</code>文件，用于定制当前用户的个人工作环境。</p>
-<p>每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次。默认情况下，会设置一些环境变量，执行用户的<code>.bashrc</code>文件。</p>
-<p><strong>~/.bashrc</strong>:
-是对应当前登录用户的bash初始化文件，当用户每次打开shell时，系统都会执行此文件一次。通常设置环境变量修改这个文件。</p>
-<p>上述配置文件执行先后顺序如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/enviroment `–&gt; `/etc/profile` –&gt; `~/.profile` –&gt; `/etc/bash.bashrc `–&gt; `~/.bashrc</span><br></pre></td></tr></table></figure>
-<h2 id="环境变量的作用">2、环境变量的作用</h2>
-<p>环境变量相当于给系统或用户应用程序设置的一些参数，具体起什么作用这当然和具体的环境变量相关。比如<code>PATH</code>，是告诉系统，当要求系统运行一个程序而没有告诉它程序所在的完整路径时，系统除了在当前目录下面寻找此程序外，还应到哪些目录下去寻找；再如tc或vc++中，<code>set include=path1;path2</code>;
-是告诉编译程序到哪里去找.h类型的文件；当然不仅仅是指定什么路径，还有其它的作用的，如<code>set dircmd=/4</code>
-设置一个环境变量的作用是在使用dir命令时会把<code>/4</code>作为缺省的参数添加到你的dir命令之后，就像你的每个命令都加了/4参数，它实际上是给命令解释程序<code>command</code>设置的一个环境变量，并且是给<code>dir</code>这个内部命令。</p>
-<h2 id="配置环境变量的方法">3、配置环境变量的方法</h2>
-<p>1）临时环境变量</p>
-<p>linux下设定环境变量时，如果只是临时用一下，可以直接在shell下用<code>set</code>或<code>export</code>命令设定环境变量。但是只能在当前shell环境下可以用，切换或关闭重新进入就会失效。具体配置方法，如下，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#终端输入：</span><br><span class="line">export MYSQLPATH=/home/mysql  #MYSQLPATH设置为该路径</span><br><span class="line">#终端查看一个特定环境变量包含的内容，比如，MYSQLPATH，PATH</span><br><span class="line">echo $PATH</span><br><span class="line">echo $MYSQLPATH</span><br></pre></td></tr></table></figure>
-<p>2）永久环境变量</p>
-<p>设置的环境变量，需要经常使用的，而不是临时使用，把上面的设置环境变量命令写到上面提到的相应配置文件中即可，则可以每次开机或打开shell时自动设置，</p>
-<p><strong>例如，</strong></p>
-<p>只需要当前用户生效的环境变量：</p>
-<p>终端中输入：<code>sudo vi ~/.bashrc</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source ~/.bashrc</code>
-，使其立即生效，或者重启电脑即可。</p>
-<p>设置所有用户生效的环境变更：</p>
-<p>终端中输入：<code>sudo vi /etc/profile</code>，编辑这个文件，在其末尾添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export MYSQLPATH=/home/mysql:$MYSQLPATH</span><br><span class="line"># path采用:来分隔,冒号左右不需要空格.</span><br><span class="line"># :$MYSQLPATH在后面新添加的优先搜索，$MYSQLPATH:在前面说明新添加的最后搜索，不加代表新路径设置为MYSQLPATH路径。</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：在终端执行，<code>source /etc/profile</code>
-，使其立即生效，或者重启电脑即可。</p>
-<h1 id="查看linux版本信息">查看linux版本信息</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lu_embedded/article/details/44350445" class="uri">https://blog.csdn.net/lu_embedded/article/details/44350445</a></p>
-<h1 id="查看进程">查看进程</h1>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lechengyuyuan/article/details/16337233" class="uri">https://blog.csdn.net/lechengyuyuan/article/details/16337233</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef # 查看所有本机进程</span><br><span class="line">ps -ef |grep python # 查看python进程</span><br><span class="line"></span><br><span class="line">kill -9 pid # 杀死某个进程</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/li528405176/article/details/83379164" class="uri">https://blog.csdn.net/li528405176/article/details/83379164</a></p>
-<h1 id="将程序留在后台运行">将程序留在后台运行</h1>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python -u test.py &gt; out.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-<p>参考 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4041c4e6e1b0" class="uri">https://www.jianshu.com/p/4041c4e6e1b0</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/13/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">git常用命令总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-13 13:24:46" itemprop="dateCreated datePublished" datetime="2022-01-13T13:24:46+08:00">2022-01-13</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:23:20" itemprop="dateModified" datetime="2023-02-08T11:23:20+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.8k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>github官网给出的教程挺通俗易懂的，移步[https://docs.github.com/cn/get-started/using-git]</p>
-<p>本地配置ssh和github，参考官方文档[https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/about-ssh]</p>
-<h1 id="远程仓库使用">远程仓库使用</h1>
-<p>在本地设置推送到远程仓库的用户名:[https://docs.github.com/cn/get-started/getting-started-with-git/setting-your-username-in-git]</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;your name&quot;</span><br></pre></td></tr></table></figure>
-<p>远程URL是 Git 一种指示“您的代码存储位置”的绝佳方式，您只能推送到两类
-URL 地址：</p>
-<ul>
-<li>HTTPS URL，如 <code>https://github.com/user/repo.git</code></li>
-<li>SSH URL，如 <code>git@github.com:user/repo.git</code></li>
-</ul>
-<p>Git 将远程 URL 与名称相关联，您的默认远程通常名为
-<code>origin</code></p>
-<p>创建远程仓库，并将其命名为master</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add master &lt;REMOTE_URL&gt; </span><br></pre></td></tr></table></figure>
-<p>如果后面想更改url，使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin &lt;new_url&gt;</span><br></pre></td></tr></table></figure>
-<p>查看远程仓库设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-<p>重命名远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename origin destination</span><br></pre></td></tr></table></figure>
-<p>删除远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rm destination</span><br></pre></td></tr></table></figure>
-<p>推送提交至远程仓库，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt; </span><br></pre></td></tr></table></figure>
-<p>拉取某远程仓库距离上一次抓取之后的工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;remote_name&gt;</span><br><span class="line">必须注意 git fetch 命令只会将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</span><br></pre></td></tr></table></figure>
-<p>显示某远程仓库的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;remote_name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="忽略文件">忽略文件</h1>
-<p><a target="_blank" rel="noopener" href="https://docs.github.com/cn/get-started/getting-started-with-git/ignoring-files">见文档</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch .gitignore #该命令在项目根目录会创建一个.gitignore文件,然后往该文件中填东西</span><br></pre></td></tr></table></figure>
-<p>如果有些我们不需要跟踪的文件已经提交到了暂存区，那么使用下面的命令来删除暂存区的该文件，再将该文件写入.gitignore文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached FILENAME 该命令直接将暂存区的那个版本删除了</span><br><span class="line">或者 git restore --staged &lt;file&gt; 该命令会用暂存区的代码覆盖掉工作区的代码</span><br></pre></td></tr></table></figure>
-<h1 id="在自己的project中添加别人的project">在自己的project中添加别人的project</h1>
-<p><a target="_blank" rel="noopener" href="https://devconnected.com/how-to-add-and-update-git-submodules/" class="uri">https://devconnected.com/how-to-add-and-update-git-submodules/</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git submodule add &lt;remote_url&gt; &lt;destination_folder&gt;</span><br><span class="line"></span><br><span class="line">git commit -m &quot;Added the submodule to the project.&quot;</span><br><span class="line"></span><br><span class="line">git push</span><br><span class="line"></span><br><span class="line">git submodule update --init --recursive # 如果想要拉取别人仓库里的submodule到本地</span><br></pre></td></tr></table></figure>
-<h1 id="分支">分支</h1>
-<p>创建分支：当执行git init时，默认创建名字是master的分支</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>切换到某分支:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+          <p>一直都对这两个函数的一些概念理不清楚，今天就整理一下，结合吴恩达老师和李沐给出的Tensorflow的coding过程，一并整理厘清概念和这两者的区别。</p>
+<h1 id="sigmoid">Sigmoid</h1>
+<p>Sigmoid通常用于逻辑回归Logistic
+Regression的二分类中，output出一个概率值（比如：预测一张图片是一只猫的概率）。它的公式为：
+<span class="math display">\[
+\frac{1}{1+e^{-z}}
+\]</span> 图示为:</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/Sigmoid_function_01.png"></p>
+<p>特点：y的值是介于[0,1]之间的，而x是负无穷到正无穷的。x=0时，y=0.5。</p>
+<p>LR的网络结构为:</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117112204836.png"></p>
+<p>在将Sigmoid用于LR任务中时，模型的输入是一个特征向量X，这时的loss
+function使用：</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117104751440.png"></p>
+<p>这里<strong>不会</strong>使用MSE，原因是：</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117104923278.png"></p>
+<p>loss
+function是在单个训练样本中定义的，它衡量的是算法在单个训练样本中表现如何，为了衡量算法在全部训练样本上的表现，需要定义代价函数（cost
+function），在LR中代价函数即为对m个样本的损失函数求和再平均：</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117105155751.png"></p>
+<p>虽然有这么多计算步骤，但是在tensorflow中，我们并不需要自己计算sigmoid后的值a，然后将a和y放到J函数中计算中整体的cost，只需要一个函数就可以帮助我们实现。</p>
+<p><code>tf.nn.sigmoid_cross_entropy_with_logits(logits=z,labels=y)</code></p>
 <blockquote>
-<p>分支切换会改变你工作目录中的文件。在切换分支时，一定要注意你工作目录里的文件会被改变。
-如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的样子。
-如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
+<p>注意：上述的z是before the final sigmoid
+activation的值，也就是还没有传入Sigmoid前，只是经过线性计算后的值。</p>
 </blockquote>
-<p>上面两条命令可以使用一条命令搞定：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-<p>在一条分支上，比如hotfix修改一些文件提交后，需要回到master分支并将hotfix上的分支的修改合并到master</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge hotfix</span><br></pre></td></tr></table></figure>
-<p>这是一个Fast-forward。合并完之后master会和hotfix指向同一个位置，这时可以删除hotfix这个分支：<code>git branch -d hotfix</code></p>
+<h1 id="softmax">Softmax</h1>
+<p>softmax函数是对sigmoid的推广，用于处理<strong>多分类</strong>的问题。公式：</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117111137512.png"></p>
+<p><strong>它的输入是一个向量，输出也是一个向量</strong>。不同于Sigmoid的输入（实数），输出（介于0,1之间的概率值）。Sigmoid的输出是一个向量，其中
+向量中的每一个元素的范围都在(0,1)之间，它能将一个含任意<em>实数</em>的K维向量压缩到另一个K维向量中。</p>
+<p>它在线性模型中的应用方式为：对接最后一层，输出一个向量。</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117111549950.png"></p>
+<p>它的loss function是:</p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117113151953.png"></p>
+<p>其中q为输出向量y的维度。</p>
+<p>那么它的cost function J应该是将整个训练集的损失总和:
+通常叫做<strong>cross-entropy loss交叉熵损失函数</strong></p>
+<p><img src="/2021/11/17/Sigmoid%E5%92%8CSoftmax%E4%BD%BF%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%88Tensorflow%EF%BC%89/image-20211117113353952.png"></p>
+<p>在tensorflow中该过程只需要一个函数来实现:</p>
+<p><code>tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = logits, labels = labels))</code></p>
+<blockquote>
+<ul>
+<li>其中logits也是传入softmax激活函数之前的结果，也就是经过线性计算之后的Z</li>
+<li>logits和labels也必须是相同的shape （num of examples,
+num_classes）</li>
+</ul>
+</blockquote>
+<p>用tensorflow的完整实现即为:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_cost</span>(<span class="params">Z3, Y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Arguments:</span></span><br><span class="line"><span class="string">    Z3 -- output of forward propagation (output of the last LINEAR unit), of shape (6, number of examples)</span></span><br><span class="line"><span class="string">    Y -- &quot;true&quot; labels vector placeholder, same shape as Z3</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">    cost - Tensor of the cost function</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span>    </span><br><span class="line">    <span class="comment"># to fit the tensorflow requirement for tf.nn.softmax_cross_entropy_with_logits(...,...)</span></span><br><span class="line">    logits = tf.transpose(Z3)</span><br><span class="line">    labels = tf.transpose(Y)  </span><br><span class="line">    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = logits, labels = labels))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> cost</span><br><span class="line"></span><br><span class="line">optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(cost)</span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init)</span><br><span class="line">    <span class="comment"># Do the training loop</span></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line"></span><br><span class="line">        epoch_cost = <span class="number">0.</span>                       <span class="comment"># Defines a cost related to an epoch</span></span><br><span class="line">        num_minibatches = <span class="built_in">int</span>(m / minibatch_size) <span class="comment"># number of minibatches of size minibatch_size in the train set</span></span><br><span class="line">        seed = seed + <span class="number">1</span></span><br><span class="line">        minibatches = random_mini_batches(X_train, Y_train, minibatch_size, seed)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> minibatch <span class="keyword">in</span> minibatches:</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Select a minibatch</span></span><br><span class="line">            (minibatch_X, minibatch_Y) = minibatch</span><br><span class="line"></span><br><span class="line">            <span class="comment"># IMPORTANT: The line that runs the graph on a minibatch.</span></span><br><span class="line">            <span class="comment"># Run the session to execute the &quot;optimizer&quot; and the &quot;cost&quot;, the feedict should contain a minibatch for (X,Y).</span></span><br><span class="line">            _ , minibatch_cost = sess.run([optimizer, cost], feed_dict=&#123;X: minibatch_X, Y: minibatch_Y&#125;)</span><br><span class="line"></span><br><span class="line">            epoch_cost += minibatch_cost / num_minibatches</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Print the cost every epoch</span></span><br><span class="line">            <span class="keyword">if</span> print_cost == <span class="literal">True</span> <span class="keyword">and</span> epoch % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">&quot;Cost after epoch %i: %f&quot;</span> % (epoch, epoch_cost))</span><br><span class="line">                <span class="keyword">if</span> print_cost == <span class="literal">True</span> <span class="keyword">and</span> epoch % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">                    costs.append(epoch_cost)    </span><br></pre></td></tr></table></figure>
+<p>以上的实现是将里面的计算步骤都展示出来的实现，也就是我们得到Z之后再进一步的得到loss。在李沐的教程中，用tensorflow实现softmax回归使用了更高级的API来实现。</p>
+<h2 id="tensorflow-keras模块对softmax更简洁的实现">tensorflow
+keras模块对softmax更简洁的实现</h2>
+<p>softmax回归的输出层是一个全连接层。因此，为了实现我们的模型，我们只需在<code>Sequential</code>中添加一个带有10个输出的全连接层。同样，在这里，<code>Sequential</code>并不是必要的，但我们可能会形成这种习惯。因为在实现深度模型时，<code>Sequential</code>将无处不在。我们仍然以均值0和标准差0.01随机初始化权重。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net = tf.keras.models.Sequential()</span><br><span class="line">net.add(tf.keras.layers.Flatten(input_shape=(<span class="number">28</span>, <span class="number">28</span>)))</span><br><span class="line">weight_initializer = tf.keras.initializers.RandomNormal(mean=<span class="number">0.0</span>, stddev=<span class="number">0.01</span>)</span><br><span class="line">net.add(tf.keras.layers.Dense(<span class="number">10</span>, kernel_initializer=weight_initializer))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上实现的输入是28*28大小的灰度图片，分类类别数为10。</p>
+</blockquote>
+<p>在这里，我们使用学习率为0.1的小批量随机梯度下降作为优化算法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)</span><br><span class="line">trainer = tf.keras.optimizers.SGD(learning_rate=.1)</span><br><span class="line">num_epochs = 10</span><br><span class="line">d2l.train_ch3(net, train_iter, test_iter, loss, num_epochs, trainer)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -510,7 +373,7 @@ URL 地址：</p>
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/05/mysql%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf%E7%9A%84%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -523,7 +386,7 @@ URL 地址：</p>
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/30/python-OS-%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">python OS 文件/目录常用方法总结</a>
+          <a href="/2021/11/05/mysql%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6my-cnf%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">mysql查看当前使用的配置文件my.cnf的方法</a>
         </h2>
 
         <div class="post-meta-container">
@@ -534,14 +397,14 @@ URL 地址：</p>
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-12-30 10:15:13" itemprop="dateCreated datePublished" datetime="2021-12-30T10:15:13+08:00">2021-12-30</time>
+      <time title="Created: 2021-11-05 09:45:08" itemprop="dateCreated datePublished" datetime="2021-11-05T09:45:08+08:00">2021-11-05</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:25:00" itemprop="dateModified" datetime="2023-02-08T11:25:00+08:00">2023-02-08</time>
+        <time title="Modified: 2023-03-16 14:00:35" itemprop="dateModified" datetime="2023-03-16T14:00:35+08:00">2023-03-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -560,14 +423,14 @@ URL 地址：</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>4k</span>
+      <span>2.7k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>4 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -578,31 +441,39 @@ URL 地址：</p>
     
     
     <div class="post-body" itemprop="articleBody">
-          <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os.makedirs(path[, mode]) </span><br><span class="line">递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。</span><br><span class="line"></span><br><span class="line">os.walk(top[, topdown=<span class="literal">True</span>[, onerror=<span class="literal">None</span>[, followlinks=<span class="literal">False</span>]]])</span><br><span class="line">输出在文件夹中的文件名通过在树中游走，向上或者向下。返回的是一个三元组(root,dirs,files),是一个生成器类型，需要用<span class="keyword">for</span>遍历读取</span><br><span class="line"></span><br><span class="line">os.chdir(path)</span><br><span class="line">改变当前工作目录</span><br><span class="line">	</span><br><span class="line">os.listdir(path)</span><br><span class="line">返回path指定的文件夹包含的文件或文件夹的名字的列表。</span><br></pre></td></tr></table></figure>
-<p>例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> dirs:</span><br><span class="line">        <span class="built_in">print</span>(os.path.join(root, name))</span><br><span class="line">        </span><br><span class="line">path = <span class="string">&quot;/var/www/html/&quot;</span></span><br><span class="line">dirs = os.listdir( path )</span><br><span class="line"><span class="comment"># 输出所有文件和文件夹</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> dirs:</span><br><span class="line">   <span class="built_in">print</span> (file)</span><br></pre></td></tr></table></figure>
-<p><code>os.walk</code>和<code>os.listdir</code>两个函数的区别在于前者会遍历到子文件夹中的子文件，而后者只是返回你传入的path中的文件夹名字和文件名字。</p>
-<p><code>os</code>库中有一个<code>path</code>的模块，专门用于处理文件<code>path</code>相关的属性信息。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">os.path.abspath(path)</span><br><span class="line">返回绝对路径</span><br><span class="line"></span><br><span class="line">os.path.basename(path)</span><br><span class="line">返回文件名</span><br><span class="line"></span><br><span class="line">os.path.exists(path)</span><br><span class="line">如果路径 path 存在，返回 True；如果路径 path 不存在，返回 False。</span><br><span class="line"></span><br><span class="line">os.path.join(path1[, path2[, ...]])</span><br><span class="line">把目录和文件名合成一个路径</span><br><span class="line"></span><br><span class="line">os.path.split(path)</span><br><span class="line">把路径分割成 dirname 和 basename，返回一个元组</span><br><span class="line"></span><br><span class="line">os.path.splitext(path)</span><br><span class="line">分割路径，返回路径名和文件扩展名的元组</span><br><span class="line"></span><br><span class="line">os.path.walk(path, visit, arg)</span><br><span class="line">遍历path，进入每个目录都调用visit函数，visit函数必须有3个参数(arg, dirname, names)，dirname表示当前目录的目录名，names代表当前目录下的所有文件名，args则为walk的第三个参数</span><br></pre></td></tr></table></figure>
-<p>例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>( os.path.basename(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )   <span class="comment"># 返回文件名</span></span><br><span class="line"><span class="built_in">print</span>( os.path.dirname(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )    <span class="comment"># 返回目录路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.split(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )      <span class="comment"># 分割文件名与路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.join(<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;test&#x27;</span>,<span class="string">&#x27;runoob.txt&#x27;</span>) )  <span class="comment"># 将目录和文件名合成一个路径</span></span><br><span class="line"><span class="built_in">print</span>( os.path.splitext(<span class="string">&#x27;/root/runoob.txt&#x27;</span>) )</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">runoob.txt</span><br><span class="line">/root</span><br><span class="line">(&#x27;/root&#x27;, &#x27;runoob.txt&#x27;)</span><br><span class="line">root/test/runoob.txt</span><br><span class="line">(&#x27;/root/run/test&#x27;, &#x27;.txt&#x27;)</span><br></pre></td></tr></table></figure>
-<p>上面的split和splitext，前者分割出了文件名和路径，而后者可以分割出路径名和扩展名，如果想要获得文件的扩展名，可以用splitext，传入文件的path就可以了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.mknod(filename) 创建</span><br></pre></td></tr></table></figure>
-<h1 id="复制文件和删除文件移动文件">复制文件和删除文件,移动文件</h1>
-<p>如果是删除一个目录，可以使用以下两种方式:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="comment"># method 1</span></span><br><span class="line"><span class="keyword">if</span> os.path.exists(root_dir):</span><br><span class="line">  shutil.rmtree(root_dir) <span class="comment"># 这里不可以使用os.removedirs(),removedirs只可以删除非空的文件夹，rmdir也是</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># method 2</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(os.listdir(root_dir)) &gt; <span class="number">0</span>:</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.scandir(root_dir):</span><br><span class="line">    os.remove(file.path)</span><br></pre></td></tr></table></figure>
-<p>如果想复制一个文件到另外一个文件夹，参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35725217" class="uri">https://zhuanlan.zhihu.com/p/35725217</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copyfile(source_file, destination_file)</span><br></pre></td></tr></table></figure>
-<p>记住这里第二个参数一定要是可写入的文件名字，而不是目录。</p>
-<h2 id="移动文件">移动文件</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line">file_source = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line">file_destination = <span class="string">&#x27;Path/Of/Directory&#x27;</span></span><br><span class="line"> </span><br><span class="line">get_files = os.listdir(file_source)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> get_files:</span><br><span class="line">    shutil.move(file_source + g, file_destination)</span><br></pre></td></tr></table></figure>
-<h1 id="读写csv文件">读写csv文件</h1>
-<p>第一个方式是用pandas，具体不介绍。</p>
-<p>这里总结一下csv库</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">     csv_reader = csv.reader(csvfile)</span><br><span class="line">     <span class="keyword">for</span> row <span class="keyword">in</span> csv_reader:</span><br><span class="line">        <span class="built_in">print</span>(row[<span class="number">1</span>]) <span class="comment"># 用列表的index取值</span></span><br><span class="line"><span class="comment"># 写csv文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    csv_writer = csv.writer(csvfile)</span><br><span class="line">    spamwriter.writerow([<span class="string">&#x27;Spam&#x27;</span>, <span class="string">&#x27;Lovely Spam&#x27;</span>, <span class="string">&#x27;Wonderful Spam&#x27;</span>]) <span class="comment"># writerow接受一个list，所有值都会写在一行里</span></span><br><span class="line">    spamwriter.writerows([[],[],[]]) <span class="comment"># writerows写入多行，每一行是一个列表，传进去的是列表的列表</span></span><br></pre></td></tr></table></figure>
-<p>除了写入list，还可以写字典类型的数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my data rows as dictionary objects </span></span><br><span class="line">mydict =[&#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.0&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Nikhil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;COE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sanchit&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;IT&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.3&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Aditya&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;SE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.5&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sagar&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;1&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;MCE&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;7.8&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Prateek&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;3&#x27;</span>&#125;, </span><br><span class="line">         &#123;<span class="string">&#x27;branch&#x27;</span>: <span class="string">&#x27;EP&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>: <span class="string">&#x27;9.1&#x27;</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Sahil&#x27;</span>, <span class="string">&#x27;year&#x27;</span>: <span class="string">&#x27;2&#x27;</span>&#125;] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># field names </span></span><br><span class="line">fields = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;branch&#x27;</span>, <span class="string">&#x27;year&#x27;</span>, <span class="string">&#x27;cgpa&#x27;</span>] </span><br><span class="line">    </span><br><span class="line"><span class="comment"># name of csv file </span></span><br><span class="line">filename = <span class="string">&quot;university_records.csv&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># writing to csv file </span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> csvfile: </span><br><span class="line">    <span class="comment"># creating a csv dict writer object </span></span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames = fields) </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing headers (field names) </span></span><br><span class="line">    writer.writeheader() </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># writing data rows </span></span><br><span class="line">    writer.writerows(mydict)</span><br></pre></td></tr></table></figure>
+          <h1 id="mysql-查看当前使用的配置文件my.cnf的方法">mysql
+查看当前使用的配置文件my.cnf的方法</h1>
+<p>my.cnf是mysql启动时加载的配置文件，一般会放在mysql的安装目录中，用户也可以放在其他目录加载。</p>
+<p>安装mysql后，系统中会有多个my.cnf文件，有些是用于测试的。</p>
+<p>使用locate my.cnf命令可以列出所有的my.cnf文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">locate my.cnf</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/include/default_my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/federated/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_big/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_binlog/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_rpl/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/ndb_team/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl/extension/bhs/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl/my.cnf</span><br><span class="line">/usr/local/Cellar/mysql/5.6.24/mysql-test/suite/rpl_ndb/my.cnf</span><br></pre></td></tr></table></figure>
+<p>当我们需要修改配置文件时，需要找到mysql启动时是加载了哪个my.cnf文件。</p>
+<h3 id="查看是否使用了指定目录的my.cnf">查看是否使用了指定目录的my.cnf</h3>
+<p>启动mysql后，我们查看mysql的进程，看看是否有设置使用指定目录的my.cnf文件，如果有则表示mysql启动时是加载了这个配置文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">ps aux|grep mysql|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">fdipzone         25174   0.0  0.0  3087244    600   ??  S     4:12下午   0:01.14 /usr/local/Cellar/mysql/5.6.24/bin/mysqld --defaults-file=/usr/local/Cellar/mysql/5.6.24/my.cnf --basedir=/usr/local/Cellar/mysql/5.6.24 --datadir=/usr/local/var/mysql --plugin-dir=/usr/local/Cellar/mysql/5.6.24/lib/plugin --bind-address=127.0.0.1 --log-error=/usr/local/var/mysql/TerrydeMacBook-Air.local.err --pid-file=/usr/local/var/mysql/TerrydeMacBook-Air.local.pid</span><br><span class="line">fdipzone         25064   0.0  0.0  2452824      4   ??  S     4:12下午   0:00.03 /bin/sh /usr/local/opt/mysql/bin/mysqld_safe --defaults-file=/usr/local/Cellar/mysql/5.6.24/my.cnf --bind-address=127.0.0.1 --datadir=/usr/local/var/mysql</span><br></pre></td></tr></table></figure>
+<p>可以看到/usr/local/Cellar/mysql/5.6.24/my.cnf就是mysql启动加载的配置文件。</p>
+<p>如果上面的命令没有输出，表示没有设置使用指定目录的my.cnf。</p>
+<h3 id="查看mysql默认读取my.cnf的目录">查看mysql默认读取my.cnf的目录</h3>
+<p>如果没有设置使用指定目录的my.cnf，mysql启动时会读取安装目录根目录及默认目录下的my.cnf文件。</p>
+<p>查看mysql启动时读取配置文件的默认目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令</span><br><span class="line">mysql --help|grep &#x27;my.cnf&#x27;</span><br><span class="line"></span><br><span class="line">输出</span><br><span class="line">     order of preference, my.cnf, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
+<p>/etc/my.cnf, /etc/mysql/my.cnf, /usr/local/etc/my.cnf, ~/.my.cnf
+这些就是mysql默认会搜寻my.cnf的目录，顺序排前的优先。</p>
+<h3 id="启动时没有使用配置文件">启动时没有使用配置文件</h3>
+<p>如果没有设置使用指定目录my.cnf文件及默认读取目录没有my.cnf文件，表示mysql启动时并没有加载配置文件，而是使用默认配置。</p>
+<p>需要修改配置，可以在mysql默认读取的目录中，创建一个my.cnf文件(例如:/etc/my.cnf)，把需要修改的配置内容写入，重启mysql后即可生效。</p>
+<h1 id="mysql使用group-by查询报错select-list-is-not-in-group-by-clause-and-contains-nonaggregated-column...解决方案">mysql使用group
+by查询报错SELECT list is not in GROUP BY clause and contains
+nonaggregated column...解决方案</h1>
+<p><strong>MySQL5.7.5后only_full_group_by成为sql_mode的默认选项之一，这可能导致一些sql语句失效。</strong>
+比如在使用<strong>group by</strong>进行分组查询报错</p>
+<h3 id="查看自己的sql_mode配置">查看自己的sql_mode配置</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在sql命令行中输入select @@sql_mode;这时我们能够看到自己的sql_mode配置,其中如果有ONLY_FULL_GROUP_BY,那它就是group by查询报错的罪魁祸首了</span><br></pre></td></tr></table></figure>
+<h3 id="解决办法">解决办法</h3>
+<p>命令行打开mysql.cnf,默认路径为/etc/mysql/conf.d/mysql.cnf,如果找不到可以使用whereis进行查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode = STRICT_TRANS_TABLES, NO_ZERO_IN_DATE, NO_ZERO_DATE, ERROR_FOR_DIVISION_BY_ZERO,      NO_AUTO_CREATE_USER, NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure>
+<p>保存退出重启mysql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld restart #对于linux是mysql</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -622,7 +493,7 @@ URL 地址：</p>
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
   </nav>
 
 </div>
@@ -646,14 +517,14 @@ URL 地址：</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">214k</span>
+    <span title="Symbols count total">189k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">3:14</span>
+    <span title="Reading time total">2:51</span>
   </span>
 </div>
 
