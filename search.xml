@@ -3,7 +3,7 @@
   <entry>
     <title>Novel view synthesis(NVS)</title>
     <url>/2025/01/09/Novel-view-synthesis-NVS/</url>
-    <content><![CDATA[<p>最近刚接触到这个话题，想开一篇新博客来记录一下自己学习的过程。</p>
+    <content><![CDATA[<p>New Topic For Me to explore! 对我来说正式开启3D Image~</p>
 <p>首先我是看了两篇review了解了这个topic的主要任务：</p>
 <ul>
 <li>advancements in radiance field techniques for volumetric video
@@ -21,6 +21,7 @@ with a set of images.</p>
 intermediate three-dimensional representation, which is rendered from a
 new viewing direction. 比如PixelNeFRF 2）direclty generated new views
 without an intermediate 3D representaion</em>， 比如Zero123</p>
+<span id="more"></span>
 <h1 id="nerf">NeRF</h1>
 <p><a href="http://arxiv.org/abs/2003.08934">NeRF: Representing Scenes
 as Neural Radiance Fields for View Synthesis</a></p>
@@ -224,6 +225,7 @@ Model的时代，已经有人忘却了曾经的王者GAN。这篇博客是自己
 Model。Difussion Model的内容放到cs236中去讲了。 - Lilian
 Blog曾写过一篇<a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What
 are Diffusion Models?</a>, 内扩展了两篇介绍: GAN 和 VAE。</p>
+<span id="more"></span>
 <h1 id="self-supervised-learning">Self-supervised Learning</h1>
 <p>自监督学习中最出彩的就是对比学习。</p>
 <h2 id="contrastive-learning">Contrastive Learning</h2>
@@ -2547,7 +2549,7 @@ Resnet系列网络架构的区别</a></li>
 </ol>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
@@ -2752,7 +2754,7 @@ RPN的layers。</li>
 </ol>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
@@ -2763,6 +2765,7 @@ RPN的layers。</li>
     <url>/2022/10/27/Attention-and-Transformer-model/</url>
     <content><![CDATA[<p>斯坦福cs231n最新的课程中包含了attention的模型讲解，但是很可惜我们现在只能看到17年的老课程，在youtube上可以找到，课程主页是<a href="http://cs231n.stanford.edu/schedule.html">cs231n</a>。可以在课程主页中下载对应的slides和查看推荐的blog，都是学习attention机制的好教材。另外我在学习cs231n课程过程中，也参考了吴恩达对于sequence
 model的讲解，它课程中也涉及到了attention机制，课后作业也包含了简单的attention机制的实现，可以作为辅助理解来看。这篇博客权当自己学习attention以及由此创造的attention系列模型比如transformer的记录。cs231n推荐的<a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">博客</a>内容也是很通俗易懂，英文不好的同学有中文翻译可以参考。</p>
+<span id="more"></span>
 <h1 id="general-attention-model">general attention model</h1>
 <p>RNN有多种类型的网络：</p>
 <figure>
@@ -3300,7 +3303,7 @@ question</a></li>
 <p>所以经过bitwise_and之后的图片会看到mask中像素值为0的地方全部是黑色。这就相应的把mask中不为0的地方强调突出了。</p>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
@@ -3330,7 +3333,7 @@ question</a></li>
 <p>当<code>padding=valid</code>时的计算有点复杂。再细究一下的话，<code>tensorflow</code>中<code>Conv2DTranspose</code>还接受<code>output_padding</code>这个参数。如果有这个参数的话（默认是None），可以参考<code>tensorflow</code>官方文档给出的<a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2DTranspose">公式</a></p>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
@@ -3374,7 +3377,7 @@ our model.</p>
 <p>也需要有常规的checkpoint <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.keras.callbacks <span class="keyword">import</span> EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, LearningRateScheduler</span><br><span class="line"></span><br><span class="line">filepath_dice_coeff = <span class="string">&quot;_val_loss.hdf5&quot;</span> <span class="comment"># 保存成一个单独的hdf5文件</span></span><br><span class="line">checkpointer = ModelCheckpoint(filepath_dice_coeff, monitor=<span class="string">&#x27;val_loss&#x27;</span>, verbose=<span class="number">1</span>, save_best_only=<span class="literal">True</span>, mode=<span class="string">&#x27;min&#x27;</span>)<span class="comment"># val_dice_coeff</span></span><br><span class="line">lr_reducer = ReduceLROnPlateau(factor=np.sqrt(<span class="number">0.1</span>), cooldown=<span class="number">0</span>, patience=<span class="number">30</span>, min_lr=<span class="number">0.5e-6</span>)</span><br><span class="line">early_stop = EarlyStopping(monitor=<span class="string">&#x27;val_loss&#x27;</span>, patience=<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">hist = seg_classi_model.fit(train_data,</span><br><span class="line">                steps_per_epoch=(train_imgs.shape[<span class="number">0</span>] + batch_size - <span class="number">1</span>) // batch_size,</span><br><span class="line">                epochs=<span class="number">300</span>,</span><br><span class="line">                callbacks=[checkpointer, lr_reducer, early_stop],</span><br><span class="line">                validation_data=val_data,</span><br><span class="line">                validation_steps=(valid_imgs.shape[<span class="number">0</span>] + batch_size - <span class="number">1</span>) // batch_size) </span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>image-segmentation</tag>
@@ -3395,7 +3398,7 @@ map中每一个pixel的值就是0~1之间的值。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">results = model.predict(test_dataset, steps=test_steps)</span><br><span class="line"><span class="built_in">print</span>(results.shape) <span class="comment"># (192, 64, 84, 11)</span></span><br><span class="line"></span><br><span class="line">results = np.argmax(results, axis=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">integer_slider = <span class="number">105</span> <span class="comment"># 取第105个图片</span></span><br><span class="line">iou, dice_score = class_wise_metrics(np.argmax(y_true_segments[integer_slider], axis=<span class="number">3</span>), results[integer_slider]) </span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
@@ -3430,7 +3433,7 @@ map中每一个pixel的值就是0~1之间的值。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">img = tf.keras.preprocessing.image.load_img(<span class="string">&quot;./i.jpg&quot;</span>,target_size=(<span class="number">32</span>,<span class="number">32</span>,<span class="number">3</span>)) <span class="comment"># Loads an image into PIL format</span></span><br><span class="line">img = tf.keras.preprocessing.image.img_to_array(img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从array转化成PIL image 实例</span></span><br><span class="line">img = tf.keras.preprocessing.image.array_to_img(array) <span class="comment"># array是3D numpy array</span></span><br><span class="line"></span><br><span class="line">tf.keras.utils.save_img(path,array)</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>computer vision(cv)</category>
+        <category>cv</category>
       </categories>
       <tags>
         <tag>cv</tag>
