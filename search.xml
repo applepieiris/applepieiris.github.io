@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>RAG Enhancement(提高基于RAG的问答系统中回答质量的方法论述)</title>
+    <url>/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/</url>
+    <content><![CDATA[<p>去年一整年都在做一套基于RAG的问答系统，项目处理的文档主要为PDF以及中英文混杂，为了提高问答的准确性，期间我也在很多点上进行了思考，很多想法来源于这篇<a href="http://arxiv.org/abs/2402.19473">review paper</a>中对于RAG
+enhancement方法的整理，在去年一年，我写了关于PDF的process和chunk的文章，实际应用时，我们发现文档如何切分地更好确实非常影响后续RAG回答的准确性和用户对于问答的满意度。期间也写了一篇关于RAG
+performance
+evaluation的总结，这在产业落地的过程中尤其关键，如果提供一个让顾客满意，同时兼顾算法侧科学性和数学性的要求，也是一个值得深究的topic。今天单开一篇文章，主要聚焦于：当你已经基于市面上已有架构，诸如langchain，llamaindex等高代码架构还是诸如coze，百炼，Dify等低代码架构
+搭建了一个知识库问答系统，还可以从哪一些方面提高问答的准确性。</p>
+<p>先说一个RAG的种类，我们目前接触的比较多的是典型架构：</p>
+<figure>
+<img src="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/20168385wE7Kv0RE23.jpg" alt="Basic RAG">
+<figcaption aria-hidden="true">Basic RAG</figcaption>
+</figure>
+<span id="more"></span>
+<ol type="1">
+<li>Query-based RAG</li>
+</ol>
+<p>上面的这种RAG其实是query-based RAG,
+主要做法就是将用户的query和从知识库中抓取的context一同包裹在prompt，塞给大模型去回答用户的问题。这个架构中如何设计高质量的prompt，对产生回答的质量影响很大。</p>
+<ol start="2" type="1">
+<li>Latent Representation-based RAG</li>
+</ol>
+<blockquote>
+<p>retrieved objects are incorporated into generative models as latent
+representations</p>
+</blockquote>
+<p>这种方法需要对generator的完全掌控，如果遇到LLM只是调用API的情况，这种方法是用不了。</p>
+<ol start="3" type="1">
+<li>Logit-based RAG</li>
+</ol>
+<blockquote>
+<p>In logit-based RAG, generative models integrate retrieval information
+through logits dring decoding process. Typically, the logits are
+combined through simple summation or models to compute the probabilities
+for step-wise generation.</p>
+</blockquote>
+<ol start="4" type="1">
+<li>speculative RAG</li>
+</ol>
+<p>这种RAG更多的是用在处理时序数据上， It decouples the generator and
+the retriever, enabling the direct use of pre-trained models as
+components.</p>
+<p>下面这张图是RAG种类的区别： <img src="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/image-20250509144739663.png" alt="Taxonomy of RAG foundations"></p>
+<h1 id="rag-enhancements">RAG Enhancements</h1>
+<figure>
+<img src="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/image-20250509144838105.png" alt="Taxonomy of RAG Enhancements">
+<figcaption aria-hidden="true">Taxonomy of RAG Enhancements</figcaption>
+</figure>
+<h2 id="input-enhancement">Input Enhancement</h2>
+<p>这里的input是指用户的query，也就是我们输入到retriever中的input。可以理解为query或者question。一开始我们搭建RAG的时候，这个用户的query会直接进到embedding模型中去encode出一个vector，然后用这个vector去向量数据中寻找相应的context，这会带来什么问题呢？我们在实际落地中发现：</p>
+<ul>
+<li>用户的问题千差万别，如果没有上下文，没有背景知识，真的很难理解用户真的想问什么，这就导致到知识库中抽取的context不够准确</li>
+<li>用户的query一般都比较短，同一个embedding
+模型，我们既拿它encode了query，又拿它encode了context，context一般都是比较长的，这种长文本和短文本的embeddings在计算向量相似度的时候往往会不准确</li>
+<li>我们现在使用的开源embedding模型诸如bge，m3e，虽然都宣称自己支持多语言（中英文）。但实际使用时发现，如果用户询问时采取的是中文，但是文档主要都是英文的，或者中文的问题想匹配英文的文档，有一定难度，很不准确，这就导致一开始抽取的context就不准，那么进到generator，LLM也不知道要怎么回答这个问题。</li>
+</ul>
+<p>我们在解决中文问题对应英文文档，采取的是将用户query改写的方式，对应的是上面的query
+transformations。不仅是中英对应问题，我们还发现有一些完全是一样的word，也就是query完全包含了context中应该有的word，但相应的context也没有被抽取到，所以我们也采用了不同的编码方式，也就是bm25和dense
+encoder两者结果混合（这种方式好像并不在这个大类input enhancement下）</p>
+<ol type="1">
+<li>query transformation</li>
+</ol>
+<p>最基础的是我上面说的，query进来后调用LLM改写一遍，prompt设计为请用英文改写，然后将这些query分别去知识库抽context，另外这部分还有的方法是：</p>
+<blockquote>
+<p>use the original query to generate a pseudo document, which is later
+used as the query for retrieval</p>
+</blockquote>
+<p>我觉得一定程度上可以解决短query对应长document匹配不准确的问题。</p>
+<p>另外还可以将query改写成很多sub
+queries，这就需要更精细化的设计了，有一些工作已经在这部分发了论文，移步<a href="http://arxiv.org/abs/2402.19473">总结</a></p>
+<ol start="2" type="1">
+<li>Data Augmentation</li>
+</ol>
+<blockquote>
+<p>remove irrelevant information, eliminating ambuguity, updating
+outdated documents, synthesize new data, etc.</p>
+</blockquote>
+<h2 id="retriever-enhancement">Retriever Enhancement</h2>
+<p>这一部分是重点，抽取的context的准确性直接影响最终answer的质量。如果context不包含这个信息，那LLM大概率是回答不上来一些领域专业问题，尤其是一些是内部的文档。如果context包含这些信息，但是抽取的时候它的similarity
+score并不高，所以不排在retrieved contexts
+list的前列，一样可能被rerank模型筛选掉。</p>
+<ol type="1">
+<li>recursive retrieval</li>
+</ol>
+<p>循环抽，顾名思义就是query进来后分阶段去知识库中搜context，这时候就需要将query拆分为一些子问题，或者就像上面input
+enhancement中介绍的一样，对query进行了改写或者扩充，然后分别对这个query的list进行循环抽</p>
+<ol start="2" type="1">
+<li>chunk optimization</li>
+</ol>
+<p>最典型的，sentence-window
+retrieval，概念很简单，llamaindex实现了。还有将documents组织成树状结构的，hit到某个叶子节点，就把parent节点都拎起来，其实有点加重LLM输出answer的负担，后续LLM响应时间随之延长，所以这是个trade-off。这部分我们遇到的场景是PDF的解析，想过把PDF中
+title作为parent节点，相应的section下的内容作为叶子节点，这种存储方式在很多向量数据，比如milvus都已经支持了。但我个人认为这种方式太精细化了，不能适配到通用场景</p>
+<ol start="3" type="1">
+<li>Hybrid Retrieval</li>
+</ol>
+<p>这种方式将dense retriever和sparse
+retriever结合，从而提高retrieve的准确性。这种方式可以有效解决我刚刚上面说到的，明明context中包含了query中的关键word，但没有办法被dense
+retriever抽出来，这时候需要加入sparse
+retriever，比如用BM25的encoder来编码query和context。</p>
+<ol start="4" type="1">
+<li>Re-ranking</li>
+</ol>
+<p>rerank就是对retriever抽取回来的context
+list进行similarity的重新排序，这一步也是提高answer质量的关键，现在也有不少开源reranker模型了。</p>
+<ol start="5" type="1">
+<li>retrieval Transformation</li>
+</ol>
+<blockquote>
+<p>retrieval transformation involves rephrasing retrieved content to
+better activate the generator's potiential, resulting in improved
+output</p>
+</blockquote>
+<h2 id="generator-enhancement">Generator Enhancement</h2>
+<p>这一步在落地的时候往往改进的空间不大，因为很多公司在这一步只是调用一些公有的LLM的API，唯一能做改变的地方就是Prompt的设计。</p>
+<ol type="1">
+<li>Prompt Engineering</li>
+</ol>
+<p>这一部分有工作LLMLingua将query用一个small
+model进行了压缩，可以加速模型的推理，一定程度上可以减轻"lost in
+middle"的问题，这个工作还挺有意思的。</p>
+<ol start="2" type="1">
+<li><p>Decoding Tuning</p></li>
+<li><p>Generator Finetuning</p></li>
+</ol>
+<h2 id="result-enhancement">Result Enhancement</h2>
+<ol type="1">
+<li>output rewrite</li>
+</ol>
+<p>顾名思义，这是对generator输出的内容进行重新编排。这一步实际应用不多。</p>
+<h2 id="rag-pipeline-rnhancement">RAG Pipeline Rnhancement</h2>
+<ol type="1">
+<li>Adaptive retrieval</li>
+</ol>
+<p>主旨思想就是在query进来后，在该抽context的时候抽，不该抽的时候不抽。over-retrieval会导致资源的浪费和潜在的信息冗余。</p>
+]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>nlp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Novel view synthesis(NVS)</title>
     <url>/2025/01/09/Novel-view-synthesis-NVS/</url>
     <content><![CDATA[<p>New Topic For Me to explore! 对我来说正式开启3D Image~</p>
@@ -11,7 +153,8 @@ generation: a technical overview</li>
 <li><a href="http://arxiv.org/abs/2309.05658">From Capture to Display: A
 Survey on Volumetric Video</a></li>
 </ul>
-<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs。这篇博客将NVS描述为这样一个任务：</p>
+<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs
+。这篇博客将NVS描述为这样一个任务：</p>
 <blockquote>
 <p>generate views from new camera angles that are plausibly consistent
 with a set of images.</p>
@@ -321,8 +464,8 @@ Density的理解就是可以求导并利用梯度下降去一点点降低loss的
 <li>基于深度学习模型的方法：一个流行的解决方案是结合了物体检测和OCR模型，代表
 Chatdoc</li>
 <li>基于多模态大模型的方法：通过这种方法可以解析PDF中复杂结构或者提取关键信息</li>
-<li><span id="more"></span></li>
 </ol>
+<span id="more"></span>
 <h1 id="基于规则的方法">基于规则的方法</h1>
 <p>基于规则的PDF处理库真的太多了，每一次看到一个应用使用的新的PDF解析器，都要重新看看怎么处理的。比如langchain-chatchat用的是pyMuPDF中的fitz包，见<a href="https://github.com/chatchat-space/Langchain-Chatchat/blob/master/libs/chatchat-server/chatchat/server/file_rag/document_loaders/mypdfloader.py">langchain-chatchat源代码</a>，这一段处理特别粗糙，我贴上来：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fitz  <span class="comment"># pyMuPDF里面的fitz包，不要与pip install fitz混淆</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">ocr = get_ocr()</span><br><span class="line">doc = fitz.<span class="built_in">open</span>(filepath)</span><br><span class="line">resp = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">b_unit = tqdm.tqdm(</span><br><span class="line">    total=doc.page_count, desc=<span class="string">&quot;RapidOCRPDFLoader context page index: 0&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">for</span> i, page <span class="keyword">in</span> <span class="built_in">enumerate</span>(doc):</span><br><span class="line">    b_unit.set_description(</span><br><span class="line">        <span class="string">&quot;RapidOCRPDFLoader context page index: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(i)</span><br><span class="line">    )</span><br><span class="line">    b_unit.refresh()</span><br><span class="line">    text = page.get_text(<span class="string">&quot;&quot;</span>)</span><br><span class="line">    resp += text + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    img_list = page.get_image_info(xrefs=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> img <span class="keyword">in</span> img_list:</span><br><span class="line">        <span class="keyword">if</span> xref := img.get(<span class="string">&quot;xref&quot;</span>):</span><br><span class="line">                bbox = img[<span class="string">&quot;bbox&quot;</span>]</span><br><span class="line">                <span class="comment"># 检查图片尺寸是否超过设定的阈值</span></span><br><span class="line">                <span class="keyword">if</span> (bbox[<span class="number">2</span>] - bbox[<span class="number">0</span>]) / (page.rect.width) &lt; PDF_OCR_THRESHOLD[</span><br><span class="line">                    <span class="number">0</span></span><br><span class="line">                ] <span class="keyword">or</span> (bbox[<span class="number">3</span>] - bbox[<span class="number">1</span>]) / (</span><br><span class="line">                    page.rect.height</span><br><span class="line">                ) &lt; PDF_OCR_THRESHOLD[<span class="number">1</span>]:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                    pix = fitz.Pixmap(doc, xref)</span><br><span class="line">                    samples = pix.samples</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">int</span>(page.rotation) != <span class="number">0</span>:  <span class="comment"># 如果Page有旋转角度，则旋转图片</span></span><br><span class="line">                        img_array = np.frombuffer(</span><br><span class="line">                            pix.samples, dtype=np.uint8</span><br><span class="line">                        ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line">                        tmp_img = Image.fromarray(img_array)</span><br><span class="line">                        ori_img = cv2.cvtColor(np.array(tmp_img), cv2.COLOR_RGB2BGR)</span><br><span class="line">                        rot_img = rotate_img(img=ori_img, angle=<span class="number">360</span> - page.rotation)</span><br><span class="line">                        img_array = cv2.cvtColor(rot_img, cv2.COLOR_RGB2BGR)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            img_array = np.frombuffer(</span><br><span class="line">                                pix.samples, dtype=np.uint8</span><br><span class="line">                            ).reshape(pix.height, pix.width, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">                            result, _ = ocr(img_array)</span><br><span class="line">                            <span class="keyword">if</span> result:</span><br><span class="line">                                ocr_result = [line[<span class="number">1</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">                                resp += <span class="string">&quot;\n&quot;</span>.join(ocr_result)</span><br></pre></td></tr></table></figure>

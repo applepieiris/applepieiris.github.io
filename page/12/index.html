@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -210,6 +210,111 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/12/13/pandas%E4%B8%ADcount-value-counts-unique-%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">pandas中count(),value_counts(),unique)区别</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-12-13 11:12:46" itemprop="dateCreated datePublished" datetime="2021-12-13T11:12:46+08:00">2021-12-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-12-14 10:43:59" itemprop="dateModified" datetime="2021-12-14T10:43:59+08:00">2021-12-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/pandas/" itemprop="url" rel="index"><span itemprop="name">pandas</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>403</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="count">count()</h1>
+<p>不管是Series还是DateFrame，两个类都有这个方法。</p>
+<p>对于DateFrame，返回的是每一列中非空的元素的个数，可以指定是以行去统计还是以列去统计。</p>
+<p>对于Series，返回的是Series中非空元素的个数。</p>
+<p>对于groupby，返回的是每一组中元素的个数，这里的个数不包含空字段。</p>
+<h1 id="value_counts">value_counts()</h1>
+<p>对于DateFrame，返回的是unique行的个数，这里的unique行指的是只要其中一个column的值不一样就算不一样的行。</p>
+<p>对于Series，返回的是每一个unique元素的个数，也就是每一个unique的元素，它会统计它在Series中出现了多少次。</p>
+<h1 id="unique">unique()</h1>
+<p>对于Series，返回的是所有unique的元素们，如果你想统计所有不一样的元素有多少个，可以统计list中元素的个数，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(df[&#x27;a&#x27;].unique().tolist())  </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -459,134 +564,6 @@ https://github.com/PaddlePaddle/PaddleVideo/blob/develop/docs/zh-CN/install.md</
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/17/hexo%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%EF%BC%9A%E5%9C%A8%E4%B8%BB%E9%A1%B5%E5%92%8C%E6%96%87%E7%AB%A0%E8%AF%A6%E6%83%85%E9%A1%B5%E5%90%8C%E6%97%B6%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87/" class="post-title-link" itemprop="url">hexo图片插入问题：在主页和文章详情页同时显示图片</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-17 14:45:04" itemprop="dateCreated datePublished" datetime="2021-11-17T14:45:04+08:00">2021-11-17</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-02-08 11:34:02" itemprop="dateModified" datetime="2023-02-08T11:34:02+08:00">2023-02-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="设置静态文件根目录">设置静态文件根目录</h1>
-<p><code>_config.yml</code>中有个<code>url</code>和<code>root</code>参数
-如果你部署的地址是<code>http://yoursite.com/child</code>，需要设置下面两个参数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url: &#x27;http://yoursite.com/child&#x27; // 部署的域名</span><br><span class="line">root: &#x27;/child/&#x27; // 部署的根目录</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-<h1 id="设置资源文件夹">设置资源文件夹</h1>
-<p>资源（Asset）代表 source
-文件夹中除了文章以外的所有文件，例如图片、CSS、JS
-文件等。比方说，如果你的Hexo项目中只有少量图片，那最简单的方法就是将它们放在
-<code>source/images</code> 文件夹中。然后通过类似于
-<code>![](/images/image.jpg)</code> 的方法访问它们。</p>
-<p>&lt; !--more--&gt;</p>
-<p>文章资源文件夹
-对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过<strong>将
-<code>config.yml</code> 文件中的 <code>post_asset_folder</code> 选项设为
-true 来打开</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line">post_asset_folder: true</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-<p>当资源文件管理功能打开后，Hexo将会在你<strong>每一次通过
-<code>hexo new [layout] &lt;title&gt;</code>
-命令创建新文章时自动创建一个文件夹</strong>。这个资源文件夹将会有与这个
-<code>markdown</code>
-文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。</p>
-<p>相对路径引用的标签插件 通过常规的 markdown
-语法和相对路径来引用图片和其它资源可能会导致它们在存档页或者主页上显示不正确。在Hexo
-2时代，社区创建了很多插件来解决这个问题。但是，随着Hexo 3
-的发布，许多新的标签插件被加入到了核心代码中。这使得你可以更简单地在文章中引用你的资源。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path slug %&#125;</span><br><span class="line">&#123;% asset_img slug [title] %&#125;</span><br><span class="line">&#123;% asset_link slug [title] %&#125;</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
-<p>比如说：当你打开文章资源文件夹功能后，你把一个
-<code>example.jpg</code>
-图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法
-<code>![](/example.jpg)</code> ，它将 不会
-出现在首页上。（但是它会在文章中按你期待的方式工作）</p>
-<p>正确的引用图片方式是使用下列的标签插件而不是 markdown ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img example.jpg avatar %&#125;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<p><strong>通过这种方式，图片将会同时出现在文章和主页以及归档页中。通过<code>&#123;% asset_img 图片名称 图片说明 %&#125;</code></strong></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -612,14 +589,14 @@ true 来打开</strong>。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">189k</span>
+    <span title="Symbols count total">192k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:51</span>
+    <span title="Reading time total">2:55</span>
   </span>
 </div>
 

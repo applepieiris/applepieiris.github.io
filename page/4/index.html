@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -210,6 +210,322 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/" class="post-title-link" itemprop="url">LLM大模型推理加速</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-08-29 09:55:47" itemprop="dateCreated datePublished" datetime="2023-08-29T09:55:47+08:00">2023-08-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2023-12-28 17:17:13" itemprop="dateModified" datetime="2023-12-28T17:17:13+08:00">2023-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近框架vLLM在LLaMA-13B以及7B模型上的推理速度相比较Tranformers有了质的提升。之前写过一篇大模型量化技术的文章，量化技术算是大模型出来初期大家使用的普遍比较多的方法之一，这里强调一点，我这里所说的模型加速是指在推理阶段我们让模型运行的更快，而且返回的结果要和原来的大参数模型差不多。这里重点强调的原因是我在看一些资料的时候发现有不少博客分享的是在模型训练阶段或者finetune阶段如何让模型训练的更快，这里就涉及到efficient
+finetuning的技术（p-tuning,
+prefix-tuning等），我这篇博客只关注模型训练完成之后如何在推理阶段让它更快，在同样时间内处理更多sequence（吞吐量througout），显存占用更低。大模型推理加速技术为什么这么受关注还是因为想在一些消费级别显卡上部署一个大模型为用户所用，而不是仅仅停留在实验室阶段。</p>
+<blockquote>
+<p>我在看这个topic下的文章的时候，发现往往一些方法提出来有一些是减少了显存占用，有一些是提高了吞吐量（跟减少latency一回事），所以具体在实现时应用哪个办法加速你的模型推理还要根据实际情况去对比分析，或者你每个方法都尝试一下也行。当然又一些方法集成地很好，比如量化模型中的GPQT已经集成进transformers库，用起来很方便。如果碰到一些很复杂的，比如prune“剪枝”就有点难以快速验证。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://vllm.ai/">vLLM</a>
+暂时还没有文章发出来，我在谷歌搜寻有没有review介绍大模型加速文章的时候也没找到很新的文章，不过找到了一篇微软在23年发布的<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2304.04487">LLMA</a>,
+我本来觉得思想类似，但是后来仔细看了下文章发现并不是一回事，我觉得文章标题有点误导人，起的太大了，本质上文章其实就是发现了decoding时候生成的句子和之前的句子有一部分的文字重叠，所以作者考虑这部分重叠内容其实不需要让模型再去decoding了，那就想了个办法，在decoding的时候把前面一步的结果保存下来，比较当前步骤和前一步骤token的差距，差距小的就不再进行计算了</p>
+<blockquote>
+<p>一点不成熟的想法：这个文章思路可取，但创造力有限。</p>
+</blockquote>
+<p>不过它在introduction章节介绍了四种比较通用的加速方法：quantization,
+pruning, compression and distillation，同样的分类也可以在<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.07877.pdf">A Comprehensive Survey on
+Model Quantization for Deep Neural Networks</a>文章中找到，
+不过两者介绍的有一点点的不同：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230828093646830.png" alt="image-20230828093646830">
+<figcaption aria-hidden="true">image-20230828093646830</figcaption>
+</figure>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.07877.pdf">Survey</a>将四种技术统一包含在了模型压缩里。我觉得review里这种分类比较合理，因为微软这篇文章compression引用的文章是</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2002.02925">Bert-of-theseus:
+Compressing bert by progressive module replacing</a>,
+compression应该是一种统称。后面我看到知乎有一篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/642412124">文章</a>更详细的介绍了大模型的推理优化技术，它这个分类也符合我的理解，模型压缩（model
+compression）里包含模型量化，pruning，low-rank
+approximation和知识蒸馏这些技术。而且知乎这篇文章的分类也符合survey里的介绍：</p>
+<blockquote>
+<p>In designing accelerators, researchers concentrate on network
+compression, parallel processing, and optimizing memory transfers for
+processing speed-up.</p>
+</blockquote>
+<p>我这里做个思维导图总结一下：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230830133030762-16933734335261.png" alt="image-20230830133030762">
+<figcaption aria-hidden="true">image-20230830133030762</figcaption>
+</figure>
+<p>题外话，根据LLMA文章的意思，它提出的这种帮助reduce the serving
+cost的方式不属于上述任意一类，它认为以transformer为基础的生成模型，推理阶段主要消耗的时间瓶颈在autoregressive
+decoding。这里贴原文便于理解</p>
+<blockquote>
+<p>While there are general methodologies that help reduce the serving
+cost of LLMs such as quantization(Dettmers &amp; Zettlemoyer, 2023),
+pruning (Frantar &amp; Alistarh, 2023), compression (Xu et al., 2020)
+and distillation (Wang et al., 2020), <strong>the inference efficiency
+bottleneck of these transformer-based generative models (e.g., GPT) is
+mainly associated with autoregressive decoding: at test time, output
+tokens must be decoded (sequentially) one by one, which poses
+significant challenges for the LLMs to be deployed at scale.</strong>
+这里补充介绍一下AI模型中精度，你会在各种场合下碰到FP32，FP16，int8，int4等名词。</p>
+</blockquote>
+<p>32-bit：也称全精度(Single precision)，<code>fp32</code>,
+采用32位（4字节）来对数据进行编码。能够表达的数据动态区间是 <span class="math display">\[
+1.4 * 10^{-45} - 1.7 * 10 ^ {38}
+\]</span></p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/Float_example-16933762107103.svg" alt="Float_example">
+<figcaption aria-hidden="true">Float_example</figcaption>
+</figure>
+<p>16-bit：半精度（half precision）,<code>fp16</code>,
+能够表达的数据动态区间是 <span class="math display">\[
+6 * 10^{-8} - 65504
+\]</span></p>
+<p><img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/IEEE_754r_Half_Floating_Point_Format-16933761704442.svg"></p>
+<p>BF-16： 也称为半精度，可以表达比FP16更大的数，但是精度比fp16差</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230830145435142-16933784764394.png" alt="image-20230830145435142">
+<figcaption aria-hidden="true">image-20230830145435142</figcaption>
+</figure>
+<p>int8,int4顾名思义就是 8bit和4个bit来表示数字，int8的表达数值范围是
+<code>-128~127</code> <a target="_blank" rel="noopener" href="https://blog.csdn.net/ordmeng/article/details/99620804">why</a>，无符号范围是<code>0~255</code>，int4的表达数值范围是<code>-8~7</code>。注意这里的计算方式和上面的浮点数可不一样，上面的浮点数中的8bits的exponent是指数表达，所以将指数那一部分的表达加和之后还要取2的指数，见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36533552/article/details/105885714">具体计算</a>.
+再详细一点的介绍见<a target="_blank" rel="noopener" href="https://huggingface.co/blog/zh/hf-bitsandbytes-integration">hugging
+face 博客</a></p>
+<h1 id="模型压缩-model-compression">模型压缩 model compression</h1>
+<h2 id="quatization-量化">Quatization 量化</h2>
+<h3 id="参考文献">参考文献</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.07877.pdf">A Comprehensive
+Survey on Model Quantization for Deep Neural Networks</a></li>
+<li>https://huggingface.co/docs/transformers/main_classes/quantization#autogptq-integration
+huggingface的document，其中放在最上面的就是<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2210.17323.pdf">GPTQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/627436535">大语言模型的模型量化(INT8/INT4)技术</a>
+讲解了<code>LLM.int8()</code></li>
+<li><a target="_blank" rel="noopener" href="https://timdettmers.com/2022/08/17/llm-int8-and-emergent-features/">LLM.int8()
+and Emergent Features</a></li>
+</ul>
+<p>模型的量化可以分为两种方式：</p>
+<ol type="1">
+<li>post-training quantization
+模型训练好之后，将模型的参数们降低精度</li>
+<li>quantization-aware Training
+在模型训练的过程中使用量化的方式，优点是比前者performance要好，但是需要更多的计算资源去训练</li>
+</ol>
+<p>量化顾名思义要把原来用高精度表达的值映射到一个低精度的空间，目标呢就是让模型的performance不能有很大的降低。那如何映射和对哪一些值进行映射，这两个方向是现在量化方法的主攻方向。</p>
+<p>很典型的LLM.int8()算法，不是大刀阔斧地对所有值一次性量化，也不是把矩阵中所有值一起量化，而是先找出那些离群值，然后对这些离群值再按照居正中行列来进行量化：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230831103106998.png" alt="LLM.int8()">
+<figcaption aria-hidden="true">LLM.int8()</figcaption>
+</figure>
+<p>最重要的是上面那一部分。计算拆解见<a target="_blank" rel="noopener" href="https://huggingface.co/blog/zh/hf-bitsandbytes-integration">大规模
+Transformer 模型 8 比特矩阵乘简介</a></p>
+<h3 id="gptq">GPTQ</h3>
+<p>读者可以自行阅读GPTQ的原文来了解它具体是如何做的，我喜欢找一些其他的文章来看别的作者是如何介绍自己的同行作品的，比如下面的这篇文章<a target="_blank" rel="noopener" href="https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf">SmoothQuant:
+Accurate and Efficient Post-Training Quantization for Large Language
+Models</a> 的第六章节related
+work里这样比较自己的smoothQuant和其他的量化模型方法的：</p>
+<blockquote>
+<p>GPTQ (Frantar et al., 2022) applies quantization only to weights but
+not activations.
+GPTQ这种方法只对weights做了量化，并没有对激活值做量化（我个人认为虽然这是事实，但有点硬凹的意思，因为对activations做量化映射并不会加速很多）</p>
+<p>LLM.int8() uses mixed int8/fp16 decomposition to address the
+activation outliers. However, such implementation leads to large latency
+overhead, which can be even slower than FP16 inference.
+意思是LLM.int8()这种方法只是减少了显存占用，并没有减少推理延迟，说白了就是慢，runtime没提高</p>
+</blockquote>
+<h2 id="sparsity">Sparsity</h2>
+<h2 id="low-rank-approximation">low-Rank Approximation</h2>
+<h3 id="lora"><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2106.09685">Lora</a></h3>
+<p>用lora的方式替换全参数微调大模型已经成为好多研究者的选择，一个是它的确有效的降低了训练参数的比例，第二个很大的原因是它的performance还不错，也就是只训练低秩的那些参数矩阵完全可以得到一个高质量的模型.</p>
+<blockquote>
+<p>We propose Low-Rank Adaptation, or LoRA, which freezes the pretrained
+model weights and injects trainable rank decomposition matrices into
+each layer of the Transformer architecture, greatly reducing the number
+of trainable parameters for downstream tasks</p>
+</blockquote>
+<p>从文章的介绍可以看出，它主要是应用于transformer架构中的layer中，这个layer包含self-attention，也包含MLP。只要有矩阵乘的地方都可以用lora。</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228160733632.png" alt="lora图示">
+<figcaption aria-hidden="true">lora图示</figcaption>
+</figure>
+<p>具体的在transformer中如何使用呢？我们知道transformer架构中涉及矩阵运算的地方：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171113210.png" alt="image-20231228171113210">
+<figcaption aria-hidden="true">image-20231228171113210</figcaption>
+</figure>
+<p>在上图中的self-attention中涉及四个weights矩阵：(Wq, Wk, Wv,
+Wo)。在feed-forward(lora原文中叫MLP，我觉得原因在于这里是有两个线性变换的)，具体看attention
+is all you need 原文：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20231228171318056.png" alt="image-20231228171318056">
+<figcaption aria-hidden="true">image-20231228171318056</figcaption>
+</figure>
+<p>所以每一个encoder的layer都有6个weights矩阵可以实施lora。lora的作者仅仅对attention
+weights做了lora，更简化的只是对其中的Wq和Wv做了lora变换。实现上由于现在有了peft库，只是几句话就能实现对这两个矩阵进行lora：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_peft_config</span>(<span class="params">model</span>):</span></span><br><span class="line">    <span class="keyword">from</span> peft <span class="keyword">import</span> (</span><br><span class="line">        get_peft_model,</span><br><span class="line">        LoraConfig,</span><br><span class="line">        TaskType,</span><br><span class="line">        prepare_model_for_int8_training,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    peft_config = LoraConfig(</span><br><span class="line">        task_type=TaskType.CAUSAL_LM,</span><br><span class="line">        inference_mode=<span class="literal">False</span>,</span><br><span class="line">        r=<span class="number">8</span>,</span><br><span class="line">        lora_alpha=<span class="number">32</span>,</span><br><span class="line">        lora_dropout=<span class="number">0.05</span>,</span><br><span class="line">        target_modules = [<span class="string">&quot;q_proj&quot;</span>, <span class="string">&quot;v_proj&quot;</span>] <span class="comment"># 这里仅仅对Q和V的变换矩阵做lora</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># prepare int-8 model for training</span></span><br><span class="line">    model = prepare_model_for_int8_training(model)</span><br><span class="line">    model = get_peft_model(model, peft_config)</span><br><span class="line">    model.print_trainable_parameters()</span><br><span class="line">    <span class="keyword">return</span> model, peft_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># create peft config</span></span><br><span class="line">model, lora_config = create_peft_config(model)</span><br></pre></td></tr></table></figure>
+<h2 id="knowledge-distillation">Knowledge Distillation</h2>
+<p>知识蒸馏出现的比较早，一开始也是在Bert上流行起来的。在LLM这种非常多参数的模型上用的不多。</p>
+<p>这里罗列我看的对我理解很有帮助的文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learning.oreilly.com/library/view/natural-language-processing/9781098136789/ch08.html#idm45146300040192"><strong>Natural
+Language Processing with Transformers, Revised Edition</strong></a>
+第八章“Making models smaller via Knowledge Distillation”
+很详细的介绍了loss的计算（只是蒸馏的核心点）</li>
+<li><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/#distillation">lilian
+wen blog</a></li>
+</ul>
+<h1 id="continuous-batching">Continuous Batching</h1>
+<p><strong><em>参考文献：</em></strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.anyscale.com/blog/continuous-batching-llm-inference">How
+continuous batching enables 23x throughput in LLM inference while
+reducing p50 latency</a></li>
+<li></li>
+</ul>
+<h2 id="vllm">vLLM</h2>
+<p>vllm这个包本质上是将显存GPU高效利用了（PagedAttention技术），还有上面提到的LLMA.
+不过它们的思路其实大同小异，本质上是为了解决transformer的decoder在文本生成时自回归结构带来的无法并发的开销。推荐阅读<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_4OxoRLxhOcjGf0Q4Tvp2Q">为什么现在大家都在用
+MQA 和 GQA？</a></p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/640.png" alt="图片">
+<figcaption aria-hidden="true">图片</figcaption>
+</figure>
+<p>那么既然时间开销都在右边这个decoding的阶段，那就想办法解决它。那就是刚刚那篇文章介绍的KV
+Cache。作者提到的内存墙的问题也是这个问题的切入点，如何让计算单元更迅速的从存储单元获取数据，Paged
+Attention和Flash
+Attention都是来解决这个问题的。MQA的本质是减少了数据读取次数，第一次读取进来的K和V给所有的Q用，就放在缓存里。文章里详细讲解了MQA和GQA，这里不再赘述，但有一点值得注意的是，这两种办法再使用的时候可能并不能只是在推理的时候直接改变结构，也许要像作者说的那样：</p>
+<blockquote>
+<p>如果要用 MQA 和 GQA，可以是从头训练的时候就加上，也可以像 GQA
+论文里面一样，用已有的开源模型，挑一些头取个 mean 用来初始化 MQA 或 GQA
+继续训练一段时间。</p>
+</blockquote>
+<h2 id="text-generation-inference">Text Generation Inference</h2>
+<h1 id="transformer结构优化">Transformer结构优化</h1>
+<p>经典的Transformer架构出来之后，很多工作都在这个架构之上进行了魔改，希望能加快transformer的推理速度，推荐阅读survey
+<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2009.06732.pdf">Efficient Transformers: A
+Survey</a> ,
+目前该review已经是第三版本，最新版本是2022年3月份出的，所以内容里没有flash
+Attention以及一些更新的技术，希望作者快快更新第四版本的review，技术迭代太快了，亟需大神肝的review总结。</p>
+<p>大部分Transformer结构改进的方法的目标都是为了降低GPU的显存占用，也就是提高运算效率，将GPU的运算效率拉满，这就涉及到很底层的对于计算机系统结构的知识。</p>
+<h2 id="flash-attention">flash Attention</h2>
+<p>Flash Attention （Fast and Memory-Efficient Exact
+Attention）详细介绍可以阅读<a target="_blank" rel="noopener" href="https://gordicaleksa.medium.com/eli5-flash-attention-5c44017022ad">ELI5:
+FlashAttention</a>，这是除了了multi-query
+attention技术之外用的比较多的加速推理的方式，当然Paged
+Attention算是vllm火起来之后的后起之秀。当然也可以阅读<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.14135.pdf">paper</a></p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829155237303-16932955599782.png" alt="attention on GPT-2">
+<figcaption aria-hidden="true">attention on GPT-2</figcaption>
+</figure>
+<p>在medium的这篇博客里作者首先澄清两个概念，一个是FLOPs（每秒钟浮点运算次数）和IO，前者在GPU的更新换代的情况下获得了高速发展，而GPU的计算单元和显存间的通信却没有获得同样数量级的增长。而从上图可以看出来（原文paper中的），Attention的计算过程中大部分时间都是memory-bound导向的运算，而计算密集型的操作比如矩阵乘法其实只占了耗费时间的一小部分。</p>
+<p>传统的attention计算步骤：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829162652549.png" alt="image-20230829162652549">
+<figcaption aria-hidden="true">image-20230829162652549</figcaption>
+</figure>
+<p>注意这里的HBM是：</p>
+<figure>
+<img src="/2023/08/29/LLM%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E5%8A%A0%E9%80%9F/image-20230829162732067.png" alt="image-20230829162732067">
+<figcaption aria-hidden="true">image-20230829162732067</figcaption>
+</figure>
+<p>最上面一层是GPU的缓存，中间是高带宽内存，可以理解为GPU的显存，也就是你去买显卡，标注在显卡上的存储，这部分存储会大一点，运算单元需要从这里拿数据到计算单元去计算，可以直接交互，也可以先存储在缓存SRAM内，缓存会比HBM快很多。</p>
+<p>从标准的attention计算看到有很多不需要把计算中间结果写回HBM的环节。至于FlashAttention计算推导部分我看了上面的英文博客和<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/638468472">从 FlashAttention 到
+PagedAttention, 如何进一步优化 Attention
+性能</a>，还是没能理解，感兴趣的小伙伴还是自己去知乎这篇文章里好好看一下。</p>
+<h2 id="paged-attention">Paged Attention</h2>
+<h2 id="flat-attention">FLAT Attention</h2>
+<h1 id="并行-parallel-processing">并行 Parallel Processing</h1>
+<h1 id="推荐阅读">推荐阅读</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/#methods-overview">Large
+Transformer Model Inference Optimization</a>
+lilian的博客，在文首推荐的知乎文章大抵参考了这篇博客，虽然是1月份的文章，但还是推荐阅读食用</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -505,152 +821,6 @@ https://huggingface.co/datasets/colbertv2/lotte/tree/main</li>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/06/20/%E6%B5%85%E6%9E%90stanford-alpaca%E7%BE%8A%E9%A9%BC%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">浅析stanford alpaca羊驼代码</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-06-20 15:30:20" itemprop="dateCreated datePublished" datetime="2023-06-20T15:30:20+08:00">2023-06-20</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2023-08-29 13:24:02" itemprop="dateModified" datetime="2023-08-29T13:24:02+08:00">2023-08-29</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>7.2k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>7 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>斯坦福的羊驼alpaca开启了大家微调大语言模型的先河，现在很多国内的工作都是基于斯坦福的羊驼模型的范式来微调chatglm-6B,alpaca的<a target="_blank" rel="noopener" href="https://github.com/tatsu-lab/stanford_alpaca">github</a>.</p>
-<p>之前我一个很厉害的师兄说过，要想写代码写的厉害或者有所提高，最重要的就是要多读别人优秀的代码，多思考别人为什么这么写，如果让自己写的话是不是可以做到如此高效。这就是我想写这篇博客的原因，我是最近几个月才接触的huggingface的transformer库，发现很多API虽然设计的很简单，但里面功能丰富，不可能一下子就掌握住，所以我的办法是多看别人是如何写的，我的主要参考repo就是alpaca和chatglm-6B官方repo给出的那些finetune
-LLM的代码。</p>
-<p>回到羊驼alpca这份代码，不得不说斯坦福的这份代码写的真的很优秀，值得一句一句去debug。</p>
-<h1 id="数据准备部分">数据准备部分</h1>
-<p>代码在<code>generate_instruction.py</code>内。</p>
-<p>这部分代码主要功能是实现由seed_tasks.jsonl作为模板，让GPT3.5来根据两个seed生成一些instruction和input，output。思想基于self-instruct的理念，在我另外一篇博客instrcution
-tuning中有所详细介绍。</p>
-<p>这里的启动函数是<code>def generate_instruction_following_data()</code>,
-首先会将seed_tasks读取进来，然后从中随机选取num_prompt_instructions个数据，默认是三个：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt_instructions = random.sample(seed_instruction_data, num_prompt_instructions)</span><br></pre></td></tr></table></figure>
-<p>注意这里羊驼采用了向chatgpt传输batch请求的方式，也就是一次性向chatgpt传输多个prompt，程序里默认是5个prompt一起传输给gpt，然后每一个prompt长什么样子呢？</p>
-<p>举一个简单的例子, 下面这是一个seed_task</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;: &quot;seed_task_1&quot;, &quot;name&quot;: &quot;antonym_relation&quot;, &quot;instruction&quot;: &quot;What is the relation between the given pairs?&quot;, &quot;instances&quot;: [&#123;&quot;input&quot;: &quot;Night : Day :: Right : Left&quot;, &quot;output&quot;: &quot;The relation between the given pairs is that they are opposites.&quot;&#125;], &quot;is_classification&quot;: false&#125;</span><br></pre></td></tr></table></figure>
-<p>作者将三个seed_task拼接在一起，然后前面加上事先定义好的prompt：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_prompt</span>(<span class="params">prompt_instructions</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Encode multiple prompt instructions into a single string.&quot;&quot;&quot;</span></span><br><span class="line">    prompt = <span class="built_in">open</span>(<span class="string">&quot;./prompt.txt&quot;</span>).read() + <span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> idx, task_dict <span class="keyword">in</span> <span class="built_in">enumerate</span>(prompt_instructions):</span><br><span class="line">        (instruction, <span class="built_in">input</span>, output) = task_dict[<span class="string">&quot;instruction&quot;</span>], task_dict[<span class="string">&quot;input&quot;</span>], task_dict[<span class="string">&quot;output&quot;</span>]</span><br><span class="line">        instruction = re.sub(<span class="string">r&quot;\s+&quot;</span>, <span class="string">&quot; &quot;</span>, instruction).strip().rstrip(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">        <span class="built_in">input</span> = <span class="string">&quot;&lt;noinput&gt;&quot;</span> <span class="keyword">if</span> <span class="built_in">input</span>.lower() == <span class="string">&quot;&quot;</span> <span class="keyword">else</span> <span class="built_in">input</span></span><br><span class="line">        prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Instruction: <span class="subst">&#123;instruction&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Input:\n<span class="subst">&#123;<span class="built_in">input</span>&#125;</span>\n&quot;</span></span><br><span class="line">        prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">1</span>&#125;</span>. Output:\n<span class="subst">&#123;output&#125;</span>\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;###\n&quot;</span></span><br><span class="line">    prompt += <span class="string">f&quot;<span class="subst">&#123;idx + <span class="number">2</span>&#125;</span>. Instruction:&quot;</span></span><br><span class="line">    <span class="keyword">return</span> prompt</span><br></pre></td></tr></table></figure>
-<p>事先定义好的prompt长这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">You are asked to come up with a set of 20 diverse task instructions. These task instructions will be given to a GPT model and we will evaluate the GPT model for completing the instructions.</span><br><span class="line"></span><br><span class="line">Here are the requirements:</span><br><span class="line">1. Try not to repeat the verb for each instruction to maximize diversity.</span><br><span class="line">2. The language used for the instruction also should be diverse. For example, you should combine questions with imperative instrucitons.</span><br><span class="line">3. The type of instructions should be diverse. The list should include diverse types of tasks like open-ended generation, classification, editing, etc.</span><br><span class="line">4. A GPT language model should be able to complete the instruction. For example, do not ask the assistant to create any visual or audio output. For another example, do not ask the assistant to wake you up at 5pm or set a reminder because it cannot perform any action.</span><br><span class="line">5. The instructions should be in English.</span><br><span class="line">6. The instructions should be 1 to 2 sentences long. Either an imperative sentence or a question is permitted.</span><br><span class="line">7. You should generate an appropriate input to the instruction. The input field should contain a specific example provided for the instruction. It should involve realistic data and should not contain simple placeholders. The input should provide substantial content to make the instruction challenging but should ideally not exceed 100 words.</span><br><span class="line">8. Not all instructions require input. For example, when a instruction asks about some general information, &quot;what is the highest peak in the world&quot;, it is not necssary to provide a specific context. In this case, we simply put &quot;&lt;noinput&gt;&quot; in the input field.</span><br><span class="line">9. The output should be an appropriate response to the instruction and the input. Make sure the output is less than 100 words.</span><br><span class="line"></span><br><span class="line">List of 20 tasks:</span><br></pre></td></tr></table></figure>
-<p>理解起来就是作者在list of 20 tasks后面跟上了三个seed
-tasks，也就是给gpt打个样，让它知道按这个模式去生成。这里有个地方值得参考的：</p>
-<blockquote>
-<p>用模板的时候给每一个example配上分隔符，这里作者采用了###,
-不仅如此，作者还采用了序号的方式，这些都是为了方便后面对gpt返回的text进行处理</p>
-</blockquote>
-<p>这里还有一个值得学习的地方在utils.py内，我们在使用openai的api获取回复时，有时候会遇到prompt过长的问题，羊驼catch了这个报错，将prompt的长度变为原来的80%，然后再向gpt发送请求，正是由于这份耐心，这个代码的耦合性就没那么高，所以易用性非常强，非常值得野生程序员学习。</p>
-<hr>
-<p>gpt返回的文本羊驼模型还做了similarity的计算，将相似度超过一定阈值的instrcution剔除掉。这部分代码可以直接复用。</p>
-<h1 id="train中的数据处理">train中的数据处理</h1>
-<p>羊驼模型采用了一个函数生成transformers库所需要的参数：
-<code>make_supervised_data_module</code>，该函数返回一个dict，其中字典的key就是我们初始化Trainer类所需要的train_dataset,eval_dataset和data_collator。这个函数里首先是构建数据集的类<code>SupervisedDataset</code>，继承自Dataset.
-注意pytorch里规定如果你想要创建一个自建的Dataset，这个继承自Dataset的子类必须重写<code>__len__</code>和<code>__getitem__</code>两个方法，羊驼这里写的是：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SupervisedDataset</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Dataset for supervised fine-tuning.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, data_path: <span class="built_in">str</span>, tokenizer: transformers.PreTrainedTokenizer</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(SupervisedDataset, self).__init__()</span><br><span class="line">        logging.warning(<span class="string">&quot;Loading data...&quot;</span>)</span><br><span class="line">        list_data_dict = utils.jload(data_path)</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Formatting inputs...&quot;</span>)</span><br><span class="line">        prompt_input, prompt_no_input = PROMPT_DICT[<span class="string">&quot;prompt_input&quot;</span>], PROMPT_DICT[<span class="string">&quot;prompt_no_input&quot;</span>]</span><br><span class="line">        sources = [</span><br><span class="line">            prompt_input.format_map(example) <span class="keyword">if</span> example.get(<span class="string">&quot;input&quot;</span>, <span class="string">&quot;&quot;</span>) != <span class="string">&quot;&quot;</span> <span class="keyword">else</span> prompt_no_input.format_map(example)</span><br><span class="line">            <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict</span><br><span class="line">        ]</span><br><span class="line">        targets = [<span class="string">f&quot;<span class="subst">&#123;example[<span class="string">&#x27;output&#x27;</span>]&#125;</span><span class="subst">&#123;tokenizer.eos_token&#125;</span>&quot;</span> <span class="keyword">for</span> example <span class="keyword">in</span> list_data_dict]</span><br><span class="line"></span><br><span class="line">        logging.warning(<span class="string">&quot;Tokenizing inputs... This may take some time...&quot;</span>)</span><br><span class="line">        data_dict = preprocess(sources, targets, tokenizer)</span><br><span class="line"></span><br><span class="line">        self.input_ids = data_dict[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">        self.labels = data_dict[<span class="string">&quot;labels&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.input_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, i</span>) -&gt; <span class="type">Dict</span>[<span class="built_in">str</span>, torch.Tensor]:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dict</span>(input_ids=self.input_ids[i], labels=self.labels[i]) <span class="comment"># 这里key必须是input_ids和labels,这是由于是llama模型的规定。</span></span><br></pre></td></tr></table></figure>
-<p>羊驼模型用的DataCollator是自定义的，首先解释下datacollator是什么东西，transformers的官方文档的解释是：</p>
-<blockquote>
-<p>Data collators are objects that will form a batch by using a list of
-dataset elements as input. These elements are of the same type as the
-elements of <code>train_dataset</code> or <code>eval_dataset</code>.</p>
-</blockquote>
-<p>也就是你把所有的文本用tokenizer转化成input_ids和labels之后，要把他们组织成batch的形式，不仅如此，collator还能做一些数据处理的工作。它的输入就是我们之前的数据集，注意我们数据集的组织形式每一个数据sample它是一个字典，字典有两个key。所以羊驼这里首先将其拆分,
-一句话解决，非常善于利用[ for
-句式]，让我写的话应该是写成非常冗余的两个for循环。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input_ids, labels = <span class="built_in">tuple</span>([instance[key] <span class="keyword">for</span> instance <span class="keyword">in</span> instances] <span class="keyword">for</span> key <span class="keyword">in</span> (<span class="string">&quot;input_ids&quot;</span>, <span class="string">&quot;labels&quot;</span>))</span><br></pre></td></tr></table></figure>
-<p>后面就是很简单的train了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainer.train()</span><br><span class="line">trainer.save_state()</span><br><span class="line">trainer.save_model(output_dir=training_args.output_dir)</span><br></pre></td></tr></table></figure>
-<p>我当时看到这里的时候有点奇怪，因为我之前的习惯还是tensorflow那一套，基本上你把数据处理完之后还要prefetech，batch等，但是这里感觉transformer全部做了集成，可以仔细看羊驼模型的训练启动命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">torchrun --nproc_per_node=4 --master_port=&lt;your_random_port&gt; train.py \</span><br><span class="line">    --model_name_or_path <span class="string">&quot;facebook/opt-6.7b&quot;</span> \</span><br><span class="line">    --data_path ./alpaca_data.json \</span><br><span class="line">    --bf16 True \</span><br><span class="line">    --output_dir &lt;your_output_dir&gt; \</span><br><span class="line">    --num_train_epochs 3 \</span><br><span class="line">    --per_device_train_batch_size 4 \</span><br><span class="line">    --per_device_eval_batch_size 4 \</span><br><span class="line">    --gradient_accumulation_steps 8 \</span><br><span class="line">    --evaluation_strategy <span class="string">&quot;no&quot;</span> \</span><br><span class="line">    --save_strategy <span class="string">&quot;steps&quot;</span> \</span><br><span class="line">    --save_steps 2000 \</span><br><span class="line">    --save_total_limit 1 \</span><br><span class="line">    --learning_rate 2e-5 \</span><br><span class="line">    --weight_decay 0. \</span><br><span class="line">    --warmup_ratio 0.03 \</span><br><span class="line">    --lr_scheduler_type <span class="string">&quot;cosine&quot;</span> \</span><br><span class="line">    --logging_steps 1 \</span><br><span class="line">    --fsdp <span class="string">&quot;full_shard auto_wrap&quot;</span> \</span><br><span class="line">    --fsdp_transformer_layer_cls_to_wrap <span class="string">&#x27;OPTDecoderLayer&#x27;</span> \</span><br><span class="line">    --tf32 True</span><br></pre></td></tr></table></figure>
-<p>其中的per_device_train_batch_size就指定了一个device上弄几个数据，也就是batch_size是多少，另外loss计算这些都是pretrained模型定好的，所以不用管，包括optimizer，所以我们在训练的时候只需要指定训练过程中用到的参数，比如保存步数，学习率，训练多少个epoch等。这是finetune大语言模型和之前做深度学习模型不一样的地方，技术往往更新的太快，都快看不懂大家写的代码了，怎么咔咔一两句就开始训练了，所以函数集成太厉害也不是只有好处。</p>
-<h1 id="推荐阅读">推荐阅读</h1>
-<ul>
-<li>https://mp.weixin.qq.com/s/ehEM04xmeJyqB4z7rmLKBQ
-讲解self-instruct方法</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -676,14 +846,14 @@ elements of <code>train_dataset</code> or <code>eval_dataset</code>.</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">189k</span>
+    <span title="Symbols count total">192k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:51</span>
+    <span title="Reading time total">2:55</span>
   </span>
 </div>
 

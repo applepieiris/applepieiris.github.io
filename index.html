@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -219,6 +219,117 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/" class="post-title-link" itemprop="url">RAG Enhancement(提高基于RAG的问答系统中回答质量的方法论述)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-05-08 15:17:27" itemprop="dateCreated datePublished" datetime="2025-05-08T15:17:27+08:00">2025-05-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2025-05-13 13:59:50" itemprop="dateModified" datetime="2025-05-13T13:59:50+08:00">2025-05-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>去年一整年都在做一套基于RAG的问答系统，项目处理的文档主要为PDF以及中英文混杂，为了提高问答的准确性，期间我也在很多点上进行了思考，很多想法来源于这篇<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2402.19473">review paper</a>中对于RAG
+enhancement方法的整理，在去年一年，我写了关于PDF的process和chunk的文章，实际应用时，我们发现文档如何切分地更好确实非常影响后续RAG回答的准确性和用户对于问答的满意度。期间也写了一篇关于RAG
+performance
+evaluation的总结，这在产业落地的过程中尤其关键，如果提供一个让顾客满意，同时兼顾算法侧科学性和数学性的要求，也是一个值得深究的topic。今天单开一篇文章，主要聚焦于：当你已经基于市面上已有架构，诸如langchain，llamaindex等高代码架构还是诸如coze，百炼，Dify等低代码架构
+搭建了一个知识库问答系统，还可以从哪一些方面提高问答的准确性。</p>
+<p>先说一个RAG的种类，我们目前接触的比较多的是典型架构：</p>
+<figure>
+<img src="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/20168385wE7Kv0RE23.jpg" alt="Basic RAG">
+<figcaption aria-hidden="true">Basic RAG</figcaption>
+</figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/05/08/RAG-Enhancement-%E6%8F%90%E9%AB%98%E5%9F%BA%E4%BA%8ERAG%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%9B%9E%E7%AD%94%E8%B4%A8%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%BA%E8%BF%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/09/Novel-view-synthesis-NVS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -250,7 +361,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-05-08 13:24:15" itemprop="dateModified" datetime="2025-05-08T13:24:15+08:00">2025-05-08</time>
+        <time title="Modified: 2025-05-09 15:01:42" itemprop="dateModified" datetime="2025-05-09T15:01:42+08:00">2025-05-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -295,7 +406,8 @@ generation: a technical overview</li>
 <li><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2309.05658">From Capture to Display: A
 Survey on Volumetric Video</a></li>
 </ul>
-<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs。这篇博客将NVS描述为这样一个任务：</p>
+<p>另外同步阅读了huggingface的tutorial：https://huggingface.co/learn/computer-vision-course/unit8/3d-vision/nvs
+。这篇博客将NVS描述为这样一个任务：</p>
 <blockquote>
 <p>generate views from new camera angles that are plausibly consistent
 with a set of images.</p>
@@ -438,119 +550,6 @@ are Diffusion Models?</a>, 内扩展了两篇介绍: GAN 和 VAE。</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">RAG中PDF的解析</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-06-27 13:17:26" itemprop="dateCreated datePublished" datetime="2024-06-27T13:17:26+08:00">2024-06-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-05-08 13:10:49" itemprop="dateModified" datetime="2025-05-08T13:10:49+08:00">2025-05-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>5.4k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>今天新开一篇文章。前段时间一直忙于项目周期中琐碎的事情，没有好好总结和思考技术核心的东西。探索RAG的应用也有一段时间了，市面上的应用也看的不少，很多的应用包括langchain-chatchat，Dify,
-都是整体搭建了一个最basic版本的RAG框架，至于很多细节点，并没有提供更精细化的实现，今天要写的这部分：PDF上传到知识库之后如何parse和chunking，直接影响后续retrival的表现，目前还没有很全面的review来总结这部分内容。这里就对我看到的一些技术做一些整理。</p>
-<p>解析PDF文档的难点主要在于如何精确地捕捉页面的整体布局，并将包括<code>表格</code>，<code>标题</code>,
-段落以及图片在内的内容转译为文档的文字形式。这一过程涉及到多个技术点，布局的检测，图片中文字的抽取，表格中行与列的识别（如何正确将PDF中的表格识别成可用结构化形式表示的表格，也就是能还原出原表格来）。</p>
-<p>目前解析PDF文档主要有三种主流方式：</p>
-<ol type="1">
-<li>基于规则的方法：这种方法根据文档的组织特性来确定每个部分的样式和内容，代表库：<a target="_blank" rel="noopener" href="https://pypi.org/project/pypdf/">pypdf</a>，
-这种方法的适用性比较差，很难通过预设的规则覆盖所有PDF的情形。</li>
-<li>基于深度学习模型的方法：一个流行的解决方案是结合了物体检测和OCR模型，代表
-Chatdoc</li>
-<li>基于多模态大模型的方法：通过这种方法可以解析PDF中复杂结构或者提取关键信息</li>
-<li></li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/06/27/RAG%E4%B8%ADPDF%E7%9A%84%E8%A7%A3%E6%9E%90/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -576,14 +575,14 @@ Chatdoc</li>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">189k</span>
+    <span title="Symbols count total">192k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:51</span>
+    <span title="Reading time total">2:55</span>
   </span>
 </div>
 

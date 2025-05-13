@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -210,6 +210,113 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/12/cv2%E4%B8%ADbitwise-and/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="YAN">
+      <meta itemprop="description" content="Be smart! Keep Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YAN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/12/cv2%E4%B8%ADbitwise-and/" class="post-title-link" itemprop="url">cv2中bitwise_and()</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-12 11:16:16" itemprop="dateCreated datePublished" datetime="2022-10-12T11:16:16+08:00">2022-10-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2025-05-08 10:27:51" itemprop="dateModified" datetime="2025-05-08T10:27:51+08:00">2025-05-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/cv/" itemprop="url" rel="index"><span itemprop="name">cv</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>490</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>参考文档：</p>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d0/d86/tutorial_py_image_arithmetics.html">opencv
+tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ga60b4d04b251ba5eb1392c34425497e14">opencv
+官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/44333605/what-does-bitwise-and-operator-exactly-do-in-opencv">stackoverflow
+question</a></li>
+</ol>
+<p>没有多少文档能讲清楚具体是如何计算的。在stackoverflow中的这个问题，第一个高赞答案也只是选取了最普通的一种情况，也就是当image的pixel的值全部是0或者1的时候，and的运算。但是cv2中的bitwise_and()还有一个很重要的参数mask并没有讲清楚，并且当image的像素值有除了0或者1以外的其他值，这时候该如何运算？</p>
+<p>官方文档中说mask是决定了哪些位置要进行运算，当mask中某个元素不为0时，我们对相应位置的像素做“与”运算，如果scr1和scr2(bitwise_and的两个参数)的值不是0或者1，会将十进制的值转化为2进制，然后对二进制再进行运算，运算完了之后又会转化为十进制(<a target="_blank" rel="noopener" href="https://dsp.stackexchange.com/questions/58276/opencv-how-does-bitwise-not-work">参考</a>)
+当mask相应位置的值=0时，任何操作都不会做，不仅如此，结果的图片相应位置的像素值会变成0，也就是黑色（这一点官方文档没说）.</p>
+<p>所以经过bitwise_and之后的图片会看到mask中像素值为0的地方全部是黑色。这就相应的把mask中不为0的地方强调突出了。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -451,110 +558,6 @@ our model.</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/22/image-segmentation-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E4%B8%AD%E7%9A%84IOU-Dice%E7%9A%84%E8%AE%A1%E7%AE%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="YAN">
-      <meta itemprop="description" content="Be smart! Keep Learning">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YAN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/22/image-segmentation-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2-%E4%B8%AD%E7%9A%84IOU-Dice%E7%9A%84%E8%AE%A1%E7%AE%97/" class="post-title-link" itemprop="url">image segmentation(图像分割)中的IOU,Dice的计算</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-08-22 14:38:14" itemprop="dateCreated datePublished" datetime="2022-08-22T14:38:14+08:00">2022-08-22</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-05-08 10:27:51" itemprop="dateModified" datetime="2025-05-08T10:27:51+08:00">2025-05-08</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/cv/" itemprop="url" rel="index"><span itemprop="name">cv</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>2.1k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在图像分割任务中，通常需要将loss设置成dice或者IOU的值，这里总结一下他们的使用方式：</p>
-<h1 id="二分类问题mask只有0或者1">二分类问题（mask只有0或者1）</h1>
-<p>这种task网络的最后一层通常会加sigmoid激活函数，比如unet实现中最后一层就是一个卷积层：
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conv10 = Conv2D(<span class="number">1</span>, (<span class="number">1</span>, <span class="number">1</span>), activation=<span class="string">&#x27;sigmoid&#x27;</span>)(conv9)</span><br></pre></td></tr></table></figure> 因此输出的feature
-map中每一个pixel的值就是0~1之间的值。</p>
-<p>dice loss可以如下计算： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> backend <span class="keyword">as</span> K</span><br><span class="line"><span class="keyword">from</span> keras.losses <span class="keyword">import</span> binary_crossentropy</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.optimizers <span class="keyword">import</span> Adam</span><br><span class="line"></span><br><span class="line">SMOOTH = <span class="number">1.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dice_coef</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">    y_true_f = K.flatten(y_true)</span><br><span class="line">    y_pred_f = K.flatten(y_pred)</span><br><span class="line">    intersection = K.<span class="built_in">sum</span>(y_true_f * y_pred_f)</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">2.</span> * intersection + SMOOTH) / (K.<span class="built_in">sum</span>(y_true_f) + K.<span class="built_in">sum</span>(y_pred_f) + SMOOTH)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">iou_coef</span>(<span class="params">y_true, y_pred, smooth=<span class="number">1</span></span>):</span></span><br><span class="line">    intersection = K.<span class="built_in">sum</span>(K.<span class="built_in">abs</span>(y_true * y_pred), axis=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">    union = K.<span class="built_in">sum</span>(y_true,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])+K.<span class="built_in">sum</span>(y_pred,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])-intersection</span><br><span class="line">    iou = K.mean((intersection + smooth) / (union + smooth), axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> iou</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bce_dice_loss</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span> * binary_crossentropy(y_true, y_pred) - dice_coef(y_true, y_pred) <span class="comment"># 这里也可以用 + (1-dice_coef)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">model.<span class="built_in">compile</span>(Adam(learning_rate=<span class="number">1e-4</span>),</span><br><span class="line">              bce_dice_loss,</span><br><span class="line">              metrics=[binary_crossentropy, dice_coef])</span><br></pre></td></tr></table></figure></p>
-<h1 id="多分类问题mask有除了0和1以外的其他值">多分类问题（mask有除了0和1以外的其他值）</h1>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">class_wise_metrics</span>(<span class="params">y_true, y_pred</span>):</span></span><br><span class="line">  <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">  Computes the class-wise IOU and Dice Score.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    y_true (tensor) - ground truth label maps</span></span><br><span class="line"><span class="string">    y_pred (tensor) - predicted label maps</span></span><br><span class="line"><span class="string">  &#x27;&#x27;&#x27;</span></span><br><span class="line">  class_wise_iou = []</span><br><span class="line">  class_wise_dice_score = []</span><br><span class="line"></span><br><span class="line">  smoothing_factor = <span class="number">0.00001</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_classes):</span><br><span class="line">    intersection = np.<span class="built_in">sum</span>((y_pred == i) * (y_true == i)) <span class="comment"># 计算true positive的pixel个数</span></span><br><span class="line">    y_true_area = np.<span class="built_in">sum</span>((y_true == i)) <span class="comment"># 计算pixcel=i的像素个数</span></span><br><span class="line">    y_pred_area = np.<span class="built_in">sum</span>((y_pred == i))</span><br><span class="line">    combined_area = y_true_area + y_pred_area</span><br><span class="line">    </span><br><span class="line">    iou = (intersection) / (combined_area - intersection + smoothing_factor)</span><br><span class="line">    class_wise_iou.append(iou)</span><br><span class="line">    </span><br><span class="line">    dice_score =  <span class="number">2</span> * ((intersection) / (combined_area + smoothing_factor))</span><br><span class="line">    class_wise_dice_score.append(dice_score)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> class_wise_iou, class_wise_dice_score</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在上述计算过程中需要注意的是，这里的y_pred是要经过np.argmax()的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">results = model.predict(test_dataset, steps=test_steps)</span><br><span class="line"><span class="built_in">print</span>(results.shape) <span class="comment"># (192, 64, 84, 11)</span></span><br><span class="line"></span><br><span class="line">results = np.argmax(results, axis=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">integer_slider = <span class="number">105</span> <span class="comment"># 取第105个图片</span></span><br><span class="line">iou, dice_score = class_wise_metrics(np.argmax(y_true_segments[integer_slider], axis=<span class="number">3</span>), results[integer_slider]) </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
@@ -580,14 +583,14 @@ map中每一个pixel的值就是0~1之间的值。</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">189k</span>
+    <span title="Symbols count total">192k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:51</span>
+    <span title="Reading time total">2:55</span>
   </span>
 </div>
 
