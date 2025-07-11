@@ -36,8 +36,10 @@
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250115133949032.png">
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250212142310347.png">
 <meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250212153512883.png">
+<meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250709152101346.png">
+<meta property="og:image" content="http://example.com/2025/01/09/Novel-view-synthesis-NVS/image-20250710101850259.png">
 <meta property="article:published_time" content="2025-01-09T02:17:18.000Z">
-<meta property="article:modified_time" content="2025-05-09T07:01:42.355Z">
+<meta property="article:modified_time" content="2025-07-10T08:02:28.687Z">
 <meta property="article:author" content="YAN">
 <meta property="article:tag" content="cv">
 <meta name="twitter:card" content="summary">
@@ -157,7 +159,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#nerf"><span class="nav-number">1.</span> <span class="nav-text">NeRF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#llff-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">LLFF 数据集</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#nerf"><span class="nav-number">1.</span> <span class="nav-text">NeRF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#llff-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">LLFF 数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nerf-code-%E8%A7%A3%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">Nerf Code 解析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dgs"><span class="nav-number">2.</span> <span class="nav-text">3DGS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dgs-code-%E8%A7%A3%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">3DGS Code 解析</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -262,7 +264,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2025-05-09 15:01:42" itemprop="dateModified" datetime="2025-05-09T15:01:42+08:00">2025-05-09</time>
+        <time title="Modified: 2025-07-10 16:02:28" itemprop="dateModified" datetime="2025-07-10T16:02:28+08:00">2025-07-10</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -281,14 +283,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>8.6k</span>
+      <span>12k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>8 mins.</span>
+      <span>11 mins.</span>
     </span>
 </div>
 
@@ -318,6 +320,12 @@ with a set of images.</p>
 intermediate three-dimensional representation, which is rendered from a
 new viewing direction. 比如PixelNeFRF 2）direclty generated new views
 without an intermediate 3D representaion</em>， 比如Zero123</p>
+<blockquote>
+<p>2025.6.24 补充</p>
+<p>对于该领域的scene的生成，24年google的4D Gaussian
+Splatting提出后，把NVS分为两部分，一部分是以Nerf和3DGS为代表的基于静态图片生成3D场景，另外一部分是dynamic
+scenes，这里的dynamic指的是与3DGS处理的某一时刻的scene不同，这里要处理的数据加入了时序特征，场景中有动态的物体或者人，比如行人或者行驶的车辆。4DGS在一定程度上解决了真正的real-time的问题。</p>
+</blockquote>
 <span id="more"></span>
 <h1 id="nerf">NeRF</h1>
 <p><a target="_blank" rel="noopener" href="http://arxiv.org/abs/2003.08934">NeRF: Representing Scenes
@@ -501,9 +509,94 @@ hwf3 │ └ ┘</p>
 <img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250212153512883.png" alt="image-20250212153512883">
 <figcaption aria-hidden="true">image-20250212153512883</figcaption>
 </figure>
-<ol start="3" type="1">
-<li>Render novel views</li>
-</ol>
+<h2 id="nerf-code-解析">Nerf Code 解析</h2>
+<p>回到Nerf的<a target="_blank" rel="noopener" href="https://github.com/yenchenlin/nerf-pytorch">pytorch代码</a>。<code>train()</code>中args可以指定输入哪一种数据集，我们这里就只看llff,
+首先是<code>load_llff_data</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">images, poses, bds, render_poses, i_test = load_llff_data(args.datadir, args.factor,</span><br><span class="line">                                                                  recenter=<span class="literal">True</span>, bd_factor=<span class="number">.75</span>,</span><br><span class="line">                                                                  spherify=args.spherify)</span><br></pre></td></tr></table></figure>
+<p><code>images</code>: 图像数据</p>
+<p><code>poses</code>: 相机姿态矩阵</p>
+<p><code>bds</code>: 每个图像的深度范围</p>
+<p><code>render_poses</code>: 渲染路径相机姿态（用于可视化）</p>
+<p><code>i_test</code>: 被选为 holdout 的视角索引（用于验证）</p>
+<p>poses的shape为 [N_images, 3, 4]，每一个poses[i]
+是一张图像的相机外参矩阵（camera-to-world）。 <span class="math display">\[
+pose=[R t]
+\]</span></p>
+<ul>
+<li>R：旋转矩阵（表示相机朝向）</li>
+<li>t：平移向量（相机在世界坐标中的位置）</li>
+</ul>
+<p>📌
+它告诉你：<strong>这张图像的每一条光线从哪里发出，朝哪个方向发射</strong>。</p>
+<p>我们知道nerf的输入是一个5D的输入</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250709152101346.png" alt="nerf输入">
+<figcaption aria-hidden="true">nerf输入</figcaption>
+</figure>
+<p>有了poses之后，下面的步骤就是： 像素 → get_rays → rays_o, rays_d ↓
+在光线上采样 t 值 (near → far) ↓ points = rays_o + t * rays_d ↓
+每个点输入 MLP → 得到 (σ, RGB) ↓ 体渲染（volume rendering） → 聚合颜色 →
+图像像素</p>
+<p>其中<code>get_rays()</code>就是对该图片上每一个像素点形成的时候的光线，该函数会返回每一条光线的起点和防线：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rays_o, rays_d = get_rays(H, W, K, torch.Tensor(pose))  <span class="comment"># (H, W, 3), (H, W, 3)</span></span><br></pre></td></tr></table></figure>
+<p>注意这里的shape是(H,W,3)，H是该image的高度，W是该image的宽度。3是表示三维里的坐标，rays_o基本一致，都表示相机位置。</p>
+<p>既然对每一个像素有了一条射线，下面要做的就是在每一个射线上sample好多个点，如paper中图画的：</p>
+<figure>
+<img src="/2025/01/09/Novel-view-synthesis-NVS/image-20250710101850259.png" alt="sample points">
+<figcaption aria-hidden="true">sample points</figcaption>
+</figure>
+<p>这一步在代码中是<code>render()</code>做的，render接受的一个输入参数是rays，rays中包含了选取的的射线的起点以及方向。函数内具体操作的这一部分在<code>render_rays()</code>内。</p>
+<p><strong>射线上采样：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python复制编辑z_vals = torch.linspace(near, far, N_samples)  <span class="comment"># (N_samples,)</span></span><br><span class="line">pts = rays_o[:, <span class="literal">None</span>, :] + rays_d[:, <span class="literal">None</span>, :] * z_vals[<span class="literal">None</span>, :, <span class="literal">None</span>]  <span class="comment"># (N_rays, N_samples, 3)</span></span><br></pre></td></tr></table></figure>
+<p><strong>将采样的点输入网络</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">raw = network_fn(pts_flat)  <span class="comment"># MLP 输出密度 σ 和颜色 RGB</span></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>pts_flat</code> 是把 <code>pts</code>
+拉成二维形状：(N_rays * N_samples, 3)</p>
+<p>如果有 viewing direction，还会加到 MLP 输入中。</p>
+<p><strong>volume rendering</strong></p>
+<p>根据每个点的预测密度σ 和颜色 c，使用体渲染公式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T_i = exp(-∑_&#123;j=<span class="number">1</span>&#125;^&#123;i-<span class="number">1</span>&#125; σ_j * Δ_j)  <span class="comment"># 累积透射率</span></span><br><span class="line">w_i = T_i * (<span class="number">1</span> - exp(-σ_i * Δ_i))   <span class="comment"># 权重</span></span><br><span class="line">rgb_map = ∑ w_i * c_i               <span class="comment"># 最终像素颜色</span></span><br></pre></td></tr></table></figure>
+<h1 id="dgs">3DGS</h1>
+<p>自从3DGS出来之后，nerf上的更新就变少了，基本上是3DGS的天下了，3DGS的原文很难读懂，code也是比较难的，我找了很多其他的博客来理解它和nerf的区别，这里推荐几个。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=oERwGxaZO_c&amp;t=1032s">Talk |
+加州大学洛杉矶分校周诗杰：3DGS时代的三维场景表示与生成</a>
+中文，视频前20分钟解释了3DGS的一些原理，它的泼墨比喻还挺形象的，虽然我还是没怎么明白其中细节，这位presenter主要是为了讲自己的工作，当作3DGS的引言好了。其中这位博主解释了为什么叫novel
+view (新颖视角).</li>
+<li><a target="_blank" rel="noopener" href="https://edwardahn.me/archive/2024/02/19/NeRFvs3DGS">Three
+Level Summary: Neural Radiance Fields vs. 3D Gaussian Splatting</a>
+解释3DGS和nerf区别的，通俗易懂，建议阅读。一些重点地方我也贴上了，这些话很好的帮助我理解了3DGS。</li>
+</ul>
+<blockquote>
+<p>The goal of both NeRFs and 3DGS is to solve the following problem:
+given a few images of some 3D scene taken from different camera
+viewpoints, can we generate an image of this scene from any new camera
+viewpoint? This problem is formally called novel view synthesis, since
+we’re attempting to synthesize (generate) novel (new) views of some
+particular scene.</p>
+</blockquote>
+<blockquote>
+<p>3DGS builds on rasterization. The 3DGS algorithm essentially learns a
+point cloud of splats<a target="_blank" rel="noopener" href="https://edwardahn.me/archive/2024/02/19/NeRFvs3DGS#footnote-3">3</a>
+(ie. ellipsoids, or mathematically, 3D Gaussians) from input images, and
+once the point cloud is learned, you can place your camera wherever you
+want to view the point cloud from a novel view. Here’s some very
+high-level pseudocode to train 3DGS:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Splats = initialize random 3D Gaussians</span><br><span class="line">While average loss &gt; threshold:</span><br><span class="line">    For each input image:</span><br><span class="line">        Generated image = Rasterize(splats)</span><br><span class="line">        Loss = Generated image - input image</span><br><span class="line">        If a splat doesn&#x27;t cover enough space in an area:</span><br><span class="line">            Clone a new splat in the area</span><br><span class="line">        If a splat covers too much area:</span><br><span class="line">            Split that splat into two</span><br><span class="line">        For each splat:</span><br><span class="line">            Modify splat parameters to reduce loss</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>No neural networks are used for 3DGS; instead, the algorithm
+iteratively learns to clone, split, or modify (ex. change the size or
+color of) splats based on the loss<a target="_blank" rel="noopener" href="https://edwardahn.me/archive/2024/02/19/NeRFvs3DGS#footnote-4">4</a>,
+until the generated images look similar to the input images.</p>
+</blockquote>
+<h2 id="dgs-code-解析">3DGS Code 解析</h2>
+<p>这里我看的是3DGS的官方<a target="_blank" rel="noopener" href="https://github.com/graphdeco-inria/gaussian-splatting">repo</a></p>
+<p>首先先对该场景初始化一堆的gaussian,
+初始化完成后就可以得到该场景了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gaussians = GaussianModel(dataset.sh_degree)</span><br><span class="line">scene = Scene(dataset, gaussians)</span><br></pre></td></tr></table></figure>
+<p>然后是随机选取训练集中的某个视角，对该视角下的2D图片进行“推理”，也就是render：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iteration <span class="keyword">in</span> <span class="built_in">range</span>(first_iter, opt.iterations + <span class="number">1</span>):</span><br><span class="line">        ...</span><br><span class="line"><span class="comment"># Pick a random Camera</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> viewpoint_stack:</span><br><span class="line">            viewpoint_stack = scene.getTrainCameras().copy()</span><br><span class="line">        viewpoint_cam = viewpoint_stack.pop(randint(<span class="number">0</span>, <span class="built_in">len</span>(viewpoint_stack)-<span class="number">1</span>)) <span class="comment"># 随机选取视角</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Render</span></span><br><span class="line">        <span class="keyword">if</span> (iteration - <span class="number">1</span>) == debug_from:</span><br><span class="line">            pipe.debug = <span class="literal">True</span></span><br><span class="line">        render_pkg = render(viewpoint_cam, gaussians, pipe, background) <span class="comment"># 这一步就是对该视角下的2D</span></span><br><span class="line">        image, viewspace_point_tensor, visibility_filter, radii = render_pkg[<span class="string">&quot;render&quot;</span>], render_pkg[<span class="string">&quot;viewspace_points&quot;</span>], render_pkg[<span class="string">&quot;visibility_filter&quot;</span>], render_pkg[<span class="string">&quot;radii&quot;</span>]</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -574,14 +667,14 @@ hwf3 │ └ ┘</p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">192k</span>
+    <span title="Symbols count total">196k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">2:55</span>
+    <span title="Reading time total">2:58</span>
   </span>
 </div>
 
